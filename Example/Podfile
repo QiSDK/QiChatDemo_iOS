@@ -1,0 +1,26 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'QL-Demo_Example' do
+#  pod 'TeneasyChatSDKUI_iOS', :git => 'https://github.com/tianxuefeng/TeneasyChatSDKUI_iOS.git'
+  pod 'TeneasyChatSDKUI_iOS', :path => '../'
+  pod 'SnapKit', '~> 5.0.1'
+  pod 'IQKeyboardManagerSwift', '~> 6.5.9'
+  pod 'TeneasyChatSDK_iOS', :git => 'https://github.com/QiSDK/QiChatSDK_iOS.git'
+  target 'QL-Demo_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
+
+post_install do |installer| #解决Xcode14编译问题
+        installer.generated_projects.each do |project|
+            project.targets.each do |target|
+                target.build_configurations.each do |config|
+                        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+                end
+            end
+        end
+end

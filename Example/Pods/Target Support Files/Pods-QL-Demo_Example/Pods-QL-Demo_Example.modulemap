@@ -1,0 +1,6 @@
+framework module Pods_QL_Demo_Example {
+  umbrella header "Pods-QL-Demo_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
