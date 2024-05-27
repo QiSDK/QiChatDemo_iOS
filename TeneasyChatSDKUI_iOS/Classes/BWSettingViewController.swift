@@ -21,12 +21,22 @@ class BWSettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+       //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+       //tap.cancelsTouchesInView = false
+       view.addGestureRecognizer(tap)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         if callBack != nil{
             callBack!()
         }
+    }
+    
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     private func setupUI() {
@@ -56,7 +66,8 @@ class BWSettingViewController: UIViewController {
                 make.right.equalToSuperview().offset(-20)
             }
             
-            textField.backgroundColor = UIColor.cyan
+            textField.layer.borderWidth = 2.0
+            textField.layer.borderColor = UIColor.purple.cgColor
             
             textField.snp.makeConstraints { make in
                 make.top.equalTo(label.snp.bottom).offset(5)
