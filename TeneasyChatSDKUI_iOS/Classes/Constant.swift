@@ -34,7 +34,7 @@ var userId: Int32 = 666665//1125324
  
 
 //动态生成
-var CONSULT_ID: Int32 = 1
+//var CONSULT_ID: Int32 = 1
 var xToken = ""
 var domain = "wcsapi.qixin14.xyz"  //domain
 var baseUrlApi = "https://" + domain  //用于请求数据，上传图片

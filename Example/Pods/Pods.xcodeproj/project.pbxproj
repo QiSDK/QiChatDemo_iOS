@@ -226,7 +226,7 @@
 		33B0992B61E37E023458A268795E6216 /* SVGKLayeredImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BB8780C0C226A33A0F317745F50CEB7 /* SVGKLayeredImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		33BC540DE351661FAAA24950E165D4F1 /* MangledName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762DB01C9ECC55431B69AD355F1978AD /* MangledName.swift */; };
 		33C71989B6C635864EC5E4862AFAAE8A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10939B38171DF5C96D622A5B8FE3038 /* Foundation.framework */; };
-		33D873C6AFDA74FBC7E444F281ACF9E5 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33E2CB097ABE3567F88D85EC9884323 /* QuestionViewController.swift */; };
+		33D873C6AFDA74FBC7E444F281ACF9E5 /* ConsultTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33E2CB097ABE3567F88D85EC9884323 /* ConsultTypeViewController.swift */; };
 		33F86FAB918B148A63A1575667F9B570 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D3B28B076475E4A5771B95D350DDC6 /* CFNetwork.framework */; };
 		34C39BDBFE7A2CC585787F5AFCA39FDE /* IQUIView+IQKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FC8C97814419F1EF2C24C0804A7AF6 /* IQUIView+IQKeyboardToolbar.swift */; };
 		34E8FF2CAF3F1AF4F3B873C95B97597D /* emoticon_38.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B225E7FB02BF24E6A9F13A5B5E990C9 /* emoticon_38.png */; };
@@ -2007,7 +2007,7 @@
 		C2FD8269B399E2A04CF8F728994C20A6 /* Kingfisher-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Kingfisher-Info.plist"; sourceTree = "<group>"; };
 		C315C46FD51A0BB3D64F059DF0D23B9E /* emoticon_105.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_105.png; sourceTree = "<group>"; };
 		C33507E28F3D35FC00222684D924B2EC /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
-		C33E2CB097ABE3567F88D85EC9884323 /* QuestionViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuestionViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/QuestionViewController.swift; sourceTree = "<group>"; };
+		C33E2CB097ABE3567F88D85EC9884323 /* ConsultTypeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConsultTypeViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/ConsultTypeViewController.swift; sourceTree = "<group>"; };
 		C349C9C17C09BE581F78E16830AEB1E9 /* NativeEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeEngine.swift; path = Sources/Engine/NativeEngine.swift; sourceTree = "<group>"; };
 		C3529A7CE4F88EC3DD20E5AAC1920DA9 /* StyleSheet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = StyleSheet.m; path = "Source/DOM classes/Core DOM/StyleSheet.m"; sourceTree = "<group>"; };
 		C359D3F52B417FE3D8AA08D7191B975C /* MoyaProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MoyaProvider.swift; path = Sources/Moya/MoyaProvider.swift; sourceTree = "<group>"; };
@@ -2646,6 +2646,7 @@
 			isa = PBXGroup;
 			children = (
 				BBFCC6779A57B77B4AA7D18D1C3DED69 /* BWSettingViewController.swift */,
+				C33E2CB097ABE3567F88D85EC9884323 /* ConsultTypeViewController.swift */,
 				852B431B747440D8159983C64F2F9CB2 /* Constant.swift */,
 				F948654F27C91D49720994E626CFB933 /* emoticon */,
 				0498635118859A11191DF9D201114225 /* KeFuViewController.swift */,
@@ -2654,7 +2655,6 @@
 				08EB51899E30A5BCC671360D65316AC9 /* KeFuViewController_ImagePicker.swift */,
 				D79BCF45339853C70737F45481B3788F /* KeFuViewController_TableView.swift */,
 				AD50CF8211D2F5BAD8AF9686A4F09D2E /* png */,
-				C33E2CB097ABE3567F88D85EC9884323 /* QuestionViewController.swift */,
 				82C7306BCA5300F115BFAEF26E323BB6 /* svg */,
 				882D497846F654FFE2396DF298AD2A9E /* Controller */,
 				BE0C976D03CB0BACACDCF8303068FB6B /* emoticon */,
@@ -5036,7 +5036,7 @@
 				AF3FCECFC48AC7C43806CDDAFDA572EE /* NetworkUtil.swift in Sources */,
 				E91015EB42E500E29BA5B7334EE10CE7 /* QuestionModel.swift in Sources */,
 				884967632C04623B00FF61F7 /* BWVideoCell.swift in Sources */,
-				33D873C6AFDA74FBC7E444F281ACF9E5 /* QuestionViewController.swift in Sources */,
+				33D873C6AFDA74FBC7E444F281ACF9E5 /* ConsultTypeViewController.swift in Sources */,
 				13AED308AEBEB14E3B4FA726DC34FAF9 /* SwiftPopMenu.swift in Sources */,
 				66C4C3EF09217C132B464DD5C830078C /* TeneasyChatSDKUI_iOS-dummy.m in Sources */,
 				69E324CE16D1388486743DF36FF6DF84 /* Utils.swift in Sources */,

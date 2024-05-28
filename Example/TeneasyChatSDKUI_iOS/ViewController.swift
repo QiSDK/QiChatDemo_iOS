@@ -1,7 +1,7 @@
 import UIKit
 import TeneasyChatSDKUI_iOS
 
-class ViewController: QuestionViewController  {
+class ViewController: ConsultTypeViewController  {
     
    /* lazy var supportBtn:UIButton = {
         let btn = UIButton()

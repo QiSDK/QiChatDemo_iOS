@@ -10,11 +10,27 @@ import Alamofire
 import Network
 import PhotosUI
 import TeneasyChatSDK_iOS
-// import TeneasyChatSDKUI_iOS
 import UIKit
 
+//客服聊天页面
 open class KeFuViewController: UIViewController{
+    //消息列表的数据源
+    var datasouceArray: [ChatModel] = []
+    //所选择的咨询类型Id
+    var consultId: Int64 = 0
+    //聊天SDK库
+    var lib = ChatLib()
+    //是否第一次加载页面，历史记录和自动回复列表只是在第一次加载页面的时候调用
+    internal var isFirstLoad = true
+    //是否在已经连接状态的标记
+    var isConnected: Bool = false
+    //一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
+    private var myTimer: Timer?
+    //自动回复消息区域的高度，根据自动回复列表的高度动态调整
+    var questionViewHeight: Double = 0
 
+    //当前选择的图片
+    var chooseImg: UIImage?
     lazy var imagePickerController: UIImagePickerController = {
         let pick = UIImagePickerController()
         pick.delegate = self
@@ -94,32 +110,15 @@ open class KeFuViewController: UIViewController{
     lazy var replyBar: WChatReplyBar = {
         let bar = WChatReplyBar()
         bar.closeButton.addActionBlock { [weak self] _ in
-            // 回复的Model置空
-//            self?.viewModel.replyOriginChatModel = nil
             // 隐藏回复bar,改变floatButton位置
             UIView.animate(withDuration: 0.3) {
                 bar.snp.updateConstraints { make in
                     make.top.equalTo(self!.toolBar.snp.top)
                 }
-//                self?.floatButton.snp.updateConstraints { make in
-//                    make.bottom.equalTo(self!.toolBar.snp.top).offset(0)
-//                }
             }
         }
         return bar
     }()
-
-    var questionViewHeight: Double = 0
-
-    var datasouceArray: [ChatModel] = []
-    var retryTimes = 0
-    var consultId: Int64 = 0
-    var lib = ChatLib()
-    var chooseImg: UIImage?
-    internal var isFirstLoad = true
-    var isConnected: Bool = false
-    //static var sharedData: String = "Initial Value"
-    private var myTimer: Timer?
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -133,10 +132,14 @@ open class KeFuViewController: UIViewController{
 
         let leftBarItem = UIBarButtonItem(title: "", style: .done, target: self, action: nil)
         navigationItem.leftBarButtonItem = leftBarItem
-        // self.navigationItem.setHidesBackButton(true, animated: false)
-//
+
         let rightBarItem = UIBarButtonItem(title: "退出", style: .done, target: self, action: #selector(goBack))
         navigationItem.rightBarButtonItem = rightBarItem
+        
+        delayExecution(seconds: 5) {
+            print("开始定时检查")
+            self.startTimer()
+        }
     }
 
     @objc func closeClick() {
@@ -210,10 +213,6 @@ open class KeFuViewController: UIViewController{
         headerTitle.text = "连接客服中..."
     }
 
-    override open func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text) {
         let model = ChatModel()
         model.isLeft = isLeft
@@ -227,14 +226,6 @@ open class KeFuViewController: UIViewController{
         tableView.reloadData()
         scrollToBottom()
     }
-
-   /* public func showTipMsg(msg: String) {
-        print("systemMsg")
-        print(msg)
-        timeLabel.text = WTimeConvertUtil.displayLocalTime(from: Date())
-        systemMsgLabel.text = msg
-    }
-*/
     
     func buildHistory(history: HistoryModel){
         guard let historyList = history.list?.reversed() else { return } //获取自动回复后return
@@ -325,20 +316,22 @@ open class KeFuViewController: UIViewController{
         }
     }
     
+    //检查聊天SDK的连接状态
    @objc func checkSDK(){
-       print("sdk status:\(isConnected)")
+       print("sdk status:\(isConnected) \(Date())")
        if !isConnected{
-           initSDK(baseUrl: domain)
+           print("重新连接SDK")
        }
     }
 
     //定时检查SDK连接状态
     @objc func startTimer() {
        stopTimer()
-        myTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(checkSDK), userInfo: nil, repeats: true)
+        myTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(checkSDK), userInfo: nil, repeats: true)
         myTimer!.fire()
     }
 
+    //停止定时检查
     func stopTimer() {
         if myTimer != nil {
             myTimer!.invalidate() // 销毁timer
@@ -347,14 +340,15 @@ open class KeFuViewController: UIViewController{
     }
     
     open override func viewWillAppear(_ animated: Bool) {
-        if isFirstLoad{
-            delayExecution(seconds: 5) {
-                print("开始定时检查")
+        if !isFirstLoad{
+            delayExecution(seconds: 2) {
+                print("页面恢复，检查SDK")
                 self.checkSDK()
             }
         }
     }
     
+    //关闭聊天页面之前，与SDK断开聊天
     func quitChat(){
         stopTimer()
         workerId = 0
@@ -379,7 +373,7 @@ open class KeFuViewController: UIViewController{
      *   ASSET_KIND_SESSION = 4;
      * }
      */
-    
+    //上传媒体文件
     func upload(imgData: Data, isVideo: Bool) {
         // Set Your URL
         let api_url = baseUrlApi + "/v1/assets/upload/"
@@ -473,5 +467,9 @@ open class KeFuViewController: UIViewController{
             }
             self?.view.layoutIfNeeded()
         }
+    }
+    
+    override open func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

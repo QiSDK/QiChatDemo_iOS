@@ -9,24 +9,26 @@ import Foundation
 import UIKit
 import TeneasyChatSDK_iOS
 
-
+//线路检测和选择咨询类型页面
 open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
 
     public func useTheLine(line: String) {
         curLineLB.text = "当前线路：\(line)"
         domain = line;
         
+        //线路检测成功之后，获取咨询类型列表
         entranceView.getEntrance()
     }
     
     public func lineError(error: TeneasyChatSDK_iOS.Result) {
+        //1008表示没有可用线路，请检查线路数组和商户号
         if error.Code == 1008{
             curLineLB.text = error.Message
         }
         debugPrint(error.Message)
     }
     
-    
+    //咨询类型页面
     lazy var entranceView: BWEntranceView = {
         let view = BWEntranceView()
         view.backgroundColor = UIColor.white
@@ -74,8 +76,8 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         
         entranceView.callBack = { (dataCount: Int) in
         }
+        //咨询类型选择之后，把咨询ID作为全局变量
         entranceView.cellClick = {[weak self] (consultID: Int32) in
-            
             let vc = KeFuViewController()
             vc.consultId = Int64(consultID)
             vc.modalPresentationStyle = .fullScreen
@@ -89,36 +91,50 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         }
         
     }
+    
+    //去设置页面
     @objc func settingClick() {
         let vc = BWSettingViewController()
         vc.callBack = {
-            self.refresh()
+            self.lineCheck()
         }
         self.present(vc, animated: true)
     }
     
-    func refresh(){
+    //做线路检测
+    func lineCheck(){
         curLineLB.text = "正在检测线路。。。。"
+        
+        //从配置读取线路数组
         lines = UserDefaults.standard.string(forKey: PARAM_LINES) ?? lines
+        
+        //从配置读取Cert
         cert = UserDefaults.standard.string(forKey: PARAM_CERT) ?? cert
+        
+        //从配置读取商户ID
         let a_merchantId = UserDefaults.standard.integer(forKey: PARAM_MERCHANT_ID)
         if a_merchantId > 0{
             merchantId = a_merchantId
         }
         
+        //从配置读取用户ID
         let a_userId = UserDefaults.standard.integer(forKey: PARAM_USER_ID)
         if a_userId > 0{
             userId = Int32(a_userId)
         }
         
+        //从配置读取用户ID
         xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
         
+        //初始化线路库
         let lineLB = LineDetectLib(lines, delegate: self, tenantId: merchantId)
+        //获取线路
         lineLB.getLine()
     }
     
     open override func viewWillAppear(_ animated: Bool) {
-        refresh()
+        //确保每次来到这个页面都做一次线路检测
+        lineCheck()
     }
     
     

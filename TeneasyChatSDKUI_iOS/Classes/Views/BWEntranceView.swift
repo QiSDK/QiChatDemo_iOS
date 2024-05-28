@@ -113,7 +113,6 @@ extension BWEntranceView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let list = self.entranceModel?.consults ?? []
         let id = list[indexPath.row].consultId ?? 0
-        CONSULT_ID = id
         self.cellClick!(id)
         if ((list[indexPath.row].unread ?? 0) > 0) {
             NetworkUtil.markRead(consultId: id) { success, data in

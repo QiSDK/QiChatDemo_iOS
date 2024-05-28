@@ -11,6 +11,7 @@ import Toast_Swift
 
 extension KeFuViewController: teneasySDKDelegate {
     
+    //初始化聊天SDK
     func initSDK(baseUrl: String) {
         let wssUrl = "wss://" + baseUrl + "/v1/gateway/h5?"
         // 第一次cert必填，之后token必填
@@ -20,33 +21,39 @@ extension KeFuViewController: teneasySDKDelegate {
         lib.delegate = self
     }
     
+    //收到客服发来的消息
     public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
         print("receivedMsg\(msg)")
-        if msg.consultID != CONSULT_ID{
+        if msg.consultID != consultId{
+            //以消息的形式提示：
            // let msg = composeALocalTxtMessage(textMsg: "其他客服有新消息！")
            // appendDataSource(msg: msg, isLeft: false, cellType: .TYPE_Tip)
+            
+            //以Toast的形式提示
             self.view.makeToast("其他客服有新消息！")
         }else{
+            //如果是视频消息，cellType是TYPE_VIDEO
             if !msg.video.uri.isEmpty {
                 appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_VIDEO)
             }else{
+                //其余当作普通消息，文字或图片
                 appendDataSource(msg: msg, isLeft: true)
             }
         }
     }
     
+    //如果客服那边撤回了消息，这个函数会被调用
     public func msgDeleted(msg: TeneasyChatSDK_iOS.CommonMessage, payloadId: UInt64, errMsg: String?) {
-
         datasouceArray = datasouceArray.filter { modal in modal.message?.msgID != msg.msgID}
-        
+        //用一个本地Tip消息提醒用户
         let msg = composeALocalTxtMessage(textMsg: "对方撤回了一条消息")
         appendDataSource(msg: msg, isLeft: false, cellType: .TYPE_Tip)
     }
     
+    //发送消息后，会收到回执，然后根据payloadId从列表查询指定消息，然后更新消息状态
     public func msgReceipt(msg: TeneasyChatSDK_iOS.CommonMessage, payloadId: UInt64, errMsg: String?) {
         print("msgReceipt" + WTimeConvertUtil.displayLocalTime(from: msg.msgTime.date))
-        // 通过payloadId从DataSource里面找对应记录，并更新状态和时间
-        print("------\(payloadId)")
+        print("回执:\(payloadId)")
         let index = datasouceArray.firstIndex { model in
             model.payLoadId == payloadId
         }
@@ -67,18 +74,9 @@ extension KeFuViewController: teneasySDKDelegate {
                 tableView.contentOffset = loc
             }
         }
-
-        /*let arr = datasouceArray.filter { modal in modal.message.msgID == 0 && modal.isLeft == false }
-        for p in arr {
-            print(p.message.msgID)
-            p.sendStatus = .发送失败
-            tableView.reloadData()
-        }*/
-        //tableView.reloadData()
-        //scrollToBottom()
     }
 
-
+    //客服更换后，这个函数会被回调，并及时更新客服信息
     public func workChanged(msg: Gateway_SCWorkerChanged) {
         consultId = msg.consultID
         workerId = msg.workerID
@@ -86,32 +84,38 @@ extension KeFuViewController: teneasySDKDelegate {
         updateWorker(workerName: msg.workerName, avatar: msg.workerAvatar)
     }
     
+    //SDK里面遇到的错误，会从这个回调告诉前端
     public func systemMsg(result: TeneasyChatSDK_iOS.Result) {
         print("systemMsg")
-        print(result.Message)
+        print("\(result.Message) Code:\(result.Message)")
          if(result.Code >= 1000 && result.Code <= 1010){
              isConnected = false
+             //1002是在别处登录了，1010是无效的Token
              if result.Code == 1002 || result.Code == 1010{
                  //WWProgressHUD.showInfoMsg(result.Message)
-                 //由于后端运信和起聊有冲突，所以这里错误码不一定对，不做任何处理
                  //stopTimer()
-                 //isConnected = false
                  //navigationController?.popToRootViewController(animated: true)
              }
         }
     }
     
+    //SDK成功连接的回调
     public func connected(c: Gateway_SCHi) {
         xToken = c.token
         isConnected = true
+        //把获取到的Token保存到用户设置
         UserDefaults.standard.set(c.token, forKey: PARAM_XTOKEN)
+        
+        
         let f = self.isFirstLoad
         if f == false{
             WWProgressHUD.showLoading("连接中...")
         }
         
          print("连接成功：token:\(xToken)assign work")
-         NetworkUtil.assignWorker(consultId: CONSULT_ID) { [weak self]success, model in
+        
+        //SDK连接成功之后，分配客服
+        NetworkUtil.assignWorker(consultId: Int32(self.consultId)) { [weak self]success, model in
              if success {
                  print("assign work 成功, Worker Id：\(model?.workerId ?? 0)")
                  if f == false{
@@ -121,7 +125,7 @@ extension KeFuViewController: teneasySDKDelegate {
                  self?.updateWorker(workerName: model?.nick ?? "", avatar: model?.avatar ?? "")
                  workerId = model?.workerId ?? 2
                
-               NetworkUtil.getHistory(consultId: CONSULT_ID) { success, data in
+                 NetworkUtil.getHistory(consultId: Int32(self?.consultId ?? 0)) { success, data in
                    //构建历史消息
                    self?.buildHistory(history:  data ?? HistoryModel())
                  }
@@ -178,7 +182,7 @@ extension KeFuViewController: teneasySDKDelegate {
         return msg
     }
     
-    //产生一个本地图片消息
+    //产生一个本地视频消息
     func composeALocalVideoMessage(url: String, timeInS: String? = nil) -> CommonMessage {
         // 第一层
         var content = CommonMessageVideo()

@@ -125,13 +125,6 @@ class BWChatCell: UITableViewCell {
         self.imgView.isHidden = false
     }
 
-    func initVideo(videoUrl: URL) {
-        self.imgView.snp.updateConstraints { make in
-            make.height.equalTo(0)
-        }
-        self.titleLab.isHidden = true
-        self.imgView.isHidden = true
-    }
 
     func initTitle() {
         self.imgView.snp.updateConstraints { make in
