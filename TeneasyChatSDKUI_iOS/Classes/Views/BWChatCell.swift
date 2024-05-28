@@ -9,6 +9,7 @@
 import AVFoundation
 import Kingfisher
 import UIKit
+import SnapKit
 
 typealias BWChatCellLongGestCallBack = (UILongPressGestureRecognizer) -> ()
 
@@ -24,8 +25,8 @@ class BWChatCell: UITableViewCell {
         return lab
     }()
     
-    lazy var imgView: UIImageView = {
-        let v = UIImageView()
+    lazy var imgView: ResizableImageView = {
+        let v = ResizableImageView()
         v.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapImg))
         v.addGestureRecognizer(tapGesture)
@@ -54,6 +55,9 @@ class BWChatCell: UITableViewCell {
         return v
     }()
     
+    var leftConstraint: Constraint?
+    var rightConstraint: Constraint?
+    
     static func cell(tableView: UITableView) -> Self {
         let cellId = "\(Self.self)"
         var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
@@ -73,10 +77,14 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.titleLab)
         self.contentView.addSubview(self.imgView)
         self.imgView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
-            make.width.equalTo(kScreenWidth - 12 - 80)
+            
+            self.leftConstraint = make.left.equalToSuperview().offset(12).constraint
+            self.rightConstraint = make.right.equalToSuperview().offset(-12).constraint
+            //make.left.equalToSuperview().offset(12)
+            //make.right.equalToSuperview().offset(-12)
+           // make.width.equalTo(kScreenWidth - 12 - 80)
             make.top.equalTo(self.timeLab.snp.bottom)
-            make.height.equalTo(0)
+            make.height.equalTo(160)
         }
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.contentView.addGestureRecognizer(self.gesture!)
@@ -117,9 +125,6 @@ class BWChatCell: UITableViewCell {
     }
 
     func initImg(imgUrl: URL) {
-        self.imgView.snp.updateConstraints { make in
-            make.height.equalTo(160)
-        }
         self.imgView.kf.setImage(with: imgUrl)
         self.titleLab.isHidden = true
         self.imgView.isHidden = false
@@ -127,9 +132,6 @@ class BWChatCell: UITableViewCell {
 
 
     func initTitle() {
-        self.imgView.snp.updateConstraints { make in
-            make.height.equalTo(0)
-        }
         self.titleLab.isHidden = false
         self.imgView.isHidden = true
     }
@@ -190,6 +192,7 @@ class BWChatLeftCell: BWChatCell {
             make.left.equalToSuperview().offset(12)
             make.bottom.equalToSuperview()
         }
+        rightConstraint?.deactivate()
         self.imgView.snp.updateConstraints { make in
             make.left.equalToSuperview().offset(12)
         }
@@ -226,8 +229,13 @@ class BWChatRightCell: BWChatCell {
             make.bottom.equalToSuperview()
         }
         
+        // Remove the left constraint
+               leftConstraint?.deactivate()
+                
+        
+   
         self.imgView.snp.updateConstraints { make in
-            make.left.equalToSuperview().offset(80)
+            make.right.equalToSuperview().offset(-12)
         }
         self.contentView.addSubview(self.loadingView)
         self.loadingView.snp.makeConstraints { make in

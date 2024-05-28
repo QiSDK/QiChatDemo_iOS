@@ -82,6 +82,7 @@ open class KeFuViewController: UIViewController{
     lazy var headerTitle: UILabel = {
         let v = UILabel(frame: CGRect.zero)
         v.text = "--"
+        v.textColor = UIColor.black
         return v
     }()
 
@@ -320,6 +321,7 @@ open class KeFuViewController: UIViewController{
    @objc func checkSDK(){
        print("sdk status:\(isConnected) \(Date())")
        if !isConnected{
+           initSDK(baseUrl: domain)
            print("重新连接SDK")
        }
     }
