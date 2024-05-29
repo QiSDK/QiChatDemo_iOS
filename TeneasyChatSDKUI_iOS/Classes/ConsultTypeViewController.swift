@@ -92,6 +92,16 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         
     }
     
+    open override func viewWillAppear(_ animated: Bool) {
+        //确保每次来到这个页面都做一次线路检测
+        lineCheck()
+    }
+    
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+
+    }
+    
     //去设置页面
     @objc func settingClick() {
         let vc = BWSettingViewController()
@@ -123,6 +133,14 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
             userId = Int32(a_userId)
         }
         
+        //从配置读取图片域名
+        baseUrlImage = UserDefaults.standard.string(forKey: PARAM_ImageBaseURL) ?? baseUrlImage
+        
+        if cert.isEmpty || merchantId == 0 || userId == 0 || lines.isEmpty || baseUrlImage.isEmpty{
+            curLineLB.text = "* 请在设置页面设置好参数 *"
+            return
+        }
+        
         //从配置读取用户ID
         xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
         
@@ -130,15 +148,5 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         let lineLB = LineDetectLib(lines, delegate: self, tenantId: merchantId)
         //获取线路
         lineLB.getLine()
-    }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        //确保每次来到这个页面都做一次线路检测
-        lineCheck()
-    }
-    
-    
-    open override func viewWillDisappear(_ animated: Bool) {
-
     }
 }

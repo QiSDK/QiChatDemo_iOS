@@ -13,6 +13,7 @@ class BWSettingViewController: UIViewController {
     private let certTextField = UITextView()
     private let merchantIdTextField = UITextView()
     private let userIdTextField = UITextView()
+    private let imgBaseUrlTextField = UITextView()
     private let submitButton = UIButton(type: .system)
     
     var callBack: DissmissedCallback?
@@ -42,8 +43,8 @@ class BWSettingViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        let labels = ["lines", "cert", "merchantId", "userId"]
-        let textFields = [linesTextField, certTextField, merchantIdTextField, userIdTextField]
+        let labels = ["lines", "cert", "merchantId", "userId", "imageBaseUrl"]
+        let textFields = [linesTextField, certTextField, merchantIdTextField, userIdTextField, imgBaseUrlTextField]
                 
         var previousView: UIView?
                 
@@ -84,7 +85,7 @@ class BWSettingViewController: UIViewController {
         view.addSubview(submitButton)
         
         submitButton.snp.makeConstraints { make in
-            make.top.equalTo(userIdTextField.snp.bottom).offset(40)
+            make.top.equalTo(imgBaseUrlTextField.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(50)
@@ -98,10 +99,13 @@ class BWSettingViewController: UIViewController {
         let a_cert = UserDefaults.standard.string(forKey: PARAM_CERT) ?? ""
         let a_merchantId = UserDefaults.standard.integer(forKey: PARAM_MERCHANT_ID)
         let a_userId = UserDefaults.standard.integer(forKey: PARAM_USER_ID)
+        let a_imgUrl = UserDefaults.standard.string(forKey: PARAM_ImageBaseURL) ?? ""
+        
         linesTextField.text = a_lines.isEmpty ? lines:a_lines
         certTextField.text = a_cert.isEmpty ? cert:a_cert
         merchantIdTextField.text = "\(a_merchantId > 0 ? a_merchantId:merchantId)"
         userIdTextField.text = "\(a_userId > 0 ? Int32(a_userId):userId)"
+        imgBaseUrlTextField.text = a_imgUrl.isEmpty ? baseUrlImage:a_imgUrl
     }
     
     @objc private func submitButtonTapped() {
@@ -109,17 +113,15 @@ class BWSettingViewController: UIViewController {
         let cert = certTextField.text ?? ""
         let merchantId = Int(merchantIdTextField.text ?? "0")
         let userId = Int(userIdTextField.text ?? "0")
+        let imageUrl = imgBaseUrlTextField.text ?? ""
         
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
         UserDefaults.standard.set(cert, forKey: PARAM_CERT)
         UserDefaults.standard.set(merchantId, forKey: PARAM_MERCHANT_ID)
         UserDefaults.standard.set(userId, forKey: PARAM_USER_ID)
         UserDefaults.standard.set("", forKey: PARAM_XTOKEN)
-        
+        UserDefaults.standard.set(imageUrl, forKey: PARAM_ImageBaseURL)
         
         dismiss(animated: true)
-//        let alert = UIAlertController(title: "保存成功", message: "您的信息已保存。", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
-//        present(alert, animated: true, completion: nil)
     }
 }
