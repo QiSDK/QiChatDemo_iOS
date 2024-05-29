@@ -109,14 +109,14 @@ class BWSettingViewController: UIViewController {
     }
     
     @objc private func submitButtonTapped() {
-        let lines = linesTextField.text ?? ""
-        let cert = certTextField.text ?? ""
-        let merchantId = Int(merchantIdTextField.text ?? "0")
-        let userId = Int(userIdTextField.text ?? "0")
-        let imageUrl = imgBaseUrlTextField.text ?? ""
+        let lines = (linesTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let cert = (certTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let merchantId = Int((merchantIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+        let userId = Int((userIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
+        let imageUrl = imgBaseUrlTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
-        UserDefaults.standard.set(cert, forKey: PARAM_CERT)
+        UserDefaults.standard.set(cert.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), forKey: PARAM_CERT)
         UserDefaults.standard.set(merchantId, forKey: PARAM_MERCHANT_ID)
         UserDefaults.standard.set(userId, forKey: PARAM_USER_ID)
         UserDefaults.standard.set("", forKey: PARAM_XTOKEN)

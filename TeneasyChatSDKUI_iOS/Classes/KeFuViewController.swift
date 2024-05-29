@@ -377,6 +377,7 @@ open class KeFuViewController: UIViewController{
      */
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool) {
+        WWProgressHUD.showLoading("正在上传...")
         // Set Your URL
         let api_url = baseUrlApi + "/v1/assets/upload/"
         guard let url = URL(string: api_url) else {
@@ -421,9 +422,9 @@ open class KeFuViewController: UIViewController{
             print("Upload Progress: \(progress.fractionCompleted)")
         })
         .response(completionHandler: { data in
+            WWProgressHUD.dismiss()
             switch data.result {
             case .success:
-                
                 if let filePath = data.data {
                     let path = String(data: filePath, encoding: String.Encoding.utf8)
                     //let imgUrl = baseUrlImage + (path ?? "")
@@ -438,9 +439,10 @@ open class KeFuViewController: UIViewController{
                    
                 } else {
                     print("图片上传失败：")
+                    WWProgressHUD.showFailure("上传失败！")
                 }
-                
             case .failure(let error):
+                WWProgressHUD.showFailure("上传失败！")
                 print("图片上传失败：" + error.localizedDescription)
             }
         })

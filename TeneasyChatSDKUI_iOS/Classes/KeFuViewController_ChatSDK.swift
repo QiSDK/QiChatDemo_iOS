@@ -92,8 +92,8 @@ extension KeFuViewController: teneasySDKDelegate {
              isConnected = false
              //1002是在别处登录了，1010是无效的Token
              if result.Code == 1002 || result.Code == 1010{
-                 //WWProgressHUD.showInfoMsg(result.Message)
-                 //stopTimer()
+                 WWProgressHUD.showInfoMsg(result.Message)
+                 stopTimer()
                  //navigationController?.popToRootViewController(animated: true)
              }
         }
