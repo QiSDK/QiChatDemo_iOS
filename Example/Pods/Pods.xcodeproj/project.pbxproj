@@ -818,6 +818,7 @@
 		DC0C841B2C046F0A0023E678 /* playvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = DC0C841A2C046F070023E678 /* playvideo.png */; };
 		DC0C841C2C04713E0023E678 /* playvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = DC0C841A2C046F070023E678 /* playvideo.png */; };
 		DC7B5FEE2C06091F00BA22C7 /* ResizableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7B5FED2C06091F00BA22C7 /* ResizableImageView.swift */; };
+		DC7B5FF02C06E61300BA22C7 /* KeFuVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7B5FEF2C06E61300BA22C7 /* KeFuVideoPlayerViewController.swift */; };
 		DCD0C33A2B50811D53CF68F021284B47 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBB154A2D51E25C9911AA17F2B8FA4 /* DispatchQueue+Alamofire.swift */; };
 		DD58A00EACBEE274C381B491519C6B8C /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE37C3AC4AB383FB668DC5D0818605B /* RedirectHandler.swift */; };
 		DD5A0862F01B8EE9589CC86C25CB9F85 /* SVGMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = A768EB39DC164B000F8FD117BD0084B8 /* SVGMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2108,6 +2109,7 @@
 		DC3F0EEAEAA7BE81F396A75DB69B7B7A /* emoticon_95.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_95.png; sourceTree = "<group>"; };
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDKUI_iOS; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC7B5FED2C06091F00BA22C7 /* ResizableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableImageView.swift; sourceTree = "<group>"; };
+		DC7B5FEF2C06E61300BA22C7 /* KeFuVideoPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeFuVideoPlayerViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		DC9A5F78EF2B9CD84074FA89A9A88C4D /* emoticon_81.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_81.png; sourceTree = "<group>"; };
 		DD0F19A305D70AF35604D3CB0D8AB461 /* TimeUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimeUtils.swift; path = Sources/SwiftProtobuf/TimeUtils.swift; sourceTree = "<group>"; };
 		DD342C0319C8A01ABD7B192312317E04 /* TeneasyChatSDK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TeneasyChatSDK_iOS.debug.xcconfig; sourceTree = "<group>"; };
@@ -2655,6 +2657,7 @@
 				0498635118859A11191DF9D201114225 /* KeFuViewController.swift */,
 				263C1A29B45C7283394C7805047C9B98 /* KeFuViewController_ChatSDK.swift */,
 				4CE420B3D6F674E86800745CAB0B9F60 /* KeFuViewController_ChatToolBar.swift */,
+				DC7B5FEF2C06E61300BA22C7 /* KeFuVideoPlayerViewController.swift */,
 				08EB51899E30A5BCC671360D65316AC9 /* KeFuViewController_ImagePicker.swift */,
 				D79BCF45339853C70737F45481B3788F /* KeFuViewController_TableView.swift */,
 				AD50CF8211D2F5BAD8AF9686A4F09D2E /* png */,
@@ -5041,6 +5044,7 @@
 				E91015EB42E500E29BA5B7334EE10CE7 /* QuestionModel.swift in Sources */,
 				884967632C04623B00FF61F7 /* BWVideoCell.swift in Sources */,
 				33D873C6AFDA74FBC7E444F281ACF9E5 /* ConsultTypeViewController.swift in Sources */,
+				DC7B5FF02C06E61300BA22C7 /* KeFuVideoPlayerViewController.swift in Sources */,
 				13AED308AEBEB14E3B4FA726DC34FAF9 /* SwiftPopMenu.swift in Sources */,
 				66C4C3EF09217C132B464DD5C830078C /* TeneasyChatSDKUI_iOS-dummy.m in Sources */,
 				69E324CE16D1388486743DF36FF6DF84 /* Utils.swift in Sources */,

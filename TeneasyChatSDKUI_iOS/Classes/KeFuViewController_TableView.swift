@@ -10,10 +10,24 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             if model.isLeft {
                 let cell = BWVideoLeftCell.cell(tableView: tableView)
                 cell.model = model
+                cell.playBlock = { [weak self] in
+                    guard let msg = model.message else {
+                        return
+                    }
+                    let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
+                    self?.playVideoFullScreen(url: videoUrl!)
+                }
                 return cell
             } else {
                 let cell = BWVideoRightCell.cell(tableView: tableView)
                 cell.model = model
+                cell.playBlock = { [weak self] in
+                    guard let msg = model.message else {
+                        return
+                    }
+                    let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
+                    self?.playVideoFullScreen(url: videoUrl!)
+                }
                 return cell
             }
         } else if model.isLeft {
@@ -76,6 +90,12 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         return cell
+    }
+    func playVideoFullScreen(url: URL) {
+        let videoPlayerViewController = KeFuVideoPlayerViewController()
+        videoPlayerViewController.configure(with: url)
+        videoPlayerViewController.modalPresentationStyle = .fullScreen
+        present(videoPlayerViewController, animated: false, completion: nil)
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

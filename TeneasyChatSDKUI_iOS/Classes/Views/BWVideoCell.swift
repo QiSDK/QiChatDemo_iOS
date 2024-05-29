@@ -9,7 +9,10 @@ import AVFoundation
 import Kingfisher
 import UIKit
 
+typealias BWVideoCellClickBlock = () -> ()
+
 class BWVideoCell: UITableViewCell {
+    var playBlock: BWVideoCellClickBlock?
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -47,8 +50,9 @@ class BWVideoCell: UITableViewCell {
     }
     
     @objc private func playButtonTapped() {
-        self.playBtn.isHidden = true
-        self.player?.play()
+//        self.playBtn.isHidden = true
+//        self.player?.play()
+        playBlock!()
     }
     
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
