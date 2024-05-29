@@ -62,6 +62,7 @@ class BWVideoCell: UITableViewCell {
                 
         self.contentView.addSubview(self.timeLab)
         self.contentView.addSubview(self.videoBackgroundView)
+        self.videoBackgroundView.backgroundColor = UIColor.black
         self.videoBackgroundView.addSubview(self.playBtn)
         self.playBtn.snp.makeConstraints { make in
             make.center.equalToSuperview()
