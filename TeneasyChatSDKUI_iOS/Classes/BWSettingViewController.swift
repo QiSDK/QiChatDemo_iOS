@@ -85,7 +85,7 @@ class BWSettingViewController: UIViewController {
         view.addSubview(submitButton)
         
         submitButton.snp.makeConstraints { make in
-            make.top.equalTo(imgBaseUrlTextField.snp.bottom).offset(40)
+            make.top.equalTo(imgBaseUrlTextField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(50)
