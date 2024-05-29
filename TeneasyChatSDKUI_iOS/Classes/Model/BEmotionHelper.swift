@@ -77,7 +77,7 @@ extension BEmotionHelper {
     //    /// 获取emoji表情
     public static func getNewEmoji() -> [BEmotion] {
         var emojiArr: [BEmotion] = []
-        for i in 1 ... 137 {
+        for i in 1 ... 99 {
             let indentifiName = "emoticon_\(i)"
             let imgName = "[" + indentifiName + "]"
             let emotion = BEmotion(identifier: indentifiName, displayName: imgName)

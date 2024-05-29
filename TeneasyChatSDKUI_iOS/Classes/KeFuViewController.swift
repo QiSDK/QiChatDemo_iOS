@@ -237,6 +237,10 @@ open class KeFuViewController: UIViewController{
                     isLeft = false
                 }
                 
+                if item.msgOp == "MSG_OP_DELETE"{
+                    continue
+                }
+                
                 let chatModel = ChatModel()
                 chatModel.isLeft = isLeft
                 chatModel.sendStatus = .发送成功

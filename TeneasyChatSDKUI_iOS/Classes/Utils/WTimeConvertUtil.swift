@@ -36,12 +36,13 @@ class WTimeConvertUtil: NSObject {
          let calendar = Calendar.current
          let hour = calendar.component(.hour, from: msgDate)
          let minutes = calendar.component(.minute, from: msgDate)
+       let seconds = calendar.component(.minute, from: msgDate)
          
         if Calendar.current.isDateInToday(msgDate) {
-            return String(format: "%.2d", hour) + ":" + String(format: "%.2d", minutes)
+            return String(format: "%.2d", hour) + ":" + String(format: "%.2d", minutes) + ":" + String(format: "%.2d", seconds)
         }
         else if Calendar.current.isDateInYesterday(msgDate) {
-            return "昨天 " + String(format: "%.2d", msgDate.hour) + ":" + String(format: "%.2d", msgDate.minute)
+            return "昨天 " + String(format: "%.2d", msgDate.hour) + ":" + String(format: "%.2d", msgDate.minute) + ":" + String(format: "%.2d", seconds)
         }
         else if msgDate.isThisYear() {
             return "\(msgDate.month)月\(msgDate.day)日"
@@ -76,11 +77,12 @@ class WTimeConvertUtil: NSObject {
     //用于首页会话列表时单元格cell
     static func convertTimeStampToDateForHomePage(from timestamp: TimeInterval) -> String {
         let msgDate = Date(timeIntervalSince1970: timestamp)
+        
         if Calendar.current.isDateInToday(msgDate) {
-            return String(format: "%.2d", msgDate.hour) + ":" + String(format: "%.2d", msgDate.minute)
+            return String(format: "%.2d", msgDate.hour) + ":" + String(format: "%.2d", msgDate.minute) + ":" + String(format: "%.2d", msgDate.second)
         }
         else if Calendar.current.isDateInYesterday(msgDate) {
-            return "昨天 " + String(format: "%.2d", msgDate.hour) + ":" + String(format: "%.2d", msgDate.minute)
+            return "昨天 " + String(format: "%.2d", msgDate.hour) + ":" + String(format: "%.2d", msgDate.minute) + ":" + String(format: "%.2d", msgDate.second)
         }
         else if msgDate.isThisYear() {
             return "\(msgDate.month)月\(msgDate.day)日"
