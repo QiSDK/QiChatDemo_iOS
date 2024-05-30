@@ -50,6 +50,7 @@ class BWKeFuChatMenuView: UIView {
         clcView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        clcView.reloadData()
     }
 }
 

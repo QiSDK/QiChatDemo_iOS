@@ -39,6 +39,7 @@ class QA: HandyJSON {
     var answer: [Question]?
     var related: [QA]?
     var myExpanded: Bool = false
+    var clicked: Bool = false
 
     required init() {}
 }

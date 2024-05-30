@@ -57,8 +57,8 @@ class BWQuestionView: UIView {
             make.width.equalTo(180)
         }
         tableView.reloadData()
-        
-        self.isHidden = true
+
+        isHidden = true
     }
 
     var sectionList: [QA] = []
@@ -81,23 +81,29 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = BWQuestionCell.cell(tableView: tableView)
-        cell.titleLab.text = sectionList[indexPath.section].related?[indexPath.row].question?.content?.data
-        cell.titleLab.textColor = UIColor.brown
+        let model: QA? = sectionList[indexPath.section].related?[indexPath.row]
+        cell.titleLab.text = model?.question?.content?.data
+        cell.titleLab.textColor = model?.clicked == true ? .gray : UIColor.brown
         cell.titleLab.font = UIFont.systemFont(ofSize: 14)
         cell.imgView.isHidden = true
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model: QA? = sectionList[indexPath.section].related?[indexPath.row]
-        if (model != nil) {
+        if (model?.clicked == true) {
+            return
+        }
+        model?.clicked = true
+        self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+        if model != nil {
             qaCellClick!(model!)
         }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "BWQuestionSectionHeader") as! BWQuestionSectionHeader
-        
+
         print(sectionList[section].question?.content?.data ?? "")
         // 设置组头视图的内容
         headerView.titleLabel.text = sectionList[section].question?.content?.data ?? ""
@@ -108,7 +114,7 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
 //        } else {
 //            headerView.imgView.image = UIImage.svgInit("arrowdown")
 //        }
-        
+
         /*
          var tvTitle = holder?.get<TextView>(R.id.tv_Title)
                  tvTitle?.text = (position + 1).toString() + ", " + bean.question.content.data
@@ -137,28 +143,29 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
     @objc func headerViewTapped(sender: UITapGestureRecognizer) {
         guard let section = sender.view?.tag else { return }
         // 在这里处理点击事件，使用 section 参数
-        if (sectionList[section].related == nil || sectionList[section].related!.isEmpty){
+        if sectionList[section].related == nil || sectionList[section].related!.isEmpty {
             qaCellClick!(sectionList[section])
-        }else{
+        } else {
             sectionList[section].myExpanded = !sectionList[section].myExpanded
             updateTableViewHeight()
         }
     }
+
     func updateTableViewHeight() {
-        if (sectionList.count == 0) {
+        if sectionList.count == 0 {
             heightCallback!(0)
         } else {
             let sectionHeight = Double(sectionList.count) * 44.0
             var expandRowHeight: Double = 0.0
             sectionList.forEach { (qa: QA) in
-                if (qa.myExpanded == true) {
+                if qa.myExpanded == true {
                     expandRowHeight = expandRowHeight + Double(qa.related?.count ?? 0) * 44.0
                 }
             }
 
             print("QA Cell Height:\(60.0 + sectionHeight + expandRowHeight)")
             heightCallback!(60.0 + sectionHeight + expandRowHeight)
-            self.isHidden = false
+            isHidden = false
         }
         tableView.reloadData()
     }

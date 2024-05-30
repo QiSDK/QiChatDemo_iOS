@@ -191,9 +191,34 @@ extension KeFuViewController {
                 }
 
             case "复制":
-                let pastboard = UIPasteboard.general
-                pastboard.string = msgText
+                if (model?.cellType == .TYPE_Image) {
+                    guard let msg = model?.message else {
+                        return
+                    }
+                   
+                    let cell = self?.tableView.cellForRow(at: indexPath) as! BWChatCell as BWChatCell
+                    
+                    
+                    UIPasteboard.general.image = cell.imgView.image
+                    
+                  /*  let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
+                    print(imgUrl?.absoluteString ?? "")
+                    let imageView = UIImageView()
+                       imageView.kf.setImage(with: imgUrl, placeholder: nil, options: nil, progressBlock: nil) { result in
+                           switch result {
+                           case .success(let value):
+                               print("Image successfully loaded: \(value.image)")
+                               UIPasteboard.general.image = value.image
+                           case .failure(let error):
+                               print("Error loading image: \(error)")
+                           }
+                       }*/
+                } else {
+                    let pastboard = UIPasteboard.general
+                    pastboard.string = msgText
+                }
                 WChatPasteToastView.show(inView: nil)
+                
             default:
                 break
             }
