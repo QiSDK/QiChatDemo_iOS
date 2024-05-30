@@ -37,6 +37,7 @@ PODS:
   - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
+  - IQKeyboardManagerSwift
   - IQKeyboardManagerSwift (~> 6.5.9)
   - SnapKit (~> 5.0.1)
   - TeneasyChatSDK_iOS (from `https://github.com/QiSDK/QiChatSDK_iOS.git`)
@@ -86,6 +87,6 @@ SPEC CHECKSUMS:
   TeneasyChatSDKUI_iOS: 7fb30aa35c6794d733fc3b3c90027d29dce19c2c
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 3d6b8b800b1f3f48df06a7874dbef3f504d05d10
+PODFILE CHECKSUM: 6d162efb5e12c6e9273c5abf0f42ebf749c4b4bf
 
 COCOAPODS: 1.15.2
