@@ -109,11 +109,11 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
         headerView.titleLabel.text = sectionList[section].question?.content?.data ?? ""
         headerView.titleLabel.textColor = UIColor.purple
         headerView.titleLabel.font = UIFont.systemFont(ofSize: 15)
-//        if sectionList[section].myExpanded == true {
-//            headerView.imgView.image = UIImage.svgInit("arrowup")
-//        } else {
-//            headerView.imgView.image = UIImage.svgInit("arrowdown")
-//        }
+        if sectionList[section].myExpanded == true {
+            headerView.imgView.image = UIImage.svgInit("arrowup")
+        } else {
+            headerView.imgView.image = UIImage.svgInit("arrowdown")
+        }
 
         /*
          var tvTitle = holder?.get<TextView>(R.id.tv_Title)
