@@ -26,7 +26,8 @@ var cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9Uslwi
 var merchantId: Int = 230
 var userId: Int32 = 666665//1125324
  var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
-// 
+
+//
  
 
 /*
@@ -44,6 +45,15 @@ var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
 //var userId: Int32 = 364312 //364310
 //var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
  
+
+
+
+/*Asai*/
+//var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
+//var cert = "COgBEAUYfyD6ASiusLSp-jE.zTbKuX1Uhra_SFIbyN9p_i_hcAWpU3F8YdD2GYV7ixPMLSO8vSC_Y7OR3_3-VoRQJODwG0rr2GfUUzp_GDQJBA"
+//var merchantId: Int = 232
+//var userId: Int32 = 849//1125324
+// var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
 
 //动态生成
 //var CONSULT_ID: Int32 = 1

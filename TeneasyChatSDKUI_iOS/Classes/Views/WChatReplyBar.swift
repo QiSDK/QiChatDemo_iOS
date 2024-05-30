@@ -86,7 +86,7 @@ class WChatReplyBar: WBaseView {
             make.width.equalTo(titleLabel)
             make.bottom.equalToSuperview()
         }
-        
+  
         addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -100,8 +100,17 @@ class WChatReplyBar: WBaseView {
     func updateUI(with chatModel:ChatModel) {
         msg = chatModel.message
         titleLabel.text = "回复 "
+        
+        if !(msg?.image.uri ?? "").isEmpty{
+            contentLabel.text = "[图片]"
+        }else if !(msg?.video.uri ?? "").isEmpty{
+            contentLabel.text = "[视频]"
+        }else{
+            contentLabel.text = msg?.content.data ?? ""
+        }
+        
         titleLabel.textColor = UIColor.purple
-        contentLabel.text = chatModel.message?.content.data
+        //contentLabel.text = chatModel.message?.content.data
 //        NIMKitInfoFetchOption *option = [[NIMKitInfoFetchOption alloc] init];
 //        option.session = session;
 //        return [[NIMKit sharedKit] infoByUser:uid option:option].showName;

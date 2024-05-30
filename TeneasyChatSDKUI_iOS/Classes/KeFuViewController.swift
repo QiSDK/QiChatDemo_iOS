@@ -294,7 +294,14 @@ open class KeFuViewController: UIViewController{
         print("sendMsg:\(textMsg)")
         if replyBar.superview != nil{
             if let msg = replyBar.msg{
-                lib.sendMessage(msg: textMsg + "\n回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                
+                if !(replyBar.msg?.image.uri ?? "").isEmpty{
+                    lib.sendMessage(msg: textMsg + "\n 回复：[图片]", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                }else if !(replyBar.msg?.video.uri ?? "").isEmpty{
+                    lib.sendMessage(msg: textMsg + "\n 回复：[视频]", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                }else{
+                    lib.sendMessage(msg: textMsg + "\n 回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                }
             }
             replyBar.removeFromSuperview()
         }else{
@@ -434,6 +441,12 @@ open class KeFuViewController: UIViewController{
                     let path = String(data: filePath, encoding: String.Encoding.utf8)
                     //let imgUrl = baseUrlImage + (path ?? "")
                     let filePath = (path ?? "")
+                    
+                    if filePath.lengthOfBytes(using: .utf8) > 100{
+                        WWProgressHUD.showFailure("服务器返回了错误路径！")
+                        return
+                    }
+                    
                     if filePath.contains(".png") || filePath.contains(".jpg"){
                         self.sendImage(url: path ?? "")
                     }else{

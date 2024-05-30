@@ -26,7 +26,11 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         return
                     }
                     let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
-                    self?.playVideoFullScreen(url: videoUrl!)
+                    if videoUrl == nil{
+                        WWProgressHUD.showFailure("无效的播放链接")
+                    }else{
+                        self?.playVideoFullScreen(url: videoUrl!)
+                    }
                 }
                 return cell
             }
