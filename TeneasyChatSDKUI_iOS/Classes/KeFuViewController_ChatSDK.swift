@@ -64,8 +64,7 @@ extension KeFuViewController: teneasySDKDelegate {
             } else {
                 datasouceArray[index!].sendStatus = .发送成功
                 datasouceArray[index!].message = msg
-                print(msg.msgID)
-                print("状态更新 -> 发送成功")
+                print("状态更新\(msg.msgID) -> 发送成功")
             }
             
             UIView.performWithoutAnimation {
@@ -135,7 +134,7 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     //产生一个本地文本消息
-    func composeALocalTxtMessage(textMsg: String, timeInS: String? = nil) -> CommonMessage {
+    func composeALocalTxtMessage(textMsg: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
         // 第一层
         var content = CommonMessageContent()
         content.data = textMsg
@@ -145,6 +144,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.content = content
         msg.sender = 0
         msg.chatID = 0
+        msg.msgID = msgId
         msg.payload = .content(content)
         msg.worker = 0
         if timeInS == nil{
@@ -158,7 +158,7 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     //产生一个本地图片消息
-    func composeALocalImgMessage(url: String, timeInS: String? = nil) -> CommonMessage {
+    func composeALocalImgMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0)  -> CommonMessage {
         // 第一层
         var content = CommonMessageImage()
         content.uri = url
@@ -168,6 +168,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.consultID = self.consultId
         msg.image = content
         msg.sender = 0
+        msg.msgID = msgId
 
         msg.chatID = 0
         msg.payload = .image(content)
@@ -183,7 +184,7 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     //产生一个本地视频消息
-    func composeALocalVideoMessage(url: String, timeInS: String? = nil) -> CommonMessage {
+    func composeALocalVideoMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
         // 第一层
         var content = CommonMessageVideo()
         content.uri = url
@@ -193,6 +194,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.consultID = self.consultId
         msg.video = content
         msg.sender = 0
+        msg.msgID = msgId
 
         msg.chatID = 0
         msg.payload = .video(content)

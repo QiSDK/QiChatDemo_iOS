@@ -241,24 +241,26 @@ open class KeFuViewController: UIViewController{
                     continue
                 }
                 
+                let msgId = Int64(item.msgId ?? "0") ?? 0
+                
                 let chatModel = ChatModel()
                 chatModel.isLeft = isLeft
                 chatModel.sendStatus = .发送成功
                 if item.workerChanged != nil{
                     chatModel.cellType = .TYPE_Tip
-                    chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime)
+                    chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }
                 else if item.msgFmt == "MSG_TEXT"{
-                    chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime)
+                    chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_IMG"{
                     chatModel.cellType = .TYPE_Image
-                    chatModel.message = composeALocalImgMessage(url: item.image?.uri ?? "", timeInS: item.msgTime)
+                    chatModel.message = composeALocalImgMessage(url: item.image?.uri ?? "", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_VIDEO"{
                     chatModel.cellType = .TYPE_VIDEO
-                    chatModel.message = composeALocalVideoMessage(url: item.video?.uri ?? "", timeInS: item.msgTime)
+                    chatModel.message = composeALocalVideoMessage(url: item.video?.uri ?? "", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }
             }
