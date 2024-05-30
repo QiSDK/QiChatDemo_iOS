@@ -296,14 +296,17 @@ open class KeFuViewController: UIViewController{
             if let msg = replyBar.msg{
                 
                 if !(replyBar.msg?.image.uri ?? "").isEmpty{
-                    lib.sendMessage(msg: textMsg + "\n 回复：[图片]", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                    lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
                 }else if !(replyBar.msg?.video.uri ?? "").isEmpty{
-                    lib.sendMessage(msg: textMsg + "\n 回复：[视频]", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                    lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
                 }else{
                     lib.sendMessage(msg: textMsg + "\n 回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
                 }
             }
-            replyBar.removeFromSuperview()
+            //replyBar.removeFromSuperview()
+            replyBar.snp.updateConstraints { make in
+                make.top.equalTo(self.toolBar.snp.top)
+            }
         }else{
             lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId)
         }
