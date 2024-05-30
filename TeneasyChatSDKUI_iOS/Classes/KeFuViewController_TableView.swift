@@ -192,13 +192,11 @@ extension KeFuViewController {
 
             case "复制":
                 if (model?.cellType == .TYPE_Image) {
-                    guard let msg = model?.message else {
+                   /* guard let msg = model?.message else {
                         return
-                    }
+                    }*/
                    
                     let cell = self?.tableView.cellForRow(at: indexPath) as! BWChatCell as BWChatCell
-                    
-                    
                     UIPasteboard.general.image = cell.imgView.image
                     
                   /*  let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
