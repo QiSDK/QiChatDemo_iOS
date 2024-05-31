@@ -49,7 +49,7 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                     let tt = videoData.count
                     print("video大小：\(tt)")
                     if tt > 1024 * 1024 * 300  {
-                        print("视频不能超过300M")
+                        print("视频/文件限制300M")
                         let alertVC = UIAlertController(title: "提示", message: "视频不能超过300M", preferredStyle: .alert)
                         let cancelAction = UIAlertAction(title: "取消", style: .default, handler: { _ in
                             picker.dismiss(animated: true)
@@ -71,7 +71,7 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
         print("图片大小：\(tt)")
         if tt > 20 * 1024 * 1024 {
             print("图片不能超过20M")
-            let alertVC = UIAlertController(title: "提示", message: "图片不能超过20M", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "提示", message: "图片限制20M", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: { _ in
                 picker.dismiss(animated: true)
             })

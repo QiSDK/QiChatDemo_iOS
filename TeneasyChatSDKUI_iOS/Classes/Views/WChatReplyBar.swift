@@ -110,39 +110,6 @@ class WChatReplyBar: WBaseView {
         }
         
         titleLabel.textColor = UIColor.purple
-        //contentLabel.text = chatModel.message?.content.data
-//        NIMKitInfoFetchOption *option = [[NIMKitInfoFetchOption alloc] init];
-//        option.session = session;
-//        return [[NIMKit sharedKit] infoByUser:uid option:option].showName;
-//        NIMKitUtil.showNick(recent.session?.sessionId, in: recent.session) ?? ""
-        
-//        titleLabel.text = "回复 " + WChatUtils.getNickName(userId: chatModel.message.from)
-//        switch chatModel.message.message_type {
-//        case .text, .replyText,.autoReply:
-//            let attstr = chatModel.message.contentAttrStr
-//            let blackAttStr = NSMutableAttributedString.init(attributedString: attstr!)
-//            blackAttStr.addAttributes([.foregroundColor : UIColor.black], range: NSRange(location: 0, length: attstr!.length))
-//            contentLabel.attributedText = blackAttStr//chatModel.message.contentAttrStr
-//            contentLabel.lineBreakMode = .byTruncatingTail
-//        case .forward:
-//            contentLabel.text = chatModel.message.forwardModel?.title ?? ""
-//        case .image:
-//            if chatModel.message.apiMessage?.image.isSticker == true{
-//                contentLabel.text = "[表情]"
-//            }else{
-//                contentLabel.text = "[图片]"
-//            }
-//        case .audio:
-//            contentLabel.text = "[语音留言]" + (chatModel.message.mediaModel?.voiceDuration ?? 0).toString + "\""
-//        case .video:
-//            contentLabel.text = "[视频]"
-//        case .file:
-//            contentLabel.text = "[文件]"
-//        case .personCard:
-//            contentLabel.text = "[个人名片]"
-//        default :
-//            contentLabel.text = chatModel.message.content ?? ""
-//        }
     }
 
 }

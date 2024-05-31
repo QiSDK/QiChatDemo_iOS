@@ -117,6 +117,9 @@ open class KeFuViewController: UIViewController{
                     make.top.equalTo(self!.toolBar.snp.top)
                 }
             }
+            self?.replyBar.titleLabel.text = ""
+            self?.replyBar.contentLabel.text = ""
+            self?.replyBar.msg = nil
         }
         return bar
     }()
@@ -294,12 +297,11 @@ open class KeFuViewController: UIViewController{
     
     func sendMsg(textMsg: String) {
         print("sendMsg:\(textMsg)")
-        if replyBar.superview != nil{
+        if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
-                
-                if !(replyBar.msg?.image.uri ?? "").isEmpty{
+                if !msg.image.uri.isEmpty{
                     lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
-                }else if !(replyBar.msg?.video.uri ?? "").isEmpty{
+                }else if !msg.video.uri.isEmpty{
                     lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
                 }else{
                     lib.sendMessage(msg: textMsg + "\n 回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
@@ -309,6 +311,7 @@ open class KeFuViewController: UIViewController{
             replyBar.snp.updateConstraints { make in
                 make.top.equalTo(self.toolBar.snp.top)
             }
+            replyBar.msg = nil
         }else{
             lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId)
         }
