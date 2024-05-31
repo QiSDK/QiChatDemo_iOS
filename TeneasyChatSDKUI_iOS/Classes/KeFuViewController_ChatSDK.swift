@@ -37,8 +37,8 @@ extension KeFuViewController: teneasySDKDelegate {
                 let model = datasouceArray.first { ChatModel in
                     ChatModel.message?.msgID == msg.replyMsgID
                 }
-                
-                var referMsg = "回复：\(model?.message?.content.data ?? "")"
+                var txt = (model?.message?.content.data ?? "")
+                var referMsg = "回复：\(txt)"
                 if !(model?.message?.video.uri ?? "").isEmpty {
                     referMsg = "回复：[视频]"
                 }else if !(model?.message?.image.uri ?? "").isEmpty {
@@ -98,6 +98,10 @@ extension KeFuViewController: teneasySDKDelegate {
         consultId = msg.consultID
         workerId = msg.workerID
         print(msg.workerName)
+        NetworkUtil.getHistory(consultId: Int32(self.consultId )) { success, data in
+          //构建历史消息
+            self.buildHistory(history:  data ?? HistoryModel())
+        }
         updateWorker(workerName: msg.workerName, avatar: msg.workerAvatar)
     }
     

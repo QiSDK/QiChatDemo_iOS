@@ -28,6 +28,7 @@ open class KeFuViewController: UIViewController{
     private var myTimer: Timer?
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
+    var workerName: String = ""
 
     //当前选择的图片
     var chooseImg: UIImage?
@@ -268,12 +269,22 @@ open class KeFuViewController: UIViewController{
                 }
             }
         
-        let chatModel = ChatModel()
-        chatModel.isLeft = true
-        chatModel.message = composeALocalTxtMessage(textMsg:  "no txt")
-        chatModel.sendStatus = .发送成功
-        chatModel.cellType = .TYPE_QA
-        datasouceArray.append(chatModel)
+        
+        if isFirstLoad{
+            isFirstLoad = false
+            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
+            appendDataSource(msg: greetingMsg, isLeft: true)
+            let chatModel = ChatModel()
+            chatModel.isLeft = true
+            chatModel.message = composeALocalTxtMessage(textMsg:  "no txt")
+            chatModel.sendStatus = .发送成功
+            chatModel.cellType = .TYPE_QA
+            datasouceArray.append(chatModel)
+        }else{
+            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
+            appendDataSource(msg: greetingMsg, isLeft: true, cellType: .TYPE_Tip)
+        }
+        
         tableView.reloadData()
         scrollToBottom()
     }
@@ -285,14 +296,6 @@ open class KeFuViewController: UIViewController{
         print("avatar:" + url)
         self.headerImg.kf.setImage(with: URL(string: url))
 
-        if isFirstLoad{
-            isFirstLoad = false
-            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
-            appendDataSource(msg: greetingMsg, isLeft: true)
-        }else{
-            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
-            appendDataSource(msg: greetingMsg, isLeft: true, cellType: .TYPE_Tip)
-        }
     }
     
     func sendMsg(textMsg: String) {
@@ -304,7 +307,8 @@ open class KeFuViewController: UIViewController{
                 }else if !msg.video.uri.isEmpty{
                     lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: 0)
                 }else{
-                    lib.sendMessage(msg: textMsg + "\n 回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: 0)
+                    let txt = msg.content.data.components(separatedBy: "回复：")[0]
+                    lib.sendMessage(msg: textMsg + "\n 回复：" + txt, type: .msgText, consultId: consultId, replyMsgId: 0)
                 }
             }
             //replyBar.removeFromSuperview()
