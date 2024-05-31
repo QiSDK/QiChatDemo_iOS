@@ -107,7 +107,7 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
         print(sectionList[section].question?.content?.data ?? "")
         // 设置组头视图的内容
         headerView.titleLabel.text = sectionList[section].question?.content?.data ?? ""
-        headerView.titleLabel.text = "你和我打的的是谁的谁谁谁谁谁谁谁谁谁呃呃等待"
+        //headerView.titleLabel.text = "你和我打的的是谁的谁谁谁谁谁谁谁谁谁呃呃等待"
         headerView.titleLabel.textColor = UIColor.purple
         headerView.titleLabel.font = UIFont.systemFont(ofSize: 15)
         if sectionList[section].myExpanded == true {

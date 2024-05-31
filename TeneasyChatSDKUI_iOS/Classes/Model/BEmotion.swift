@@ -21,7 +21,7 @@ class BEmotion {
         self.init()
         self.identifier = identifier;
         self.displayName = displayName;
-        //print(BundleUtil.getCurrentBundle())
-        self.image = UIImage(named: identifier, in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+      
+        self.image = UIImage(named: "emoticon/\(identifier)", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
     }
 }
