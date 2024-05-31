@@ -300,11 +300,11 @@ open class KeFuViewController: UIViewController{
         if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
                 if !msg.image.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                    lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: 0)//msg.msgID 暂时放0
                 }else if !msg.video.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                    lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: 0)
                 }else{
-                    lib.sendMessage(msg: textMsg + "\n 回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: msg.msgID)
+                    lib.sendMessage(msg: textMsg + "\n 回复：" + msg.content.data, type: .msgText, consultId: consultId, replyMsgId: 0)
                 }
             }
             //replyBar.removeFromSuperview()
