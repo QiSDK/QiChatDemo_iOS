@@ -141,8 +141,12 @@ extension KeFuViewController {
         }
         let msgText = model?.message?.content.data ?? ""
 
-        let dataSouce = [(icon: "chatHuifu", title: "回复"),
+        var dataSouce = [(icon: "chatHuifu", title: "回复"),
                          (icon: "chatCopy", title: "复制")]
+        if msgText.isEmpty{
+            dataSouce = [(icon: "chatHuifu", title: "回复")]
+        }
+       
 
         let popData = dataSouce
         if popData.count == 0 {

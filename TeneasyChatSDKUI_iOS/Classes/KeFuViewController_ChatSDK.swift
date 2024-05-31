@@ -32,12 +32,30 @@ extension KeFuViewController: teneasySDKDelegate {
             //以Toast的形式提示
             self.view.makeToast("其他客服有新消息！")
         }else{
-            //如果是视频消息，cellType是TYPE_VIDEO
-            if !msg.video.uri.isEmpty {
-                appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_VIDEO)
+            
+            if msg.replyMsgID > 0{
+                let model = datasouceArray.first { ChatModel in
+                    ChatModel.message?.msgID == msg.replyMsgID
+                }
+                
+                var referMsg = "回复：\(model?.message?.content.data ?? "")"
+                if !(model?.message?.video.uri ?? "").isEmpty {
+                    referMsg = "回复：[视频]"
+                }else if !(model?.message?.image.uri ?? "").isEmpty {
+                    referMsg = "回复：[图片]"
+                }
+                let newText = "\(msg.content.data)\n\(referMsg)"
+                let newMsg = composeALocalTxtMessage(textMsg: newText)
+                appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text)
             }else{
-                //其余当作普通消息，文字或图片
-                appendDataSource(msg: msg, isLeft: true)
+                
+                //如果是视频消息，cellType是TYPE_VIDEO
+                if !msg.video.uri.isEmpty {
+                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_VIDEO)
+                }else{
+                    //其余当作普通消息，文字或图片
+                    appendDataSource(msg: msg, isLeft: true)
+                }
             }
         }
     }
