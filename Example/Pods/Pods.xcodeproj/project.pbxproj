@@ -612,7 +612,7 @@
 		BD6B4976713DA1784FD2FFD8ACF47949 /* KeFuViewController_ChatSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6241CECFCB81967992F66B94732DBD37 /* KeFuViewController_ChatSDK.swift */; };
 		BDA38103A314C56B3D7B0F0315E58F76 /* ExtensionFieldValueSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689890CB18C3C25126833B9C63624DBD /* ExtensionFieldValueSet.swift */; };
 		BE432D00488E08C853DC689BE24C54F4 /* HandyJSON-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B18A826AE4368C4689C1B2D93E0DF675 /* HandyJSON-dummy.m */; };
-		BE894A613EE924A30FDB692D141DB102 /* BWChatQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B35C17826E1E4497B028542599224 /* BWChatQuestionCell.swift */; };
+		BE894A613EE924A30FDB692D141DB102 /* BWChatQACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B35C17826E1E4497B028542599224 /* BWChatQACell.swift */; };
 		BEBF920FEB959B46A76BAADF22E5CD15 /* ConstraintInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92C77C0E7740AA5ACCF22D369FB02A7 /* ConstraintInsetTarget.swift */; };
 		BF17632690EC40F9EA3228295EEC44A3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC601D08421A064C38C2E0CAF05B404 /* Utils.swift */; };
 		C0078CC1E5A356ED842490460421E400 /* CGPathAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FB0F65F48E674B4EF9CD78BFAE0B43D4 /* CGPathAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1367,7 +1367,7 @@
 		4EC5DAAC404EEAD838481EBA8C3C05EF /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Source/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
 		4ED56EF5F797E152E8619A15607F1E9B /* SVGPathElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGPathElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGPathElement.h"; sourceTree = "<group>"; };
 		50604D9F6D0A411C83748BF8F4A7CF14 /* c_message.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = c_message.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/common/c_message.pb.swift; sourceTree = "<group>"; };
-		506B35C17826E1E4497B028542599224 /* BWChatQuestionCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWChatQuestionCell.swift; sourceTree = "<group>"; };
+		506B35C17826E1E4497B028542599224 /* BWChatQACell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWChatQACell.swift; sourceTree = "<group>"; };
 		50967D9006A5A08367EFC93906B7D402 /* MediaList.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MediaList.h; path = "Source/DOM classes/Core DOM/MediaList.h"; sourceTree = "<group>"; };
 		512AD005BD399C815A4502CA7B71CA85 /* Visitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Visitor.swift; path = Sources/SwiftProtobuf/Visitor.swift; sourceTree = "<group>"; };
 		5161F9ED64AEBF207F215EE6CA520DD0 /* Enum.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Enum.swift; path = Sources/SwiftProtobuf/Enum.swift; sourceTree = "<group>"; };
@@ -2355,7 +2355,7 @@
 			isa = PBXGroup;
 			children = (
 				E48CE773CC6AEA6EC2E157FAFE6EAECB /* BWChatCell.swift */,
-				506B35C17826E1E4497B028542599224 /* BWChatQuestionCell.swift */,
+				506B35C17826E1E4497B028542599224 /* BWChatQACell.swift */,
 				6D1E9C8ACD436FC9D2F67AC2F46F07E7 /* BWEntranceView.swift */,
 				BD117EB0BD61FEC2A985BA66EB45310A /* BWKeFuChatEmojiCell.swift */,
 				D4A9675AE4AFED375906691D5D91F418 /* BWKeFuChatEmojiView.swift */,
@@ -4864,7 +4864,7 @@
 				BD1B6A74062DD23FD2B495BC97243F92 /* BEmotionHelper.swift in Sources */,
 				B2C630C419FF474EF1EFD1379AE993AC /* BundleUtil.swift in Sources */,
 				4406BA9825210F1F141FA01A3552E7CC /* BWChatCell.swift in Sources */,
-				BE894A613EE924A30FDB692D141DB102 /* BWChatQuestionCell.swift in Sources */,
+				BE894A613EE924A30FDB692D141DB102 /* BWChatQACell.swift in Sources */,
 				760DBAB599FA89D5EA0EDA9F9FBE1B7D /* BWEntranceView.swift in Sources */,
 				CD908E15ECDE4C0900AB4EE831B97FAD /* BWKeFuChatEmojiCell.swift in Sources */,
 				23AF72D6701560958F9D6DD80581DDA2 /* BWKeFuChatEmojiView.swift in Sources */,

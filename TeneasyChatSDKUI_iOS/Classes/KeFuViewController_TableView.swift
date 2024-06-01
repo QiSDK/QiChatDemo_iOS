@@ -20,6 +20,11 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else {
                 let cell = BWVideoRightCell.cell(tableView: tableView)
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+                    }
+                }
                 cell.model = model
                 cell.playBlock = { [weak self] in
                     guard let msg = model.message else {
@@ -36,7 +41,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else if model.isLeft {
             if model.cellType == CellType.TYPE_QA {
-                let cell = BWChatQuestionCell.cell(tableView: tableView)
+                let cell = BWChatQACell.cell(tableView: tableView)
                 cell.consultId = Int32(self.consultId)
                 cell.heightBlock = { [weak self] (height: Double) in
                     self?.questionViewHeight = height + 100

@@ -11,7 +11,7 @@ import UIKit
 typealias BWChatQuestionCellHeightCallBack = (Double) -> ()
 typealias BWChatQuestionCellQuestionClickCallBack = (QA) -> ()
 
-class BWChatQuestionCell: UITableViewCell {
+class BWChatQACell: UITableViewCell {
     var heightBlock: BWChatQuestionCellHeightCallBack?
     var qaClickBlock: BWChatQuestionCellQuestionClickCallBack?
     lazy var questionView: BWQuestionView = {

@@ -308,7 +308,7 @@ open class KeFuViewController: UIViewController{
                     lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: 0)
                 }else{
                     let txt = msg.content.data.components(separatedBy: "回复：")[0]
-                    lib.sendMessage(msg: textMsg + "\n 回复：" + txt, type: .msgText, consultId: consultId, replyMsgId: 0)
+                    lib.sendMessage(msg: textMsg + "\n 回复：" + txt.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), type: .msgText, consultId: consultId, replyMsgId: 0)
                 }
             }
             //replyBar.removeFromSuperview()

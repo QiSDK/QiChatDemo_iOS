@@ -13,6 +13,8 @@ typealias BWVideoCellClickBlock = () -> ()
 
 class BWVideoCell: UITableViewCell {
     var playBlock: BWVideoCellClickBlock?
+    var gesture: UILongPressGestureRecognizer?
+    var longGestCallBack: BWChatCellLongGestCallBack?
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -70,6 +72,9 @@ class BWVideoCell: UITableViewCell {
             make.height.equalTo(60)
         }
         self.setupPlayerLayer()
+        
+        self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
+        self.contentView.addGestureRecognizer(self.gesture!)
     }
 
     var model: ChatModel? {
@@ -99,6 +104,10 @@ class BWVideoCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.playerLayer?.frame = self.videoBackgroundView.bounds
+    }
+    
+    @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
+        self.longGestCallBack?(tap)
     }
 
     override func prepareForReuse() {
