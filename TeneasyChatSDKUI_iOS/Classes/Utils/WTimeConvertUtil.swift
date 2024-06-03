@@ -30,7 +30,7 @@ class WTimeConvertUtil: NSObject {
         }
     }
     
-    // 把任何服务器时间转换为本地时间，很神奇的一个方案
+    // 把任何服务器时间转换为本地时间，很神奇的一个方案，可能会有几秒的差别
     static func displayLocalTime(from msgDate: Date) -> String {
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: msgDate)

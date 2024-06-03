@@ -92,7 +92,7 @@ extension KeFuViewController: teneasySDKDelegate {
     
     //发送消息后，会收到回执，然后根据payloadId从列表查询指定消息，然后更新消息状态
     public func msgReceipt(msg: TeneasyChatSDK_iOS.CommonMessage, payloadId: UInt64, errMsg: String?) {
-        print("msgReceipt" + WTimeConvertUtil.displayLocalTime(from: msg.msgTime.date))
+        print("msgReceipt" + msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss"))
         print("回执:\(payloadId)")
         let index = datasouceArray.firstIndex { model in
             model.payLoadId == payloadId

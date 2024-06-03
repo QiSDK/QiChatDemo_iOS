@@ -72,7 +72,7 @@ class BWChatQACell: UITableViewCell {
             
             guard let msg = model?.message else { return }
            
-            self.timeLab.text = WTimeConvertUtil.displayLocalTime(from: msg.msgTime.date)
+            self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
         }
     }
     

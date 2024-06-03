@@ -328,8 +328,6 @@ open class KeFuViewController: UIViewController{
         // lib.sendMessageImage(url: "https://www.bing.com/th?id=OHR.SunriseCastle_ROW9509100997_1920x1080.jpg&rf=LaDigue_1920x1080.jpg")
         lib.sendMessage(msg: url, type: .msgImg, consultId: consultId)
         if let cMsg = lib.sendingMsg {
-//                print(WTimeConvertUtil.displayLocalTime(from: Double(cMsg.msgTime.seconds)))
-//                print(WTimeConvertUtil.displayLocalTime(from: cMsg.msgTime.date))
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
         }
     }
