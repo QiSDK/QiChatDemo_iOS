@@ -36,8 +36,8 @@ extension KeFuViewController: teneasySDKDelegate {
             if msg.msgOp == .msgOpEdit{
                 if let index = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.msgID }) {
                        // Update the content of the found ChatModel
-                    datasouceArray[index].message?.content.data = msg.content.data
-                       
+                    //datasouceArray[index].message?.content.data = msg.content.data
+                    datasouceArray[index].message = msg
                        // Print a confirmation message
                        print("消息内容更新了")
                        
@@ -102,16 +102,39 @@ extension KeFuViewController: teneasySDKDelegate {
                 datasouceArray[index!].sendStatus = .发送失败
                 print("状态更新 -> 发送失败")
             } else {
+                
+                if (msg.replyMsgID > 0){
+                    if let x = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.replyMsgID }) {
+                        // Update the content of the found ChatModel
+                        //datasouceArray[index].message?.content.data = msg.content.data
+                        let model = datasouceArray[x]
+                        let txt = (model.message?.content.data ?? "")
+                        var referMsg = "回复：\(txt)"
+                        if !(model.message?.video.uri ?? "").isEmpty {
+                            referMsg = "回复：[视频]"
+                        }else if !(model.message?.image.uri ?? "").isEmpty {
+                            referMsg = "回复：[图片]"
+                        }
+                        let newText = "\(msg.content.data)\n\(referMsg)"
+                        
+                        datasouceArray[index!].message?.content.data = newText
+                    }
+                }else{
+                    datasouceArray[index!].message = msg
+                }
                 datasouceArray[index!].sendStatus = .发送成功
-                datasouceArray[index!].message = msg
+
                 print("状态更新\(msg.msgID) -> 发送成功")
             }
             
-            UIView.performWithoutAnimation {
+           /* UIView.performWithoutAnimation {
                 let loc = tableView.contentOffset
                 tableView.reloadRows(at: [IndexPath(row: index!, section: 0)], with: UITableView.RowAnimation.none)
                 tableView.contentOffset = loc
             }
+            */
+            
+            tableView.reloadData()
         }
     }
 

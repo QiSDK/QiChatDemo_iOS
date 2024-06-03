@@ -303,12 +303,16 @@ open class KeFuViewController: UIViewController{
         if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
                 if !msg.image.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: 0)//msg.msgID 暂时放0
+                    //lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: 0)//msg.msgID 暂时放0
+                    
+                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
                 }else if !msg.video.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg + "\n 回复：视频", type: .msgText, consultId: consultId, replyMsgId: 0)
+                    lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0) //+ "\n 回复：视频"
                 }else{
                     let txt = msg.content.data.components(separatedBy: "回复：")[0]
-                    lib.sendMessage(msg: textMsg + "\n 回复：" + txt.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), type: .msgText, consultId: consultId, replyMsgId: 0)
+                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
+                    
+                    //+ "\n 回复：" + txt.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 }
             }
             //replyBar.removeFromSuperview()
