@@ -33,11 +33,33 @@ extension KeFuViewController: teneasySDKDelegate {
             self.view.makeToast("其他客服有新消息！")
         }else{
             
-            if msg.replyMsgID > 0{
+            if msg.msgOp == .msgOpEdit{
+                if let index = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.msgID }) {
+                       // Update the content of the found ChatModel
+                    datasouceArray[index].message?.content.data = msg.content.data
+                       
+                       // Print a confirmation message
+                       print("消息内容更新了")
+                       
+                       // Reload the table view to reflect the changes
+                       //tableView.reloadData()
+                    
+                    UIView.performWithoutAnimation {
+                        let loc = tableView.contentOffset
+                        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableView.RowAnimation.none)
+                        tableView.contentOffset = loc
+                    }
+                    
+                   } else {
+                       // Print an error message if no matching ChatModel is found
+                       print("未找到匹配的消息ID")
+                   }
+            }
+            else if msg.replyMsgID > 0{
                 let model = datasouceArray.first { ChatModel in
                     ChatModel.message?.msgID == msg.replyMsgID
                 }
-                var txt = (model?.message?.content.data ?? "")
+                let txt = (model?.message?.content.data ?? "")
                 var referMsg = "回复：\(txt)"
                 if !(model?.message?.video.uri ?? "").isEmpty {
                     referMsg = "回复：[视频]"
@@ -108,7 +130,7 @@ extension KeFuViewController: teneasySDKDelegate {
     //SDK里面遇到的错误，会从这个回调告诉前端
     public func systemMsg(result: TeneasyChatSDK_iOS.Result) {
         print("systemMsg")
-        print("\(result.Message) Code:\(result.Message)")
+        print("\(result.Message) Code:\(result.Code)")
          if(result.Code >= 1000 && result.Code <= 1010){
              isConnected = false
              //1002是在别处登录了，1010是无效的Token

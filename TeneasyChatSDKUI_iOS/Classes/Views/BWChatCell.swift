@@ -121,7 +121,7 @@ class BWChatCell: UITableViewCell {
                 self.titleLab.attributedText = atttext
             } else {
                 self.titleLab.text = msg.content.data
-                // print("message text:" + (msg.content.data))
+                 print("message text:" + (msg.content.data))
             }
         }
     }
