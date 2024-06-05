@@ -56,19 +56,22 @@ extension KeFuViewController: teneasySDKDelegate {
                    }
             }
             else if msg.replyMsgID > 0{
-                let model = datasouceArray.first { ChatModel in
+                if let model = datasouceArray.first(where: { ChatModel in
                     ChatModel.message?.msgID == msg.replyMsgID
+                }){
+                    let txt = model.message?.content.data.components(separatedBy: "回复：")[0]
+                    var referMsg = "回复：\(txt ?? "")"
+                    if !(model.message?.video.uri ?? "").isEmpty {
+                        referMsg = "回复：[视频]"
+                    }else if !(model.message?.image.uri ?? "").isEmpty {
+                        referMsg = "回复：[图片]"
+                    }
+                    let newText = "\(msg.content.data)\n\(referMsg)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
+                    appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text)
+                }else{
+                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Text)
                 }
-                let txt = (model?.message?.content.data ?? "")
-                var referMsg = "回复：\(txt)"
-                if !(model?.message?.video.uri ?? "").isEmpty {
-                    referMsg = "回复：[视频]"
-                }else if !(model?.message?.image.uri ?? "").isEmpty {
-                    referMsg = "回复：[图片]"
-                }
-                let newText = "\(msg.content.data)\n\(referMsg)"
-                let newMsg = composeALocalTxtMessage(textMsg: newText)
-                appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text)
             }else{
                 
                 //如果是视频消息，cellType是TYPE_VIDEO
@@ -102,14 +105,17 @@ extension KeFuViewController: teneasySDKDelegate {
                 datasouceArray[index!].sendStatus = .发送失败
                 print("状态更新 -> 发送失败")
             } else {
-                
+                datasouceArray[index!].message = msg
+                datasouceArray[index!].sendStatus = .发送成功
                 if (msg.replyMsgID > 0){
                     if let x = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.replyMsgID }) {
                         // Update the content of the found ChatModel
                         //datasouceArray[index].message?.content.data = msg.content.data
                         let model = datasouceArray[x]
-                        let txt = (model.message?.content.data ?? "")
-                        var referMsg = "回复：\(txt)"
+                        //let txt = (model.message?.content.data ?? "")
+                        let txt = model.message?.content.data.components(separatedBy: "回复：")[0]
+                        
+                        var referMsg = "回复：\(txt ?? "")"
                         if !(model.message?.video.uri ?? "").isEmpty {
                             referMsg = "回复：[视频]"
                         }else if !(model.message?.image.uri ?? "").isEmpty {
@@ -117,13 +123,10 @@ extension KeFuViewController: teneasySDKDelegate {
                         }
                         let newText = "\(msg.content.data)\n\(referMsg)"
                         
-                        datasouceArray[index!].message?.content.data = newText
+                     
+                        datasouceArray[index!].message?.content.data = newText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     }
-                }else{
-                    datasouceArray[index!].message = msg
                 }
-                datasouceArray[index!].sendStatus = .发送成功
-
                 print("状态更新\(msg.msgID) -> 发送成功")
             }
             

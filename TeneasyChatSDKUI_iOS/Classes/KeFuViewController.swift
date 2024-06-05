@@ -309,7 +309,7 @@ open class KeFuViewController: UIViewController{
                 }else if !msg.video.uri.isEmpty{
                     lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0) //+ "\n 回复：视频"
                 }else{
-                    let txt = msg.content.data.components(separatedBy: "回复：")[0]
+                    //let txt = msg.content.data.components(separatedBy: "回复：")[0]
                     lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
                     
                     //+ "\n 回复：" + txt.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -459,9 +459,12 @@ open class KeFuViewController: UIViewController{
                     if filePath.lengthOfBytes(using: .utf8) > 100{
                         WWProgressHUD.showFailure("服务器返回了错误路径！")
                         return
+                    }else if filePath.contains("无效"){
+                        WWProgressHUD.showFailure("无效的文件类型")
+                        return
                     }
-                    
-                    if filePath.contains(".png") || filePath.contains(".jpg"){
+
+                    if filePath.contains(".png") || filePath.contains(".tiff") || filePath.contains(".gif") || filePath.contains(".tif") || filePath.contains(".jpg") || filePath.contains(".jpeg"){
                         self.sendImage(url: path ?? "")
                     }else{
                         self.sendVideo(url: path ?? "")
