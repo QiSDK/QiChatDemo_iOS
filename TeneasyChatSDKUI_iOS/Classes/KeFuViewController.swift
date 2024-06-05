@@ -300,6 +300,7 @@ open class KeFuViewController: UIViewController{
     }
 
     func updateWorker(workerName:String, avatar: String){
+        self.workerName = workerName
         self.headerTitle.text = "客服\(workerName)"
         print("baseUrlImage:" + baseUrlImage)
         let url = baseUrlImage + avatar

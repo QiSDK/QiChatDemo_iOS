@@ -56,10 +56,11 @@ class BWChatQACell: UITableViewCell {
                 self.question = model
                 if model?.autoReplyItem == nil{
                     self.isHidden = true
+                    print("自动回复为空")
                 }else{
                     if let autoReplyItem = model?.autoReplyItem {
                         self.isHidden = false
-                        print("--------" + (autoReplyItem.name ?? ""))
+                        print("获取到自动回复：" + (autoReplyItem.name ?? ""))
                         self.questionView.setup(model: model!)
                     }
                 }
