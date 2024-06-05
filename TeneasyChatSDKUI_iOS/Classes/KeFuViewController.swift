@@ -233,8 +233,11 @@ open class KeFuViewController: UIViewController{
     }
     
     func buildHistory(history: HistoryModel){
-        guard let historyList = history.list?.reversed() else { return } //获取自动回复后return
-        print("获取历史记录")
+        //guard let historyList = history.list?.reversed() else { return } //获取自动回复后return
+        datasouceArray.removeAll()
+        if let historyList = history.list?.reversed(){
+            print("获取历史记录")
+          
             for item in historyList {
                 var isLeft = true
                 if (item.sender == item.chatId){
@@ -268,12 +271,16 @@ open class KeFuViewController: UIViewController{
                     datasouceArray.append(chatModel)
                 }
             }
-        
+        }
         
         if isFirstLoad{
+            //打招呼
             isFirstLoad = false
             let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
             appendDataSource(msg: greetingMsg, isLeft: true)
+            print("第一次打招呼")
+            
+            //自动回复的Cell
             let chatModel = ChatModel()
             chatModel.isLeft = true
             chatModel.message = composeALocalTxtMessage(textMsg:  "no txt")
@@ -281,8 +288,11 @@ open class KeFuViewController: UIViewController{
             chatModel.cellType = .TYPE_QA
             datasouceArray.append(chatModel)
         }else{
-            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
+            //服务器会自动生成这个，所以不用
+            /*let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
             appendDataSource(msg: greetingMsg, isLeft: true, cellType: .TYPE_Tip)
+            print("打Tip招呼")
+             */
         }
         
         tableView.reloadData()

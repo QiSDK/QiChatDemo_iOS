@@ -144,13 +144,17 @@ extension KeFuViewController: teneasySDKDelegate {
     //客服更换后，这个函数会被回调，并及时更新客服信息
     public func workChanged(msg: Gateway_SCWorkerChanged) {
         consultId = msg.consultID
-        workerId = msg.workerID
-        print(msg.workerName)
-        NetworkUtil.getHistory(consultId: Int32(self.consultId )) { success, data in
-          //构建历史消息
-            self.buildHistory(history:  data ?? HistoryModel())
+  
+        if msg.workerID != workerId{
+            print(msg.workerName)
+            print("客服更换了\(Date())")
+            workerId = msg.workerID
+            NetworkUtil.getHistory(consultId: Int32(self.consultId )) { success, data in
+                //构建历史消息
+                self.buildHistory(history:  data ?? HistoryModel())
+            }
+            updateWorker(workerName: msg.workerName, avatar: msg.workerAvatar)
         }
-        updateWorker(workerName: msg.workerName, avatar: msg.workerAvatar)
     }
     
     //SDK里面遇到的错误，会从这个回调告诉前端
@@ -181,12 +185,12 @@ extension KeFuViewController: teneasySDKDelegate {
             WWProgressHUD.showLoading("连接中...")
         }
         
-         print("连接成功：token:\(xToken)assign work")
+         print("连接成功：token:\(xToken) 分配客服")
         
         //SDK连接成功之后，分配客服
         NetworkUtil.assignWorker(consultId: Int32(self.consultId)) { [weak self]success, model in
              if success {
-                 print("assign work 成功, Worker Id：\(model?.workerId ?? 0)")
+                 print("分配客服成功\(Date()), Worker Id：\(model?.workerId ?? 0)")
                  if f == false{
                      WWProgressHUD.dismiss()
                      return
@@ -218,10 +222,9 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.payload = .content(content)
         msg.worker = 0
         if timeInS == nil{
-            msg.msgTime.seconds = Int64(Date().timeIntervalSince1970)
+            msg.msgTime = intervalToTimeStamp(timeInterval: Date().timeIntervalSince1970)
         }else{
-           //2024-05-23T08:52:25.417927678Z
-            msg.msgTime.seconds = Int64(stringToDate(datStr: timeInS!, format: serverTimeFormat).timeIntervalSince1970)
+            msg.msgTime = stringToTimeStamp(datStr: timeInS!)
         }
         
         return msg
@@ -244,14 +247,14 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.payload = .image(content)
         msg.worker = 0
         if timeInS == nil{
-            msg.msgTime.seconds = Int64(Date().timeIntervalSince1970)
+            msg.msgTime = intervalToTimeStamp(timeInterval: Date().timeIntervalSince1970)
         }else{
-           //2024-05-23T08:52:25.417927678Z
-            msg.msgTime.seconds = Int64(stringToDate(datStr: timeInS!, format: serverTimeFormat).timeIntervalSince1970)
+            msg.msgTime = stringToTimeStamp(datStr: timeInS!)
         }
         
         return msg
     }
+    
     
     //产生一个本地视频消息
     func composeALocalVideoMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
@@ -270,10 +273,9 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.payload = .video(content)
         msg.worker = 0
         if timeInS == nil{
-            msg.msgTime.seconds = Int64(Date().timeIntervalSince1970)
+            msg.msgTime = intervalToTimeStamp(timeInterval: Date().timeIntervalSince1970)
         }else{
-           //2024-05-23T08:52:25.417927678Z
-            msg.msgTime.seconds = Int64(stringToDate(datStr: timeInS!, format: serverTimeFormat).timeIntervalSince1970)
+            msg.msgTime = stringToTimeStamp(datStr: timeInS!)
         }
         
         return msg

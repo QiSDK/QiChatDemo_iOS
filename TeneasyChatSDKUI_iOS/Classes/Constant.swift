@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftProtobuf
 
 let PARAM_USER_ID = "USER_ID"
 let PARAM_CERT = "CERT"
@@ -88,6 +89,21 @@ func stringToDate(datStr: String, format: String) -> Date{
        return date
    }
     return Date()
+}
+
+func stringToTimeStamp(datStr: String) -> Google_Protobuf_Timestamp{
+    let date = stringToDate(datStr: datStr, format: serverTimeFormat)
+    
+    let localDate = WTimeConvertUtil.converDateToSystemZoneDate(convertDate:date)
+    return intervalToTimeStamp(timeInterval: localDate.timeIntervalSince1970)
+}
+
+func intervalToTimeStamp(timeInterval: TimeInterval) -> Google_Protobuf_Timestamp{
+    // Convert TimeInterval to Google_Protobuf_Timestamp
+    var timestamp = Google_Protobuf_Timestamp()
+    timestamp.seconds = Int64(timeInterval)
+    timestamp.nanos = Int32((timeInterval - Double(Int64(timeInterval))) * 1_000_000_000)
+    return timestamp
 }
 
 // Function to delay execution

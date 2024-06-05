@@ -93,7 +93,7 @@ class WTimeConvertUtil: NSObject {
         }
     }
     
-    /*
+
      static func converDateToSystemZoneDate(convertDate:Date) -> Date{
          let date = convertDate // 获得时间对象
          let zone = NSTimeZone.system // 获得系统的时区
@@ -121,7 +121,7 @@ class WTimeConvertUtil: NSObject {
 
          return dateString
      }
-      */
+      
 }
 
 extension Date {

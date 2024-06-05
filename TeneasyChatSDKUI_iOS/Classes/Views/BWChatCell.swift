@@ -102,8 +102,6 @@ class BWChatCell: UITableViewCell {
                 return
             }
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
-         
-            //self.timeLab.text = WTimeConvertUtil.displayLocalTime(from: msg.msgTime.date)
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
        
             if msg.image.uri.isEmpty == false {
@@ -122,7 +120,7 @@ class BWChatCell: UITableViewCell {
                 self.titleLab.attributedText = atttext
             } else {
                 self.titleLab.text = msg.content.data
-                 print("message text:" + (msg.content.data))
+                //print("message text:" + (msg.content.data))
             }
         }
     }
