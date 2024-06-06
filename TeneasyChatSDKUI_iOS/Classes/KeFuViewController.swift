@@ -237,6 +237,8 @@ open class KeFuViewController: UIViewController{
         datasouceArray.removeAll()
         if let historyList = history.list?.reversed(){
             print("获取历史记录")
+            
+             let replyList = history.replyList
           
             for item in historyList {
                 var isLeft = true
@@ -257,6 +259,25 @@ open class KeFuViewController: UIViewController{
                     chatModel.cellType = .TYPE_Tip
                     chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
+                }
+               
+                let replyMsgId = Int64(item.replyMsgId ?? "0") ?? 0
+                
+                if replyMsgId > 0{
+                    var replyText = item.content?.data ?? "no txt"
+                    let oriMsg = replyList?.first(where: { Message in
+                        Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
+                    })
+                    
+                    if oriMsg != nil{
+                        if oriMsg?.msgFmt == "MSG_TEXT"{
+                            replyText = "\(replyText)\n\(oriMsg!.content?.data ?? "")"
+                        }else if(oriMsg?.msgFmt == "MSG_IMG"){
+                            replyText = "\(replyText)\n回复：[图片]"
+                        }else if(oriMsg?.msgFmt == "MSG_VIDEO"){
+                            replyText = "\(replyText)\n回复：[视频]"
+                        }
+                    }
                 }
                 else if item.msgFmt == "MSG_TEXT"{
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId)
@@ -314,16 +335,11 @@ open class KeFuViewController: UIViewController{
         if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
                 if !msg.image.uri.isEmpty{
-                    //lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: 0)//msg.msgID 暂时放0
-                    
                     lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
                 }else if !msg.video.uri.isEmpty{
                     lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0) //+ "\n 回复：视频"
                 }else{
-                    //let txt = msg.content.data.components(separatedBy: "回复：")[0]
                     lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
-                    
-                    //+ "\n 回复：" + txt.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 }
             }
             //replyBar.removeFromSuperview()

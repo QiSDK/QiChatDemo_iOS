@@ -10,6 +10,7 @@ import HandyJSON
 struct HistoryModel: HandyJSON {
     var request: RequestData?
     var list: [Message]?
+    var replyList: [Message]?
     var lastMsgId: String?
     var nick: String?
 }
