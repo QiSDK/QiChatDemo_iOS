@@ -255,11 +255,7 @@ open class KeFuViewController: UIViewController{
                 let chatModel = ChatModel()
                 chatModel.isLeft = isLeft
                 chatModel.sendStatus = .发送成功
-                if item.workerChanged != nil{
-                    chatModel.cellType = .TYPE_Tip
-                    chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
-                    datasouceArray.append(chatModel)
-                }
+               
                
                 let replyMsgId = Int64(item.replyMsgId ?? "0") ?? 0
                 
@@ -271,13 +267,20 @@ open class KeFuViewController: UIViewController{
                     
                     if oriMsg != nil{
                         if oriMsg?.msgFmt == "MSG_TEXT"{
-                            replyText = "\(replyText)\n\(oriMsg!.content?.data ?? "")"
+                            replyText = "\(replyText)\n回复：\(oriMsg!.content?.data ?? "")"
                         }else if(oriMsg?.msgFmt == "MSG_IMG"){
                             replyText = "\(replyText)\n回复：[图片]"
                         }else if(oriMsg?.msgFmt == "MSG_VIDEO"){
                             replyText = "\(replyText)\n回复：[视频]"
                         }
                     }
+                    chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId)
+                    datasouceArray.append(chatModel)
+                }
+                else if item.workerChanged != nil{
+                    chatModel.cellType = .TYPE_Tip
+                    chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
+                    datasouceArray.append(chatModel)
                 }
                 else if item.msgFmt == "MSG_TEXT"{
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId)
