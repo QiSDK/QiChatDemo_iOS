@@ -282,25 +282,6 @@ open class KeFuViewController: UIViewController{
                     chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }
-               
-                let replyMsgId = Int64(item.replyMsgId ?? "0") ?? 0
-                
-                if replyMsgId > 0{
-                    var replyText = item.content?.data ?? "no txt"
-                    let oriMsg = replyList?.first(where: { Message in
-                        Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
-                    })
-                    
-                    if oriMsg != nil{
-                        if oriMsg?.msgFmt == "MSG_TEXT"{
-                            replyText = "\(replyText)\n\(oriMsg!.content?.data ?? "")"
-                        }else if(oriMsg?.msgFmt == "MSG_IMG"){
-                            replyText = "\(replyText)\n回复：[图片]"
-                        }else if(oriMsg?.msgFmt == "MSG_VIDEO"){
-                            replyText = "\(replyText)\n回复：[视频]"
-                        }
-                    }
-                }
                 else if item.msgFmt == "MSG_TEXT"{
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
