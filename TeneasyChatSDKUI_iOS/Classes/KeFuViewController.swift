@@ -237,6 +237,8 @@ open class KeFuViewController: UIViewController{
         datasouceArray.removeAll()
         if let historyList = history.list?.reversed(){
             print("获取历史记录")
+            
+             let replyList = history.replyList
           
             for item in historyList {
                 var isLeft = true
@@ -257,6 +259,25 @@ open class KeFuViewController: UIViewController{
                     chatModel.cellType = .TYPE_Tip
                     chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
+                }
+               
+                let replyMsgId = Int64(item.replyMsgId ?? "0") ?? 0
+                
+                if replyMsgId > 0{
+                    var replyText = item.content?.data ?? "no txt"
+                    let oriMsg = replyList?.first(where: { Message in
+                        Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
+                    })
+                    
+                    if oriMsg != nil{
+                        if oriMsg?.msgFmt == "MSG_TEXT"{
+                            replyText = "\(replyText)\n\(oriMsg!.content?.data ?? "")"
+                        }else if(oriMsg?.msgFmt == "MSG_IMG"){
+                            replyText = "\(replyText)\n回复：[图片]"
+                        }else if(oriMsg?.msgFmt == "MSG_VIDEO"){
+                            replyText = "\(replyText)\n回复：[视频]"
+                        }
+                    }
                 }
                 else if item.msgFmt == "MSG_TEXT"{
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId)
@@ -314,16 +335,11 @@ open class KeFuViewController: UIViewController{
         if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
                 if !msg.image.uri.isEmpty{
-                    //lib.sendMessage(msg: textMsg + "\n 回复：图片", type: .msgText, consultId: consultId, replyMsgId: 0)//msg.msgID 暂时放0
-                    
                     lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
                 }else if !msg.video.uri.isEmpty{
                     lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0) //+ "\n 回复：视频"
                 }else{
-                    //let txt = msg.content.data.components(separatedBy: "回复：")[0]
                     lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
-                    
-                    //+ "\n 回复：" + txt.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 }
             }
             //replyBar.removeFromSuperview()
@@ -416,7 +432,7 @@ open class KeFuViewController: UIViewController{
     func upload(imgData: Data, isVideo: Bool) {
         WWProgressHUD.showLoading("正在上传...")
         // Set Your URL
-        let api_url = baseUrlApi + "/v1/assets/upload/"
+        let api_url = baseUrlApi + "/v1/assets/upload-v3"
         guard let url = URL(string: api_url) else {
             return
         }
@@ -462,26 +478,38 @@ open class KeFuViewController: UIViewController{
             WWProgressHUD.dismiss()
             switch data.result {
             case .success:
-                if let filePath = data.data {
-                    let path = String(data: filePath, encoding: String.Encoding.utf8)
+                if let resData = data.data {
+                    //let path = String(data: resData, encoding: String.Encoding.utf8)
                     //let imgUrl = baseUrlImage + (path ?? "")
-                    let filePath = (path ?? "")
+                    //let filePath = (path ?? "")
+                    //print(filePath)
                     
-                    if filePath.lengthOfBytes(using: .utf8) > 100{
-                        WWProgressHUD.showFailure("服务器返回了错误路径！")
-                        return
-                    }else if filePath.contains("无效"){
-                        WWProgressHUD.showFailure("无效的文件类型")
+                    //{"code":200,"message":"success","data":{"filepath":"/session/20240618/230/666665/ASSET_KIND_SESSION/file.js"}}
+                    //UploadResult
+                    
+                    let UploadResult = try? JSONDecoder().decode(UploadResult.self, from: resData)
+                    
+                    
+                    if UploadResult?.code != 200 && UploadResult?.code != 0 {
+                        WWProgressHUD.showFailure(UploadResult?.message)
                         return
                     }
+                    
+                    print(UploadResult?.data.filepath ?? "filePath is null")
 
-                    if filePath.contains(".png") || filePath.contains(".tiff") || filePath.contains(".gif") || filePath.contains(".tif") || filePath.contains(".jpg") || filePath.contains(".jpeg"){
+                    /*if filePath.contains(".png") || filePath.contains(".tiff") || filePath.contains(".gif") || filePath.contains(".tif") || filePath.contains(".jpg") || filePath.contains(".jpeg"){
                         self.sendImage(url: path ?? "")
                     }else{
                         self.sendVideo(url: path ?? "")
+                    }*/
+                    
+                    if !isVideo{
+                        self.sendImage(url: UploadResult?.data.filepath ?? "")
+                    }else{
+                        self.sendVideo(url: UploadResult?.data.filepath ?? "")
                     }
                    
-                    print(filePath)
+                    
                    
                 } else {
                     print("图片上传失败：")

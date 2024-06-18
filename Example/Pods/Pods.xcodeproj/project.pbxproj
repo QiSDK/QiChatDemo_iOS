@@ -701,6 +701,7 @@
 		DB95FC7917F42F8F91EEB90701C39A10 /* tenant_group.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390698E0F4E2070486E8F1CF5469C42 /* tenant_group.pb.swift */; };
 		DBC47B5C09C1B3718F0EF14108A564D6 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8866E88C78E996511E54234D38AF12 /* MathUtils.swift */; };
 		DBD8CAC6D6C91267F648D551A1895896 /* Google_Protobuf_Any+Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21612F73BC79781F70DDE080F3DE9EAD /* Google_Protobuf_Any+Registry.swift */; };
+		DC138D192C21E26A007041AF /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC138D182C21E26A007041AF /* UploadResult.swift */; };
 		DC802F542C096AB10017AECE /* emoticon in Resources */ = {isa = PBXBuildFile; fileRef = DC802F532C096AB10017AECE /* emoticon */; };
 		DC947AB67CEEC97C80F9940F25408539 /* sentry.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8233AF4831B122FC932A32CCE0637775 /* sentry.pb.swift */; };
 		DCD0C33A2B50811D53CF68F021284B47 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBB154A2D51E25C9911AA17F2B8FA4 /* DispatchQueue+Alamofire.swift */; };
@@ -1846,6 +1847,7 @@
 		DAE79B490807E27DB777FFCB0375B8A5 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		DB57D9E32DED9917AAE31B5E12ACC6E4 /* URLTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLTransform.swift; path = Source/URLTransform.swift; sourceTree = "<group>"; };
 		DBE6887B1F915BA1873EA8428E756B05 /* IQBarButtonItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQBarButtonItem.swift; path = IQKeyboardManagerSwift/IQToolbar/IQBarButtonItem.swift; sourceTree = "<group>"; };
+		DC138D182C21E26A007041AF /* UploadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadResult.swift; sourceTree = "<group>"; };
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDKUI_iOS; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC7B774C6EE950DE8A6516E34AD9C2A3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DC802F532C096AB10017AECE /* emoticon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = emoticon; path = TeneasyChatSDKUI_iOS/Assets/emoticon; sourceTree = "<group>"; };
@@ -2692,6 +2694,7 @@
 		8440F281A3A3945F31EE7D5381EC1950 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC138D182C21E26A007041AF /* UploadResult.swift */,
 				EB2B1DA03DEB80662A6BC61B9710ACBC /* AssignWorker.swift */,
 				20CD486625A9D206D186D0C4A5994CFB /* BaseRequestResult.swift */,
 				06D5FEDB976FFCF864FE9BC18BA72BCB /* BEmotion.swift */,
@@ -4887,6 +4890,7 @@
 				24274D16892C960A654C08DC59BE7FB3 /* EntranceModel.swift in Sources */,
 				2EBCE493AD2720F4DF99C0C6120744FD /* HistoryModel.swift in Sources */,
 				B93DF77312570A08F75AD3DE013853D5 /* KeFuVideoPlayerViewController.swift in Sources */,
+				DC138D192C21E26A007041AF /* UploadResult.swift in Sources */,
 				C0C168CEC6BB500BD3498EF2CDAB8AF5 /* KeFuViewController.swift in Sources */,
 				BD6B4976713DA1784FD2FFD8ACF47949 /* KeFuViewController_ChatSDK.swift in Sources */,
 				FCD6054A0B8E322462358B61691BBD34 /* KeFuViewController_ChatToolBar.swift in Sources */,
