@@ -12,14 +12,36 @@ extension KeFuViewController: BWKeFuChatToolBarV2Delegate {
     
     /// 点击发送或者图片
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedPhoto btn: UIButton) {
-        if btn.titleLabel?.text == "发送" {
-            sendMsg(textMsg: toolBar.textView.normalText())
-            //sendMsg(textMsg: toolBar.textView.text)
-        } else {
-            // 选图片
-            chooseImgFunc()
+        self.authorize { state in
+            if state == .restricted || state == .denied {
+                self.presentNoauth(isPhoto: true)
+            } else {
+                self.presentImagePicker(controller: self.imagePickerController ?? UIImagePickerController(), source: .photoLibrary)
+            }
         }
         self.toolBar.resetStatus()
+    }
+
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedCamera btn: UIButton) {
+        self.authorizeCamaro { state in
+            if state == .restricted || state == .denied {
+                DispatchQueue.main.async {
+                    self.presentNoauth(isPhoto: false)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.presentImagePicker(controller: self.imagePickerController, source: .camera)
+                }
+            }
+        }
+        self.toolBar.resetStatus()
+    }
+
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSendMsg btn: UIButton) {
+        if toolBar.textView.normalText().isEmpty == false {
+            sendMsg(textMsg: toolBar.textView.normalText())
+            self.toolBar.resetStatus()
+        }
     }
     
     func chooseImgFunc() {

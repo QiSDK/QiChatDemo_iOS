@@ -8,8 +8,8 @@
 
 import AVFoundation
 import Kingfisher
-import UIKit
 import SnapKit
+import UIKit
 
 typealias BWChatCellLongGestCallBack = (UILongPressGestureRecognizer) -> ()
 
@@ -36,11 +36,16 @@ class BWChatCell: UITableViewCell {
     lazy var titleLab: BWLabel = {
         let lab = BWLabel()
         lab.font = UIFont.systemFont(ofSize: 15)
-        lab.textColor = .black
+        lab.textColor = .white
         lab.numberOfLines = 1000
-        lab.textInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        lab.textInsets = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
         lab.preferredMaxLayoutWidth = kScreenWidth - 100
         return lab
+    }()
+    
+    lazy var contentBgView: UIImageView = {
+        let img = UIImageView()
+        return img
     }()
 
     lazy var blackBackgroundView: UIView = {
@@ -50,10 +55,23 @@ class BWChatCell: UITableViewCell {
         return blackBackgroundView
     }()
     
+    lazy var iconView: UIImageView = {
+        let img = UIImageView()
+        img.layer.cornerRadius = iconWidth * 0.5
+        img.layer.masksToBounds = true
+        return img
+    }()
+    lazy var arrowView: UIImageView = {
+        let img = UIImageView()
+        return img
+    }()
+    
     lazy var failedDotView: UIImageView = {
         let v = UIImageView()
         return v
     }()
+    
+    var iconWidth = 44.0
     
     var leftConstraint: Constraint?
     var rightConstraint: Constraint?
@@ -72,18 +90,20 @@ class BWChatCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
-                
+        
+        self.contentView.addSubview(self.contentBgView)
+        self.contentView.addSubview(self.arrowView)
+        self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
         self.contentView.addSubview(self.titleLab)
         self.contentView.addSubview(self.imgView)
         self.imgView.backgroundColor = UIColor.black
         self.imgView.contentMode = .scaleAspectFit
         self.imgView.snp.makeConstraints { make in
-            
             self.leftConstraint = make.left.equalToSuperview().offset(12).constraint
             self.rightConstraint = make.right.equalToSuperview().offset(-12).constraint
-            //make.left.equalToSuperview().offset(12)
-            //make.right.equalToSuperview().offset(-12)
+            // make.left.equalToSuperview().offset(12)
+            // make.right.equalToSuperview().offset(-12)
             make.width.equalTo(kScreenWidth - 12 - 80)
             make.top.equalTo(self.timeLab.snp.bottom)
             make.height.equalTo(160)
@@ -120,7 +140,13 @@ class BWChatCell: UITableViewCell {
                 self.titleLab.attributedText = atttext
             } else {
                 self.titleLab.text = msg.content.data
-                //print("message text:" + (msg.content.data))
+                // print("message text:" + (msg.content.data))
+                let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+                let size = self.titleLab.sizeThatFits(maxSize)
+                self.contentBgView.snp.updateConstraints { make in
+                    make.width.equalTo(size.width)
+                    make.height.equalTo(size.height)
+                }
             }
         }
     }
@@ -130,7 +156,6 @@ class BWChatCell: UITableViewCell {
         self.titleLab.isHidden = true
         self.imgView.isHidden = false
     }
-
 
     func initTitle() {
         self.titleLab.isHidden = false
@@ -180,22 +205,44 @@ class BWChatCell: UITableViewCell {
 class BWChatLeftCell: BWChatCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.titleLab.backgroundColor = .white
+//        self.titleLab.backgroundColor = .white
+        self.titleLab.textColor = .black
+        self.iconView.image = UIImage.svgInit("icon_server_def2")
+        self.iconView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(20)
+            make.width.height.equalTo(iconWidth)
+        }
 
         self.timeLab.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
-            make.top.equalToSuperview().offset(12)
+            make.left.equalTo(self.iconView.snp.right).offset(16)
+            make.top.equalToSuperview().offset(5)
             make.right.equalToSuperview().offset(-12)
             make.height.equalTo(20)
         }
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom)
-            make.left.equalToSuperview().offset(12)
+            make.top.equalTo(self.timeLab.snp.bottom).offset(8)
+            make.left.equalTo(self.timeLab.snp.left)
             make.bottom.equalToSuperview()
         }
         rightConstraint?.deactivate()
         self.imgView.snp.updateConstraints { make in
             make.left.equalToSuperview().offset(12)
+        }
+        let image = UIImage.svgInit("left_chat_bg")//UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
+        let insets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
+        self.contentBgView.snp.makeConstraints { make in
+            make.left.equalTo(self.titleLab.snp.left)
+            make.top.equalTo(self.titleLab.snp.top)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
+        }
+        self.arrowView.image = UIImage.svgInit("ic_left_point")
+        self.arrowView.snp.makeConstraints { make in
+            make.right.equalTo(self.contentBgView.snp.left)
+            make.top.equalTo(self.contentBgView.snp.top).offset(8)
         }
     }
     
@@ -217,24 +264,27 @@ class BWChatRightCell: BWChatCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.titleLab.backgroundColor = UIColor(red: 253/255, green: 230/255, blue: 89/255, alpha: 1)
+        self.iconView.image = UIImage.svgInit("icon_server_def2")
 
-        self.timeLab.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
+        self.iconView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-12)
+            make.top.equalToSuperview().offset(20)
+            make.width.height.equalTo(iconWidth)
+        }
+        self.timeLab.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.right.equalTo(self.iconView.snp.left).offset(-16)
             make.height.equalTo(20)
         }
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
-            make.right.equalToSuperview().offset(-12)
+            make.right.equalTo(self.timeLab.snp.right)
             make.bottom.equalToSuperview()
         }
         
         // Remove the left constraint
-               leftConstraint?.deactivate()
+        leftConstraint?.deactivate()
                 
-        
-   
         self.imgView.snp.updateConstraints { make in
             make.right.equalToSuperview().offset(-12)
         }
@@ -243,6 +293,22 @@ class BWChatRightCell: BWChatCell {
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.right.equalTo(self.titleLab.snp.left).offset(-10)
             make.width.height.equalTo(20)
+        }
+        
+        let image = UIImage.svgInit("right_chat_bg")
+        let insets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
+        self.contentBgView.snp.makeConstraints { make in
+            make.right.equalTo(self.titleLab.snp.right)
+            make.top.equalTo(self.titleLab.snp.top)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
+        }
+        
+        self.arrowView.image = UIImage.svgInit("ic_right_point")
+        self.arrowView.snp.makeConstraints { make in
+            make.left.equalTo(self.contentBgView.snp.right)
+            make.top.equalTo(self.contentBgView.snp.top).offset(8)
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.clickErrorIcon))

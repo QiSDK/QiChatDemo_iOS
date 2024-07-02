@@ -18,6 +18,8 @@ protocol BWKeFuChatToolBarV2Delegate: AnyObject {
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedVoice btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedMenu btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedPhoto btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedCamera btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSendMsg btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedEmoji btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, sendVoice gesture: UILongPressGestureRecognizer)
     func toolBar(toolBar: BWKeFuChatToolBarV2, menuView: BWKeFuChatMenuView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion)
@@ -44,7 +46,7 @@ class BWKeFuChatToolBarV2: UIView {
     
     private lazy var photoBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("h5_zhaoping")
+        let image = UIImage.svgInit("img_box_light")
         btn.setImage(image, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         return btn
@@ -52,7 +54,7 @@ class BWKeFuChatToolBarV2: UIView {
     
     private lazy var cameraBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("h5_zhaoping")
+        let image = UIImage.svgInit("camera_light")
         btn.setImage(image, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         return btn
@@ -60,7 +62,7 @@ class BWKeFuChatToolBarV2: UIView {
 
     private lazy var emojiBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("h5_biaoqing")
+        let image = UIImage.svgInit("emoj_light")
         let selImage = UIImage.svgInit("ht_shuru")
         btn.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
         btn.setImage(selImage, for: .selected)
@@ -149,14 +151,14 @@ class BWKeFuChatToolBarV2: UIView {
             make.left.equalToSuperview().offset(10)
             make.right.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(10)
-            make.bottom.equalToSuperview().offset(-30)
+            make.bottom.equalToSuperview().offset(-44)
             make.height.equalTo(inputMinHeight)
         }
         
         addSubview(photoBtn)
         photoBtn.snp.makeConstraints { make in
             make.left.equalTo(textView.snp.left)
-            make.top.equalTo(textView.snp.bottom).offset(5)
+            make.top.equalTo(textView.snp.bottom).offset(8)
             make.width.height.equalTo(26)
         }
         addSubview(cameraBtn)
@@ -189,10 +191,14 @@ class BWKeFuChatToolBarV2: UIView {
     func initBindModel() {
         BEmotionHelper.shared.emotionArray = BEmotionHelper.getNewEmoji()
         backgroundColor = kBgColor
+        textView.backgroundColor = .white
+        placeTextField.backgroundColor = .white
         textView.addObserver(self, forKeyPath: "attributedText", options: .new, context: nil)
         textView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         
         photoBtn.addTarget(self, action: #selector(photoBtnAction(sender:)), for: UIControl.Event.touchUpInside)
+        cameraBtn.addTarget(self, action: #selector(cameraBtnAction(sender:)), for: UIControl.Event.touchUpInside)
+        sendBtn.addTarget(self, action: #selector(sendBtnAction(sender:)), for: UIControl.Event.touchUpInside)
         emojiBtn.addTarget(self, action: #selector(emojiBtnAction(sender:)), for: UIControl.Event.touchUpInside)
                 
         /// 主动调一下懒加载，提前创建好两个视图
@@ -232,6 +238,12 @@ extension BWKeFuChatToolBarV2 {
     /// 菜单
     @objc private func photoBtnAction(sender: UIButton) {
         delegate?.toolBar(toolBar: self, didSelectedPhoto: sender)
+    }
+    @objc private func cameraBtnAction(sender: UIButton) {
+        delegate?.toolBar(toolBar: self, didSelectedCamera: sender)
+    }
+    @objc private func sendBtnAction(sender: UIButton) {
+        delegate?.toolBar(toolBar: self, didSendMsg: sender)
     }
     
     /// 表情
