@@ -1,17 +1,17 @@
 
-extension KeFuViewController: BWKeFuChatToolBarDelegate {
-    func toolBar(toolBar: BWKeFuChatToolBar, didSelectedVoice btn: UIButton) {}
+extension KeFuViewController: BWKeFuChatToolBarV2Delegate {
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedVoice btn: UIButton) {}
     
-    func toolBar(toolBar: BWKeFuChatToolBar, didSelectedMenu btn: UIButton) {}
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedMenu btn: UIButton) {}
     
     /// 表情
-    func toolBar(toolBar: BWKeFuChatToolBar, didSelectedEmoji btn: UIButton) {}
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedEmoji btn: UIButton) {}
     
     /// 录音
-    func toolBar(toolBar: BWKeFuChatToolBar, sendVoice gesture: UILongPressGestureRecognizer) {}
+    func toolBar(toolBar: BWKeFuChatToolBarV2, sendVoice gesture: UILongPressGestureRecognizer) {}
     
     /// 点击发送或者图片
-    func toolBar(toolBar: BWKeFuChatToolBar, didSelectedPhoto btn: UIButton) {
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedPhoto btn: UIButton) {
         if btn.titleLabel?.text == "发送" {
             sendMsg(textMsg: toolBar.textView.normalText())
             //sendMsg(textMsg: toolBar.textView.text)
@@ -55,27 +55,27 @@ extension KeFuViewController: BWKeFuChatToolBarDelegate {
         present(alertVC, animated: true, completion: nil)
     }
     
-    func toolBar(toolBar: BWKeFuChatToolBar, menuView: BWKeFuChatMenuView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion) {
+    func toolBar(toolBar: BWKeFuChatToolBarV2, menuView: BWKeFuChatMenuView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion) {
         print(model.displayName)
     }
     
-    func toolBar(toolBar: BWKeFuChatToolBar, didBeginEditing textView: UITextView) {}
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didBeginEditing textView: UITextView) {}
     
-    func toolBar(toolBar: BWKeFuChatToolBar, didChanged textView: UITextView) {}
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didChanged textView: UITextView) {}
     
-    func toolBar(toolBar: BWKeFuChatToolBar, didEndEditing textView: UITextView) {}
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didEndEditing textView: UITextView) {}
     
     /// 发送文字
-    func toolBar(toolBar: BWKeFuChatToolBar, sendText context: String) {
+    func toolBar(toolBar: BWKeFuChatToolBarV2, sendText context: String) {
         sendMsg(textMsg: context)
         self.toolBar.resetStatus()
     }
     
-    @objc func toolBar(toolBar: BWKeFuChatToolBar, delete text: String, range: NSRange) -> Bool {
+    @objc func toolBar(toolBar: BWKeFuChatToolBarV2, delete text: String, range: NSRange) -> Bool {
         return true
     }
     
-    @objc func toolBar(toolBar: BWKeFuChatToolBar, changed text: String, range: NSRange) -> Bool {
+    @objc func toolBar(toolBar: BWKeFuChatToolBarV2, changed text: String, range: NSRange) -> Bool {
         return true
     }
 }

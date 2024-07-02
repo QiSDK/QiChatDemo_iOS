@@ -88,8 +88,8 @@ open class KeFuViewController: UIViewController{
     }()
 
     /// 输入框工具栏
-    lazy var toolBar: BWKeFuChatToolBar = {
-        let toolBar = BWKeFuChatToolBar()
+    lazy var toolBar: BWKeFuChatToolBarV2 = {
+        let toolBar = BWKeFuChatToolBarV2()
         toolBar.delegate = self
         return toolBar
     }()

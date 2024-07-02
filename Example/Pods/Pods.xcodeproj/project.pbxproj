@@ -450,6 +450,7 @@
 		873707DC936420E139DD931B8D999785 /* SVGAnimatedPreserveAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BB1555B20D62EFB29CBDE81125264 /* SVGAnimatedPreserveAspectRatio.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		8743A8BB6B0F2A5FFE48C78260554C98 /* NamedNodeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC5F096FFA80625A6F900A2229006B0 /* NamedNodeMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		885C25B31AF187A55FFF32512202C9E4 /* worker_group.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6405DE9FF90E29E767765DB398E798D7 /* worker_group.pb.swift */; };
+		888BA0782C33A8BE00BF819E /* BWKeFuChatToolBarV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888BA0772C33A8BE00BF819E /* BWKeFuChatToolBarV2.swift */; };
 		88A3FEF29C98B24B0718F0B9DD1B55B4 /* c_entry.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE006FEC8330A83B131774B40E659 /* c_entry.pb.swift */; };
 		890872E5B9DDB90EB5A6677F481C0D39 /* TextFormatEncodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28030109FB390FAF013AA9814AC4B5E6 /* TextFormatEncodingOptions.swift */; };
 		89DF2D9C5EFB02A72EC0CE2138B77F35 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EBFDC5761296A03F174049A7B6552E /* SVProgressHUD.m */; };
@@ -1565,6 +1566,7 @@
 		8837BA426EB811EF555FFCDD83C87D8A /* c_asset.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = c_asset.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/common/c_asset.pb.swift; sourceTree = "<group>"; };
 		885808A6BED2F7DDE846F32FC52BA6F4 /* Alamofire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.debug.xcconfig; sourceTree = "<group>"; };
 		8869EE7CF58D09F6D221B68DACE11257 /* SVProgressHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SVProgressHUD.release.xcconfig; sourceTree = "<group>"; };
+		888BA0772C33A8BE00BF819E /* BWKeFuChatToolBarV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BWKeFuChatToolBarV2.swift; sourceTree = "<group>"; };
 		891B2270823847ED23F2ECFC28F935EC /* Starscream */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Starscream; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		893B087FE59AD0BBF3A7BDA4F72410CE /* Document.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Document.h; path = "Source/DOM classes/Core DOM/Document.h"; sourceTree = "<group>"; };
 		895FD667C961350D91C01690E6F8DE68 /* SVGKPointsAndPathsParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKPointsAndPathsParser.h; path = Source/Parsers/SVGKPointsAndPathsParser.h; sourceTree = "<group>"; };
@@ -2364,6 +2366,7 @@
 				E7CFA2A5B02215BDC18B3033977AEBED /* BWKeFuChatMenuCell.swift */,
 				CFB345BD74E992BCAF798A155A8CCBAD /* BWKeFuChatMenuView.swift */,
 				5CB5FC5BD4D7234D85EEC4BFFE276C16 /* BWKeFuChatToolBar.swift */,
+				888BA0772C33A8BE00BF819E /* BWKeFuChatToolBarV2.swift */,
 				400DDA0ACB451AEB81C8675941F0CDAB /* BWQuestionCell.swift */,
 				A60DA4E6F01593DD242D0A57F1E2C988 /* BWQuestionDialog.swift */,
 				6534D60189CCCF365B16CD296668B3B6 /* BWQuestionSectionHeader.swift */,
@@ -4879,6 +4882,7 @@
 				387A7087EFCB6D80A09D22D0FDD701E9 /* BWQuestionDialog.swift in Sources */,
 				6C293E892D1CE12200510FD16068549D /* BWQuestionSectionHeader.swift in Sources */,
 				26BC6338FBAFBCD50A6564C0E6AEC779 /* BWQuestionView.swift in Sources */,
+				888BA0782C33A8BE00BF819E /* BWKeFuChatToolBarV2.swift in Sources */,
 				CE79FE3A634DEACBACCDE30DB30676FA /* BWSettingViewController.swift in Sources */,
 				4DDD2BFEC9065EFFAD78A9ABAA6D440E /* BWTipCell.swift in Sources */,
 				59AE3C3DB281C51ACF11519D3324C7D1 /* BWVideoCell.swift in Sources */,
