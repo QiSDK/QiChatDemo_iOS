@@ -46,17 +46,17 @@ class BWQuestionCell: UITableViewCell {
         backgroundColor = .clear
                 
         self.contentView.addSubview(self.titleLab)
-        self.contentView.addSubview(self.imgView)
+        //self.contentView.addSubview(self.imgView)
         self.contentView.addSubview(self.dotView)
         self.titleLab.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(30)
         }
-        self.imgView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-12)
-            make.width.height.equalTo(20)
-            make.centerY.equalToSuperview()
-        }
+//        self.imgView.snp.makeConstraints { make in
+//            make.trailing.equalToSuperview().offset(-12)
+//            make.width.height.equalTo(20)
+//            make.centerY.equalToSuperview()
+//        }
         self.dotView.snp.makeConstraints { make in
             make.left.equalTo(self.titleLab.snp.right)
             make.top.equalToSuperview().offset(7)

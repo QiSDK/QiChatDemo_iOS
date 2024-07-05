@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
           // For Swift 4, use this instead
           // IQKeyboardManager.shared.enable = true
+        
         return true
     }
 

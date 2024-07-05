@@ -26,7 +26,7 @@ class BWEntranceView: UIView {
         view.delegate = self
         view.dataSource = self
         view.backgroundColor = .clear
-        view.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 0.1))
+        view.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 221, height: 0.1))
         return view
     }()
     
@@ -56,16 +56,21 @@ class BWEntranceView: UIView {
         }
         self.addSubview(self.titleLabel)
         self.titleLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
+            //make.left.equalToSuperview().offset(12)
+            make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(8)
         }
+        
+        titleLabel.isHidden = true
 
         self.addSubview(self.tableView)
+        tableView.backgroundColor = UIColor.white
         self.tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            //make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
+            make.top.equalToSuperview().offset(20)
+            make.bottom.equalToSuperview().offset(-20)
+            make.left.equalToSuperview().offset(77)
+            make.width.equalTo(221)
         }
 
 

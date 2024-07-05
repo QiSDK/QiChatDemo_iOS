@@ -37,6 +37,34 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         return view
     }()
     
+    lazy var headerView: UIView = {
+        let v = UIView(frame: CGRect.zero)
+        v.backgroundColor = .white
+        return v
+    }()
+    
+    lazy var headerImg: UIImageView = {
+        let img = UIImageView(frame: CGRect.zero)
+        img.layer.cornerRadius = 25
+        img.layer.masksToBounds = true
+        img.image = UIImage.svgInit("com_moren")
+        return img
+    }()
+    
+    lazy var headerTitle: UILabel = {
+        let v = UILabel(frame: CGRect.zero)
+        v.text = "--"
+        v.textColor = UIColor.black
+        return v
+    }()
+
+    lazy var headerClose: UIButton = {
+        let btn = UIButton(frame: CGRect.zero)
+        btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 20, height: 20)), for: UIControl.State.normal)
+        btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
+        return btn
+    }()
+    
     lazy var curLineLB: UILabel = {
         let lineLB = UILabel()
         lineLB.text = "正在检测线路。。。。"
@@ -56,12 +84,44 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .groupTableViewBackground
+        self.view.backgroundColor = .white
         self.view.addSubview(entranceView)
+        
+        view.addSubview(headerView)
+        headerView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(40)
+            make.top.equalToSuperview().offset(kDeviceTop)
+        }
+        //
+//        headerView.addSubview(headerImg)
+//        headerImg.snp.makeConstraints { make in
+//            make.width.height.equalTo(50)
+//            make.left.equalToSuperview().offset(12)
+//            make.top.equalToSuperview().offset(5)
+//        }
+
+        headerView.addSubview(headerTitle)
+        headerTitle.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
+        }
+        headerTitle.textAlignment = .center
+        headerTitle.text = "客服"
+        
+        headerView.addSubview(headerClose)
+        headerClose.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.centerY.equalToSuperview()
+        }
+        
+        entranceView.backgroundColor = .groupTableViewBackground
         entranceView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
-            make.right.equalToSuperview().offset(-12)
-            make.top.equalToSuperview().offset(12 + kDeviceTop)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom).offset(12)
             make.bottom.equalToSuperview().offset(-82 - kDeviceBottom)
         }
         
@@ -90,6 +150,10 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
             make.right.equalToSuperview().offset(-20)
         }
         
+    }
+    
+    @objc func closeClick() {
+        dismiss(animated: true)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
