@@ -59,15 +59,15 @@ extension KeFuViewController: teneasySDKDelegate {
                 if let model = datasouceArray.first(where: { ChatModel in
                     ChatModel.message?.msgID == msg.replyMsgID
                 }){
-                    let txt = model.message?.content.data.components(separatedBy: "回复：")[0]
-                    var referMsg = "回复：\(txt ?? "")"
+                    var replayQuote = model.message?.content.data.components(separatedBy: "回复：")[0]
                     if !(model.message?.video.uri ?? "").isEmpty {
-                        referMsg = "回复：[视频]"
+                        replayQuote = "[视频]"
                     }else if !(model.message?.image.uri ?? "").isEmpty {
-                        referMsg = "回复：[图片]"
+                        replayQuote = "[图片]"
                     }
-                    let newText = "\(msg.content.data)\n\(referMsg)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
+                    model.replayQuote = replayQuote ?? ""
                     appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text)
                 }else{
                     appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Text)
@@ -113,17 +113,15 @@ extension KeFuViewController: teneasySDKDelegate {
                         //datasouceArray[index].message?.content.data = msg.content.data
                         let model = datasouceArray[x]
                         //let txt = (model.message?.content.data ?? "")
-                        let txt = model.message?.content.data.components(separatedBy: "回复：")[0]
+                        var replyQuote = model.message?.content.data.components(separatedBy: "回复：")[0]
                         
-                        var referMsg = "回复：\(txt ?? "")"
                         if !(model.message?.video.uri ?? "").isEmpty {
-                            referMsg = "回复：[视频]"
+                            replyQuote = "[视频]"
                         }else if !(model.message?.image.uri ?? "").isEmpty {
-                            referMsg = "回复：[图片]"
+                            replyQuote = "[图片]"
                         }
-                        let newText = "\(msg.content.data)\n\(referMsg)"
-                        
-                     
+                        let newText = "\(msg.content.data)"
+                        datasouceArray[index!].replayQuote = replyQuote ?? ""
                         datasouceArray[index!].message?.content.data = newText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     }
                 }

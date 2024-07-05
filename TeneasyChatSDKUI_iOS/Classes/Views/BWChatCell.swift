@@ -81,6 +81,8 @@ class BWChatCell: UITableViewCell {
         lab.backgroundColor = kHexColor(0xD7E8FD)
         lab.layer.cornerRadius = 4
         lab.layer.masksToBounds = true
+        // 不可动态设置，会有复用问题
+        lab.textInsets = UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
         return lab
     }()
     
@@ -132,25 +134,45 @@ class BWChatCell: UITableViewCell {
         self.longGestCallBack?(tap)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+    }
+    
     var model: ChatModel? {
         didSet {
+            
             guard let msg = model?.message else {
                 return
             }
-            self.replyQuoteLabel.text = self.model?.replayQuote ?? ""
-            if (self.replyQuoteLabel.text?.isEmpty ?? true) {
-                self.replyQuoteLabel.textInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+            
+            let quote = self.model?.replayQuote ?? ""
+            self.replyQuoteLabel.text = quote
+            if (quote.isEmpty) {
                 self.replyQuoteLabel.isHidden = true
                 self.replyQuoteLabel.snp.updateConstraints { make in
                     make.top.equalTo(self.timeLab.snp.bottom).offset(0)
+                    make.height.equalTo(0)
                 }
             } else {
-                self.replyQuoteLabel.textInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+                let maxSizeQuote = CGSize(width: replyQuoteLabel.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+                let sizeQuote = self.replyQuoteLabel.sizeThatFits(maxSizeQuote)
                 self.replyQuoteLabel.isHidden = false
                 self.replyQuoteLabel.snp.updateConstraints { make in
                     make.top.equalTo(self.timeLab.snp.bottom).offset(8)
+                    make.height.equalTo(sizeQuote.height)
                 }
+//                replyQuoteLabelHeightConstraint?.update(offset: UITableView.automaticDimension)
             }
+            self.replyQuoteLabel.sizeToFit()
+            self.replyQuoteLabel.layoutIfNeeded()
+            self.replyQuoteLabel.setNeedsLayout()
+            
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
        
@@ -182,13 +204,18 @@ class BWChatCell: UITableViewCell {
         let size = self.titleLab.sizeThatFits(maxSize)
         let maxSizeQuote = CGSize(width: replyQuoteLabel.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
         let sizeQuote = self.replyQuoteLabel.sizeThatFits(maxSizeQuote)
-        var margin = 0.0
-        if (sizeQuote.height > 0) {
-            margin = 12.0
+        var margin = 12.0
+        var quoteHeight = sizeQuote.height
+        if (replyQuoteLabel.text?.isEmpty ?? true) {
+            margin = 0
+            quoteHeight = 0
         }
+//        print(model?.replayQuote)
+//        print(size.width)
+//        print(sizeQuote.width)
         self.contentBgView.snp.updateConstraints { make in
-            make.width.equalTo(size.width > sizeQuote.width ? size.width : sizeQuote.width + 24)
-            make.height.equalTo(size.height + sizeQuote.height + margin) // 8 is margin
+            make.width.equalTo((size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24)
+            make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
         }
     }
 
@@ -283,6 +310,7 @@ class BWChatLeftCell: BWChatCell {
         self.replyQuoteLabel.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
             make.left.equalTo(self.timeLab.snp.left)
+            make.height.equalTo(0)
         }
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.replyQuoteLabel.snp.bottom)
@@ -343,6 +371,7 @@ class BWChatRightCell: BWChatCell {
         self.replyQuoteLabel.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
             make.right.equalTo(self.timeLab.snp.right).offset(-12)
+            make.height.equalTo(0)
         }
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.replyQuoteLabel.snp.bottom)
