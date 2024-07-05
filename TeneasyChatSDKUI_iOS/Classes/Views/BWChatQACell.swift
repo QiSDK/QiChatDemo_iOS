@@ -28,6 +28,13 @@ class BWChatQACell: UITableViewCell {
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
+    var iconWidth = 44.0
+    lazy var iconView: UIImageView = {
+        let img = UIImageView()
+        img.layer.cornerRadius = iconWidth * 0.5
+        img.layer.masksToBounds = true
+        return img
+    }()
     
     static func cell(tableView: UITableView) -> Self {
         let cellId = "\(Self.self)"
@@ -81,9 +88,16 @@ class BWChatQACell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
+        self.iconView.image = UIImage.svgInit("icon_server_def2")
+        self.contentView.addSubview(self.iconView)
+        self.iconView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(12)
+            make.width.height.equalTo(iconWidth)
+        }
         self.contentView.addSubview(self.timeLab)
         self.timeLab.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
+            make.left.equalTo(self.iconView.snp.right).offset(16)
             make.top.equalToSuperview().offset(12)
             make.height.equalTo(0)
             make.right.equalToSuperview().offset(-12)
@@ -91,8 +105,8 @@ class BWChatQACell: UITableViewCell {
         contentView.addSubview(questionView)
         
         questionView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
-            make.width.equalToSuperview().offset(-50)
+            make.left.equalTo(timeLab.snp.left)
+            make.width.equalToSuperview().offset(-50-iconWidth-16)
             make.height.equalTo(50)
             //make.bottom.equalToSuperview()
             make.top.equalTo(timeLab.snp.bottom).offset(10)

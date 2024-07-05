@@ -96,8 +96,9 @@ class BWKeFuChatToolBarV2: UIView {
     
     lazy var textView: IQTextView = {
         let text = IQTextView()
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = 8
         text.layer.masksToBounds = true
+        text.clipsToBounds = true
         text.backgroundColor = .groupTableViewBackground
         text.delegate = self
         text.font = UIFont.systemFont(ofSize: 14)

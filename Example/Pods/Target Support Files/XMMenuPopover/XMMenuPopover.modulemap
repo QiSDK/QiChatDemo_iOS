@@ -1,0 +1,6 @@
+framework module XMMenuPopover {
+  umbrella header "XMMenuPopover-umbrella.h"
+
+  export *
+  module * { export * }
+}

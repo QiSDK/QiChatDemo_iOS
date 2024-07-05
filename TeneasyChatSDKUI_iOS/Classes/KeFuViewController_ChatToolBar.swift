@@ -16,7 +16,7 @@ extension KeFuViewController: BWKeFuChatToolBarV2Delegate {
             if state == .restricted || state == .denied {
                 self.presentNoauth(isPhoto: true)
             } else {
-                self.presentImagePicker(controller: self.imagePickerController ?? UIImagePickerController(), source: .photoLibrary)
+                self.presentImagePicker(controller: self.imagePickerController, source: .photoLibrary)
             }
         }
         self.toolBar.resetStatus()

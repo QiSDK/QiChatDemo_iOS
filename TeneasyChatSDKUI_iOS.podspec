@@ -55,5 +55,6 @@ TODO: Add long description of the pod here.
    s.dependency 'HandyJSON', '~> 5.0.2'
    s.dependency 'SVProgressHUD', '~> 2.2.5'
    s.dependency 'Toast-Swift', '~> 5.0.0'
+   s.dependency 'XMMenuPopover'
 
 end

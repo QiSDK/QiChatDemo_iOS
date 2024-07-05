@@ -39,7 +39,7 @@ class BWChatCell: UITableViewCell {
         lab.textColor = .white
         lab.numberOfLines = 1000
         lab.textInsets = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
-        lab.preferredMaxLayoutWidth = kScreenWidth - 100
+        lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
         return lab
     }()
     
@@ -72,6 +72,7 @@ class BWChatCell: UITableViewCell {
     }()
     
     var iconWidth = 44.0
+    var imgHeight = 160.0
     
     var leftConstraint: Constraint?
     var rightConstraint: Constraint?
@@ -100,16 +101,17 @@ class BWChatCell: UITableViewCell {
         self.imgView.backgroundColor = UIColor.black
         self.imgView.contentMode = .scaleAspectFit
         self.imgView.snp.makeConstraints { make in
-            self.leftConstraint = make.left.equalToSuperview().offset(12).constraint
-            self.rightConstraint = make.right.equalToSuperview().offset(-12).constraint
+            self.leftConstraint = make.left.equalTo(self.titleLab.snp.left).constraint
+            self.rightConstraint = make.right.equalTo(self.titleLab.snp.right).constraint
             // make.left.equalToSuperview().offset(12)
             // make.right.equalToSuperview().offset(-12)
             make.width.equalTo(kScreenWidth - 12 - 80)
             make.top.equalTo(self.timeLab.snp.bottom)
-            make.height.equalTo(160)
+            make.height.equalTo(imgHeight)
         }
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
-        self.contentView.addGestureRecognizer(self.gesture!)
+        self.titleLab.isUserInteractionEnabled = true
+        self.titleLab.addGestureRecognizer(self.gesture!)
     }
 
     @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
@@ -138,21 +140,45 @@ class BWChatCell: UITableViewCell {
             if msg.content.data.contains("[emoticon_") == true {
                 let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
                 self.titleLab.attributedText = atttext
+                updateBgConstraints()
             } else {
                 self.titleLab.text = msg.content.data
                 // print("message text:" + (msg.content.data))
-                let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
-                let size = self.titleLab.sizeThatFits(maxSize)
-                self.contentBgView.snp.updateConstraints { make in
-                    make.width.equalTo(size.width)
-                    make.height.equalTo(size.height)
-                }
+                updateBgConstraints()
             }
+        }
+    }
+    
+    func updateBgConstraints() {
+        let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+        let size = self.titleLab.sizeThatFits(maxSize)
+        self.contentBgView.snp.updateConstraints { make in
+            make.width.equalTo(size.width)
+            make.height.equalTo(size.height)
         }
     }
 
     func initImg(imgUrl: URL) {
-        self.imgView.kf.setImage(with: imgUrl)
+        self.imgView.kf.setImage(with: imgUrl) { result in
+            switch result {
+            case .success(let value):
+                // 获取图片尺寸
+                let imageSize = value.image.size
+                print("Image width: \(imageSize.width), height: \(imageSize.height)")
+                let imageAspectRatio = imageSize.width / imageSize.height
+                // 图片最大高度是160，按比例算宽度
+                let width = self.imgHeight * imageAspectRatio
+                self.imgView.snp.updateConstraints { make in
+                    make.width.equalTo(width)
+                }
+                self.contentBgView.snp.makeConstraints { make in
+                    make.width.equalTo(width + 12)
+                    make.height.equalTo(self.imgHeight + 12)
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
         self.titleLab.isHidden = true
         self.imgView.isHidden = false
     }
@@ -227,11 +253,11 @@ class BWChatLeftCell: BWChatCell {
         }
         rightConstraint?.deactivate()
         self.imgView.snp.updateConstraints { make in
-            make.left.equalToSuperview().offset(12)
+            make.left.equalTo(self.titleLab.snp.left)
         }
         let image = UIImage.svgInit("left_chat_bg")//UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
-        let insets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.titleLab.snp.left)
@@ -286,7 +312,7 @@ class BWChatRightCell: BWChatCell {
         leftConstraint?.deactivate()
                 
         self.imgView.snp.updateConstraints { make in
-            make.right.equalToSuperview().offset(-12)
+            make.right.equalTo(self.titleLab.snp.right)
         }
         self.contentView.addSubview(self.loadingView)
         self.loadingView.snp.makeConstraints { make in
@@ -296,7 +322,7 @@ class BWChatRightCell: BWChatCell {
         }
         
         let image = UIImage.svgInit("right_chat_bg")
-        let insets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
             make.right.equalTo(self.titleLab.snp.right)

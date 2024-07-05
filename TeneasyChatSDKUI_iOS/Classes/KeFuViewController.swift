@@ -128,6 +128,7 @@ open class KeFuViewController: UIViewController{
     override open func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = kBgColor
+        tableView.backgroundColor = kBgColor
 
         xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
 

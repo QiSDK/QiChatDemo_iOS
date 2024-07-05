@@ -37,6 +37,15 @@ class BWVideoCell: UITableViewCell {
         return btn
     }()
     
+    var iconWidth = 44.0
+    
+    lazy var iconView: UIImageView = {
+        let img = UIImageView()
+        img.layer.cornerRadius = iconWidth * 0.5
+        img.layer.masksToBounds = true
+        return img
+    }()
+    
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     var playerItem: AVPlayerItem?
@@ -61,7 +70,8 @@ class BWVideoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
-                
+            
+        self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
         self.contentView.addSubview(self.videoBackgroundView)
         self.videoBackgroundView.backgroundColor = UIColor.black
@@ -149,15 +159,22 @@ class BWVideoLeftCell: BWVideoCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.timeLab.snp.makeConstraints { make in
+        self.iconView.image = UIImage.svgInit("icon_server_def2")
+
+        self.iconView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(12)
+            make.width.height.equalTo(iconWidth)
+        }
+        self.timeLab.snp.makeConstraints { make in
+            make.left.equalTo(self.iconView.snp.right).offset(16)
+            make.top.equalToSuperview().offset(5)
             make.right.equalToSuperview().offset(-12)
             make.height.equalTo(20)
         }
         self.videoBackgroundView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).offset(10)
-            make.left.equalToSuperview().offset(12)
+            make.left.equalTo(self.timeLab.snp.left)
             make.width.equalTo(220)
             make.height.equalTo(160)
         }
@@ -172,14 +189,21 @@ class BWVideoRightCell: BWVideoCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.timeLab.snp.makeConstraints { make in
+        self.iconView.image = UIImage.svgInit("icon_server_def2")
+
+        self.iconView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-12)
             make.top.equalToSuperview().offset(12)
+            make.width.height.equalTo(iconWidth)
+        }
+        self.timeLab.snp.makeConstraints { make in
+            make.right.equalTo(self.iconView.snp.left).offset(-16)
+            make.top.equalToSuperview().offset(5)
             make.height.equalTo(20)
         }
         self.videoBackgroundView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
-            make.right.equalToSuperview().offset(-12)
+            make.right.equalTo(self.timeLab.snp.right)
             make.width.equalTo(220)
             make.height.equalTo(160)
         }
