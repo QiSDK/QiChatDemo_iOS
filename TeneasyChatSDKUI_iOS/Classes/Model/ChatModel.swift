@@ -22,6 +22,8 @@ enum CellType: String { case TYPE_Text="0", TYPE_Image="1", TYPE_Tip="2", TYPE_Q
 class ChatModel {
     var message: CommonMessage?
     var isLeft: Bool=false
+    // 引用的内容，回复功能用
+    var replayQuote: String=""
     var sendStatus: MessageSendState = .发送中
     var payLoadId: UInt64=0
     var cellType: CellType = .TYPE_Text

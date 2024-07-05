@@ -200,5 +200,6 @@ extension KeFuViewController {
             let pastboard = UIPasteboard.general
             pastboard.string = msgText
         }
+        WChatPasteToastView.show(inView: nil)
     }
 }

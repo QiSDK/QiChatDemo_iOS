@@ -61,6 +61,7 @@ class BWChatCell: UITableViewCell {
         img.layer.masksToBounds = true
         return img
     }()
+
     lazy var arrowView: UIImageView = {
         let img = UIImageView()
         return img
@@ -69,6 +70,18 @@ class BWChatCell: UITableViewCell {
     lazy var failedDotView: UIImageView = {
         let v = UIImageView()
         return v
+    }()
+    
+    lazy var replyQuoteLabel: BWLabel = {
+        let lab = BWLabel()
+        lab.font = UIFont.systemFont(ofSize: 15)
+        lab.textColor = .black
+        lab.numberOfLines = 1000
+        lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
+        lab.backgroundColor = kHexColor(0xD7E8FD)
+        lab.layer.cornerRadius = 4
+        lab.layer.masksToBounds = true
+        return lab
     }()
     
     var iconWidth = 44.0
@@ -96,6 +109,7 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.arrowView)
         self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
+        self.contentView.addSubview(self.replyQuoteLabel)
         self.contentView.addSubview(self.titleLab)
         self.contentView.addSubview(self.imgView)
         self.imgView.backgroundColor = UIColor.black
@@ -123,6 +137,20 @@ class BWChatCell: UITableViewCell {
             guard let msg = model?.message else {
                 return
             }
+            self.replyQuoteLabel.text = self.model?.replayQuote ?? ""
+            if (self.replyQuoteLabel.text?.isEmpty ?? true) {
+                self.replyQuoteLabel.textInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+                self.replyQuoteLabel.isHidden = true
+                self.replyQuoteLabel.snp.updateConstraints { make in
+                    make.top.equalTo(self.timeLab.snp.bottom).offset(0)
+                }
+            } else {
+                self.replyQuoteLabel.textInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+                self.replyQuoteLabel.isHidden = false
+                self.replyQuoteLabel.snp.updateConstraints { make in
+                    make.top.equalTo(self.timeLab.snp.bottom).offset(8)
+                }
+            }
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
        
@@ -140,11 +168,11 @@ class BWChatCell: UITableViewCell {
             if msg.content.data.contains("[emoticon_") == true {
                 let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
                 self.titleLab.attributedText = atttext
-                updateBgConstraints()
+                self.updateBgConstraints()
             } else {
                 self.titleLab.text = msg.content.data
                 // print("message text:" + (msg.content.data))
-                updateBgConstraints()
+                self.updateBgConstraints()
             }
         }
     }
@@ -152,9 +180,15 @@ class BWChatCell: UITableViewCell {
     func updateBgConstraints() {
         let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
         let size = self.titleLab.sizeThatFits(maxSize)
+        let maxSizeQuote = CGSize(width: replyQuoteLabel.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+        let sizeQuote = self.replyQuoteLabel.sizeThatFits(maxSizeQuote)
+        var margin = 0.0
+        if (sizeQuote.height > 0) {
+            margin = 12.0
+        }
         self.contentBgView.snp.updateConstraints { make in
-            make.width.equalTo(size.width)
-            make.height.equalTo(size.height)
+            make.width.equalTo(size.width > sizeQuote.width ? size.width : sizeQuote.width + 24)
+            make.height.equalTo(size.height + sizeQuote.height + margin) // 8 is margin
         }
     }
 
@@ -236,18 +270,22 @@ class BWChatLeftCell: BWChatCell {
         self.iconView.image = UIImage.svgInit("icon_server_def2")
         self.iconView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(34) // 加大cell之间的上下间距
             make.width.height.equalTo(iconWidth)
         }
 
         self.timeLab.snp.makeConstraints { make in
             make.left.equalTo(self.iconView.snp.right).offset(16)
-            make.top.equalToSuperview().offset(5)
+            make.top.equalTo(self.iconView.snp.top).offset(-12)
             make.right.equalToSuperview().offset(-12)
             make.height.equalTo(20)
         }
+        self.replyQuoteLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.timeLab.snp.bottom)
+            make.left.equalTo(self.timeLab.snp.left)
+        }
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom).offset(8)
+            make.top.equalTo(self.replyQuoteLabel.snp.bottom)
             make.left.equalTo(self.timeLab.snp.left)
             make.bottom.equalToSuperview()
         }
@@ -255,13 +293,13 @@ class BWChatLeftCell: BWChatCell {
         self.imgView.snp.updateConstraints { make in
             make.left.equalTo(self.titleLab.snp.left)
         }
-        let image = UIImage.svgInit("left_chat_bg")//UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
         let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.titleLab.snp.left)
-            make.top.equalTo(self.titleLab.snp.top)
+            make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.height.equalTo(0)
             make.width.equalTo(0)
         }
@@ -294,16 +332,20 @@ class BWChatRightCell: BWChatCell {
 
         self.iconView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-12)
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(34) // 加大cell之间的上下间距
             make.width.height.equalTo(iconWidth)
         }
         self.timeLab.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(5)
+            make.top.equalTo(self.iconView.snp.top).offset(-12)
             make.right.equalTo(self.iconView.snp.left).offset(-16)
             make.height.equalTo(20)
         }
-        self.titleLab.snp.makeConstraints { make in
+        self.replyQuoteLabel.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
+            make.right.equalTo(self.timeLab.snp.right).offset(-12)
+        }
+        self.titleLab.snp.makeConstraints { make in
+            make.top.equalTo(self.replyQuoteLabel.snp.bottom)
             make.right.equalTo(self.timeLab.snp.right)
             make.bottom.equalToSuperview()
         }
@@ -326,7 +368,7 @@ class BWChatRightCell: BWChatCell {
         self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
             make.right.equalTo(self.titleLab.snp.right)
-            make.top.equalTo(self.titleLab.snp.top)
+            make.top.equalTo(self.timeLab.snp.bottom).offset(-0)
             make.height.equalTo(0)
             make.width.equalTo(0)
         }
