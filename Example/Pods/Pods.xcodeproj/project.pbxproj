@@ -819,6 +819,8 @@
 		DBC47B5C09C1B3718F0EF14108A564D6 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4EC2F3E288AF34F350A28858657DC5 /* MathUtils.swift */; };
 		DBD8CAC6D6C91267F648D551A1895896 /* Google_Protobuf_Any+Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696B7E1B64F9D491C0E36764F1747CC /* Google_Protobuf_Any+Registry.swift */; };
 		DC1F32A51D7E2350A58325AD03A414CE /* ht_shuru.svg in Resources */ = {isa = PBXBuildFile; fileRef = 91FA31F2CED35BE2A38EE483851FDABC /* ht_shuru.svg */; };
+		DC485D2D2C38D00000614B96 /* backicon.svg in Resources */ = {isa = PBXBuildFile; fileRef = DC485D2C2C38D00000614B96 /* backicon.svg */; };
+		DC485D2F2C38D01400614B96 /* qiliaoIcon_withback.svg in Resources */ = {isa = PBXBuildFile; fileRef = DC485D2E2C38D01400614B96 /* qiliaoIcon_withback.svg */; };
 		DCD0C33A2B50811D53CF68F021284B47 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D4D6713AFC87FB185B039955F90361 /* DispatchQueue+Alamofire.swift */; };
 		DD24AB4848123C90E4E413EB397D3427 /* h5_zhaoping.svg in Resources */ = {isa = PBXBuildFile; fileRef = A1CC2BC2C6EDEBDF13E6606C4B192270 /* h5_zhaoping.svg */; };
 		DD58A00EACBEE274C381B491519C6B8C /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CDCFD8EFB4449BAB213F2A1463EC6 /* RedirectHandler.swift */; };
@@ -2117,6 +2119,8 @@
 		DBE2CC17DBF7903CD457707199902F1D /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Source/Typealiases.swift; sourceTree = "<group>"; };
 		DBEB84986A23AF6F9E1506B16C1D4C7A /* Region.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Region.swift; path = Sources/SwiftDate/DateInRegion/Region.swift; sourceTree = "<group>"; };
 		DC073FDAB6905D0B61023FFD7254C560 /* NamedNodeMap.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NamedNodeMap.m; path = "Source/DOM classes/Core DOM/NamedNodeMap.m"; sourceTree = "<group>"; };
+		DC485D2C2C38D00000614B96 /* backicon.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backicon.svg; sourceTree = "<group>"; };
+		DC485D2E2C38D01400614B96 /* qiliaoIcon_withback.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = qiliaoIcon_withback.svg; sourceTree = "<group>"; };
 		DC48D9D74FF301FCEB7F1F270EED1FCE /* IQUIScrollView+Additions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUIScrollView+Additions.swift"; path = "IQKeyboardManagerSwift/Categories/IQUIScrollView+Additions.swift"; sourceTree = "<group>"; };
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDKUI_iOS; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC744F96872693D21C4791DEDA9E0B0D /* DocumentType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DocumentType.h; path = "Source/DOM classes/Core DOM/DocumentType.h"; sourceTree = "<group>"; };
@@ -3241,11 +3245,13 @@
 		692B80BBF80B8089A88BF3DE926AC3C8 /* svg */ = {
 			isa = PBXGroup;
 			children = (
+				DC485D2E2C38D01400614B96 /* qiliaoIcon_withback.svg */,
 				DA2C61C9506FA79A4130EA6D4E6922B6 /* arrow-right.svg */,
 				9C354598C097ED71C7731BBAE71E45CB /* arrowdown.svg */,
 				5843381506BCE57C3BD5AB3AA306B020 /* arrowup.svg */,
 				5964FEA3E38B6A98A35BEDD68CC1DF2D /* camera_light.svg */,
 				4B379E4F92EF3EE8F64A75BA5633721B /* chatCopy.svg */,
+				DC485D2C2C38D00000614B96 /* backicon.svg */,
 				9F34D716A9A6F82804DEF91ADAEB335F /* chatHuifu.svg */,
 				64FD5F338AF8A7E7FC6687AF2EE0803B /* clock.gif */,
 				D3A7C3F55A0D7343B9CEB075BF7F14B7 /* close.svg */,
@@ -4850,6 +4856,7 @@
 				9D558BBA9ABCCD640EFA455C30AD78BC /* emoticon_57.png in Resources */,
 				0E277A3D2971BE111AA181821B3AEA96 /* emoticon_58.png in Resources */,
 				0EB490409A3E0C9F8527E6407CA47784 /* emoticon_59.png in Resources */,
+				DC485D2D2C38D00000614B96 /* backicon.svg in Resources */,
 				330A763279206ACE9AA2D22C540690CA /* emoticon_6.png in Resources */,
 				F18347063CFF8380EAAE898C1BAE4087 /* emoticon_60.png in Resources */,
 				2BE94193B856FA5173CD6ED89752EE3E /* emoticon_61.png in Resources */,
@@ -4899,6 +4906,7 @@
 				1B70D044F1E4FCBBAA9EB8F3B74CDB24 /* h5_btshanchu.svg in Resources */,
 				86C70BA6C6815B2A9CBD40A325CFDDA7 /* h5_cehui.svg in Resources */,
 				B65F306ACBAC762E010B4C5BB6516E05 /* h5_fszhong.svg in Resources */,
+				DC485D2F2C38D01400614B96 /* qiliaoIcon_withback.svg in Resources */,
 				5124BAF0567E00D282F0493762068981 /* h5_huifu.svg in Resources */,
 				F1C1C84A382C225D83246A818FA36A8D /* h5_kfrukou.svg in Resources */,
 				304F7E8562EC25230179C5AC2765E0F3 /* h5_qingchu.svg in Resources */,

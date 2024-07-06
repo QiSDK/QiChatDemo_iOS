@@ -60,7 +60,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
 
     lazy var headerClose: UIButton = {
         let btn = UIButton(frame: CGRect.zero)
-        btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 20, height: 20)), for: UIControl.State.normal)
+        btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
         btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
         return btn
     }()
