@@ -37,7 +37,7 @@ class BWVideoCell: UITableViewCell {
         return btn
     }()
     
-    var iconWidth = 44.0
+   
     
     lazy var iconView: UIImageView = {
         let img = UIImageView()

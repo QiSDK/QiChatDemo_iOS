@@ -30,6 +30,13 @@ class BWQuestionCell: UITableViewCell {
         return view
     }()
     
+    lazy var iconView: UIImageView = {
+        let img = UIImageView()
+        img.layer.cornerRadius = iconWidth * 0.5
+        img.layer.masksToBounds = true
+        return img
+    }()
+    
     static func cell(tableView: UITableView) -> Self {
         let cellId = "\(Self.self)"
         var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
@@ -48,9 +55,19 @@ class BWQuestionCell: UITableViewCell {
         self.contentView.addSubview(self.titleLab)
         //self.contentView.addSubview(self.imgView)
         self.contentView.addSubview(self.dotView)
+        self.contentView.addSubview(self.iconView)
+        
+        self.titleLab.textColor = .black
+        self.iconView.image = UIImage.svgInit("icon_server_def2")
+        self.iconView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(28)
+        }
+        
         self.titleLab.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().offset(30)
+            make.left.equalTo(self.iconView.snp.right).offset(15)
         }
 //        self.imgView.snp.makeConstraints { make in
 //            make.trailing.equalToSuperview().offset(-12)

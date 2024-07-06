@@ -20,6 +20,13 @@ class BWEntranceView: UIView {
         label.textColor = UIColor.purple
         return label
     }()
+    
+    lazy var iconView: UIImageView = {
+        let img = UIImageView()
+        img.layer.cornerRadius = iconWidth * 0.5
+        img.layer.masksToBounds = true
+        return img
+    }()
 
     lazy var tableView: UITableView = {
         let view = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
@@ -27,6 +34,7 @@ class BWEntranceView: UIView {
         view.dataSource = self
         view.backgroundColor = .clear
         view.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 221, height: 0.1))
+        view.separatorStyle = .none
         return view
     }()
     
@@ -35,6 +43,8 @@ class BWEntranceView: UIView {
         view.hidesWhenStopped = true
         return view
     }()
+    
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,6 +72,13 @@ class BWEntranceView: UIView {
         }
         
         titleLabel.isHidden = true
+        
+        self.iconView.image = UIImage.svgInit("qiliaoIcon_withback")
+        self.iconView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(20)
+            make.width.height.equalTo(iconWidth)
+        }
 
         self.addSubview(self.tableView)
         tableView.backgroundColor = UIColor.white

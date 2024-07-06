@@ -65,7 +65,7 @@ var workerId: Int32 = 2
 let PARAM_XTOKEN = "HTTPTOKEN"
 
 let serverTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"
-
+var iconWidth = 44.0
 
  func convertDateStringToString(datStr: String) -> String{
     if let date = Date(fromString: datStr, format: "yyyy-MM-dd'T'HH:mm:ssZ") {
