@@ -29,7 +29,7 @@ PODS:
     - Kingfisher (~> 6.3.1)
     - Moya (~> 15.0.0)
     - SnapKit (~> 5.0.1)
-    - SVGKit (~> 3.0.0)
+    - SVGKit
     - SVProgressHUD (~> 2.2.5)
     - SwiftDate (~> 6.3.1)
     - TeneasyChatSDK_iOS
@@ -88,7 +88,7 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
   TeneasyChatSDK_iOS: 218801d2dd85cc4f041cb998596f8c9a76efe868
-  TeneasyChatSDKUI_iOS: e872a8ef47a2cf2ecff033acf5480a63fcc16545
+  TeneasyChatSDKUI_iOS: dd0988ed22c0e37045644d8e1dc5d5bf2ce2dd9d
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
 
