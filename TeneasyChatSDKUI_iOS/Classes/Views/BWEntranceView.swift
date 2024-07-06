@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 typealias BWEntranceViewCallback = (Int) -> ()
 typealias BWEntranceViewCellClick = (Int32) -> ()
