@@ -50,7 +50,7 @@ class BWQuestionCell: UITableViewCell {
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        backgroundColor = .clear
+        backgroundColor = .white
                 
         self.contentView.addSubview(self.titleLab)
         //self.contentView.addSubview(self.imgView)

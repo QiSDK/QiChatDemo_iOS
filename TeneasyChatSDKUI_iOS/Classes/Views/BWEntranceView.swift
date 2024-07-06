@@ -44,7 +44,10 @@ class BWEntranceView: UIView {
         return view
     }()
     
-    
+    lazy var arrowView: UIImageView = {
+        let img = UIImageView()
+        return img
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,20 +76,30 @@ class BWEntranceView: UIView {
         
         titleLabel.isHidden = true
         
-        self.iconView.image = UIImage.svgInit("qiliaoIcon_withback")
+        self.addSubview(self.iconView)
+        self.iconView.image = UIImage.svgInit("close")
         self.iconView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(20)
             make.width.height.equalTo(iconWidth)
         }
+        
+        self.addSubview(self.arrowView)
+        self.arrowView.image = UIImage.svgInit("ic_left_point")
+        self.arrowView.snp.makeConstraints { make in
+            make.left.equalTo(iconView.snp.right).offset(20)
+            make.top.equalToSuperview().offset(22)
+            //make.width.height.equalTo(iconWidth)
+        }
+        
 
         self.addSubview(self.tableView)
-        tableView.backgroundColor = UIColor.white
+        tableView.backgroundColor = UIColor.clear
         self.tableView.snp.makeConstraints { make in
             //make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
             make.top.equalToSuperview().offset(20)
             make.bottom.equalToSuperview().offset(-20)
-            make.left.equalToSuperview().offset(77)
+            make.left.equalTo(arrowView.snp.right)
             make.width.equalTo(221)
         }
 
