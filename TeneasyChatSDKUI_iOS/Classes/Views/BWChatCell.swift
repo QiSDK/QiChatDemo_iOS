@@ -10,6 +10,7 @@ import AVFoundation
 import Kingfisher
 import SnapKit
 import UIKit
+import TeneasyChatSDK_iOS
 
 typealias BWChatCellLongGestCallBack = (UILongPressGestureRecognizer) -> ()
 
@@ -38,7 +39,7 @@ class BWChatCell: UITableViewCell {
         lab.font = UIFont.systemFont(ofSize: 15)
         lab.textColor = .white
         lab.numberOfLines = 1000
-        lab.textInsets = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
+        lab.textInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
         lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
         return lab
     }()
@@ -122,7 +123,7 @@ class BWChatCell: UITableViewCell {
             // make.left.equalToSuperview().offset(12)
             // make.right.equalToSuperview().offset(-12)
             make.width.equalTo(kScreenWidth - 12 - 80)
-            make.top.equalTo(self.timeLab.snp.bottom)
+            make.top.equalTo(self.timeLab.snp.bottom).offset(6)
             make.height.equalTo(imgHeight)
         }
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
@@ -152,7 +153,12 @@ class BWChatCell: UITableViewCell {
             }
             
             let quote = self.model?.replayQuote ?? ""
-            self.replyQuoteLabel.text = quote
+            if quote.contains("[emoticon_") == true {
+                let atttext = BEmotionHelper.shared.attributedStringByText(text: quote, font: self.replyQuoteLabel.font)
+                self.replyQuoteLabel.attributedText = atttext
+            } else {
+                self.replyQuoteLabel.text = quote
+            }
             if (quote.isEmpty) {
                 self.replyQuoteLabel.isHidden = true
                 self.replyQuoteLabel.snp.updateConstraints { make in
@@ -177,25 +183,18 @@ class BWChatCell: UITableViewCell {
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
        
             if msg.image.uri.isEmpty == false {
+//                let imgUrl = URL(string: "https://images.pexels.com/photos/2444403/pexels-photo-2444403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500")
                 let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
                 print(imgUrl?.absoluteString ?? "")
                 if imgUrl != nil {
                     self.initImg(imgUrl: imgUrl!)
                 } else {
-                    self.initTitle()
+                    self.initTitle(msg: msg)
                 }
             } else {
-                self.initTitle()
+                self.initTitle(msg: msg)
             }
-            if msg.content.data.contains("[emoticon_") == true {
-                let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
-                self.titleLab.attributedText = atttext
-                self.updateBgConstraints()
-            } else {
-                self.titleLab.text = msg.content.data
-                // print("message text:" + (msg.content.data))
-                self.updateBgConstraints()
-            }
+            
         }
     }
     
@@ -232,9 +231,11 @@ class BWChatCell: UITableViewCell {
                 self.imgView.snp.updateConstraints { make in
                     make.width.equalTo(width)
                 }
-                self.contentBgView.snp.makeConstraints { make in
+                print(width)
+                
+                self.contentBgView.snp.updateConstraints { make in
                     make.width.equalTo(width + 12)
-                    make.height.equalTo(self.imgHeight + 12)
+                    make.height.equalTo(self.imgHeight + 14)
                 }
             case .failure(let error):
                 print("Error: \(error)")
@@ -244,9 +245,19 @@ class BWChatCell: UITableViewCell {
         self.imgView.isHidden = false
     }
 
-    func initTitle() {
+    func initTitle(msg: CommonMessage) {
         self.titleLab.isHidden = false
         self.imgView.isHidden = true
+        
+        if msg.content.data.contains("[emoticon_") == true {
+            let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
+            self.titleLab.attributedText = atttext
+            self.updateBgConstraints()
+        } else {
+            self.titleLab.text = msg.content.data
+            // print("message text:" + (msg.content.data))
+            self.updateBgConstraints()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -319,7 +330,7 @@ class BWChatLeftCell: BWChatCell {
         }
         rightConstraint?.deactivate()
         self.imgView.snp.updateConstraints { make in
-            make.left.equalTo(self.titleLab.snp.left)
+            make.left.equalTo(self.titleLab.snp.left).offset(6)
         }
         let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
@@ -383,7 +394,7 @@ class BWChatRightCell: BWChatCell {
         leftConstraint?.deactivate()
                 
         self.imgView.snp.updateConstraints { make in
-            make.right.equalTo(self.titleLab.snp.right)
+            make.right.equalTo(self.titleLab.snp.right).offset(-6)
         }
         self.contentView.addSubview(self.loadingView)
         self.loadingView.snp.makeConstraints { make in
@@ -419,8 +430,8 @@ class BWChatRightCell: BWChatCell {
         self.resendBlock!(self.titleLab.text ?? "")
     }
     
-    override func initTitle() {
-        super.initTitle()
+    override func initTitle(msg: CommonMessage) {
+        super.initTitle(msg: msg)
         self.initLoadingForTitle()
     }
 
