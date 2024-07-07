@@ -73,19 +73,20 @@ open class KeFuViewController: UIViewController{
         return img
     }()
 
-    lazy var headerClose: UIButton = {
-        let btn = UIButton(frame: CGRect.zero)
-        btn.setImage(UIImage.svgInit("close", size: CGSize(width: 20, height: 20)), for: UIControl.State.normal)
-        btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
-        return btn
-    }()
-
     lazy var headerTitle: UILabel = {
         let v = UILabel(frame: CGRect.zero)
         v.text = "--"
         v.textColor = UIColor.black
         return v
     }()
+
+    lazy var headerClose: UIButton = {
+        let btn = UIButton(frame: CGRect.zero)
+        btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
+        btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
+        return btn
+    }()
+    
 
     /// 输入框工具栏
     lazy var toolBar: BWKeFuChatToolBarV2 = {
@@ -185,15 +186,20 @@ open class KeFuViewController: UIViewController{
             make.left.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(5)
         }
+        headerImg.isHidden = true
+        
         headerView.addSubview(headerTitle)
         headerTitle.snp.makeConstraints { make in
-            make.centerY.equalTo(self.headerImg.snp.centerY)
-            make.left.equalTo(self.headerImg.snp.right).offset(12)
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalTo(260)
         }
+        headerTitle.textAlignment = .center
+        
         headerView.addSubview(headerClose)
         headerClose.snp.makeConstraints { make in
-            make.centerY.equalTo(self.headerImg.snp.centerY)
-            make.right.equalToSuperview().offset(-16)
+            make.left.equalToSuperview().offset(20)
+            make.centerY.equalToSuperview()
         }
         tableView.tableHeaderView = systemInfoView
 
