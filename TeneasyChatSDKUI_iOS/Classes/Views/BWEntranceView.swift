@@ -78,7 +78,7 @@ class BWEntranceView: UIView {
         titleLabel.isHidden = true
         
         self.addSubview(self.iconView)
-        self.iconView.image = UIImage.svgInit("qiliaoIcon_withback")
+        self.iconView.image = UIImage.init(named: "qiliaoicon_withback", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         self.iconView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(20)

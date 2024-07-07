@@ -68,7 +68,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
     lazy var curLineLB: UILabel = {
         let lineLB = UILabel()
         lineLB.text = "正在检测线路。。。。"
-        lineLB.textColor = .systemPink
+        lineLB.textColor = .gray
         lineLB.font = UIFont.systemFont(ofSize: 15)
         lineLB.alpha = 0.5
         return lineLB
@@ -77,7 +77,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
     lazy var settingBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("Settings", for: UIControl.State.normal)
-        btn.setTitleColor(.blue, for: UIControl.State.normal)
+        btn.setTitleColor(.lightGray, for: UIControl.State.normal)
         btn.addTarget(self, action: #selector(settingClick), for: UIControl.Event.touchUpInside)
         return btn
     }()
