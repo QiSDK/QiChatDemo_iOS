@@ -39,7 +39,7 @@ class BWChatCell: UITableViewCell {
         lab.font = UIFont.systemFont(ofSize: 15)
         lab.textColor = .white
         lab.numberOfLines = 1000
-        lab.textInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
+        lab.textInsets = UIEdgeInsets(top: 8, left: 15, bottom: 10, right: 15)
         lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
         return lab
     }()
@@ -115,7 +115,7 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.replyQuoteLabel)
         self.contentView.addSubview(self.titleLab)
         self.contentView.addSubview(self.imgView)
-        self.imgView.backgroundColor = UIColor.black
+//        self.imgView.backgroundColor = UIColor.black
         self.imgView.contentMode = .scaleAspectFit
         self.imgView.snp.makeConstraints { make in
             self.leftConstraint = make.left.equalTo(self.titleLab.snp.left).constraint
@@ -239,6 +239,16 @@ class BWChatCell: UITableViewCell {
                 }
             case .failure(let error):
                 print("Error: \(error)")
+                self.imgView.image = UIImage.svgInit("Img_box_light")
+                self.imgView.backgroundColor = .clear
+                self.imgView.snp.updateConstraints { make in
+                    make.width.equalTo(120)
+                }
+               
+                self.contentBgView.snp.updateConstraints { make in
+                    make.width.equalTo(self.imgHeight + 12)
+                    make.height.equalTo(self.imgHeight + 14)
+                }
             }
         }
         self.titleLab.isHidden = true
