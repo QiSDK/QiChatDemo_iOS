@@ -140,6 +140,10 @@ extension BWEntranceView: UITableViewDelegate, UITableViewDataSource {
         let list = self.entranceModel?.consults ?? []
         cell.titleLab.text = list[indexPath.row].name
         cell.dotView.isHidden = (list[indexPath.row].unread ?? 0) == 0
+        
+        if let avatar = list[indexPath.row].Works?[0].avatar{
+            cell.displayThumbnail(path: avatar)
+        }
         return cell
     }
 

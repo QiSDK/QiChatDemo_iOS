@@ -26,7 +26,7 @@ class Consult: HandyJSON {
     var consultId: Int32?
     var name: String?
     var guide: String?
-    var works: [Work]?
+    var Works: [Work]?
     var unread: Int?
     var priority: Int?
 

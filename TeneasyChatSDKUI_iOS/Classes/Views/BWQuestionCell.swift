@@ -47,6 +47,11 @@ class BWQuestionCell: UITableViewCell {
         return cell as! Self
     }
     
+    func displayThumbnail(path: String) {
+        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        self.iconView.kf.setImage(with: imgUrl)
+    }
+    
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
