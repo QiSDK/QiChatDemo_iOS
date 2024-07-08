@@ -10,6 +10,11 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         } else if model.cellType == .TYPE_VIDEO {
             if model.isLeft {
                 let cell = BWImageLeftCell.cell(tableView: tableView)
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+                    }
+                }
                 cell.model = model
                 cell.playBlock = { [weak self] in
                     guard let msg = model.message else {
@@ -130,9 +135,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         } else if model.cellType == .TYPE_Tip {
             return 60.0
         } else if model.message?.image.uri.isEmpty == false {
-            return 200.0
+            return 170
         } else if model.cellType == .TYPE_VIDEO {
-            return 230
+            return 126
         }
         return UITableView.automaticDimension
     }

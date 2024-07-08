@@ -84,9 +84,14 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayVideoThumbnail(path: String) {
-        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
-        let img = Utiles().generateThumbnail(path: imgUrl!)
-        self.thumbnail.image = img
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+            let img = Utiles().generateThumbnail(path: imgUrl!)
+            self.thumbnail.image = img
+        }
+        
+       
         //self.thumbnail.kf.setImage(with: imgUrl)
     }
     
@@ -99,7 +104,7 @@ class BWImageCell: UITableViewCell {
         self.contentView.addSubview(self.timeLab)
 
         self.contentView.addSubview(self.contentBgView)
-        self.contentBgView.addSubview(self.thumbnail)
+        self.contentView.addSubview(self.thumbnail)
         //self.thumbnail.backgroundColor = UIColor.black
         self.thumbnail.addSubview(self.playBtn)
         
@@ -112,25 +117,26 @@ class BWImageCell: UITableViewCell {
 
         
         self.thumbnail.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-boarder)
-            make.left.equalToSuperview().offset(boarder)
-            make.top.equalToSuperview().offset(boarder)
-            make.bottom.equalToSuperview().offset(-boarder)
+            make.right.equalTo(self.contentBgView).offset(-boarder)
+            make.left.equalTo(self.contentBgView).offset(boarder)
+            make.top.equalTo(self.contentBgView).offset(boarder)
+            make.bottom.equalTo(self.contentBgView).offset(-boarder)
             //make.height.width.equalTo(80)
         }
         
-        self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
-        self.contentView.addGestureRecognizer(self.gesture!)
-        
         thumbnail.isUserInteractionEnabled = true
-        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
+        self.thumbnail.addGestureRecognizer(longTap)
+
         // Create and add the gesture recognizer
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped))
-        thumbnail.addGestureRecognizer(tapGestureRecognizer)
+        self.thumbnail.addGestureRecognizer(tapGestureRecognizer)
+        
+        //self.contentView.addGestureRecognizer(gesture!)
 
         contentBgView.layer.cornerRadius = 5;
         contentBgView.layer.masksToBounds = true;
-        thumbnail.contentMode = .scaleToFill
+       // thumbnail.contentMode = .scaleToFill
     }
 
     var model: ChatModel? {
