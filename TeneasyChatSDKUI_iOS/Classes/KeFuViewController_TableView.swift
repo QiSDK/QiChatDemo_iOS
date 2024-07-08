@@ -9,7 +9,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else if model.cellType == .TYPE_VIDEO {
             if model.isLeft {
-                let cell = BWVideoLeftCell.cell(tableView: tableView)
+                let cell = BWImageLeftCell.cell(tableView: tableView)
                 cell.model = model
                 cell.playBlock = { [weak self] in
                     guard let msg = model.message else {
@@ -18,9 +18,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
                     self?.playVideoFullScreen(url: videoUrl!)
                 }
+                cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
                 return cell
             } else {
-                let cell = BWVideoRightCell.cell(tableView: tableView)
+                let cell = BWImageRightCell.cell(tableView: tableView)
                 cell.longGestCallBack = { [weak self] gesure in
                     if gesure.state == .began {
                         self?.showMenu(gesure, model: model, indexPath: indexPath)
@@ -38,6 +39,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.playVideoFullScreen(url: videoUrl!)
                     }
                 }
+                cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
                 return cell
             }
         } else if model.cellType == CellType.TYPE_QA {
@@ -86,6 +88,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.showMenu(gesure, model: model, indexPath: indexPath)
                     }
                 }
+                cell.displayIconImg(path: self.avatarPath)
                 return cell
             } else {
                 let cell = BWChatRightCell.cell(tableView: tableView)
@@ -99,6 +102,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.showMenu(gesure, model: model, indexPath: indexPath)
                     }
                 }
+               
                 return cell
             }
         }

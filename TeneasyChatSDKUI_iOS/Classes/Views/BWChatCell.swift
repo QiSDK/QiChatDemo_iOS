@@ -21,7 +21,7 @@ class BWChatCell: UITableViewCell {
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
-        lab.textColor = .black
+        lab.textColor = kHexColor(0xC4C4C4)
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
@@ -87,8 +87,8 @@ class BWChatCell: UITableViewCell {
         return lab
     }()
     
-    var iconWidth = 44.0
-    var imgHeight = 160.0
+    //var iconWidth = 38.0
+    var imgHeight = 114.0
     
     var leftConstraint: Constraint?
     var rightConstraint: Constraint?
@@ -122,7 +122,8 @@ class BWChatCell: UITableViewCell {
             self.rightConstraint = make.right.equalTo(self.titleLab.snp.right).constraint
             // make.left.equalToSuperview().offset(12)
             // make.right.equalToSuperview().offset(-12)
-            make.width.equalTo(kScreenWidth - 12 - 80)
+            //make.width.equalTo(kScreenWidth - 12 - 80)
+            make.width.equalTo(178)
             make.top.equalTo(self.timeLab.snp.bottom).offset(6)
             make.height.equalTo(imgHeight)
         }
@@ -183,6 +184,8 @@ class BWChatCell: UITableViewCell {
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
        
             if msg.image.uri.isEmpty == false {
+                self.backgroundColor = kBgColor
+                
 //                let imgUrl = URL(string: "https://images.pexels.com/photos/2444403/pexels-photo-2444403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500")
                 let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
                 print(imgUrl?.absoluteString ?? "")
@@ -254,6 +257,12 @@ class BWChatCell: UITableViewCell {
         self.titleLab.isHidden = true
         self.imgView.isHidden = false
     }
+    
+    func displayIconImg(path: String) {
+        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        self.iconView.kf.setImage(with: imgUrl)
+    }
+    
 
     func initTitle(msg: CommonMessage) {
         self.titleLab.isHidden = false
@@ -354,8 +363,8 @@ class BWChatLeftCell: BWChatCell {
         }
         self.arrowView.image = UIImage.svgInit("ic_left_point")
         self.arrowView.snp.makeConstraints { make in
-            make.right.equalTo(self.contentBgView.snp.left)
-            make.top.equalTo(self.contentBgView.snp.top).offset(8)
+            make.right.equalTo(self.contentBgView.snp.left).offset(1)
+            make.top.equalTo(self.contentBgView.snp.top).offset(4)
         }
     }
     
@@ -425,8 +434,8 @@ class BWChatRightCell: BWChatCell {
         
         self.arrowView.image = UIImage.svgInit("ic_right_point")
         self.arrowView.snp.makeConstraints { make in
-            make.left.equalTo(self.contentBgView.snp.right)
-            make.top.equalTo(self.contentBgView.snp.top).offset(8)
+            make.left.equalTo(self.contentBgView.snp.right).offset(-1)
+            make.top.equalTo(self.contentBgView.snp.top).offset(4)
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.clickErrorIcon))

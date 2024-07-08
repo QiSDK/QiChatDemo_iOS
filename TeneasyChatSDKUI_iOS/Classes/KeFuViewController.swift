@@ -28,7 +28,8 @@ open class KeFuViewController: UIViewController{
     private var myTimer: Timer?
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
-    var workerName: String = ""
+    private var workerName: String = ""
+     var avatarPath: String = ""
 
     //当前选择的图片
     var chooseImg: UIImage?
@@ -128,7 +129,7 @@ open class KeFuViewController: UIViewController{
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = kBgColor
+        view.backgroundColor = UIColor.white
         tableView.backgroundColor = kBgColor
 
         xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
@@ -338,8 +339,8 @@ open class KeFuViewController: UIViewController{
         print("baseUrlImage:" + baseUrlImage)
         let url = baseUrlImage + avatar
         print("avatar:" + url)
-        self.headerImg.kf.setImage(with: URL(string: url))
-
+        //self.headerImg.kf.setImage(with: URL(string: url))
+        avatarPath = avatar
     }
     
     func sendMsg(textMsg: String) {
