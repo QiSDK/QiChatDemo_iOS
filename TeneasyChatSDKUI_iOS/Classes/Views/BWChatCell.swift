@@ -26,13 +26,6 @@ class BWChatCell: UITableViewCell {
         return lab
     }()
     
-    lazy var imgView: ResizableImageView = {
-        let v = ResizableImageView()
-        v.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapImg))
-        v.addGestureRecognizer(tapGesture)
-        return v
-    }()
 
     lazy var titleLab: BWLabel = {
         let lab = BWLabel()
@@ -87,9 +80,6 @@ class BWChatCell: UITableViewCell {
         return lab
     }()
     
-    //var iconWidth = 38.0
-    var imgHeight = 114.0
-    
     var leftConstraint: Constraint?
     var rightConstraint: Constraint?
     
@@ -114,16 +104,7 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.timeLab)
         self.contentView.addSubview(self.replyQuoteLabel)
         self.contentView.addSubview(self.titleLab)
-        self.contentView.addSubview(self.imgView)
-
-        self.imgView.contentMode = .scaleAspectFit
-        self.imgView.snp.makeConstraints { make in
-            self.leftConstraint = make.left.equalTo(self.titleLab.snp.left).constraint
-            self.rightConstraint = make.right.equalTo(self.titleLab.snp.right).constraint
-            make.width.equalTo(178)
-            make.top.equalTo(self.timeLab.snp.bottom).offset(6)
-            make.height.equalTo(imgHeight)
-        }
+        
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
         self.titleLab.addGestureRecognizer(self.gesture!)
@@ -180,20 +161,9 @@ class BWChatCell: UITableViewCell {
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
        
-            if msg.image.uri.isEmpty == false {
-                self.backgroundColor = kBgColor
-                
-//                let imgUrl = URL(string: "https://images.pexels.com/photos/2444403/pexels-photo-2444403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500")
-                let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
-                print(imgUrl?.absoluteString ?? "")
-                if imgUrl != nil {
-                    self.initImg(imgUrl: imgUrl!)
-                } else {
-                    self.initTitle(msg: msg)
-                }
-            } else {
+ 
                 self.initTitle(msg: msg)
-            }
+            
             
         }
     }
@@ -217,43 +187,6 @@ class BWChatCell: UITableViewCell {
             make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
         }
     }
-
-    func initImg(imgUrl: URL) {
-        self.imgView.kf.setImage(with: imgUrl) { result in
-            switch result {
-            case .success(let value):
-                // 获取图片尺寸
-                let imageSize = value.image.size
-                print("Image width: \(imageSize.width), height: \(imageSize.height)")
-                let imageAspectRatio = imageSize.width / imageSize.height
-                // 图片最大高度是160，按比例算宽度
-                let width = self.imgHeight * imageAspectRatio
-                self.imgView.snp.updateConstraints { make in
-                    make.width.equalTo(width)
-                }
-                print(width)
-                
-                self.contentBgView.snp.updateConstraints { make in
-                    make.width.equalTo(width + 12)
-                    make.height.equalTo(self.imgHeight + 14)
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-                self.imgView.image = UIImage.svgInit("Img_box_light")
-                self.imgView.backgroundColor = .clear
-                self.imgView.snp.updateConstraints { make in
-                    make.width.equalTo(120)
-                }
-               
-                self.contentBgView.snp.updateConstraints { make in
-                    make.width.equalTo(self.imgHeight + 12)
-                    make.height.equalTo(self.imgHeight + 14)
-                }
-            }
-        }
-        self.titleLab.isHidden = true
-        self.imgView.isHidden = false
-    }
     
     func displayIconImg(path: String) {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
@@ -263,8 +196,6 @@ class BWChatCell: UITableViewCell {
 
     func initTitle(msg: CommonMessage) {
         self.titleLab.isHidden = false
-        self.imgView.isHidden = true
-        
         if msg.content.data.contains("[emoticon_") == true {
             let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
             self.titleLab.attributedText = atttext
@@ -280,30 +211,6 @@ class BWChatCell: UITableViewCell {
         super.init(coder: coder)
     }
 
-    @objc func handleTapImg() {
-        if let window = UIApplication.shared.keyWindow {
-            window.addSubview(self.blackBackgroundView)
-            self.blackBackgroundView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-                
-            let imageView = UIImageView(image: self.imgView.image)
-            imageView.contentMode = .scaleAspectFit
-            imageView.isUserInteractionEnabled = true
-            window.addSubview(imageView)
-            imageView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-                
-            UIView.animate(withDuration: 0.75, animations: {
-                self.blackBackgroundView.alpha = 1
-                
-            })
-                
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissFullscreenImage))
-            imageView.addGestureRecognizer(tapGesture)
-        }
-    }
         
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         UIView.animate(withDuration: 0.35, animations: {
@@ -345,9 +252,7 @@ class BWChatLeftCell: BWChatCell {
             make.bottom.equalToSuperview()
         }
         rightConstraint?.deactivate()
-        self.imgView.snp.updateConstraints { make in
-            make.left.equalTo(self.titleLab.snp.left).offset(6)
-        }
+
         let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
         let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
@@ -409,9 +314,6 @@ class BWChatRightCell: BWChatCell {
         // Remove the left constraint
         leftConstraint?.deactivate()
                 
-        self.imgView.snp.updateConstraints { make in
-            make.right.equalTo(self.titleLab.snp.right).offset(-6)
-        }
         self.contentView.addSubview(self.loadingView)
         self.loadingView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
@@ -449,11 +351,6 @@ class BWChatRightCell: BWChatCell {
     override func initTitle(msg: CommonMessage) {
         super.initTitle(msg: msg)
         self.initLoadingForTitle()
-    }
-
-    override func initImg(imgUrl: URL) {
-        super.initImg(imgUrl: imgUrl)
-        self.initLoadingForImage()
     }
     
     func initLoadingForTitle() {

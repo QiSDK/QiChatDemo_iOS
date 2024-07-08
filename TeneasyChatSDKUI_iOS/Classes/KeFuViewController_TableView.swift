@@ -212,8 +212,8 @@ extension KeFuViewController {
                  return
              }*/
 
-            let cell = self.tableView.cellForRow(at: indexPath) as! BWChatCell as BWChatCell
-            UIPasteboard.general.image = cell.imgView.image
+            let cell = self.tableView.cellForRow(at: indexPath) as! BWImageCell as BWImageCell
+            UIPasteboard.general.image = cell.thumbnail.image
 
             /*  let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
              print(imgUrl?.absoluteString ?? "")

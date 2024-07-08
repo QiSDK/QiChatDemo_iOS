@@ -90,9 +90,41 @@ class BWImageCell: UITableViewCell {
             let img = Utiles().generateThumbnail(path: imgUrl!)
             self.thumbnail.image = img
         }
-        
-       
-        //self.thumbnail.kf.setImage(with: imgUrl)
+    }
+    
+    func initImg(imgUrl: URL) {
+        self.thumbnail.kf.setImage(with: imgUrl) { result in
+            switch result {
+            case .success(let value):
+                // 获取图片尺寸
+                let imageSize = value.image.size
+                print("Image width: \(imageSize.width), height: \(imageSize.height)")
+                let imageAspectRatio = imageSize.width / imageSize.height
+                // 图片最大高度是160，按比例算宽度
+                let width =  imgHeight * imageAspectRatio
+                self.thumbnail.snp.updateConstraints { make in
+                    make.width.equalTo(width)
+                }
+                print(width)
+                
+                self.contentBgView.snp.updateConstraints { make in
+                    make.width.equalTo(width + 12)
+                    make.height.equalTo(imgHeight + 14)
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                self.thumbnail.image = UIImage.svgInit("Img_box_light")
+                self.thumbnail.backgroundColor = .clear
+                self.thumbnail.snp.updateConstraints { make in
+                    make.width.equalTo(120)
+                }
+               
+                self.contentBgView.snp.updateConstraints { make in
+                    make.width.equalTo(imgHeight + 12)
+                    make.height.equalTo(imgHeight + 14)
+                }
+            }
+        }
     }
     
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
