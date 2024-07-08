@@ -115,14 +115,11 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.replyQuoteLabel)
         self.contentView.addSubview(self.titleLab)
         self.contentView.addSubview(self.imgView)
-//        self.imgView.backgroundColor = UIColor.black
+
         self.imgView.contentMode = .scaleAspectFit
         self.imgView.snp.makeConstraints { make in
             self.leftConstraint = make.left.equalTo(self.titleLab.snp.left).constraint
             self.rightConstraint = make.right.equalTo(self.titleLab.snp.right).constraint
-            // make.left.equalToSuperview().offset(12)
-            // make.right.equalToSuperview().offset(-12)
-            //make.width.equalTo(kScreenWidth - 12 - 80)
             make.width.equalTo(178)
             make.top.equalTo(self.timeLab.snp.bottom).offset(6)
             make.height.equalTo(imgHeight)

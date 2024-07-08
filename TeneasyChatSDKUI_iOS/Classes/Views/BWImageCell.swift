@@ -99,29 +99,28 @@ class BWImageCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
-            
+        
+        self.contentView.addSubview(self.arrowView)
         self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
 
         self.contentView.addSubview(self.contentBgView)
         self.contentView.addSubview(self.thumbnail)
-        //self.thumbnail.backgroundColor = UIColor.black
         self.thumbnail.addSubview(self.playBtn)
-        
-        playBtn.isUserInteractionEnabled = true
-        self.playBtn.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalTo(60)
-            make.height.equalTo(60)
-        }
 
-        
         self.thumbnail.snp.makeConstraints { make in
             make.right.equalTo(self.contentBgView).offset(-boarder)
             make.left.equalTo(self.contentBgView).offset(boarder)
             make.top.equalTo(self.contentBgView).offset(boarder)
             make.bottom.equalTo(self.contentBgView).offset(-boarder)
             //make.height.width.equalTo(80)
+        }
+        
+        playBtn.isUserInteractionEnabled = true
+        self.playBtn.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(60)
+            make.height.equalTo(60)
         }
         
         thumbnail.isUserInteractionEnabled = true
@@ -185,7 +184,7 @@ class BWImageLeftCell: BWImageCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         self.iconView.image = UIImage.svgInit("icon_server_def2")
-
+        
         self.iconView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(12)
@@ -205,7 +204,13 @@ class BWImageLeftCell: BWImageCell {
             make.width.equalTo(178)
         }
         
-        self.contentBgView.backgroundColor = UIColor.red
+        arrowView.image = UIImage.svgInit("ic_left_point")
+        self.arrowView.snp.makeConstraints { make in
+            make.right.equalTo(self.contentBgView.snp.left).offset(1)
+            make.top.equalTo(self.contentBgView).offset(4)
+        }
+        
+        self.contentBgView.backgroundColor = UIColor.white
     }
     
     required init?(coder: NSCoder) {
@@ -238,6 +243,12 @@ class BWImageRightCell: BWImageCell {
         
         //self.contentBgView.image = UIImage.svgInit("right_chat_bg")
         self.contentBgView.backgroundColor = kHexColor(0x228AFE);
+        
+        arrowView.image = UIImage.svgInit("ic_right_point")
+        self.arrowView.snp.makeConstraints { make in
+            make.left.equalTo(self.contentBgView.snp.right).offset(-1)
+            make.top.equalTo(self.contentBgView).offset(4)
+        }
     }
     
     required init?(coder: NSCoder) {

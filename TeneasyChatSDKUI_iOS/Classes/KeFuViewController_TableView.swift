@@ -7,7 +7,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = BWTipCell()
             cell.model = model
             return cell
-        } else if model.cellType == .TYPE_VIDEO {
+        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
             if model.isLeft {
                 let cell = BWImageLeftCell.cell(tableView: tableView)
                 cell.longGestCallBack = { [weak self] gesure in
@@ -17,13 +17,14 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.model = model
                 cell.playBlock = { [weak self] in
-                    guard let msg = model.message else {
-                        return
-                    }
-                    let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
-                    self?.playVideoFullScreen(url: videoUrl!)
+                    self?.cellTaped(model: model)
                 }
-                cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
+                if model.cellType == .TYPE_Image{
+                    cell.playBtn.isHidden = true
+                    cell.displayThumbnail(path: model.message?.image.uri ?? "")
+                }else{
+                    cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
+                }
                 return cell
             } else {
                 let cell = BWImageRightCell.cell(tableView: tableView)
@@ -34,17 +35,15 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.model = model
                 cell.playBlock = { [weak self] in
-                    guard let msg = model.message else {
-                        return
-                    }
-                    let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
-                    if videoUrl == nil {
-                        WWProgressHUD.showFailure("无效的播放链接")
-                    } else {
-                        self?.playVideoFullScreen(url: videoUrl!)
-                    }
+                    self?.cellTaped(model: model)
                 }
-                cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
+                
+                if model.cellType == .TYPE_Image{
+                    cell.playBtn.isHidden = true
+                    cell.displayThumbnail(path: model.message?.image.uri ?? "")
+                }else{
+                    cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
+                }
                 return cell
             }
         } else if model.cellType == CellType.TYPE_QA {
@@ -109,6 +108,29 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                
                 return cell
+            }
+        }
+    }
+    
+    func cellTaped(model: ChatModel){
+        guard let msg = model.message else {
+            return
+        }
+        
+        if model.cellType == .TYPE_Image{
+            let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
+            if imgUrl == nil {
+                WWProgressHUD.showFailure("无效的图片链接")
+            }else{
+                //playVideoFullScreen(url: videoUrl!)
+            }
+        }else{
+            let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
+            
+            if videoUrl == nil {
+                WWProgressHUD.showFailure("无效的播放链接")
+            }else{
+                playVideoFullScreen(url: videoUrl!)
             }
         }
     }
