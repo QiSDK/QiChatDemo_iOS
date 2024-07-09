@@ -21,7 +21,7 @@ class BWChatCell: UITableViewCell {
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
-        lab.textColor = kHexColor(0xC4C4C4)
+        lab.textColor = timeColor
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()

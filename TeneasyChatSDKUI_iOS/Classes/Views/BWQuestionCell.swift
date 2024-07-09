@@ -11,8 +11,8 @@ class BWQuestionCell: UITableViewCell {
     
     lazy var titleLab: UILabel = {
         let lab = UILabel()
-        lab.font = UIFont.systemFont(ofSize: 15)
-        lab.textColor = .black
+        lab.font = UIFont.systemFont(ofSize: 14)
+        lab.textColor = titleColour
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()

@@ -202,25 +202,25 @@ open class KeFuViewController: UIViewController{
             make.left.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
         }
-        tableView.tableHeaderView = systemInfoView
-
-        systemInfoView.addSubview(timeLabel)
-        systemInfoView.snp.makeConstraints { make in
-            make.width.equalTo(kScreenWidth - 24)
-            make.leading.equalTo(12)
-            make.top.equalToSuperview().offset(12)
-        }
-        timeLabel.snp.makeConstraints { make in
-            make.width.equalTo(kScreenWidth)
-            make.left.equalToSuperview()
-            make.top.equalToSuperview().offset(6)
-        }
-        systemInfoView.addSubview(systemMsgLabel)
-        systemMsgLabel.snp.makeConstraints { make in
-            make.width.equalTo(kScreenWidth)
-            make.left.equalToSuperview()
-            make.top.equalTo(self.timeLabel.snp.bottom)
-        }
+//        tableView.tableHeaderView = systemInfoView
+//
+//        systemInfoView.addSubview(timeLabel)
+//        systemInfoView.snp.makeConstraints { make in
+//            make.width.equalTo(kScreenWidth - 24)
+//            make.leading.equalTo(12)
+//            make.top.equalToSuperview().offset(12)
+//        }
+//        timeLabel.snp.makeConstraints { make in
+//            make.width.equalTo(kScreenWidth)
+//            make.left.equalToSuperview()
+//            make.top.equalToSuperview().offset(6)
+//        }
+//        systemInfoView.addSubview(systemMsgLabel)
+//        systemMsgLabel.snp.makeConstraints { make in
+//            make.width.equalTo(kScreenWidth)
+//            make.left.equalToSuperview()
+//            make.top.equalTo(self.timeLabel.snp.bottom)
+//        }
 
         toolBar.textView.placeholder = "请输入想咨询的问题"
         headerTitle.text = "连接客服中..."
@@ -268,7 +268,7 @@ open class KeFuViewController: UIViewController{
                 let replyMsgId = Int64(item.replyMsgId ?? "0") ?? 0
                 
                 if replyMsgId > 0{
-                    var replyText = item.content?.data ?? "no txt"
+                    let replyText = item.content?.data ?? "no txt"
                     var replayQuote = ""
                     let oriMsg = replyList?.first(where: { Message in
                         Int64(Message.msgId ?? "0") ?? 0 == replyMsgId

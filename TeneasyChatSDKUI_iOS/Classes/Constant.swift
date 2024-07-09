@@ -68,6 +68,8 @@ let serverTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"
 
 var iconWidth = 38.0
 var imgHeight = 114.0
+let titleColour = kHexColor(0x484848)
+let timeColor = kHexColor(0xC4C4C4)
 
  func convertDateStringToString(datStr: String) -> String{
     if let date = Date(fromString: datStr, format: "yyyy-MM-dd'T'HH:mm:ssZ") {

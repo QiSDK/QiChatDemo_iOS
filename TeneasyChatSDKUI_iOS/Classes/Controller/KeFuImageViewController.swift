@@ -15,7 +15,7 @@ class KeFuImageViewController: UIViewController {
     
     lazy var imageView: UIImageView = {
         let v = UIImageView(frame: CGRect.zero)
-        v.backgroundColor = kHexColor(0x484848)
+        v.backgroundColor = titleColour
         return v
     }()
     

@@ -14,8 +14,8 @@ typealias BWChatQuestionCellQuestionClickCallBack = (QA) -> ()
 class BWChatQACell: UITableViewCell {
     var heightBlock: BWChatQuestionCellHeightCallBack?
     var qaClickBlock: BWChatQuestionCellQuestionClickCallBack?
-    lazy var questionView: BWQuestionView = {
-        let view = BWQuestionView()
+    lazy var questionView: BWQAView = {
+        let view = BWQAView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
@@ -24,11 +24,11 @@ class BWChatQACell: UITableViewCell {
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
-        lab.textColor = .black
+        lab.textColor = timeColor
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
-    var iconWidth = 44.0
+  
     lazy var iconView: UIImageView = {
         let img = UIImageView()
         img.layer.cornerRadius = iconWidth * 0.5
@@ -98,7 +98,7 @@ class BWChatQACell: UITableViewCell {
         self.contentView.addSubview(self.timeLab)
         self.timeLab.snp.makeConstraints { make in
             make.left.equalTo(self.iconView.snp.right).offset(16)
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(5)
             make.height.equalTo(0)
             make.right.equalToSuperview().offset(-12)
         }
@@ -107,9 +107,10 @@ class BWChatQACell: UITableViewCell {
         questionView.snp.makeConstraints { make in
             make.left.equalTo(timeLab.snp.left)
             make.width.equalToSuperview().offset(-50-iconWidth-16)
+            //make.width.equalTo(168)
             make.height.equalTo(50)
             //make.bottom.equalToSuperview()
-            make.top.equalTo(timeLab.snp.bottom).offset(10)
+            make.top.equalTo(timeLab.snp.bottom).offset(5)
         }
         
         questionView.heightCallback = { [weak self] (height: Double) in

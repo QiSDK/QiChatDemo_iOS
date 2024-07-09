@@ -85,7 +85,7 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         let model: QA? = sectionList[indexPath.section].related?[indexPath.row]
         //cell.titleLab.text = "\(indexPath.row + 1)、\(model?.question?.content?.data ?? "")"
         cell.titleLab.text = "\(model?.question?.content?.data ?? "")"
-        cell.titleLab.textColor = model?.clicked == true ? .gray : titleColour
+        cell.titleLab.textColor = model?.clicked == true ? .lightGray : titleColour
         cell.titleLab.font = UIFont.systemFont(ofSize: 14)
         cell.imgView.isHidden = true
         cell.iconView.isHidden = true

@@ -164,12 +164,16 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         if model.cellType == CellType.TYPE_QA {
             return questionViewHeight
         } else if model.cellType == .TYPE_Tip {
-            return 60.0
-        } else if model.message?.image.uri.isEmpty == false {
-            return 170
-        } else if model.cellType == .TYPE_VIDEO {
+            return 80.0
+        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
             return 126
         }
+        
+        /*
+         else if model.message?.image.uri.isEmpty == false {
+             return 170
+         }
+         */
         return UITableView.automaticDimension
     }
 
