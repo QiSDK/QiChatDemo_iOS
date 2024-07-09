@@ -832,6 +832,8 @@
 		DBC47B5C09C1B3718F0EF14108A564D6 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4EC2F3E288AF34F350A28858657DC5 /* MathUtils.swift */; };
 		DBD8CAC6D6C91267F648D551A1895896 /* Google_Protobuf_Any+Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696B7E1B64F9D491C0E36764F1747CC /* Google_Protobuf_Any+Registry.swift */; };
 		DC485D372C3BD02F00614B96 /* BWImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D362C3BD02F00614B96 /* BWImageCell.swift */; };
+		DC485D392C3CFB6D00614B96 /* KeFuImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D382C3CFB6D00614B96 /* KeFuImageViewController.swift */; };
+		DC485D3B2C3D102500614B96 /* KeFuVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D3A2C3D102500614B96 /* KeFuVideoViewController.swift */; };
 		DCD0C33A2B50811D53CF68F021284B47 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D4D6713AFC87FB185B039955F90361 /* DispatchQueue+Alamofire.swift */; };
 		DD0FC187732C379A47F4DEEBD5AB6EC9 /* playvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF687E92471E24C2E730E8488F79B8B /* playvideo.png */; };
 		DD58A00EACBEE274C381B491519C6B8C /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CDCFD8EFB4449BAB213F2A1463EC6 /* RedirectHandler.swift */; };
@@ -1423,7 +1425,7 @@
 		2D978E8833B58487CA55B67E5C78F462 /* EnumTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumTransform.swift; path = Source/EnumTransform.swift; sourceTree = "<group>"; };
 		2DD1B24073A04961613752605BB3193D /* metric.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = metric.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/metric.pb.swift; sourceTree = "<group>"; };
 		2EDD91DAC79E12810A904F17FCD7D8B7 /* SVGElementInstanceList.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGElementInstanceList.m; path = "Source/DOM classes/SVG-DOM/SVGElementInstanceList.m"; sourceTree = "<group>"; };
-		2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeFuVideoPlayerViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuVideoPlayerViewController.swift; sourceTree = "<group>"; };
+		2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		2F092956BA968EBCD9CBC7D09B4BA486 /* IQKeyboardManagerSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "IQKeyboardManagerSwift-dummy.m"; sourceTree = "<group>"; };
 		2F139568E3B46E23C4CE437ACF671CBE /* duration.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = duration.pb.swift; path = Sources/SwiftProtobuf/duration.pb.swift; sourceTree = "<group>"; };
 		2F495274EC1EAB353B80EB165A780E81 /* SVGElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGElement.h"; sourceTree = "<group>"; };
@@ -1638,7 +1640,7 @@
 		5FAE0665066422249CB52F99CE35385E /* emoticon_47.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_47.png; sourceTree = "<group>"; };
 		600855D70185F069F2BC168DDAA382B2 /* Date.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Date.swift; path = Sources/SwiftDate/Date/Date.swift; sourceTree = "<group>"; };
 		6076A603D08B0B5E1915AEFE0EF5CBEE /* Framer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Framer.swift; path = Sources/Framer/Framer.swift; sourceTree = "<group>"; };
-		60CCA083178C8D7A79EE7336EEEC5AF5 /* KeFuViewController_ChatToolBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeFuViewController_ChatToolBar.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuViewController_ChatToolBar.swift; sourceTree = "<group>"; };
+		60CCA083178C8D7A79EE7336EEEC5AF5 /* KeFuViewController_ChatToolBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_ChatToolBar.swift; sourceTree = "<group>"; };
 		60DEBA832555768AFC2B0EB343DCAD60 /* SVGSVGElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGSVGElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGSVGElement.h"; sourceTree = "<group>"; };
 		613D6803A9300391DF1EB56038367404 /* EntityReference.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EntityReference.h; path = "Source/DOM classes/Core DOM/EntityReference.h"; sourceTree = "<group>"; };
 		614B733B462E0B248DE48D17C23D3826 /* SVGKFastImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKFastImageView.h; path = Source/ImageViews/SVGKFastImageView.h; sourceTree = "<group>"; };
@@ -1750,7 +1752,7 @@
 		7AF715E26816072C0DF0AFB937B6CC50 /* Pods-QL-Demo_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-QL-Demo_Tests.modulemap"; sourceTree = "<group>"; };
 		7B0C02F711144F9A8E5940199945B032 /* TimeUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimeUtils.swift; path = Sources/SwiftProtobuf/TimeUtils.swift; sourceTree = "<group>"; };
 		7B0DD47CA1E71E9AC3677A32AD770056 /* PointerType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerType.swift; path = Source/PointerType.swift; sourceTree = "<group>"; };
-		7B40389B02FB95AAADED76A1B9888E5E /* BWSettingViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BWSettingViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/BWSettingViewController.swift; sourceTree = "<group>"; };
+		7B40389B02FB95AAADED76A1B9888E5E /* BWSettingViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWSettingViewController.swift; sourceTree = "<group>"; };
 		7B6195119D71D95C3D3C75051D6143EF /* StringUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringUtils.swift; path = Sources/SwiftProtobuf/StringUtils.swift; sourceTree = "<group>"; };
 		7B792961594882BE40C190D4060BDF52 /* langs */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = langs; path = Sources/SwiftDate/Formatters/RelativeFormatter/langs; sourceTree = "<group>"; };
 		7BD62E46F5D0EC74A931F76AEFB3BE8D /* NetUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetUtil.swift; sourceTree = "<group>"; };
@@ -1876,7 +1878,7 @@
 		99A1A4C0A79A99BD7ACD8B55FB7D4B3F /* SVGTextLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGTextLayer.h; path = "Source/QuartzCore additions/SVGTextLayer.h"; sourceTree = "<group>"; };
 		99B23A21F9F816CCD453A409D50963FF /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
 		99FE1EAAA5BBD4E50BDE7A8CFBF2B3DA /* SVGDefsElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGDefsElement.h; path = "Source/DOM classes/SVG-DOM/SVGDefsElement.h"; sourceTree = "<group>"; };
-		9A829DA63629B91453A0D3A6E6269D5A /* ConsultTypeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConsultTypeViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/ConsultTypeViewController.swift; sourceTree = "<group>"; };
+		9A829DA63629B91453A0D3A6E6269D5A /* ConsultTypeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConsultTypeViewController.swift; sourceTree = "<group>"; };
 		9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods-QL-Demo_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-QL-Demo_Example"; path = Pods_QL_Demo_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE258302E6FFC94FAE42C996AE75270 /* IQInvocation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQInvocation.swift; path = IQKeyboardManagerSwift/IQToolbar/IQInvocation.swift; sourceTree = "<group>"; };
 		9B8C092944AB155F2CCE96016234BECB /* emoticon_54.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_54.png; sourceTree = "<group>"; };
@@ -1901,7 +1903,7 @@
 		9E4EF6B01273614FB4EECDB1D562FE8D /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
 		9EC45548E9B2942BB90CCE6B3EA8D8DB /* ConstraintInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsets.swift; path = Source/ConstraintInsets.swift; sourceTree = "<group>"; };
 		9EF6931183A96C4CD17D90AF0FAD86A2 /* Starscream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Starscream.release.xcconfig; sourceTree = "<group>"; };
-		9F92BE4219C45640314281263182B9D5 /* KeFuViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeFuViewController.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuViewController.swift; sourceTree = "<group>"; };
+		9F92BE4219C45640314281263182B9D5 /* KeFuViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController.swift; sourceTree = "<group>"; };
 		9FF487759AB05D5C14A3B8E7184F8CF1 /* DotNetParserFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DotNetParserFormatter.swift; path = Sources/SwiftDate/Formatters/DotNetParserFormatter.swift; sourceTree = "<group>"; };
 		9FF5A0473F3A0D50D61A198DC2DD0AEE /* SVGKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SVGKit-dummy.m"; sourceTree = "<group>"; };
 		A06790D5FCCA1649B5EC75AF7FF7086F /* Pods-QL-Demo_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-QL-Demo_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -1929,7 +1931,7 @@
 		A725E90AB1276A738BBEA4933FF73668 /* BinaryDecodingError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryDecodingError.swift; path = Sources/SwiftProtobuf/BinaryDecodingError.swift; sourceTree = "<group>"; };
 		A731492727EE7C56D26BD9BBBC82BB70 /* TextFormatDecoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextFormatDecoder.swift; path = Sources/SwiftProtobuf/TextFormatDecoder.swift; sourceTree = "<group>"; };
 		A7447A8BC994610C63804204E6047F32 /* Attr.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Attr.h; path = "Source/DOM classes/Core DOM/Attr.h"; sourceTree = "<group>"; };
-		A777FFC2595BAE4DF705E31B79D20A71 /* KeFuViewController_TableView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeFuViewController_TableView.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuViewController_TableView.swift; sourceTree = "<group>"; };
+		A777FFC2595BAE4DF705E31B79D20A71 /* KeFuViewController_TableView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_TableView.swift; sourceTree = "<group>"; };
 		A7A64EF1B96A9F098334043B5852A1C2 /* emoticon_3.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_3.png; sourceTree = "<group>"; };
 		A7E9E4A035865D65AE838DA37E98F25C /* ImageCache.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Sources/Cache/ImageCache.swift; sourceTree = "<group>"; };
 		A80D1E1D1C3731B139F6F85AE921FED6 /* SVGTextPositioningElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGTextPositioningElement.h; path = "Source/DOM classes/SVG-DOM/SVGTextPositioningElement.h"; sourceTree = "<group>"; };
@@ -1958,7 +1960,7 @@
 		AD275033C75A920AB53727E05FBA9EB8 /* SwiftDate-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftDate-Info.plist"; sourceTree = "<group>"; };
 		AD423DBA9B597EA791EE9D86F7765BFD /* KFOptionsSetter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KFOptionsSetter.swift; path = Sources/General/KFOptionsSetter.swift; sourceTree = "<group>"; };
 		ADCC541B3D3B8186DBBAD533E9EEC7D3 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
-		ADE2792CB94EE27E673DCE1B4ABAF917 /* KeFuViewController_ImagePicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeFuViewController_ImagePicker.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuViewController_ImagePicker.swift; sourceTree = "<group>"; };
+		ADE2792CB94EE27E673DCE1B4ABAF917 /* KeFuViewController_ImagePicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_ImagePicker.swift; sourceTree = "<group>"; };
 		AE18BC4943C79945514D36E3EF64734F /* emoticon_93.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_93.png; sourceTree = "<group>"; };
 		AE40138492B0E2EA973457A9FC94D5A1 /* NodeList.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NodeList.m; path = "Source/DOM classes/Core DOM/NodeList.m"; sourceTree = "<group>"; };
 		AE5A49F2E84121C3C6B99FBA29F432F9 /* chat.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = chat.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/chat.pb.swift; sourceTree = "<group>"; };
@@ -2148,6 +2150,8 @@
 		DBEB84986A23AF6F9E1506B16C1D4C7A /* Region.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Region.swift; path = Sources/SwiftDate/DateInRegion/Region.swift; sourceTree = "<group>"; };
 		DC073FDAB6905D0B61023FFD7254C560 /* NamedNodeMap.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NamedNodeMap.m; path = "Source/DOM classes/Core DOM/NamedNodeMap.m"; sourceTree = "<group>"; };
 		DC485D362C3BD02F00614B96 /* BWImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BWImageCell.swift; sourceTree = "<group>"; };
+		DC485D382C3CFB6D00614B96 /* KeFuImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeFuImageViewController.swift; sourceTree = "<group>"; };
+		DC485D3A2C3D102500614B96 /* KeFuVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeFuVideoViewController.swift; sourceTree = "<group>"; };
 		DC48D9D74FF301FCEB7F1F270EED1FCE /* IQUIScrollView+Additions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUIScrollView+Additions.swift"; path = "IQKeyboardManagerSwift/Categories/IQUIScrollView+Additions.swift"; sourceTree = "<group>"; };
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDKUI_iOS; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC744F96872693D21C4791DEDA9E0B0D /* DocumentType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DocumentType.h; path = "Source/DOM classes/Core DOM/DocumentType.h"; sourceTree = "<group>"; };
@@ -2307,7 +2311,7 @@
 		FC91BC73C1C7720DD2C2AEBBC864F03A /* KFImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KFImage.swift; path = Sources/SwiftUI/KFImage.swift; sourceTree = "<group>"; };
 		FD097C7EB26B60818B68B1C6EA11A70F /* Pods-QL-Demo_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-QL-Demo_Tests-umbrella.h"; sourceTree = "<group>"; };
 		FDC5D75F329AE392160C9A1CAA41E5E7 /* BWKeFuChatMenuView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWKeFuChatMenuView.swift; sourceTree = "<group>"; };
-		FDCB3180C0F7CA01F10DAE56BCC1E1DC /* KeFuViewController_ChatSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeFuViewController_ChatSDK.swift; path = TeneasyChatSDKUI_iOS/Classes/KeFuViewController_ChatSDK.swift; sourceTree = "<group>"; };
+		FDCB3180C0F7CA01F10DAE56BCC1E1DC /* KeFuViewController_ChatSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_ChatSDK.swift; sourceTree = "<group>"; };
 		FDD867B0ABE9D9C0EAE60753D679BE1D /* ResizableImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ResizableImageView.swift; sourceTree = "<group>"; };
 		FDF687E92471E24C2E730E8488F79B8B /* playvideo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = playvideo.png; sourceTree = "<group>"; };
 		FE1EBAF6B901EFDC9FD97FEB4B7A9FA0 /* KF.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KF.swift; path = Sources/General/KF.swift; sourceTree = "<group>"; };
@@ -2975,16 +2979,8 @@
 		23C09A22B80D93EDD8C922DCDCCF80EC /* TeneasyChatSDKUI_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				7B40389B02FB95AAADED76A1B9888E5E /* BWSettingViewController.swift */,
 				7399377153BAA51E51C2D679E9B3E7B5 /* Constant.swift */,
-				9A829DA63629B91453A0D3A6E6269D5A /* ConsultTypeViewController.swift */,
 				08F33817D3369C6AE5E44E1D1679AD11 /* emoticon */,
-				2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */,
-				9F92BE4219C45640314281263182B9D5 /* KeFuViewController.swift */,
-				FDCB3180C0F7CA01F10DAE56BCC1E1DC /* KeFuViewController_ChatSDK.swift */,
-				60CCA083178C8D7A79EE7336EEEC5AF5 /* KeFuViewController_ChatToolBar.swift */,
-				ADE2792CB94EE27E673DCE1B4ABAF917 /* KeFuViewController_ImagePicker.swift */,
-				A777FFC2595BAE4DF705E31B79D20A71 /* KeFuViewController_TableView.swift */,
 				5522E1875B4831EC13ECFC2DD7C05FDA /* png */,
 				D9FCB57FA0A09ABCDD81F51414CA731C /* svg */,
 				471A543F743DD3FCF605138C12F50391 /* Controller */,
@@ -3154,6 +3150,16 @@
 		471A543F743DD3FCF605138C12F50391 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DC485D3A2C3D102500614B96 /* KeFuVideoViewController.swift */,
+				7B40389B02FB95AAADED76A1B9888E5E /* BWSettingViewController.swift */,
+				9A829DA63629B91453A0D3A6E6269D5A /* ConsultTypeViewController.swift */,
+				2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */,
+				9F92BE4219C45640314281263182B9D5 /* KeFuViewController.swift */,
+				FDCB3180C0F7CA01F10DAE56BCC1E1DC /* KeFuViewController_ChatSDK.swift */,
+				60CCA083178C8D7A79EE7336EEEC5AF5 /* KeFuViewController_ChatToolBar.swift */,
+				ADE2792CB94EE27E673DCE1B4ABAF917 /* KeFuViewController_ImagePicker.swift */,
+				A777FFC2595BAE4DF705E31B79D20A71 /* KeFuViewController_TableView.swift */,
+				DC485D382C3CFB6D00614B96 /* KeFuImageViewController.swift */,
 				27B996A5FC2E75BD7D516845E80090C7 /* WWNoAuthorizeVC.swift */,
 			);
 			name = Controller;
@@ -5461,6 +5467,7 @@
 				D796568D20296CC35D771FF3A6231D97 /* BWSettingViewController.swift in Sources */,
 				594FAC8BE8A24FD222075B353CBC0A2B /* BWTipCell.swift in Sources */,
 				A27A5D202D9C1807D69A90F6B8F20513 /* BWVideoCell.swift in Sources */,
+				DC485D392C3CFB6D00614B96 /* KeFuImageViewController.swift in Sources */,
 				40A399921CAEE8A6529ADDDE58FA2C03 /* ChatModel.swift in Sources */,
 				2D0C774F29375F8D480C8FBA845A440E /* Constant.swift in Sources */,
 				D26124EC40FAB3F5953A9AAC95DC335F /* ConstConfig.swift in Sources */,
@@ -5480,6 +5487,7 @@
 				5B03BFF55B0274D410BC3D6CD9120104 /* ResizableImageView.swift in Sources */,
 				72382A53E04E4712AF4C6913AD869C9E /* SwiftPopMenu.swift in Sources */,
 				7760FFC79E40865FD505644FE14A76BB /* TeneasyChatSDKUI_iOS-dummy.m in Sources */,
+				DC485D3B2C3D102500614B96 /* KeFuVideoViewController.swift in Sources */,
 				C8CC116405F2C086927C2BEE8366A09A /* UploadResult.swift in Sources */,
 				992AC86F16DEB301EB2E9E79E18D10DF /* Utils.swift in Sources */,
 				7937F9151A1DEDCEFB8980159B9E20C1 /* WBaseView.swift in Sources */,

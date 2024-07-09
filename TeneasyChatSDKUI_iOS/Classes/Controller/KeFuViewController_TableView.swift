@@ -122,7 +122,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             if imgUrl == nil {
                 WWProgressHUD.showFailure("无效的图片链接")
             }else{
-                //playVideoFullScreen(url: videoUrl!)
+                playImageFullScreen(url: imgUrl!)
             }
         }else{
             let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
@@ -136,11 +136,20 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func playVideoFullScreen(url: URL) {
-        let videoPlayerViewController = KeFuVideoPlayerViewController()
+        let videoPlayerViewController = KeFuVideoViewController()
         videoPlayerViewController.configure(with: url)
         videoPlayerViewController.modalPresentationStyle = .fullScreen
         present(videoPlayerViewController, animated: false, completion: nil)
     }
+    
+    func playImageFullScreen(url: URL) {
+        let videoPlayerViewController = KeFuImageViewController()
+        videoPlayerViewController.configure(with: url)
+        videoPlayerViewController.modalPresentationStyle = .fullScreen
+        present(videoPlayerViewController, animated: false, completion: nil)
+    }
+    
+    
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datasouceArray.count

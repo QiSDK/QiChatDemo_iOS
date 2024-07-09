@@ -6,16 +6,20 @@
 //
 
 import Foundation
-class KeFuImageViewController: UIViewController {
+import AVKit
+class KeFuVideoViewController: UIViewController {
+    var player: AVPlayer?
+    var playerViewController: AVPlayerViewController?
+    
     lazy var headerView: UIView = {
         let v = UIView(frame: CGRect.zero)
         v.backgroundColor = .white
         return v
     }()
     
-    lazy var imageView: UIImageView = {
-        let v = UIImageView(frame: CGRect.zero)
-        v.backgroundColor = kHexColor(0x484848)
+    lazy var playerView: UIView = {
+        let v = UIView(frame: CGRect.zero)
+        v.backgroundColor = .white
         return v
     }()
     
@@ -31,7 +35,6 @@ class KeFuImageViewController: UIViewController {
         self.view.backgroundColor = .white
         
         view.addSubview(headerView)
-        view.addSubview(imageView)
         headerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
@@ -39,12 +42,6 @@ class KeFuImageViewController: UIViewController {
             make.top.equalToSuperview().offset(kDeviceTop)
         }
 
-        imageView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.top.equalTo(headerView.snp.bottom)
-        }
         
         headerView.addSubview(headerClose)
         headerClose.snp.makeConstraints { make in
@@ -52,7 +49,24 @@ class KeFuImageViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
-        imageView.contentMode = .scaleAspectFill
+        view.addSubview(playerView)
+        playerView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom)
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        playerViewController = AVPlayerViewController()
+        if let playerViewController = playerViewController {
+            playerViewController.player = player
+            playerViewController.view.frame = playerView.bounds
+            //playerViewController.view.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height - 40)
+            playerViewController.showsPlaybackControls = true
+            addChild(playerViewController)
+            playerView.addSubview(playerViewController.view)
+            playerViewController.didMove(toParent: self)
+        }
     }
 
     @objc func closeClick() {
@@ -60,11 +74,11 @@ class KeFuImageViewController: UIViewController {
     }
 
     func configure(with url: URL) {
-        self.imageView.kf.setImage(with: url)
+        player = AVPlayer(url: url)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       
+        player?.play()
     }
 }
