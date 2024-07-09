@@ -10,13 +10,13 @@ import Foundation
 typealias BWQuestionViewHeightCallback = (Double) -> ()
 typealias BWQuestionViewCellClickCallback = (QA) -> ()
 
-class BWQuestionView: UIView {
+class BWQAView: UIView {
     var heightCallback: BWQuestionViewHeightCallback?
     var qaCellClick: BWQuestionViewCellClickCallback?
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = UIColor.lightGray
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = titleColour
         return label
     }()
 
@@ -25,6 +25,7 @@ class BWQuestionView: UIView {
         view.delegate = self
         view.dataSource = self
         view.backgroundColor = .clear
+        view.separatorStyle = .none
         view.register(BWQuestionSectionHeader.self, forHeaderFooterViewReuseIdentifier: "BWQuestionSectionHeader")
         return view
     }()
@@ -46,12 +47,12 @@ class BWQuestionView: UIView {
             make.left.equalToSuperview().offset(12)
             make.right.equalToSuperview().offset(-5)
             make.height.equalTo(25).priority(.low)
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(10)
         }
 
         addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            make.top.equalTo(self.titleLabel.snp.bottom)
             make.bottom.equalToSuperview().offset(8)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
@@ -70,7 +71,7 @@ class BWQuestionView: UIView {
     }
 }
 
-extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
+extension BWQAView: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         sectionList.count
     }
@@ -82,10 +83,15 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = BWQuestionCell.cell(tableView: tableView)
         let model: QA? = sectionList[indexPath.section].related?[indexPath.row]
-        cell.titleLab.text = model?.question?.content?.data
-        cell.titleLab.textColor = model?.clicked == true ? .gray : UIColor.brown
+        //cell.titleLab.text = "\(indexPath.row + 1)、\(model?.question?.content?.data ?? "")"
+        cell.titleLab.text = "\(model?.question?.content?.data ?? "")"
+        cell.titleLab.textColor = model?.clicked == true ? .gray : titleColour
         cell.titleLab.font = UIFont.systemFont(ofSize: 14)
         cell.imgView.isHidden = true
+        cell.iconView.isHidden = true
+        cell.iconView.snp.updateConstraints { make in
+            make.width.equalTo(0)
+        }
         return cell
     }
 
@@ -106,16 +112,19 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
 
         print(sectionList[section].question?.content?.data ?? "")
         // 设置组头视图的内容
-        headerView.titleLabel.text = sectionList[section].question?.content?.data ?? ""
+        //headerView.titleLabel.text = sectionList[section].question?.content?.data ?? ""
+        
+        headerView.titleLabel.text = "\(section + 1)、\(sectionList[section].question?.content?.data ?? "")"
+        
         //headerView.titleLabel.text = "你和我打的的是谁的谁谁谁谁谁谁谁谁谁呃呃等待"
-        headerView.titleLabel.textColor = UIColor.purple
-        headerView.titleLabel.font = UIFont.systemFont(ofSize: 15)
+        headerView.titleLabel.textColor = titleColour
+        headerView.titleLabel.font = UIFont.systemFont(ofSize: 14)
         if sectionList[section].myExpanded == true {
             headerView.imgView.image = UIImage.svgInit("arrowup")
         } else {
             headerView.imgView.image = UIImage.svgInit("arrowdown")
         }
-
+        headerView.imgView.isHidden = true
         /*
          var tvTitle = holder?.get<TextView>(R.id.tv_Title)
                  tvTitle?.text = (position + 1).toString() + ", " + bean.question.content.data
@@ -130,11 +139,11 @@ extension BWQuestionView: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        44
+        32
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        44
+        32
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
