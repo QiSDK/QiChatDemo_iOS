@@ -22,7 +22,7 @@ class WBaseView: UIView,WBaseViewProtocol {
     weak var delegate:WBaseViewDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .groupTableViewBackground
+        backgroundColor = chatBackColor
         initConfig();
         initSubViews();
         initBindModel();

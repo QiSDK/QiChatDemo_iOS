@@ -50,8 +50,8 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = BWChatQACell.cell(tableView: tableView)
             cell.consultId = Int32(self.consultId)
             cell.heightBlock = { [weak self] (height: Double) in
-                self?.questionViewHeight = height + 100
-                print("questionViewHeight:\(height + 100)")
+                self?.questionViewHeight = height + 20
+                print("questionViewHeight:\(height + 20)")
                 self?.tableView.reloadData()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self?.scrollToBottom()

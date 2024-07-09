@@ -11,9 +11,9 @@ class BWTipCell: UITableViewCell {
     
     lazy var titleLab: UILabel = {
         let lab = UILabel()
-        lab.font = UIFont.systemFont(ofSize: 15)
+        lab.font = UIFont.systemFont(ofSize: 14)
         lab.textAlignment = .center
-        lab.textColor = .systemBlue
+        lab.textColor = titleColour
         lab.numberOfLines = 3
         
         lab.lineBreakMode = .byTruncatingTail
@@ -53,7 +53,31 @@ class BWTipCell: UITableViewCell {
             }
           
             let time = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
-            titleLab.text = time + "\n" + msg.content.data + "\n"
+            //titleLab.text = time + "\n" + msg.content.data + "\n"
+            
+            
+            // Create the attributed string
+                   let attributedString = NSMutableAttributedString()
+                   
+                   // Add time with a specific color
+                   let timeAttributes: [NSAttributedString.Key: Any] = [
+                       .foregroundColor: timeColor // Change this to your desired color
+                   ]
+                   let timeAttributedString = NSAttributedString(string: time, attributes: timeAttributes)
+                   attributedString.append(timeAttributedString)
+                   
+                   // Add a newline
+                   attributedString.append(NSAttributedString(string: "\n"))
+                   
+                   // Add message content with a different color
+                   let contentAttributes: [NSAttributedString.Key: Any] = [
+                       .foregroundColor: titleColour // Change this to your desired color
+                   ]
+                   let contentAttributedString = NSAttributedString(string: msg.content.data + "\n", attributes: contentAttributes)
+                   attributedString.append(contentAttributedString)
+                   
+                   // Set the attributed string to the label
+                   titleLab.attributedText = attributedString
         }
     }
     

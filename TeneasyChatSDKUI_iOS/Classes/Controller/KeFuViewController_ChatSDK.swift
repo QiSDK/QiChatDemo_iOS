@@ -67,8 +67,8 @@ extension KeFuViewController: teneasySDKDelegate {
                     }
                     let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
-                    model.replayQuote = replayQuote ?? ""
-                    appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text)
+                    //model.replayQuote = replayQuote ?? ""
+                    appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: replayQuote)
                 }else{
                     appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Text)
                 }

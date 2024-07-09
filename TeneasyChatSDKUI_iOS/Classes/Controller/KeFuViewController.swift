@@ -100,7 +100,7 @@ open class KeFuViewController: UIViewController{
         let view = UITableView()
         view.delegate = self
         view.dataSource = self
-        view.backgroundColor = .groupTableViewBackground
+        view.backgroundColor = chatBackColor
         view.separatorStyle = .none
         view.estimatedRowHeight = 50
         view.rowHeight = UITableView.automaticDimension
@@ -161,11 +161,14 @@ open class KeFuViewController: UIViewController{
     }
 
     func initView() {
+        
+        view.backgroundColor = UIColor.white
         view.addSubview(toolBar)
         toolBar.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kDeviceBottom)
         }
+        toolBar.backgroundColor = chatBackColor
 
         view.addSubview(headerView)
         headerView.snp.makeConstraints { make in
@@ -178,7 +181,7 @@ open class KeFuViewController: UIViewController{
         tableView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(self.headerView.snp.bottom)
-            make.bottom.equalTo(toolBar.snp.top).offset(-10)
+            make.bottom.equalTo(toolBar.snp.top).offset(-2)
         }
 
         headerView.addSubview(headerImg)
@@ -226,7 +229,7 @@ open class KeFuViewController: UIViewController{
         headerTitle.text = "连接客服中..."
     }
 
-    func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text) {
+    func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text, replayQuote: String? = nil) {
         let model = ChatModel()
         model.isLeft = isLeft
         model.cellType = cellType
@@ -234,6 +237,9 @@ open class KeFuViewController: UIViewController{
         model.payLoadId = payLoadId
         if !isLeft {
             model.sendStatus = status
+        }
+        if let replayQuote = replayQuote{
+            model.replayQuote = replayQuote
         }
         datasouceArray.append(model)
         tableView.reloadData()

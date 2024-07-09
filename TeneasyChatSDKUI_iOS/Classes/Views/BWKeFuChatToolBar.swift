@@ -69,7 +69,7 @@ class BWKeFuChatToolBar: UIView {
         let text = IQTextView()
         text.layer.cornerRadius = 5
         text.layer.masksToBounds = true
-        text.backgroundColor = .groupTableViewBackground
+        text.backgroundColor = chatBackColor
         text.delegate = self
         text.font = UIFont.systemFont(ofSize: 14)
         text.textColor = .black
@@ -81,7 +81,7 @@ class BWKeFuChatToolBar: UIView {
     /// 菜单视图
     lazy var menuView: BWKeFuChatMenuView = {
         let menuView = BWKeFuChatMenuView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 240))
-        menuView.backgroundColor = .groupTableViewBackground
+        menuView.backgroundColor = chatBackColor
         menuView.delegate = self
         return menuView
     }()
@@ -90,7 +90,7 @@ class BWKeFuChatToolBar: UIView {
     lazy var emojiView: BWKeFuChatEmojiView = {
         let emojiView = BWKeFuChatEmojiView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 285))
         emojiView.delegate = self
-        emojiView.backgroundColor = .groupTableViewBackground
+        emojiView.backgroundColor = chatBackColor
         return emojiView
     }()
     

@@ -31,7 +31,7 @@ class BWKeFuChatEmojiView: UIView {
     }
     
     private func setupUI() {
-        backgroundColor = .groupTableViewBackground
+        backgroundColor = chatBackColor
         
         //Bar 视图
         let toolView = UIView()

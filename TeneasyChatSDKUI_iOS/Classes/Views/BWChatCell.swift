@@ -243,7 +243,7 @@ class BWChatLeftCell: BWChatCell {
         }
         self.replyQuoteLabel.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
-            make.left.equalTo(self.timeLab.snp.left)
+            make.left.equalTo(self.timeLab.snp.left).offset(12)
             make.height.equalTo(0)
         }
         self.titleLab.snp.makeConstraints { make in

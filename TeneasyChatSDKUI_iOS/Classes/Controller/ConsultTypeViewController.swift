@@ -117,7 +117,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
             make.centerY.equalToSuperview()
         }
         
-        entranceView.backgroundColor = .groupTableViewBackground
+        entranceView.backgroundColor = chatBackColor
         entranceView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
