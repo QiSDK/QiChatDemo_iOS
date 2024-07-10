@@ -85,13 +85,16 @@ class BWImageCell: UITableViewCell {
     
     func displayVideoThumbnail(path: String) {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         if imgUrl != nil{
+
             Utiles().generateThumbnail(path: imgUrl!){img in
                 self.thumbnail.image = img
             }
         }
     }
     
+    //还没用上
     func initImg(imgUrl: URL) {
         self.thumbnail.kf.setImage(with: imgUrl) { result in
             switch result {

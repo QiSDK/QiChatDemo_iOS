@@ -28,7 +28,7 @@ open class KeFuViewController: UIViewController{
     private var myTimer: Timer?
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
-    private var workerName: String = ""
+    var workerName: String = ""
      var avatarPath: String = ""
 
     //当前选择的图片
@@ -378,7 +378,7 @@ open class KeFuViewController: UIViewController{
         // lib.sendMessageImage(url: "https://www.bing.com/th?id=OHR.SunriseCastle_ROW9509100997_1920x1080.jpg&rf=LaDigue_1920x1080.jpg")
         lib.sendMessage(msg: url, type: .msgImg, consultId: consultId)
         if let cMsg = lib.sendingMsg {
-            appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
+            appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_Image)
         }
     }
     
@@ -484,9 +484,9 @@ open class KeFuViewController: UIViewController{
                 }
             }
             if (isVideo) {
-                multiPart.append(imgData, withName: "myFile", fileName: "file.mp4", mimeType: "video/mp4")
+                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
             } else {
-                multiPart.append(imgData, withName: "myFile", fileName: "file.png", mimeType: "image/png")
+                multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
             }
         }, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
@@ -498,7 +498,10 @@ open class KeFuViewController: UIViewController{
             switch data.result {
             case .success:
                 if let resData = data.data {
-                    //let path = String(data: resData, encoding: String.Encoding.utf8)
+                    let path = String(data: resData, encoding: String.Encoding.utf8)
+                    #if DEBUG
+                    print(path ?? "")
+                    #endif
                     let myResult = try? JSONDecoder().decode(UploadResult.self, from: resData)
                     
                     if myResult == nil {

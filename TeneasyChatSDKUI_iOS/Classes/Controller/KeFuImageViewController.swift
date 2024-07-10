@@ -35,7 +35,7 @@ class KeFuImageViewController: UIViewController {
         headerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(60)
             make.top.equalToSuperview().offset(kDeviceTop)
         }
         

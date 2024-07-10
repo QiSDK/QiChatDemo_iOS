@@ -136,17 +136,17 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func playVideoFullScreen(url: URL) {
-        let videoPlayerViewController = KeFuVideoViewController()
-        videoPlayerViewController.configure(with: url)
-        videoPlayerViewController.modalPresentationStyle = .fullScreen
-        present(videoPlayerViewController, animated: false, completion: nil)
+        let vc = KeFuWebViewController()
+        vc.configure(with: url, workerName: workerName)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: false, completion: nil)
     }
     
     func playImageFullScreen(url: URL) {
-        let videoPlayerViewController = KeFuWebViewController()
-        videoPlayerViewController.configure(with: url)
-        videoPlayerViewController.modalPresentationStyle = .fullScreen
-        present(videoPlayerViewController, animated: false, completion: nil)
+        let vc = KeFuWebViewController()
+        vc.configure(with: url, workerName: workerName)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: false, completion: nil)
     }
     
     
@@ -162,7 +162,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = datasouceArray[indexPath.row]
         if model.cellType == CellType.TYPE_QA {
-            return questionViewHeight
+            return questionViewHeight + 20
         } else if model.cellType == .TYPE_Tip {
             return 80.0
         } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{

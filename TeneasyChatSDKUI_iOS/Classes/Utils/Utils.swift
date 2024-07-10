@@ -28,6 +28,7 @@ struct Utiles{
     func generateThumbnail(path: URL, completion: @escaping (UIImage?) -> Void) {
         DispatchQueue.global(qos: .background).async {
             do {
+                print("缩略图的视频地址:\(path)")
                 let asset = AVURLAsset(url: path, options: nil)
                 let imgGenerator = AVAssetImageGenerator(asset: asset)
                 imgGenerator.appliesPreferredTrackTransform = true

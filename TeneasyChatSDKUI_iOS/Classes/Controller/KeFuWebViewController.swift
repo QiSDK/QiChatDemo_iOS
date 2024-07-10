@@ -15,6 +15,13 @@ class KeFuWebViewController: UIViewController {
         return v
     }()
     
+    lazy var headerTitle: UILabel = {
+        let v = UILabel(frame: CGRect.zero)
+        v.text = "--"
+        v.textColor = UIColor.black
+        return v
+    }()
+    
     lazy var imageView: WKWebView = {
         let v = WKWebView(frame: CGRect.zero)
         v.backgroundColor = titleColour
@@ -37,7 +44,7 @@ class KeFuWebViewController: UIViewController {
         headerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(60)
             make.top.equalToSuperview().offset(kDeviceTop)
         }
         
@@ -46,6 +53,14 @@ class KeFuWebViewController: UIViewController {
             make.left.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
         }
+        
+        headerView.addSubview(headerTitle)
+        headerTitle.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalTo(260)
+        }
+        headerTitle.textAlignment = .center
 
         imageView.snp.makeConstraints { make in
             make.left.equalToSuperview()
@@ -54,8 +69,6 @@ class KeFuWebViewController: UIViewController {
             make.top.equalTo(headerView.snp.bottom)
         }
         
-      
-        
         imageView.contentMode = .scaleAspectFill
     }
 
@@ -63,11 +76,12 @@ class KeFuWebViewController: UIViewController {
         dismiss(animated: false, completion: nil)
     }
 
-    func configure(with url: URL) {
+    func configure(with url: URL, workerName: String) {
         //if let url = URL(string: "https://example.com/your-image.jpg") {
                    let request = URLRequest(url: url)
             imageView.load(request)
              //  }
+        headerTitle.text = workerName
     }
 
     override func viewDidAppear(_ animated: Bool) {

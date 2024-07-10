@@ -173,8 +173,8 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
 
-            print("QA Cell Height:\(60.0 + sectionHeight + expandRowHeight)")
-            heightCallback!(60.0 + sectionHeight + expandRowHeight)
+            print("QA Cell Height:\(40.0 + sectionHeight + expandRowHeight)")
+            heightCallback!(40.0 + sectionHeight + expandRowHeight)
             isHidden = false
         }
         tableView.reloadData()

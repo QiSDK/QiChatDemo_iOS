@@ -837,6 +837,7 @@
 		DC485D3F2C3D391800614B96 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D3E2C3D391700614B96 /* Extensions.swift */; };
 		DCC9D2252C3E6C6300E9EFB6 /* KeFuWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC9D2242C3E6C6300E9EFB6 /* KeFuWebViewController.swift */; };
 		DCD0C33A2B50811D53CF68F021284B47 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D4D6713AFC87FB185B039955F90361 /* DispatchQueue+Alamofire.swift */; };
+		DCFFF1D72C3EBB8B00707635 /* imgloading.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFFF1D62C3EBB8B00707635 /* imgloading.png */; };
 		DD0FC187732C379A47F4DEEBD5AB6EC9 /* playvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF687E92471E24C2E730E8488F79B8B /* playvideo.png */; };
 		DD58A00EACBEE274C381B491519C6B8C /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CDCFD8EFB4449BAB213F2A1463EC6 /* RedirectHandler.swift */; };
 		DD5A0862F01B8EE9589CC86C25CB9F85 /* SVGMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D18A213B261425E725DFA43C5349A81 /* SVGMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -944,7 +945,6 @@
 		F47075CA5B020AE172AB85652384BE8C /* emoticon_24.png in Resources */ = {isa = PBXBuildFile; fileRef = F0A813809E7630C83760FB2DE00E431C /* emoticon_24.png */; };
 		F4F65619F9C5AB07C3B6001BF20EB4FF /* SVGKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B81152DBF9D7BC444A0154F9582CAD41 /* SVGKit.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		F534D8A113424CA4520FB37267F74572 /* emoticon_67.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB08D55085F66F6FC6FDD4D5C6B6370 /* emoticon_67.png */; };
-		F53749C24F8E886E6436226744180334 /* KeFuVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */; };
 		F55CEF2B1F7D47FC0FE8445DFE875022 /* SVGGradientElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 319373CB589534D89BA4D138D82B1565 /* SVGGradientElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F56EBE73F3AFB1AD48CD32D3A69E348D /* arrowup.svg in Resources */ = {isa = PBXBuildFile; fileRef = DF449BE01972E094AECA592E9E9F8AA3 /* arrowup.svg */; };
 		F5D2A31C7EB1DE010771140B6E7ABAD8 /* URLEncodedFormEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFEAEC15A45E4E6365A3193EC5E0EB /* URLEncodedFormEncoder.swift */; };
@@ -1427,7 +1427,6 @@
 		2D978E8833B58487CA55B67E5C78F462 /* EnumTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumTransform.swift; path = Source/EnumTransform.swift; sourceTree = "<group>"; };
 		2DD1B24073A04961613752605BB3193D /* metric.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = metric.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/metric.pb.swift; sourceTree = "<group>"; };
 		2EDD91DAC79E12810A904F17FCD7D8B7 /* SVGElementInstanceList.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGElementInstanceList.m; path = "Source/DOM classes/SVG-DOM/SVGElementInstanceList.m"; sourceTree = "<group>"; };
-		2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		2F092956BA968EBCD9CBC7D09B4BA486 /* IQKeyboardManagerSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "IQKeyboardManagerSwift-dummy.m"; sourceTree = "<group>"; };
 		2F139568E3B46E23C4CE437ACF671CBE /* duration.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = duration.pb.swift; path = Sources/SwiftProtobuf/duration.pb.swift; sourceTree = "<group>"; };
 		2F495274EC1EAB353B80EB165A780E81 /* SVGElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGElement.h"; sourceTree = "<group>"; };
@@ -2161,6 +2160,7 @@
 		DC9C505AE7514B64241595811DE61509 /* emoticon_40.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_40.png; sourceTree = "<group>"; };
 		DCC9D2242C3E6C6300E9EFB6 /* KeFuWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeFuWebViewController.swift; sourceTree = "<group>"; };
 		DCDCE6557B98539297ADCC7293C4D029 /* SVGKParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKParser.h; path = Source/Parsers/SVGKParser.h; sourceTree = "<group>"; };
+		DCFFF1D62C3EBB8B00707635 /* imgloading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgloading.png; sourceTree = "<group>"; };
 		DD3D19E5EDB850F1E189FB005EB69E27 /* XMMenuPopoverDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuPopoverDefine.h; path = MenuPopover/XMMenuPopoverDefine.h; sourceTree = "<group>"; };
 		DD4593645181B1DE905831E3F75E97C9 /* CallbackQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CallbackQueue.swift; path = Sources/Utility/CallbackQueue.swift; sourceTree = "<group>"; };
 		DD652A5E6D46F98C153001435132F69D /* SVGRadialGradientElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGRadialGradientElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGRadialGradientElement.h"; sourceTree = "<group>"; };
@@ -3159,7 +3159,6 @@
 				DC485D3A2C3D102500614B96 /* KeFuVideoViewController.swift */,
 				7B40389B02FB95AAADED76A1B9888E5E /* BWSettingViewController.swift */,
 				9A829DA63629B91453A0D3A6E6269D5A /* ConsultTypeViewController.swift */,
-				2EE4EA8F98617179AB9F86420285F0A2 /* KeFuVideoPlayerViewController.swift */,
 				9F92BE4219C45640314281263182B9D5 /* KeFuViewController.swift */,
 				FDCB3180C0F7CA01F10DAE56BCC1E1DC /* KeFuViewController_ChatSDK.swift */,
 				60CCA083178C8D7A79EE7336EEEC5AF5 /* KeFuViewController_ChatToolBar.swift */,
@@ -3547,6 +3546,7 @@
 		8283A31726227F2C2F4411F19AAF7903 /* png */ = {
 			isa = PBXGroup;
 			children = (
+				DCFFF1D62C3EBB8B00707635 /* imgloading.png */,
 				B6933900A1466FCC58EA680FD92D86B1 /* left_chat_bg.png */,
 				20AB455B915144BDC2807A455ADBDBA7 /* lt_biaoqing.png */,
 				CB5BCBAC67638E3D796C23C02398E55B /* lt_jianpan.png */,
@@ -4933,6 +4933,7 @@
 				198937173BE726F771ABDCBDB44D3197 /* emoticon_49.png in Resources */,
 				E968C15B1F4AD01874555B15BC325201 /* emoticon_5.png in Resources */,
 				A9422DB6160C9D829B3F1B0DC33C70AE /* emoticon_50.png in Resources */,
+				DCFFF1D72C3EBB8B00707635 /* imgloading.png in Resources */,
 				78FE6CB6EFA24600AECB6AD22F3A70EC /* emoticon_51.png in Resources */,
 				AADCB37DA052B440503BBBE67D8C201F /* emoticon_52.png in Resources */,
 				ADB3B4993E4796E9AC9C30E426BF7171 /* emoticon_53.png in Resources */,
@@ -5483,7 +5484,6 @@
 				A9C2503AFC504A65647189EBE7A84333 /* Date+Extensions.swift in Sources */,
 				11BD2FC9DEB60DBB3F08B1FCB9A2F0D7 /* EntranceModel.swift in Sources */,
 				C5821F8785C908E9E8F390686C237D9E /* HistoryModel.swift in Sources */,
-				F53749C24F8E886E6436226744180334 /* KeFuVideoPlayerViewController.swift in Sources */,
 				0DA394495C04E45497EF6F26E95EEFE4 /* KeFuViewController.swift in Sources */,
 				D0BB8877F31918F2ADFF6672B3E1339C /* KeFuViewController_ChatSDK.swift in Sources */,
 				2C5C36A5A3FC4AEB7FE45DF50895B332 /* KeFuViewController_ChatToolBar.swift in Sources */,
