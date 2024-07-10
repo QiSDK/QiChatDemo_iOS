@@ -499,22 +499,19 @@ open class KeFuViewController: UIViewController{
             case .success:
                 if let resData = data.data {
                     //let path = String(data: resData, encoding: String.Encoding.utf8)
-                    //let imgUrl = baseUrlImage + (path ?? "")
-                    //let filePath = (path ?? "")
-                    //print(filePath)
+                    let myResult = try? JSONDecoder().decode(UploadResult.self, from: resData)
                     
-                    //{"code":200,"message":"success","data":{"filepath":"/session/20240618/230/666665/ASSET_KIND_SESSION/file.js"}}
-                    //UploadResult
-                    
-                    let UploadResult = try? JSONDecoder().decode(UploadResult.self, from: resData)
-                    
-                    
-                    if UploadResult?.code != 200 && UploadResult?.code != 0 {
-                        WWProgressHUD.showFailure(UploadResult?.message)
+                    if myResult == nil {
+                        WWProgressHUD.showFailure("数据返回不对，解析失败！")
                         return
                     }
                     
-                    print(UploadResult?.data.filepath ?? "filePath is null")
+                    if myResult?.code != 200 && myResult?.code != 0 {
+                        WWProgressHUD.showFailure(myResult?.message)
+                        return
+                    }
+                    
+                    print(myResult?.data?.filepath ?? "filePath is null")
 
                     /*if filePath.contains(".png") || filePath.contains(".tiff") || filePath.contains(".gif") || filePath.contains(".tif") || filePath.contains(".jpg") || filePath.contains(".jpeg"){
                         self.sendImage(url: path ?? "")
@@ -523,13 +520,10 @@ open class KeFuViewController: UIViewController{
                     }*/
                     
                     if !isVideo{
-                        self.sendImage(url: UploadResult?.data.filepath ?? "")
+                        self.sendImage(url: myResult?.data?.filepath ?? "")
                     }else{
-                        self.sendVideo(url: UploadResult?.data.filepath ?? "")
+                        self.sendVideo(url: myResult?.data?.filepath ?? "")
                     }
-                   
-                    
-                   
                 } else {
                     print("图片上传失败：")
                     WWProgressHUD.showFailure("上传失败！")
