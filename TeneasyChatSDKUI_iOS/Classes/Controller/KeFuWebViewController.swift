@@ -6,15 +6,17 @@
 //
 
 import Foundation
-class KeFuImageViewController: UIViewController {
+import WebKit
+
+class KeFuWebViewController: UIViewController {
     lazy var headerView: UIView = {
         let v = UIView(frame: CGRect.zero)
         v.backgroundColor = .white
         return v
     }()
     
-    lazy var imageView: UIImageView = {
-        let v = UIImageView(frame: CGRect.zero)
+    lazy var imageView: WKWebView = {
+        let v = WKWebView(frame: CGRect.zero)
         v.backgroundColor = titleColour
         return v
     }()
@@ -62,7 +64,10 @@ class KeFuImageViewController: UIViewController {
     }
 
     func configure(with url: URL) {
-        self.imageView.kf.setImage(with: url)
+        //if let url = URL(string: "https://example.com/your-image.jpg") {
+                   let request = URLRequest(url: url)
+            imageView.load(request)
+             //  }
     }
 
     override func viewDidAppear(_ animated: Bool) {

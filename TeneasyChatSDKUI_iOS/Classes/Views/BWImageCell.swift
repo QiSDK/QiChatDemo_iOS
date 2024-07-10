@@ -15,7 +15,7 @@ class BWImageCell: UITableViewCell {
     var playBlock: BWVideoCellClickBlock?
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
-    var boarder = 5
+    var boarder = 3
     lazy var contentBgView: UIView = {
         let img = UIImageView()
         return img
@@ -84,11 +84,11 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayVideoThumbnail(path: String) {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let imgUrl = URL(string: "\(baseUrlImage)\(path)")
-            let img = Utiles().generateThumbnail(path: imgUrl!)
-            self.thumbnail.image = img
+        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        if imgUrl != nil{
+            Utiles().generateThumbnail(path: imgUrl!){img in
+                self.thumbnail.image = img
+            }
         }
     }
     

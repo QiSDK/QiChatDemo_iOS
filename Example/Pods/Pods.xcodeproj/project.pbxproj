@@ -835,6 +835,7 @@
 		DC485D392C3CFB6D00614B96 /* KeFuImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D382C3CFB6D00614B96 /* KeFuImageViewController.swift */; };
 		DC485D3B2C3D102500614B96 /* KeFuVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D3A2C3D102500614B96 /* KeFuVideoViewController.swift */; };
 		DC485D3F2C3D391800614B96 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC485D3E2C3D391700614B96 /* Extensions.swift */; };
+		DCC9D2252C3E6C6300E9EFB6 /* KeFuWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC9D2242C3E6C6300E9EFB6 /* KeFuWebViewController.swift */; };
 		DCD0C33A2B50811D53CF68F021284B47 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D4D6713AFC87FB185B039955F90361 /* DispatchQueue+Alamofire.swift */; };
 		DD0FC187732C379A47F4DEEBD5AB6EC9 /* playvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF687E92471E24C2E730E8488F79B8B /* playvideo.png */; };
 		DD58A00EACBEE274C381B491519C6B8C /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CDCFD8EFB4449BAB213F2A1463EC6 /* RedirectHandler.swift */; };
@@ -2158,6 +2159,7 @@
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDKUI_iOS; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC744F96872693D21C4791DEDA9E0B0D /* DocumentType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DocumentType.h; path = "Source/DOM classes/Core DOM/DocumentType.h"; sourceTree = "<group>"; };
 		DC9C505AE7514B64241595811DE61509 /* emoticon_40.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_40.png; sourceTree = "<group>"; };
+		DCC9D2242C3E6C6300E9EFB6 /* KeFuWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeFuWebViewController.swift; sourceTree = "<group>"; };
 		DCDCE6557B98539297ADCC7293C4D029 /* SVGKParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKParser.h; path = Source/Parsers/SVGKParser.h; sourceTree = "<group>"; };
 		DD3D19E5EDB850F1E189FB005EB69E27 /* XMMenuPopoverDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuPopoverDefine.h; path = MenuPopover/XMMenuPopoverDefine.h; sourceTree = "<group>"; };
 		DD4593645181B1DE905831E3F75E97C9 /* CallbackQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CallbackQueue.swift; path = Sources/Utility/CallbackQueue.swift; sourceTree = "<group>"; };
@@ -3153,6 +3155,7 @@
 		471A543F743DD3FCF605138C12F50391 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DCC9D2242C3E6C6300E9EFB6 /* KeFuWebViewController.swift */,
 				DC485D3A2C3D102500614B96 /* KeFuVideoViewController.swift */,
 				7B40389B02FB95AAADED76A1B9888E5E /* BWSettingViewController.swift */,
 				9A829DA63629B91453A0D3A6E6269D5A /* ConsultTypeViewController.swift */,
@@ -5469,6 +5472,7 @@
 				D4AAFEC7391EDE4A5FC6ADD42AD8E369 /* BWQAView.swift in Sources */,
 				DC485D3F2C3D391800614B96 /* Extensions.swift in Sources */,
 				D796568D20296CC35D771FF3A6231D97 /* BWSettingViewController.swift in Sources */,
+				DCC9D2252C3E6C6300E9EFB6 /* KeFuWebViewController.swift in Sources */,
 				594FAC8BE8A24FD222075B353CBC0A2B /* BWTipCell.swift in Sources */,
 				A27A5D202D9C1807D69A90F6B8F20513 /* BWVideoCell_Old.swift in Sources */,
 				DC485D392C3CFB6D00614B96 /* KeFuImageViewController.swift in Sources */,

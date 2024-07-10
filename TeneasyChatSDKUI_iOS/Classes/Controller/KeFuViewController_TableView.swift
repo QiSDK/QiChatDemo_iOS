@@ -143,7 +143,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func playImageFullScreen(url: URL) {
-        let videoPlayerViewController = KeFuImageViewController()
+        let videoPlayerViewController = KeFuWebViewController()
         videoPlayerViewController.configure(with: url)
         videoPlayerViewController.modalPresentationStyle = .fullScreen
         present(videoPlayerViewController, animated: false, completion: nil)
@@ -166,7 +166,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         } else if model.cellType == .TYPE_Tip {
             return 80.0
         } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
-            return 126
+            return 114 + 10 + 20
         }
         
         /*
