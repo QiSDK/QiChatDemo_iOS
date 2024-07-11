@@ -127,7 +127,7 @@ class BWImageCell: UITableViewCell {
             case .failure(let error):
                 print("Error: \(error)")
                 //self.thumbnail.image = UIImage.svgInit("Img_box_light")
-                self.thumbnail.backgroundColor = .clear
+                //self.thumbnail.backgroundColor = .clear
 //                self.thumbnail.snp.updateConstraints { make in
 //                    make.width.equalTo(120)
 //                }
@@ -247,6 +247,7 @@ class BWImageLeftCell: BWImageCell {
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.height.equalTo(114)
             make.width.equalTo(178)
+            make.bottom.equalToSuperview().priority(.low)
         }
         
         arrowView.image = UIImage.svgInit("ic_left_point")
@@ -284,6 +285,7 @@ class BWImageRightCell: BWImageCell {
             make.right.equalTo(self.timeLab.snp.right)
             make.width.equalTo(178)
             make.height.equalTo(114)
+            make.bottom.equalToSuperview().priority(.low)
         }
         
         //self.contentBgView.image = UIImage.svgInit("right_chat_bg")

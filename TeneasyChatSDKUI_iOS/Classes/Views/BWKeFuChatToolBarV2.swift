@@ -54,7 +54,7 @@ class BWKeFuChatToolBarV2: UIView {
     
     private lazy var cameraBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("Camera_light")
+        let image = UIImage.svgInit("camera_light")
         btn.setImage(image, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         return btn
