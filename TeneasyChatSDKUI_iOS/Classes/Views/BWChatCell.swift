@@ -237,7 +237,7 @@ class BWChatLeftCell: BWChatCell {
 
         self.timeLab.snp.makeConstraints { make in
             make.left.equalTo(self.iconView.snp.right).offset(16)
-            make.top.equalTo(self.iconView.snp.top).offset(-12)
+            make.top.equalToSuperview().offset(22)
             make.right.equalToSuperview().offset(-12)
             make.height.equalTo(20)
         }
