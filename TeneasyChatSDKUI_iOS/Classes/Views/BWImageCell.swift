@@ -80,7 +80,11 @@ class BWImageCell: UITableViewCell {
     
     func displayThumbnail(path: String) {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
-        self.thumbnail.kf.setImage(with: imgUrl)
+        //self.thumbnail.kf.setImage(with: imgUrl)
+        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        if let imgUrl = imgUrl{
+            initImg(imgUrl: imgUrl)
+        }
     }
     
     func displayVideoThumbnail(path: String) {
@@ -104,28 +108,34 @@ class BWImageCell: UITableViewCell {
                 print("Image width: \(imageSize.width), height: \(imageSize.height)")
                 let imageAspectRatio = imageSize.width / imageSize.height
                 // 图片最大高度是160，按比例算宽度
-                let width =  imgHeight * imageAspectRatio
-                self.thumbnail.snp.updateConstraints { make in
-                    make.width.equalTo(width)
-                }
-                print(width)
+                //let width =  imgHeight * imageAspectRatio
+                //print(width)
                 
-                self.contentBgView.snp.updateConstraints { make in
-                    make.width.equalTo(width + 12)
-                    make.height.equalTo(imgHeight + 14)
+//                self.contentBgView.snp.updateConstraints { make in
+//                    make.width.equalTo(width + 12)
+//                    make.height.equalTo(imgHeight + 14)
+//                }
+                
+                if imageAspectRatio < 1{
+                    self.contentBgView.snp.updateConstraints { make in
+                        make.width.equalTo(114)
+                        make.height.equalTo(178)
+                    }
                 }
+                
+                
             case .failure(let error):
                 print("Error: \(error)")
-                self.thumbnail.image = UIImage.svgInit("Img_box_light")
+                //self.thumbnail.image = UIImage.svgInit("Img_box_light")
                 self.thumbnail.backgroundColor = .clear
-                self.thumbnail.snp.updateConstraints { make in
-                    make.width.equalTo(120)
-                }
+//                self.thumbnail.snp.updateConstraints { make in
+//                    make.width.equalTo(120)
+//                }
                
-                self.contentBgView.snp.updateConstraints { make in
-                    make.width.equalTo(imgHeight + 12)
-                    make.height.equalTo(imgHeight + 14)
-                }
+//                self.contentBgView.snp.updateConstraints { make in
+//                    make.width.equalTo(imgHeight + 12)
+//                    make.height.equalTo(imgHeight + 14)
+//                }
             }
         }
     }

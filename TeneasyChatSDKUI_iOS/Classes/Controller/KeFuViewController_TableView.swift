@@ -165,7 +165,8 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return questionViewHeight + 20
         } else if model.cellType == .TYPE_Tip {
             return 80.0
-        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
+        } 
+        else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
             return 114 + 10 + 20
         }
         
