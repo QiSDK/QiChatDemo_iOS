@@ -8,61 +8,61 @@
 import Foundation
 import SwiftProtobuf
 
-let PARAM_USER_ID = "USER_ID"
-let PARAM_CERT = "CERT"
-let PARAM_MERCHANT_ID = "MERCHANT_ID"
-let PARAM_LINES = "LINES"
-let PARAM_ImageBaseURL = "IMAGEURL"
+public let PARAM_USER_ID = "USER_ID"
+public let PARAM_CERT = "CERT"
+public let PARAM_MERCHANT_ID = "MERCHANT_ID"
+public let PARAM_LINES = "LINES"
+public let PARAM_ImageBaseURL = "IMAGEURL"
 
 //这几个是需要在设置里面配置
-//var lines = ""
-//var cert = ""
-//var merchantId: Int = 0
-//var userId: Int32 = 0//1125324
-//var baseUrlImage = "" //用于拼接图片地址
+//public var lines = ""
+//public var cert = ""
+//public var merchantId: Int = 0
+//public var userId: Int32 = 0//1125324
+//public var baseUrlImage = "" //用于拼接图片地址
 
 //这几个是需要在设置里面配置
-var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
-var cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
-var merchantId: Int = 230
-var userId: Int32 = 666665//1125324
- var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+public var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
+public var  cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
+public var  merchantId: Int = 230
+public var userId: Int32 = 666665//1125324
+public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
 
 //
  
 
 /*
- var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
-         var cert = "COEBEAUYASDjASiewpj-8TE.-1R9Mw9xzDNrSxoQ5owopxciklACjBUe43NANibVuy-XPlhqnhAOEaZpxjvTyJ6n79P5bUBCGxO7PcEFQ9p9Cg"
-         var merchantId = 225
-         var userId: Int32 = 666663
-var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+public var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
+        public var cert = "COEBEAUYASDjASiewpj-8TE.-1R9Mw9xzDNrSxoQ5owopxciklACjBUe43NANibVuy-XPlhqnhAOEaZpxjvTyJ6n79P5bUBCGxO7PcEFQ9p9Cg"
+        public var merchantId = 225
+        public var userId: Int32 = 666663
+ public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
  */
 
 //
-//var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
-//var cert = "COgBEAUYASDzASitlJSF9zE.5uKWeVH-7G8FIgkaLIhvzCROkWr4D3pMU0-tqk58EAQcLftyD2KBMIdYetjTYQEyQwWLy7Lfkm8cs3aogaThAw"
-//var merchantId = 232
-//var userId: Int32 = 364312 //364310
-//var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+//public var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
+//public var cert = "COgBEAUYASDzASitlJSF9zE.5uKWeVH-7G8FIgkaLIhvzCROkWr4D3pMU0-tqk58EAQcLftyD2KBMIdYetjTYQEyQwWLy7Lfkm8cs3aogaThAw"
+//public var merchantId = 232
+//public var userId: Int32 = 364312 //364310
+//public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
  
 
 
 /*Asai*/
-//var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
-//var cert = "COgBEAUYfyD6ASiusLSp-jE.zTbKuX1Uhra_SFIbyN9p_i_hcAWpU3F8YdD2GYV7ixPMLSO8vSC_Y7OR3_3-VoRQJODwG0rr2GfUUzp_GDQJBA"
-//var merchantId: Int = 232
-//var userId: Int32 = 849//1125324
-// var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+//public var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https://wcsapi.qixin14.xyz"
+//public var cert = "COgBEAUYfyD6ASiusLSp-jE.zTbKuX1Uhra_SFIbyN9p_i_hcAWpU3F8YdD2GYV7ixPMLSO8vSC_Y7OR3_3-VoRQJODwG0rr2GfUUzp_GDQJBA"
+//public var merchantId: Int = 232
+//public var userId: Int32 = 849//1125324
+//public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
 
 //动态生成
-//var CONSULT_ID: Int32 = 1
+//public var CONSULT_ID: Int32 = 1
 var xToken = ""
-var domain = ""  //domain
+public var domain = ""  //domain
 var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
 var workerId: Int32 = 2
 
-let PARAM_XTOKEN = "HTTPTOKEN"
+public let PARAM_XTOKEN = "HTTPTOKEN"
 
 let serverTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"
 

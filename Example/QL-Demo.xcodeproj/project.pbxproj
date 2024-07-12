@@ -16,6 +16,7 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		7B58720F403378CED5AAE7B0 /* Pods_QL_Demo_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378A481A6DDA8D9F78CCAFEF /* Pods_QL_Demo_Example.framework */; };
 		C75EC1D82999485B00AB5A40 /* WKeFu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75EC1D72999485B00AB5A40 /* WKeFu.swift */; };
+		DC2CF37C2C41701E008382BB /* BWSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		88B7A855298956BC004C9153 /* SVGKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SVGKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4738D87398DCC0B57F003F2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C75EC1D72999485B00AB5A40 /* WKeFu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKeFu.swift; sourceTree = "<group>"; };
+		DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BWSettingViewController.swift; sourceTree = "<group>"; };
 		DC84161BEB3C207FBC7F93C5 /* Pods-TeneasyChatSDKUI_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeneasyChatSDKUI_iOS_Tests.release.xcconfig"; path = "Target Support Files/Pods-TeneasyChatSDKUI_iOS_Tests/Pods-TeneasyChatSDKUI_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E1E55CC58C2281EE356F49A6 /* Pods-QL-Demo_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QL-Demo_Tests.release.xcconfig"; path = "Target Support Files/Pods-QL-Demo_Tests/Pods-QL-Demo_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FB494DFC836706F32AA07CA9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
+				DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				C75EC1D72999485B00AB5A40 /* WKeFu.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -379,6 +382,7 @@
 			files = (
 				C75EC1D82999485B00AB5A40 /* WKeFu.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				DC2CF37C2C41701E008382BB /* BWSettingViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

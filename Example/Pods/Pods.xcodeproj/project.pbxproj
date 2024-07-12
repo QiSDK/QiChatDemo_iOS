@@ -711,7 +711,6 @@
 		B784C1E8FB583A4AA328D89038D2DC5B /* TimePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB03D81AD94FA9D103F22987095E257 /* TimePeriod.swift */; };
 		B7B1D3EB232EEEEC6801429E87A38983 /* c_operate.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2979D1EC0646A01057C7BEB87F71701 /* c_operate.pb.swift */; };
 		B7DAC534D4F0A31CD95FF6613317D4E8 /* AVAssetImageDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C083EF09599AD839941C25ED7FEEA /* AVAssetImageDataProvider.swift */; };
-		B7EDEFABD1B8BF1136490506A83FEF0C /* BWSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DB740F0DA8C504869BF42707EFB612 /* BWSettingViewController.swift */; };
 		B831BBE8F63D3E960949A34CF63DFBA0 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAE8580757F9C4AA702562CB13175AB /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B89D1C69742F61878115334A1D2DFFE7 /* URLRequest+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E57A2F471FB516D02BDB707E5B0A80 /* URLRequest+Alamofire.swift */; };
 		B96A447245CA8E1DDF22B4189A4A0107 /* AssignWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D965B15897D126320BD9546DCBBDB5E /* AssignWorker.swift */; };
@@ -2041,7 +2040,6 @@
 		C070E938E43D0DF7D07FFF24DC841BB4 /* BWChatQACell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWChatQACell.swift; sourceTree = "<group>"; };
 		C086D9B985977E4F5C8D0C772EF78A2A /* Google_Protobuf_ListValue+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_ListValue+Extensions.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_ListValue+Extensions.swift"; sourceTree = "<group>"; };
 		C0A8FCFF63C69F8AF823627F24E8BD39 /* Rectangle 594.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Rectangle 594.svg"; sourceTree = "<group>"; };
-		C0DB740F0DA8C504869BF42707EFB612 /* BWSettingViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWSettingViewController.swift; sourceTree = "<group>"; };
 		C12EE39B791C6D3026436C154199A625 /* SVGHelperUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGHelperUtilities.h; path = "Source/DOM classes/SVG-DOM/SVGHelperUtilities.h"; sourceTree = "<group>"; };
 		C19653103D526496A355306FE978A905 /* CSSPrimitiveValue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CSSPrimitiveValue.m; path = "Source/DOM classes/Core DOM/CSSPrimitiveValue.m"; sourceTree = "<group>"; };
 		C1FDDA9CE31DCF6EC9758EB4AF931C7F /* SVGKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SVGKit.debug.xcconfig; sourceTree = "<group>"; };
@@ -3521,7 +3519,6 @@
 		A52A91E16774F9B8A00F029CD3C9C42D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C0DB740F0DA8C504869BF42707EFB612 /* BWSettingViewController.swift */,
 				F7BF43FE54CAD42655484A6411712A43 /* ConsultTypeViewController.swift */,
 				254488045FEA15FBD22903669D10725B /* KeFuImageViewController.swift */,
 				005DE0CF86CE20BA645DC05971E5FDB5 /* KeFuVideoViewController.swift */,
@@ -5756,7 +5753,6 @@
 				45F7EB38D82EF66BBEF294D9D971FC01 /* BWQuestionCell.swift in Sources */,
 				928E420B41F2DB78943E1BE7AEE98EC5 /* BWQuestionDialog.swift in Sources */,
 				32EFAA776DB49BF854139E54DD12679E /* BWQuestionSectionHeader.swift in Sources */,
-				B7EDEFABD1B8BF1136490506A83FEF0C /* BWSettingViewController.swift in Sources */,
 				C61B24B49D517745623F81C248F58D4B /* BWTipCell.swift in Sources */,
 				37F5309B5517B8BEF7018C18AAE8FE6E /* BWVideoCell_Old.swift in Sources */,
 				373AAEE49AB779C946079D9F83768A26 /* ChatModel.swift in Sources */,

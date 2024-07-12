@@ -459,10 +459,10 @@ open class KeFuViewController: UIViewController{
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
         urlRequest.httpMethod = "POST"
         // urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        let boundary = "Boundary-\(UUID().uuidString)"
-        let contentType = "multipart/form-data; " + boundary
+        //let boundary = "Boundary-\(UUID().uuidString)"
+        //let contentType = "multipart/form-data; " + boundary
         
-        urlRequest.addValue(contentType, forHTTPHeaderField: "Content-Type")
+        //urlRequest.addValue(contentType, forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("multipart/form-data", forHTTPHeaderField: "Accept")
         urlRequest.httpBody = imgData
         

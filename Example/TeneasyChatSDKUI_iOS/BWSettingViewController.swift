@@ -6,6 +6,7 @@
 //
 import SnapKit
 import UIKit
+import TeneasyChatSDKUI_iOS
 
 typealias DissmissedCallback = () -> ()
 class BWSettingViewController: UIViewController {

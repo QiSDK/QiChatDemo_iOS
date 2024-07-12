@@ -8,7 +8,7 @@
 import UIKit
 import TeneasyChatSDKUI_iOS
 
-class WKeFu: UIViewController {
+class WKeFu: ConsultTypeViewController {
 
     override func viewDidLoad() {
         print("客服")
