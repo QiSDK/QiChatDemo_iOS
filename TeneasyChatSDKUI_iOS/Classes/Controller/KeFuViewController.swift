@@ -243,6 +243,7 @@ open class KeFuViewController: UIViewController{
         }
         datasouceArray.append(model)
         tableView.reloadData()
+        print("tableView.reloadData()")
         scrollToBottom()
     }
     

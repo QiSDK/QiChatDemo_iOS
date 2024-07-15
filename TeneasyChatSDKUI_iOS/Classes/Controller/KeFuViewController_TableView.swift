@@ -42,6 +42,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.playBtn.isHidden = true
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
                 }else{
+                    //cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
                     cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
                 }
                 return cell
@@ -123,6 +124,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 WWProgressHUD.showFailure("无效的图片链接")
             }else{
                 playImageFullScreen(url: imgUrl!)
+                print("图片地址:\(imgUrl?.absoluteString ?? "")")
             }
         }else{
             let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
@@ -131,12 +133,13 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 WWProgressHUD.showFailure("无效的播放链接")
             }else{
                 playVideoFullScreen(url: videoUrl!)
+                print("视频地址:\(videoUrl?.absoluteString ?? "")")
             }
         }
     }
 
     func playVideoFullScreen(url: URL) {
-        let vc = KeFuWebViewController()
+        let vc = KeFuVideoViewController()
         vc.configure(with: url, workerName: workerName)
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false, completion: nil)

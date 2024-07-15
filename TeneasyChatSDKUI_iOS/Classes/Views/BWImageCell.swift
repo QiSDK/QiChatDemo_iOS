@@ -91,16 +91,23 @@ class BWImageCell: UITableViewCell {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
         self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         if imgUrl != nil{
-
-            Utiles().generateThumbnail(path: imgUrl!){img in
-                self.thumbnail.image = img
-            }
+            //暂时不显示视频的缩略图，等接口那边支持
+//            Utiles().generateThumbnail(path: imgUrl!, imgView: self.thumbnail){_ in
+//            }
         }
     }
     
-    //还没用上
     func initImg(imgUrl: URL) {
-        self.thumbnail.kf.setImage(with: imgUrl) { result in
+        let processor = DownsamplingImageProcessor(size: thumbnail.bounds.size)
+                     |> RoundCornerImageProcessor(cornerRadius: 5)
+        
+        self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
+                                   options: [
+                                       .processor(processor),
+                                       .scaleFactor(UIScreen.main.scale),
+                                       .transition(.fade(1)),
+                                       .cacheOriginalImage
+                                   ]) { result in
             switch result {
             case .success(let value):
                 // 获取图片尺寸
@@ -121,11 +128,16 @@ class BWImageCell: UITableViewCell {
                         make.width.equalTo(114)
                         make.height.equalTo(178)
                     }
+                }else{
+                    self.contentBgView.snp.updateConstraints { make in
+                        make.width.equalTo(178)
+                        make.height.equalTo(114)
+                    }
                 }
                 
                 
             case .failure(let error):
-                print("Error: \(error)")
+                print("图片显示出错了: \(imgUrl.absoluteString) |\(error)")
                 //self.thumbnail.image = UIImage.svgInit("Img_box_light")
                 //self.thumbnail.backgroundColor = .clear
 //                self.thumbnail.snp.updateConstraints { make in

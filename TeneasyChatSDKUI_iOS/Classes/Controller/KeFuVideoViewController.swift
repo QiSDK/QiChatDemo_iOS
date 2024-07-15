@@ -17,6 +17,13 @@ class KeFuVideoViewController: UIViewController {
         return v
     }()
     
+    lazy var headerTitle: UILabel = {
+        let v = UILabel(frame: CGRect.zero)
+        v.text = "--"
+        v.textColor = UIColor.black
+        return v
+    }()
+    
     lazy var playerView: UIView = {
         let v = UIView(frame: CGRect.zero)
         v.backgroundColor = .white
@@ -49,6 +56,14 @@ class KeFuVideoViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
+        headerView.addSubview(headerTitle)
+        headerTitle.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalTo(260)
+        }
+        headerTitle.textAlignment = .center
+        
         view.addSubview(playerView)
         playerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
@@ -73,8 +88,9 @@ class KeFuVideoViewController: UIViewController {
         dismiss(animated: false, completion: nil)
     }
 
-    func configure(with url: URL) {
+    func configure(with url: URL, workerName: String) {
         player = AVPlayer(url: url)
+        headerTitle.text = workerName
     }
 
     override func viewDidAppear(_ animated: Bool) {

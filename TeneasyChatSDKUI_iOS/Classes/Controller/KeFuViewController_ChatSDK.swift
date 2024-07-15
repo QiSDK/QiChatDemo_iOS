@@ -136,6 +136,7 @@ extension KeFuViewController: teneasySDKDelegate {
             */
             
             tableView.reloadData()
+            print("tableView.reloadData()")
         }
     }
 
