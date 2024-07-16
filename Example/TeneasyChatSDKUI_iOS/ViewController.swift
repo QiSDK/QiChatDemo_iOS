@@ -5,10 +5,11 @@ import TeneasyChatSDK_iOS
 //class ViewController: ConsultTypeViewController  {
 class ViewController: UIViewController, LineDetectDelegate  {
     lazy var supportBtn:UIButton = {
-        let btn = UIButton()
+        let btn = UIButton(type: .roundedRect)
         btn.setTitle("联系客服", for: .normal)
-        btn.backgroundColor = .clear
-        btn.setTitleColor(UIColor.blue, for: .normal)
+        btn.backgroundColor = .lightText
+        
+        btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(buttonClick), for: .touchUpInside)
         return btn
     }()
