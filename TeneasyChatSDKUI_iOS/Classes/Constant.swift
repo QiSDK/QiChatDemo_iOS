@@ -54,6 +54,9 @@ public var lines = "https://csapi.xdev.stream,https://wcsapi.qixin14.xyz,https:/
 //public var merchantId: Int = 232
 //public var userId: Int32 = 849//1125324
 //public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+/*
+ 客服：gz001/woheni12
+ */
 
 //动态生成
 //public var CONSULT_ID: Int32 = 1

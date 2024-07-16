@@ -18,13 +18,13 @@ class ViewController: UIViewController, LineDetectDelegate  {
         lineLB.text = "正在检测线路。。。。"
         lineLB.textColor = .gray
         lineLB.font = UIFont.systemFont(ofSize: 15)
-        lineLB.alpha = 0.5
+        lineLB.alpha = 0.15
         return lineLB
     }()
     
     lazy var settingBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Settings", for: UIControl.State.normal)
+        btn.setTitle("设置", for: UIControl.State.normal)
         btn.setTitleColor(.lightGray, for: UIControl.State.normal)
         btn.addTarget(self, action: #selector(settingClick), for: UIControl.Event.touchUpInside)
         return btn
@@ -42,7 +42,7 @@ class ViewController: UIViewController, LineDetectDelegate  {
              make.left.equalToSuperview().offset(12)
              make.right.equalToSuperview().offset(-12)
              
-             make.bottom.equalToSuperview().offset(-50)
+             make.bottom.equalToSuperview().offset(-80)
          }
          curLineLB.textAlignment = .center
          
@@ -51,6 +51,7 @@ class ViewController: UIViewController, LineDetectDelegate  {
          self.settingBtn.snp.makeConstraints { make in
              make.top.equalTo(curLineLB.snp.bottom).offset(10)
              make.right.equalToSuperview().offset(-20)
+             make.bottom.equalToSuperview().offset(-50)
          }
     }
     
