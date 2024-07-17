@@ -74,7 +74,10 @@ class ViewController: UIViewController, LineDetectDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         initSubViews()
-        
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         //从设置页面读取配置参数，读取到后分配给这些变量：lines，cert，merchantId，userId，baseUrlImage
         //可以从后台设置页面获取，也可以从App的设置页面获取
         readConfig()

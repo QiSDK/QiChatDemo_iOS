@@ -110,18 +110,18 @@ class BWSettingViewController: UIViewController {
     }
     
     @objc private func submitButtonTapped() {
-        let lines = (linesTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        let cert = (certTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        let merchantId = Int((merchantIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
-        let userId = Int((userIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
-        let imageUrl = imgBaseUrlTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+         lines = (linesTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+         cert = (certTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        merchantId = Int((merchantIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
+         userId = Int32((userIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
+        baseUrlImage = imgBaseUrlTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
         UserDefaults.standard.set(cert.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), forKey: PARAM_CERT)
         UserDefaults.standard.set(merchantId, forKey: PARAM_MERCHANT_ID)
         UserDefaults.standard.set(userId, forKey: PARAM_USER_ID)
         UserDefaults.standard.set("", forKey: PARAM_XTOKEN)
-        UserDefaults.standard.set(imageUrl, forKey: PARAM_ImageBaseURL)
+        UserDefaults.standard.set(baseUrlImage, forKey: PARAM_ImageBaseURL)
         
         dismiss(animated: true)
     }
