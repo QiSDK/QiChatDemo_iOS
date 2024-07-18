@@ -99,7 +99,7 @@ class BWImageCell: UITableViewCell {
     
     func initImg(imgUrl: URL) {
         let processor = DownsamplingImageProcessor(size: thumbnail.bounds.size)
-                     |> RoundCornerImageProcessor(cornerRadius: 5)
+                     |> RoundCornerImageProcessor(cornerRadius: 3)
         
         self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
                                    options: [
@@ -202,9 +202,10 @@ class BWImageCell: UITableViewCell {
                 return
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
-            let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
-            print(videoUrl?.absoluteString ?? "")
-            if videoUrl != nil {
+           
+            if !msg.video.uri.isEmpty  {
+                let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
+                print(videoUrl?.absoluteString ?? "")
                 self.initVideo(videoUrl: videoUrl!)
             } else {}
         }
@@ -258,8 +259,8 @@ class BWImageLeftCell: BWImageCell {
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
-            make.height.equalTo(114)
-            make.width.equalTo(178)
+            make.height.equalTo(178)
+            make.width.equalTo(114)
             make.bottom.equalToSuperview().priority(.low)
         }
         
@@ -296,8 +297,8 @@ class BWImageRightCell: BWImageCell {
         self.contentBgView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
             make.right.equalTo(self.timeLab.snp.right)
-            make.width.equalTo(178)
-            make.height.equalTo(114)
+            make.width.equalTo(114)
+            make.height.equalTo(178)
             make.bottom.equalToSuperview().priority(.low)
         }
         

@@ -61,7 +61,7 @@ open class KeFuViewController: UIViewController{
     lazy var systemMsgLabel: UILabel = {
         let label = UILabel(frame: CGRect.zero)
         label.textAlignment = .center
-        label.textColor = .gray
+        label.textColor = kHexColor(0x228AFE)
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
@@ -162,13 +162,13 @@ open class KeFuViewController: UIViewController{
 
     func initView() {
         
-        view.backgroundColor = UIColor.white
+        //view.backgroundColor = UIColor.green
         view.addSubview(toolBar)
         toolBar.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kDeviceBottom)
         }
-        toolBar.backgroundColor = chatBackColor
+        toolBar.backgroundColor = panelBack
 
         view.addSubview(headerView)
         headerView.snp.makeConstraints { make in
@@ -177,11 +177,22 @@ open class KeFuViewController: UIViewController{
             make.left.equalToSuperview()
             make.top.equalToSuperview().offset(kDeviceTop)
         }
+        
+        view.addSubview(systemMsgLabel)
+        systemMsgLabel.snp.makeConstraints { make in
+            make.width.equalTo(kScreenWidth)
+            make.left.equalToSuperview()
+            make.height.equalTo(30)
+            make.bottom.equalTo(self.toolBar.snp.top)
+        }
+        systemMsgLabel.backgroundColor = chatBackColor
+        systemMsgLabel.text = ""
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(self.headerView.snp.bottom)
-            make.bottom.equalTo(toolBar.snp.top).offset(-2)
+            make.bottom.equalTo(systemMsgLabel.snp.top)
         }
 
         headerView.addSubview(headerImg)
@@ -205,28 +216,12 @@ open class KeFuViewController: UIViewController{
             make.left.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
         }
-//        tableView.tableHeaderView = systemInfoView
-//
-//        systemInfoView.addSubview(timeLabel)
-//        systemInfoView.snp.makeConstraints { make in
-//            make.width.equalTo(kScreenWidth - 24)
-//            make.leading.equalTo(12)
-//            make.top.equalToSuperview().offset(12)
-//        }
-//        timeLabel.snp.makeConstraints { make in
-//            make.width.equalTo(kScreenWidth)
-//            make.left.equalToSuperview()
-//            make.top.equalToSuperview().offset(6)
-//        }
-//        systemInfoView.addSubview(systemMsgLabel)
-//        systemMsgLabel.snp.makeConstraints { make in
-//            make.width.equalTo(kScreenWidth)
-//            make.left.equalToSuperview()
-//            make.top.equalTo(self.timeLabel.snp.bottom)
-//        }
 
+        
         toolBar.textView.placeholder = "请输入想咨询的问题"
         headerTitle.text = "连接客服中..."
+        
+        //addShadowToTableView()
     }
 
     func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text, replayQuote: String? = nil) {
@@ -316,7 +311,7 @@ open class KeFuViewController: UIViewController{
         
         if isFirstLoad{
             //打招呼
-            isFirstLoad = false
+           /* isFirstLoad = false
             let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
             appendDataSource(msg: greetingMsg, isLeft: true)
             print("第一次打招呼")
@@ -328,6 +323,8 @@ open class KeFuViewController: UIViewController{
             chatModel.sendStatus = .发送成功
             chatModel.cellType = .TYPE_QA
             datasouceArray.append(chatModel)
+            */
+            systemMsgLabel.text = "您好，\(workerName)为您服务！"
         }else{
             //服务器会自动生成这个，所以不用
             /*let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
@@ -348,6 +345,12 @@ open class KeFuViewController: UIViewController{
         print("avatar:" + url)
         //self.headerImg.kf.setImage(with: URL(string: url))
         avatarPath = avatar
+        
+        if isFirstLoad{
+            self.systemMsgLabel.text = ""
+        }else{
+            self.systemMsgLabel.text = "您好：\(workerName)为您服务！"
+        }
     }
     
     func sendMsg(textMsg: String) {
@@ -562,6 +565,27 @@ open class KeFuViewController: UIViewController{
             }
             self?.view.layoutIfNeeded()
         }
+    }
+    
+    
+    func addShadowToTableView() {
+        // Set the shadow color
+        tableView.layer.shadowColor = UIColor.black.cgColor
+        
+        // Set the shadow opacity (0.0 to 1.0)
+        tableView.layer.shadowOpacity = 0.5
+        
+        // Set the shadow offset
+        tableView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        
+        // Set the shadow radius
+        tableView.layer.shadowRadius = 4
+        
+        // Optionally, you can set the shadow path for better performance
+        tableView.layer.shadowPath = UIBezierPath(rect: tableView.bounds).cgPath
+        
+        // Make sure the table view's layer masks to bounds is set to false
+        tableView.layer.masksToBounds = false
     }
     
     override open func didReceiveMemoryWarning() {

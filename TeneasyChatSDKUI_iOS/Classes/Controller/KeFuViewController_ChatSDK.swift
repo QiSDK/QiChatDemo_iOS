@@ -30,7 +30,12 @@ extension KeFuViewController: teneasySDKDelegate {
            // appendDataSource(msg: msg, isLeft: false, cellType: .TYPE_Tip)
             
             //以Toast的形式提示
-            self.view.makeToast("其他客服有新消息！")
+            //self.view.makeToast("其他客服有新消息！")
+            let tempStr = self.systemMsgLabel.text
+            self.systemMsgLabel.text = "其他客服有新消息！"
+            delayExecution(seconds: 3, completion: {
+                self.systemMsgLabel.text = tempStr
+            })
         }else{
             
             if msg.msgOp == .msgOpEdit{
