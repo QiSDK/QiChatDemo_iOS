@@ -136,8 +136,9 @@ class BWImageCell: UITableViewCell {
                 }
                 
                 
-            case .failure(let error):
-                print("图片显示出错了: \(imgUrl.absoluteString) |\(error)")
+            case .failure(_):
+                 print("图片可能显示失败")
+                //print("图片显示出错了: \(imgUrl.absoluteString) |\(error)")
                 //self.thumbnail.image = UIImage.svgInit("Img_box_light")
                 //self.thumbnail.backgroundColor = .clear
 //                self.thumbnail.snp.updateConstraints { make in

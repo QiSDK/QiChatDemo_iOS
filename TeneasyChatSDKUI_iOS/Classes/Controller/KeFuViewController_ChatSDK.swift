@@ -77,8 +77,10 @@ extension KeFuViewController: teneasySDKDelegate {
                 //如果是视频消息，cellType是TYPE_VIDEO
                 if !msg.video.uri.isEmpty {
                     appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_VIDEO)
+                }else  if !msg.image.uri.isEmpty {
+                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Image)
                 }else{
-                    //其余当作普通消息，文字或图片
+                    //其余当作普通消息
                     appendDataSource(msg: msg, isLeft: true)
                 }
             }
