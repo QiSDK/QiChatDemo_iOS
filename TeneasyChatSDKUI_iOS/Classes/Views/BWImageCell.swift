@@ -103,8 +103,8 @@ class BWImageCell: UITableViewCell {
     }
     
     func initImg(imgUrl: URL) {
-        let processor = DownsamplingImageProcessor(size: thumbnail.bounds.size)
-                     |> RoundCornerImageProcessor(cornerRadius: 3)
+       // let processor = DownsamplingImageProcessor(size: thumbnail.bounds.size)
+         //            |> RoundCornerImageProcessor(cornerRadius: 3)
         
         self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
                                    options: [
