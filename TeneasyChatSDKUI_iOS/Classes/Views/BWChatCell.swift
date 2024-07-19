@@ -29,10 +29,10 @@ class BWChatCell: UITableViewCell {
 
     lazy var titleLab: BWLabel = {
         let lab = BWLabel()
-        lab.font = UIFont.systemFont(ofSize: 15)
+        lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = .white
         lab.numberOfLines = 1000
-        lab.textInsets = UIEdgeInsets(top: 8, left: 15, bottom: 10, right: 15)
+        lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 10, right: 15)
         lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
         return lab
     }()
@@ -68,7 +68,7 @@ class BWChatCell: UITableViewCell {
     
     lazy var replyQuoteLabel: BWLabel = {
         let lab = BWLabel()
-        lab.font = UIFont.systemFont(ofSize: 15)
+        lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = .black
         lab.numberOfLines = 1000
         lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
@@ -144,12 +144,14 @@ class BWChatCell: UITableViewCell {
                     make.top.equalTo(self.timeLab.snp.bottom).offset(0)
                     make.height.equalTo(0)
                 }
+                
+                
             } else {
                 let maxSizeQuote = CGSize(width: replyQuoteLabel.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
                 let sizeQuote = self.replyQuoteLabel.sizeThatFits(maxSizeQuote)
                 self.replyQuoteLabel.isHidden = false
                 self.replyQuoteLabel.snp.updateConstraints { make in
-                    make.top.equalTo(self.timeLab.snp.bottom).offset(8)
+                    make.top.equalTo(self.timeLab.snp.bottom).offset(2)
                     make.height.equalTo(sizeQuote.height)
                 }
 //                replyQuoteLabelHeightConstraint?.update(offset: UITableView.automaticDimension)
@@ -173,19 +175,28 @@ class BWChatCell: UITableViewCell {
         let size = self.titleLab.sizeThatFits(maxSize)
         let maxSizeQuote = CGSize(width: replyQuoteLabel.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
         let sizeQuote = self.replyQuoteLabel.sizeThatFits(maxSizeQuote)
-        var margin = 12.0
+        var margin = 4.0
         var quoteHeight = sizeQuote.height
         if (replyQuoteLabel.text?.isEmpty ?? true) {
-            margin = 0
+            //margin = 0
             quoteHeight = 0
+            self.contentBgView.snp.updateConstraints { make in
+                make.width.equalTo(size.width)
+                make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
+            }
+        }else{
+            self.contentBgView.snp.updateConstraints { make in
+                make.width.equalTo((size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24)
+                make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
+            }
         }
 //        print(model?.replayQuote)
 //        print(size.width)
 //        print(sizeQuote.width)
-        self.contentBgView.snp.updateConstraints { make in
-            make.width.equalTo((size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24)
-            make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
-        }
+//        self.contentBgView.snp.updateConstraints { make in
+//            make.width.equalTo((size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24)
+//            make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
+//        }
     }
     
     func displayIconImg(path: String) {
@@ -246,9 +257,16 @@ class BWChatLeftCell: BWChatCell {
             make.left.equalTo(self.timeLab.snp.left).offset(12)
             make.height.equalTo(0)
         }
+        
+        var marginLeft = 16
+        if (self.replyQuoteLabel.text ?? "").isEmpty{
+            marginLeft = 4
+        }
+        
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.replyQuoteLabel.snp.bottom)
-            make.left.equalTo(self.timeLab.snp.left)
+            make.top.equalTo(self.replyQuoteLabel.snp.bottom).priority(.low)
+            make.left.equalTo(self.contentBgView.snp.left).offset(marginLeft)
+            make.right.equalTo(self.contentBgView.snp.right).offset(4)
             make.bottom.equalToSuperview()
         }
         rightConstraint?.deactivate()
@@ -258,7 +276,7 @@ class BWChatLeftCell: BWChatCell {
         let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
-            make.left.equalTo(self.titleLab.snp.left)
+            make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.height.equalTo(0)
             make.width.equalTo(0)
@@ -305,9 +323,17 @@ class BWChatRightCell: BWChatCell {
             make.right.equalTo(self.timeLab.snp.right).offset(-12)
             make.height.equalTo(0)
         }
+        
+        //实际没起作用，只使用-4
+        var marginRight = -16
+        if (self.replyQuoteLabel.text ?? "").isEmpty{
+            marginRight = -4
+        }
+        
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.replyQuoteLabel.snp.bottom)
-            make.right.equalTo(self.timeLab.snp.right)
+            make.top.equalTo(self.replyQuoteLabel.snp.bottom).priority(.low)
+            make.left.equalTo(self.contentBgView.snp.left).offset(4)
+            make.right.equalTo(self.contentBgView.snp.right).offset(marginRight)
             make.bottom.equalToSuperview()
         }
         
@@ -322,10 +348,12 @@ class BWChatRightCell: BWChatCell {
         }
         
         let image = UIImage.svgInit("right_chat_bg")
-        let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
+        //let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        //self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
+        
+        self.contentBgView.image = image
         self.contentBgView.snp.makeConstraints { make in
-            make.right.equalTo(self.titleLab.snp.right)
+            make.right.equalTo(self.timeLab.snp.right)
             make.top.equalTo(self.timeLab.snp.bottom).offset(-0)
             make.height.equalTo(0)
             make.width.equalTo(0)

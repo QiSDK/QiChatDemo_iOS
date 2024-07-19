@@ -11,7 +11,7 @@ class BWTipCell: UITableViewCell {
     
     lazy var titleLab: UILabel = {
         let lab = UILabel()
-        lab.font = UIFont.systemFont(ofSize: 14)
+        lab.font = UIFont.systemFont(ofSize: 12)
         lab.textAlignment = .center
         lab.textColor = titleColour
         lab.numberOfLines = 3

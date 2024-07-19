@@ -66,7 +66,7 @@ extension Date {
 extension UIImage{
     ///svg初始化
     static func svgInit(_ name:String) -> UIImage?{
-        print("svg:\(name)")
+        //print("svg:\(name)")
         let svg = SVGKImage.init(named: name, in: BundleUtil.getCurrentBundle())
         return svg?.uiImage
     }
