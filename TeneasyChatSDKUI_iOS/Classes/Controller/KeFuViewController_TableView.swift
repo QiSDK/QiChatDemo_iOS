@@ -119,13 +119,17 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         if model.cellType == .TYPE_Image{
-            let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
-            if imgUrl == nil {
+            //let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
+            var urlcomps = URLComponents(string: baseUrlImage)
+            urlcomps?.path = msg.image.uri
+            
+            guard let imgUrl = urlcomps?.url else {
                 WWProgressHUD.showFailure("无效的图片链接")
-            }else{
-                playImageFullScreen(url: imgUrl!)
-                print("图片地址:\(imgUrl?.absoluteString ?? "")")
+                return
             }
+            playImageFullScreen(url: imgUrl)
+            print("图片地址:\(imgUrl.absoluteString )")
+            
         }else{
             let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
             

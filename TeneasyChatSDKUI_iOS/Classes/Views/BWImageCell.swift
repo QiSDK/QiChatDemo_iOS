@@ -79,10 +79,15 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayThumbnail(path: String) {
-        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        //let imgUrl = URL(string: "\(baseUrlImage)\(path.urlEncoded ?? "abxxx")")
+        
+        var urlcomps = URLComponents(string: baseUrlImage)
+        urlcomps?.path = path
+        
         //self.thumbnail.kf.setImage(with: imgUrl)
         self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        if let imgUrl = imgUrl{
+        print(urlcomps?.url?.absoluteString ?? "xxxx")
+        if let imgUrl = urlcomps?.url{
             initImg(imgUrl: imgUrl)
         }
     }
@@ -103,10 +108,10 @@ class BWImageCell: UITableViewCell {
         
         self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
                                    options: [
-                                       .processor(processor),
-                                       .scaleFactor(UIScreen.main.scale),
+                                       //.processor(processor),
+                                       //.scaleFactor(UIScreen.main.scale),
                                        .transition(.fade(1)),
-                                       .cacheOriginalImage
+                                       //.cacheOriginalImage
                                    ]) { result in
             switch result {
             case .success(let value):

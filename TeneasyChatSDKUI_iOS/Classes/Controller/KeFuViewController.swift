@@ -299,6 +299,7 @@ open class KeFuViewController: UIViewController{
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_IMG"{
                     chatModel.cellType = .TYPE_Image
+                    //print(item.image?.uri ?? "")
                     chatModel.message = composeALocalImgMessage(url: item.image?.uri ?? "", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_VIDEO"{

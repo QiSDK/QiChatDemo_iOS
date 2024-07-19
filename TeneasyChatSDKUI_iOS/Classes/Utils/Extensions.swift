@@ -92,6 +92,12 @@ extension String {
     func textWidth(fontSize: CGFloat, width: CGFloat) -> CGFloat {
         return self.boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: fontSize)], context: nil).size.width
     }
+    
+    var urlEncoded: String? {
+            let allowedCharacterSet = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "~-_."))
+        return self.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
+        }
+
 }
 
 extension UIButton {
