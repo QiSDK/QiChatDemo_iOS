@@ -58,6 +58,7 @@ class ViewController: UIViewController, LineDetectDelegate  {
     
     //去设置页面
     @objc func settingClick() {
+        //fatalError("Crash was triggered")
         let vc = BWSettingViewController()
         vc.callBack = {
             self.lineCheck()

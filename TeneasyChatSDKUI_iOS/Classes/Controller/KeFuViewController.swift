@@ -316,7 +316,7 @@ open class KeFuViewController: UIViewController{
             let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
             appendDataSource(msg: greetingMsg, isLeft: true)
             print("第一次打招呼")
-            
+            */
             //自动回复的Cell
             let chatModel = ChatModel()
             chatModel.isLeft = true
@@ -324,7 +324,7 @@ open class KeFuViewController: UIViewController{
             chatModel.sendStatus = .发送成功
             chatModel.cellType = .TYPE_QA
             datasouceArray.append(chatModel)
-            */
+            
             systemMsgLabel.text = "您好，\(workerName)为您服务！"
         }else{
             //服务器会自动生成这个，所以不用

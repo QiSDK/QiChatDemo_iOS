@@ -57,6 +57,7 @@ class BWChatQACell: UITableViewCell {
     
     func getAutoReplay(consultId: Int32, workId: Int32) {
         print(consultId)
+        print("获取自动回复")
        //自动回复
         NetworkUtil.getAutoReplay(consultId: consultId, wId: workId) { success, model in
             if success {

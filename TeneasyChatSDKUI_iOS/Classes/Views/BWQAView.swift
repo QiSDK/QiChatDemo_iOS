@@ -87,7 +87,7 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         cell.titleLab.text = "\(model?.question?.content?.data ?? "")"
         cell.titleLab.textColor = model?.clicked == true ? .lightGray : titleColour
         cell.titleLab.font = UIFont.systemFont(ofSize: 14)
-        cell.imgView.isHidden = true
+        //cell.imgArrowRight.isHidden = true
         cell.iconView.isHidden = true
         cell.iconView.snp.updateConstraints { make in
             make.width.equalTo(0)
@@ -124,7 +124,7 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         } else {
             headerView.imgView.image = UIImage.svgInit("arrowdown")
         }
-        headerView.imgView.isHidden = true
+        //headerView.imgView.isHidden = true
         /*
          var tvTitle = holder?.get<TextView>(R.id.tv_Title)
                  tvTitle?.text = (position + 1).toString() + ", " + bean.question.content.data
@@ -173,8 +173,8 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
 
-            print("QA Cell Height:\(40.0 + sectionHeight + expandRowHeight)")
-            heightCallback!(40.0 + sectionHeight + expandRowHeight)
+            print("QA Cell Height:\(25.0 + sectionHeight + expandRowHeight)")
+            heightCallback!(25.0 + sectionHeight + expandRowHeight)
             isHidden = false
         }
         tableView.reloadData()

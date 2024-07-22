@@ -17,7 +17,7 @@ class BWQuestionCell: UITableViewCell {
         return lab
     }()
     
-    lazy var imgView: UIImageView = {
+    lazy var imgArrowRight: UIImageView = {
         let v = UIImageView()
         v.image = UIImage.svgInit("arrow-right", size: CGSize.init(width: 20, height: 20))
         return v
@@ -58,7 +58,7 @@ class BWQuestionCell: UITableViewCell {
         backgroundColor = .white
                 
         self.contentView.addSubview(self.titleLab)
-        //self.contentView.addSubview(self.imgView)
+        //self.contentView.addSubview(self.imgArrowRight)
         self.contentView.addSubview(self.dotView)
         self.contentView.addSubview(self.iconView)
         
@@ -74,11 +74,12 @@ class BWQuestionCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.left.equalTo(self.iconView.snp.right).offset(15)
         }
-//        self.imgView.snp.makeConstraints { make in
+//        self.imgArrowRight.snp.makeConstraints { make in
 //            make.trailing.equalToSuperview().offset(-12)
 //            make.width.height.equalTo(20)
 //            make.centerY.equalToSuperview()
 //        }
+//        self.imgArrowRight.isHidden = true
         self.dotView.snp.makeConstraints { make in
             make.left.equalTo(self.titleLab.snp.right)
             make.top.equalToSuperview().offset(7)

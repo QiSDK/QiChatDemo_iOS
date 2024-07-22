@@ -62,7 +62,7 @@ class BWSettingViewController: UIViewController {
                 if let previousView = previousView {
                     make.top.equalTo(previousView.snp.bottom).offset(20)
                 } else {
-                    make.top.equalToSuperview().offset(100)
+                    make.top.equalToSuperview().offset(20)
                 }
                 make.left.equalToSuperview().offset(20)
                 make.right.equalToSuperview().offset(-20)
