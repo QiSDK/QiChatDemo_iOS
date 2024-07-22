@@ -69,4 +69,22 @@ struct Utiles{
             }
         }
     }
+    
+    func gitImage(resourceName: String) -> [UIImage]?{
+            guard let path = BundleUtil.getCurrentBundle().path(forResource: resourceName, ofType: "gif") else {
+                print("Gif does not exist at that path")
+                return nil
+            }
+            let url = URL(fileURLWithPath: path)
+            guard let gifData = try? Data(contentsOf: url),
+                let source =  CGImageSourceCreateWithData(gifData as CFData, nil) else { return nil }
+            var images = [UIImage]()
+            let imageCount = CGImageSourceGetCount(source)
+            for i in 0 ..< imageCount {
+                if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
+                    images.append(UIImage(cgImage: image))
+                }
+            }
+            return images
+    }
 }

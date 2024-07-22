@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,8 @@
 		7B58720F403378CED5AAE7B0 /* Pods_QL_Demo_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378A481A6DDA8D9F78CCAFEF /* Pods_QL_Demo_Example.framework */; };
 		C75EC1D82999485B00AB5A40 /* WKeFu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75EC1D72999485B00AB5A40 /* WKeFu.swift */; };
 		DC2CF37C2C41701E008382BB /* BWSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */; };
+		DC9750312C4E32CD00DEB7BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC9750302C4E32CD00DEB7BA /* GoogleService-Info.plist */; };
+		DC9750342C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DC9750332C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,7 @@
 		C75EC1D72999485B00AB5A40 /* WKeFu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKeFu.swift; sourceTree = "<group>"; };
 		DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BWSettingViewController.swift; sourceTree = "<group>"; };
 		DC84161BEB3C207FBC7F93C5 /* Pods-TeneasyChatSDKUI_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeneasyChatSDKUI_iOS_Tests.release.xcconfig"; path = "Target Support Files/Pods-TeneasyChatSDKUI_iOS_Tests/Pods-TeneasyChatSDKUI_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		DC9750302C4E32CD00DEB7BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E1E55CC58C2281EE356F49A6 /* Pods-QL-Demo_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QL-Demo_Tests.release.xcconfig"; path = "Target Support Files/Pods-QL-Demo_Tests/Pods-QL-Demo_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FB494DFC836706F32AA07CA9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B58720F403378CED5AAE7B0 /* Pods_QL_Demo_Example.framework in Frameworks */,
+				DC9750342C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +111,7 @@
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				C75EC1D72999485B00AB5A40 /* WKeFu.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
+				DC9750302C4E32CD00DEB7BA /* GoogleService-Info.plist */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -187,12 +192,16 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				24B73093FF138A579AB98012 /* [CP] Embed Pods Frameworks */,
+				DC9750352C4E357400DEB7BA /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "QL-Demo_Example";
+			packageProductDependencies = (
+				DC9750332C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport */,
+			);
 			productName = TeneasyChatSDKUI_iOS;
 			productReference = 607FACD01AFB9204008FA782 /* QL-Demo_Example.app */;
 			productType = "com.apple.product-type.application";
@@ -250,6 +259,9 @@
 				Base,
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
+			packageReferences = (
+				DC9750322C4E33B100DEB7BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -266,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				DC9750312C4E32CD00DEB7BA /* GoogleService-Info.plist in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -372,6 +385,28 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		DC9750352C4E357400DEB7BA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -519,7 +554,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -534,7 +570,10 @@
 				DEVELOPMENT_TEAM = N32BWJ887Q;
 				INFOPLIST_FILE = TeneasyChatSDKUI_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qlsdk.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -555,7 +594,10 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N32BWJ887Q;
 				INFOPLIST_FILE = TeneasyChatSDKUI_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qlsdk.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -582,7 +624,11 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -603,7 +649,11 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -643,6 +693,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DC9750322C4E33B100DEB7BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.29.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DC9750332C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC9750322C4E33B100DEB7BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 607FACC81AFB9204008FA782 /* Project object */;
 }
