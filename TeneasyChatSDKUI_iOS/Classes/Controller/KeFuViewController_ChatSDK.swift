@@ -197,16 +197,19 @@ extension KeFuViewController: teneasySDKDelegate {
         NetworkUtil.assignWorker(consultId: Int32(self.consultId)) { [weak self]success, model in
              if success {
                  print("分配客服成功\(Date()), Worker Id：\(model?.workerId ?? 0)")
-                 if f == false{
-                     WWProgressHUD.dismiss()
-                     return
-                 }
+  
                  self?.updateWorker(workerName: model?.nick ?? "", avatar: model?.avatar ?? "")
                  workerId = model?.workerId ?? 2
                
-                 NetworkUtil.getHistory(consultId: Int32(self?.consultId ?? 0)) { success, data in
-                   //构建历史消息
-                   self?.buildHistory(history:  data ?? HistoryModel())
+                 if f == false{
+                     _ = self?.handleUnSendMsg(list: self?.datasouceArray)
+                     WWProgressHUD.dismiss()
+                     return
+                 }else{
+                     NetworkUtil.getHistory(consultId: Int32(self?.consultId ?? 0)) { success, data in
+                         //构建历史消息
+                         self?.buildHistory(history:  data ?? HistoryModel())
+                     }
                  }
              }
              WWProgressHUD.dismiss()
@@ -285,5 +288,30 @@ extension KeFuViewController: teneasySDKDelegate {
         }
         
         return msg
+    }
+    
+    func handleUnSendMsg(list: [ChatModel]?) -> Bool {
+
+        guard let list = list else { return false}
+        
+        if list.isEmpty {
+            return false
+        }
+
+        let filteredList = list.filter { $0.sendStatus != .发送成功 && $0.isLeft == false }
+        print("handleUnSendMsg: \(filteredList.count)")
+
+        for item in filteredList {
+            if item.sendStatus != .发送成功 {
+                print("resend payloadId: \(item.payLoadId)")
+                DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+                    if let cMsg = item.message {
+                        self.lib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
+                    }
+                }
+            }
+        }
+        
+        return true
     }
 }

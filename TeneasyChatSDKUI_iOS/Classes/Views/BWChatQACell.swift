@@ -14,6 +14,7 @@ typealias BWChatQuestionCellQuestionClickCallBack = (QA) -> ()
 class BWChatQACell: UITableViewCell {
     var heightBlock: BWChatQuestionCellHeightCallBack?
     var qaClickBlock: BWChatQuestionCellQuestionClickCallBack?
+    var question: QuestionModel?
     lazy var questionView: BWQAView = {
         let view = BWQAView()
         view.backgroundColor = .white
@@ -52,8 +53,6 @@ class BWChatQACell: UITableViewCell {
             }
         }
     }
-    
-    var question: QuestionModel?
     
     func getAutoReplay(consultId: Int32, workId: Int32) {
         print(consultId)
