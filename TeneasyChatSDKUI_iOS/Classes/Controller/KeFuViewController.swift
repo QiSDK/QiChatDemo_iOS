@@ -399,7 +399,6 @@ open class KeFuViewController: UIViewController{
        print("sdk status:\(isConnected) \(Date())")
        if !isConnected{
            initSDK(baseUrl: domain)
-           print("checkSDK 重新连接SDK")
        }
     }
 

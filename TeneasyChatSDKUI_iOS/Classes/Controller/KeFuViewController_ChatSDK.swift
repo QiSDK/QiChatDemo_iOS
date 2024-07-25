@@ -15,7 +15,7 @@ extension KeFuViewController: teneasySDKDelegate {
     func initSDK(baseUrl: String) {
         let wssUrl = "wss://" + baseUrl + "/v1/gateway/h5?"
         if lib.payloadId == 0{
-            print("initSDK 重新初始化")
+            print("initSDK 初始化SDK")
             // 第一次cert必填，之后token必填
             lib = ChatLib(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
             
@@ -304,12 +304,14 @@ extension KeFuViewController: teneasySDKDelegate {
 
         for item in filteredList {
             if item.sendStatus != .发送成功 {
-                print("resend payloadId: \(item.payLoadId)")
-                DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+                //DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+                    print("resend payloadId: \(item.payLoadId)")
+                    Thread.sleep(forTimeInterval: 1.3)
                     if let cMsg = item.message {
                         self.lib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
                     }
-                }
+
+                //}
             }
         }
         

@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/7938813/TeneasyChatSDKUI_iOS'
+  s.homepage         = 'https://github.com/QiSDK/QiChatDemo_iOS'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { '7938813' => 'tianxuefeng2010@gmail.com' }
-  s.source           = { :git => 'https://github.com/7938813/TeneasyChatSDKUI_iOS.git', :tag => s.version.to_s }
+  s.author           = { '7938813' => 'xiaofu2024@gmail.com' }
+  s.source           = { :git => 'https://github.com/QiSDK/QiChatDemo_iOS', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'

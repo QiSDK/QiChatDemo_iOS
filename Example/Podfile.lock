@@ -17,7 +17,7 @@ PODS:
   - SVProgressHUD (2.2.5)
   - SwiftDate (6.3.1)
   - SwiftProtobuf (1.20.3)
-  - TeneasyChatSDK_iOS (1.5.1):
+  - TeneasyChatSDK_iOS (1.5.3):
     - Alamofire
     - HandyJSON (~> 5.0.2)
     - Starscream (= 4.0.4)
@@ -71,7 +71,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   TeneasyChatSDK_iOS:
-    :commit: 308e133892daf9a081623f4620dc6c87a0f2ceca
+    :commit: b9ffe234b165fa5be196b8a01bc58e94d1d6a418
     :git: https://github.com/QiSDK/QiChatSDK_iOS.git
 
 SPEC CHECKSUMS:
@@ -87,8 +87,8 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
-  TeneasyChatSDK_iOS: 218801d2dd85cc4f041cb998596f8c9a76efe868
-  TeneasyChatSDKUI_iOS: 07f5e3a0672162d26aed4d1b745fe7683ea654e9
+  TeneasyChatSDK_iOS: cda1b0f5785b9e7013e5cc998c4a2a699a3217a2
+  TeneasyChatSDKUI_iOS: 7afb3ecb067a978dfe2f69bcd95b0098ab1eb903
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
 

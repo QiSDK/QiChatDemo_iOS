@@ -29,7 +29,24 @@ public protocol teneasySDKDelegate : AnyObject{
      }
  }*/
 
-open class ChatLib {
+open class ChatLib: NetworkManagerDelegate {
+    func networkRechabilityStatus(status: NetworkManagerStatus) {
+        switch status {
+                    case .notReachable:
+                        print("ChatLib:[RECHABILITY] The network is not reachable")
+                        //1009 断网了
+                        disConnected(code: 1009, msg: "网络中断了")
+                    case .unknown :
+                        print("ChatLib:[RECHABILITY] It is unknown whether the network is reachable")
+                    case .ethernetOrWiFi:
+                        print("ChatLib:[RECHABILITY] The network is reachable over the WiFi connection")
+                    case .cellular:
+                        print("ChatLib:[RECHABILITY] The network is reachable over the WWAN connection")
+                }
+            
+              //  networkManager.stopNetworkReachabilityObserver()
+    }
+    
     public private(set) var text = "Teneasy Chat SDK 启动"
     private var baseUrl = "wss://csapi.xdev.stream/v1/gateway/h5?token="
     var websocket: WebSocket?
@@ -40,7 +57,7 @@ open class ChatLib {
     public var sendingMsg: CommonMessage?
     private var msgList: [UInt64: CommonMessage] = [:]
     var chatId: Int64 = 0
-    var token: String = ""
+    public var token: String = ""
     var session = Session()
     
     private var myTimer: Timer?
@@ -53,6 +70,7 @@ open class ChatLib {
     private var userId: Int32 = 0
     private var sign: String = ""
     private var cert: String = ""
+    private var networkManager = NetworkManager()
 
     var consultId: Int64 = 0
     //wss://csapi.xdev.stream/v1/gateway/h5?token=CH0QARji9w4gogEor4i7mc0x.PKgbr4QAEspllbvDx7bg8RB_qDhkWozBKgWtoOPfVmlTfPbd8nyBZk9uyQvjj-3F6MXHyE9GmZvj0_PRTm_tDA&userid=1125324&ty=104&dt=1705583047601&sign=&rd=1019737
@@ -75,13 +93,16 @@ open class ChatLib {
         self.token = token
         beatTimes = 0
         print(text)
+        
+        networkManager.delegate = self
+               networkManager.startNetworkReachabilityObserver()
     }
     
 //    public init(session: Session) {
 //        self.session = session
 //    }
 
-    public func callWebsocket() {
+   public func callWebsocket() {
         let rd = Int.random(in: 1000000..<9999999)
         let date = Date()
         let dt = Int(date.timeIntervalSince1970 * 1000)
@@ -102,19 +123,20 @@ open class ChatLib {
          request.setValue("Everything is Awesome!", forHTTPHeaderField: "My-Awesome-Header")
          */
         startTimer()
-        print("call web socket")
+        print("ChatLib:call web socket")
     }
     
     public func reConnect(){
-        if websocket != nil{
-            websocket?.connect()
-        }
+//        if websocket != nil{
+//            websocket?.connect()
+//        }
+        callWebsocket()
     }
     
     deinit {
-        print("deinit")
+        print("ChatLib:deinit")
         if websocket != nil{
-            disConnect()
+            disConnected()
         }
     }
     
@@ -129,12 +151,12 @@ open class ChatLib {
         sessionTime += 1
         if sessionTime % 30 == 0{//每隔30秒发送一个心跳
             beatTimes += 1
-            print("心跳第 \(beatTimes) 次 \(Date())")
+            print("ChatLib:心跳第 \(beatTimes) 次 \(Date())")
             sendHeartBeat()
         }
         
         if sessionTime > maxSessionMinutes * 60{//超过最大会话，停止发送心跳
-            disConnect()
+            disConnected()
         }
     }
 
@@ -179,7 +201,7 @@ open class ChatLib {
         var msg = CommonMessage()
         msg.consultID = self.consultId
         //msg.content = content
-        msg.chatID = 0//2692944494609
+        msg.chatID = chatId//2692944494609
         msg.msgID = msgId
         msg.msgOp = .msgOpDelete
         // 临时放到一个变量
@@ -303,12 +325,17 @@ open class ChatLib {
         // 第四层
         var payLoad = Gateway_Payload()
         payLoad.data = cSendMsgData
-        payLoad.act = .cssendMsg
         
+//        if msg.msgOp == .msgOpDelete{
+//            payLoad.act = .csdeleteMsg
+//        }else{
+            payLoad.act = .cssendMsg
+        //}
+   
         //payload_id != 0的时候，可能是重发，重发不需要+1
         if (sendingMsg?.msgOp == .msgOpPost && payload_Id == 0){
             payloadId += 1
-            print("payloadID + 1:" + String(payloadId))
+            print("ChatLib:payloadID + 1:" + String(payloadId))
             msgList[payloadId] = msg
         }
         
@@ -332,25 +359,25 @@ open class ChatLib {
 
         let myData = Data(bytes: array)
         send(binaryData: myData)
-        //print("sending heart beat")
+        //print("ChatLib:sending heart beat")
     }
     
     private func send(binaryData: Data) {
         if websocket == nil || !isConnected{
-            print("断开了")
+            print("ChatLib:断开了")
             if sessionTime > maxSessionMinutes * 60 {
-                disConnect(code: 1000)
+                disConnected(code: 1000)
             } else {
                 callWebsocket()
-                print("重新连接")
+                print("ChatLib:重新连接")
             }
         } else {
             if sessionTime > maxSessionMinutes * 60 {
-                disConnect(code: 1000)
+                disConnected(code: 1000)
             } else {
-                print("开始发送")
+                print("ChatLib:开始发送")
                 websocket?.write(data: binaryData, completion: ({
-                    print("msg sent")
+                    print("ChatLib:msg sent")
                 }))
             }
         }
@@ -363,7 +390,18 @@ open class ChatLib {
         }
     }
     
-    public func disConnect(code: Int = 1006, msg: String = "已断开通信") {
+    private func disConnected(code: Int = 1006, msg: String = "已断开通信") {
+        //stopTimer()
+        var result = Result()
+        result.Code = code
+        result.Message = "已断开通信"
+        delegate?.systemMsg(result: result)
+        isConnected = false
+        sendingMsg = nil
+        print("ChatLib:通信SDK 断开连接")
+    }
+    
+    public func disConnect() {
         stopTimer()
         if let socket = websocket {
             socket.disconnect()
@@ -371,46 +409,44 @@ open class ChatLib {
             websocket = nil
         }
 
-        var result = Result()
-        result.Code = code
-        result.Message = "已断开通信"
-        delegate?.systemMsg(result: result)
         isConnected = false
         sendingMsg = nil
-        print("通信SDK 断开连接")
+        networkManager.stopNetworkReachabilityObserver()
+        print("ChatLib:退出了Chat SDK")
     }
 }
+
+
 
 // MARK: - WebSocketDelegate
 extension ChatLib: WebSocketDelegate {
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        print("got some text: \(text)")
+        print("ChatLib:got some text: \(text)")
     }
 
     public func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
 
         case .connected:
-            // print("connected" + headers.description)
+            // print("ChatLib:connected" + headers.description)
             if self.websocket !== client {
                 return
             }
+            isConnected = true
             var result = Result()
             result.Code = 0
             result.Message = "已连接上"
             delegate?.systemMsg(result: result)
-            
-            isConnected = true
         case .disconnected(let reason, let closeCode):
             if self.websocket !== client {
                 return
             }
-            print("disconnected \(reason) \(closeCode)")
+            print("ChatLib:disconnected \(reason) \(closeCode)")
             isConnected = false
-            disConnect()
+            disConnected()
             failedToSend()
         case .text(let text):
-            print("received text: \(text)")
+            print("ChatLib:received text: \(text)")
         case .binary(let data):
             /*
             walter, [17 May 2024 at 3:32:00 PM (17 May 2024 at 3:32:23 PM)]:
@@ -428,18 +464,18 @@ extension ChatLib: WebSocketDelegate {
             if data.count == 1 {
                     if let d = String(data: data, encoding: .utf8) {
                         if d.contains("\u{00}") {
-                            print("收到心跳回执\(beatTimes)\n")
+                            print("ChatLib:收到心跳回执\(beatTimes)\n")
                         }  else if d.contains("\u{03}") {
                             //disConnect(code: 1003, msg: "无效的Token\n")
-                            print("收到1字节回执\(d) PermChangedFlag 0x3\n")
+                            print("ChatLib:收到1字节回执\(d) PermChangedFlag 0x3\n")
                         }else if d.contains("\u{02}") {
-                            disConnect(code: 1002, msg: "无效的Token\n")
-                            print("收到1字节回执\(d) 无效的Token 0x2\n")
+                            disConnected(code: 1002, msg: "无效的Token\n")
+                            print("ChatLib:收到1字节回执\(d) 无效的Token 0x2\n")
                         } else if d.contains("\u{01}") {
-                            disConnect(code: 1010, msg: "在别处登录了\n")
-                            print("收到1字节回执\(d) 在别处登录了\n")
+                            disConnected(code: 1010, msg: "在别处登录了\n")
+                            print("ChatLib:收到1字节回执\(d) 在别处登录了\n")
                         } else {
-                            print("收到1字节回执\(d)\n")
+                            print("ChatLib:收到1字节回执\(d)\n")
                         }
                     }
             } else {
@@ -448,14 +484,14 @@ extension ChatLib: WebSocketDelegate {
 //                if sendingMsg?.msgOp != .msgOpDelete{
 //                    payloadId = payLoad.id
 //                }
-                print("new payloadID:" + String(payloadId))
+                print("ChatLib:new payloadID:" + String(payloadId))
                 if payLoad.act == .screcvMsg {
                     let scMsg = try? Gateway_SCRecvMessage(serializedData: msgData)
                     let msg = scMsg?.msg
                     if msg != nil {
                         if (msg!.msgOp == .msgOpDelete){
                             //msg?.msgID = -1
-                            print("对方撤回了消息 payloadID:" + String(payLoad.id))
+                            print("ChatLib:对方撤回了消息 payloadID:" + String(payLoad.id))
                             delegate?.msgDeleted(msg: msg!, payloadId: payLoad.id, errMsg: nil)
                         }else{
                             delegate?.receivedMsg(msg: msg!)
@@ -463,17 +499,17 @@ extension ChatLib: WebSocketDelegate {
                     }
                 } else if payLoad.act == .schi { // 连接成功后收到的信息，会返回clientId, Token
                     if let msg = try? Gateway_SCHi(serializedData: msgData) {
-                        //print("chatID:" + String(msg.id))
+                        //print("ChatLib:chatID:" + String(msg.id))
                         delegate?.connected(c: msg)
                         
-                        if sendingMsg != nil{
-                            print("自动重发未发出的最后一个消息\(self.payloadId)")
-                            resendMsg(msg: sendingMsg!, payloadId: self.payloadId)
-                        }else{
-                            //不是重发，使用新id
+//                        if sendingMsg != nil{
+//                            print("ChatLib:自动重发未发出的最后一个消息\(self.payloadId)")
+//                            resendMsg(msg: sendingMsg!, payloadId: self.payloadId)
+//                        }else{
+//                            //不是重发，使用新id
                             payloadId = payLoad.id
-                        }
-                        print("初始payloadId:" + String(payloadId))
+                        //}
+                        print("ChatLib:初始payloadId:" + String(payloadId))
                         print(msg)
                     }
                 } else if payLoad.act == .scworkerChanged {
@@ -494,15 +530,17 @@ extension ChatLib: WebSocketDelegate {
                              }
                  */
                 else if payLoad.act == .scdeleteMsgAck {
-                    let cMsg = try? Gateway_CSSendMessage(serializedData: msgData)
-                    print("删除消息回执A，payloadId:\(payLoad.id) msgId:\(cMsg?.msg.msgID ?? 0)")
-                    //cMsg?.msg.msgID = -1
-                    if let msg = cMsg?.msg{
-                        if msgList[payLoad.id] != nil{
-                            print("删除成功");
-                            
-                            delegate?.msgDeleted(msg: msg, payloadId: payLoad.id, errMsg: nil)
-                        }
+                    let cMsg = try? Gateway_SCReadMessage(serializedData: msgData)
+                    print("ChatLib:删除消息回执A，payloadId:\(payLoad.id) msgId:\(cMsg?.msgID ?? 0)")
+                    if let cMsg = cMsg{
+                        //delegate?.msgReceipt(msg: msg, payloadId: payLoad.id)
+                        // 第二层, 消息主题
+                        var msg = CommonMessage()
+                        //msg.msgID = -1
+                        msg.msgID = cMsg.msgID
+                        msg.msgOp = .msgOpDelete
+                        msg.chatID = cMsg.chatID
+                        delegate?.msgDeleted(msg: msg, payloadId: payLoad.id, errMsg: nil)
                         print(msg)
                     }
                 }
@@ -525,7 +563,7 @@ extension ChatLib: WebSocketDelegate {
                     print(msg!)
                 } else if payLoad.act == .scsendMsgAck { // 服务器告诉此条信息是否发送成功
                     if let scMsg = try? Gateway_SCSendMessage(serializedData: msgData) {
-                        print("消息回执B，payloadId:\(payLoad.id) msgId:\(scMsg.msgID)")
+                        print("ChatLib:消息回执Step 1，payloadId:\(payLoad.id) msgId:\(scMsg.msgID)")
                         //if sendingMsg != nil {
                         // sendingMsg?.msgID = scMsg.msgID // 发送成功会得到消息ID
                         // sendingMsg?.msgTime = scMsg.msgTime
@@ -535,11 +573,12 @@ extension ChatLib: WebSocketDelegate {
                             cMsg?.msgID = scMsg.msgID
                             cMsg?.msgTime = scMsg.msgTime
                             chatId = scMsg.chatID
+                            print("ChatLib:消息回执Step 2")
                             if cMsg != nil{
                                 if (sendingMsg?.msgOp == .msgOpDelete){
                                     //cMsg!.msgID = -1
                                     cMsg!.msgOp = .msgOpDelete
-                                    print("删除消息成功");
+                                    print("ChatLib:删除消息成功");
                                     delegate?.msgDeleted(msg: cMsg!, payloadId: payLoad.id, errMsg: scMsg.errMsg)
                                     return
                                 }else if(!scMsg.errMsg.isEmpty){
@@ -551,34 +590,34 @@ extension ChatLib: WebSocketDelegate {
                         //}
                     }
                 } else {
-                    print("received data: \(data)")
+                    print("ChatLib:received data: \(data)")
                 }
             }
 
         case .pong(let pongData):
-            print("received pong: \(String(describing: pongData))")
+            print("ChatLib:received pong: \(String(describing: pongData))")
         case .ping(let pingData):
-            print("received ping: \(String(describing: pingData))")
+            print("ChatLib:received ping: \(String(describing: pingData))")
         case .error(let error):
             // self.delegate?.connected(c: false)
-            print("socket error \(String(describing: error))")
+            print("ChatLib:socket error \(String(describing: error))")
             if self.websocket !== client {
                 return
             }
-            disConnect()
+            disConnected()
             failedToSend()
             isConnected = false
         case .viabilityChanged:
-            print("viabilityChanged")
+            print("ChatLib:viabilityChanged")
         case .reconnectSuggested:
-            print("reconnectSuggested")
+            print("ChatLib:reconnectSuggested")
         case .cancelled:
             if self.websocket !== client {
                 return
             }
-            disConnect(code: 1007)
+            disConnected(code: 1007)
             failedToSend()
-            print("cancelled")
+            print("ChatLib:cancelled")
             isConnected = false
         }
     }
