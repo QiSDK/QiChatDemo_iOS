@@ -324,8 +324,8 @@ open class KeFuViewController: UIViewController{
             chatModel.sendStatus = .发送成功
             chatModel.cellType = .TYPE_QA
             datasouceArray.append(chatModel)
-            
-            systemMsgLabel.text = "您好，\(workerName)为您服务！"
+            isFirstLoad = false
+            //systemMsgLabel.text = "您好，\(workerName)为您服务！"
         }else{
             //服务器会自动生成这个，所以不用
             /*let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
@@ -399,7 +399,7 @@ open class KeFuViewController: UIViewController{
        print("sdk status:\(isConnected) \(Date())")
        if !isConnected{
            initSDK(baseUrl: domain)
-           print("重新连接SDK")
+           print("checkSDK 重新连接SDK")
        }
     }
 

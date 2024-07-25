@@ -14,11 +14,17 @@ extension KeFuViewController: teneasySDKDelegate {
     //初始化聊天SDK
     func initSDK(baseUrl: String) {
         let wssUrl = "wss://" + baseUrl + "/v1/gateway/h5?"
-        // 第一次cert必填，之后token必填
-        lib = ChatLib(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
-        
-        lib.callWebsocket()
-        lib.delegate = self
+        if lib.payloadId == 0{
+            print("initSDK 重新初始化")
+            // 第一次cert必填，之后token必填
+            lib = ChatLib(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
+            
+            lib.callWebsocket()
+            lib.delegate = self
+        }else{
+            print("initSDK 重新连接")
+            lib.reConnect()
+        }
     }
     
     //收到客服发来的消息
@@ -155,6 +161,7 @@ extension KeFuViewController: teneasySDKDelegate {
             print(msg.workerName)
             print("客服更换了\(Date())")
             workerId = msg.workerID
+            isFirstLoad = true
             NetworkUtil.getHistory(consultId: Int32(self.consultId )) { success, data in
                 //构建历史消息
                 self.buildHistory(history:  data ?? HistoryModel())
@@ -186,8 +193,8 @@ extension KeFuViewController: teneasySDKDelegate {
         UserDefaults.standard.set(c.token, forKey: PARAM_XTOKEN)
         
         
-        let f = self.isFirstLoad
-        if f == false{
+        //let f = self.isFirstLoad
+        if !isFirstLoad{
             WWProgressHUD.showLoading("连接中...")
         }
         
@@ -196,21 +203,22 @@ extension KeFuViewController: teneasySDKDelegate {
         //SDK连接成功之后，分配客服
         NetworkUtil.assignWorker(consultId: Int32(self.consultId)) { [weak self]success, model in
              if success {
-                 print("分配客服成功\(Date()), Worker Id：\(model?.workerId ?? 0)")
-  
-                 self?.updateWorker(workerName: model?.nick ?? "", avatar: model?.avatar ?? "")
+
                  workerId = model?.workerId ?? 2
                
-                 if f == false{
-                     _ = self?.handleUnSendMsg(list: self?.datasouceArray)
-                     WWProgressHUD.dismiss()
-                     return
-                 }else{
+                 if self?.isFirstLoad ?? false{
+                     print("获取聊天记录")
                      NetworkUtil.getHistory(consultId: Int32(self?.consultId ?? 0)) { success, data in
                          //构建历史消息
                          self?.buildHistory(history:  data ?? HistoryModel())
                      }
+                 }else{
+                     print("处理未发出去的消息")
+                     _ = self?.handleUnSendMsg()
                  }
+                 print("分配客服成功\(Date()), Worker Id：\(model?.workerId ?? 0)")
+  
+                 self?.updateWorker(workerName: model?.nick ?? "", avatar: model?.avatar ?? "")
              }
              WWProgressHUD.dismiss()
          }
@@ -290,15 +298,8 @@ extension KeFuViewController: teneasySDKDelegate {
         return msg
     }
     
-    func handleUnSendMsg(list: [ChatModel]?) -> Bool {
-
-        guard let list = list else { return false}
-        
-        if list.isEmpty {
-            return false
-        }
-
-        let filteredList = list.filter { $0.sendStatus != .发送成功 && $0.isLeft == false }
+    func handleUnSendMsg() -> Bool {
+        let filteredList = datasouceArray.filter { $0.sendStatus != .发送成功 && $0.isLeft == false }
         print("handleUnSendMsg: \(filteredList.count)")
 
         for item in filteredList {
