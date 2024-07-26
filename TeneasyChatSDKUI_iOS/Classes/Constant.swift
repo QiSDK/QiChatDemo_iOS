@@ -65,6 +65,9 @@ public var domain = ""  //domain
 var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
 var workerId: Int32 = 2
 
+var unSentMessage: [Int64: [ChatModel]] = [999: []]
+
+
 public let PARAM_XTOKEN = "HTTPTOKEN"
 
 let serverTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"

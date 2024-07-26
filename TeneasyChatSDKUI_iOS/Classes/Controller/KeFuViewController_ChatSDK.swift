@@ -181,6 +181,8 @@ extension KeFuViewController: teneasySDKDelegate {
                  WWProgressHUD.showInfoMsg(result.Message)
                  stopTimer()
                  //navigationController?.popToRootViewController(animated: true)
+             }else{
+                 getUnSendMsg()
              }
         }
     }
@@ -212,10 +214,11 @@ extension KeFuViewController: teneasySDKDelegate {
                          //构建历史消息
                          self?.buildHistory(history:  data ?? HistoryModel())
                      }
-                 }else{
+                 }//else{
                      print("处理未发出去的消息")
+                         self?.getUnSendMsg()
                      _ = self?.handleUnSendMsg()
-                 }
+                 //}
                  print("分配客服成功\(Date()), Worker Id：\(model?.workerId ?? 0)")
   
                  self?.updateWorker(workerName: model?.nick ?? "", avatar: model?.avatar ?? "")
@@ -299,22 +302,36 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     func handleUnSendMsg() -> Bool {
-        let filteredList = datasouceArray.filter { $0.sendStatus != .发送成功 && $0.isLeft == false }
-        print("handleUnSendMsg: \(filteredList.count)")
+        //let filteredList = datasouceArray.filter { $0.sendStatus != .发送成功 && $0.isLeft == false }
+        //print("handleUnSendMsg: \(filteredList.count)")
 
-        for item in filteredList {
-            if item.sendStatus != .发送成功 {
-                //DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+        if let filteredList = unSentMessage[consultId]{
+            print("准备发未发出去的消息：\(filteredList)")
+            for item in filteredList {
+                if item.sendStatus != .发送成功 {
+                    //DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
                     print("resend payloadId: \(item.payLoadId)")
-                    Thread.sleep(forTimeInterval: 1.3)
+                    Thread.sleep(forTimeInterval: 0.3)
                     if let cMsg = item.message {
                         self.lib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
                     }
-
-                //}
+                    
+                    //}
+                }
             }
         }
         
         return true
+    }
+    
+    func getUnSendMsg(){
+        if (datasouceArray.count == 0){
+            return
+        }
+        
+        let filteredList =
+        datasouceArray.filter { $0.sendStatus != MessageSendState.发送成功 && $0.isLeft == false }
+        unSentMessage[consultId] = filteredList
+        print("未发出去的消息\(filteredList)")
     }
 }

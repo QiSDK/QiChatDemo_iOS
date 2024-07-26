@@ -180,23 +180,23 @@ class BWChatCell: UITableViewCell {
         if (replyQuoteLabel.text?.isEmpty ?? true) {
             //margin = 0
             quoteHeight = 0
+            //print("contentBgView width:\(size.width)")
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(size.width)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
             }
         }else{
+            
+            var newWidth = (size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24
+            if newWidth < 12{
+                newWidth = 12
+            }
+            //print("contentBgView width:\(newWidth)")
             self.contentBgView.snp.updateConstraints { make in
-                make.width.equalTo((size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24)
+                make.width.equalTo(newWidth)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
             }
         }
-//        print(model?.replayQuote)
-//        print(size.width)
-//        print(sizeQuote.width)
-//        self.contentBgView.snp.updateConstraints { make in
-//            make.width.equalTo((size.width > sizeQuote.width + 24) ? size.width : sizeQuote.width + 24)
-//            make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
-//        }
     }
     
     func displayIconImg(path: String) {
@@ -279,7 +279,7 @@ class BWChatLeftCell: BWChatCell {
             make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.height.equalTo(0)
-            make.width.equalTo(0)
+            make.width.equalTo(32)
         }
         self.arrowView.image = UIImage.svgInit("ic_left_point")
         self.arrowView.snp.makeConstraints { make in
@@ -356,7 +356,7 @@ class BWChatRightCell: BWChatCell {
             make.right.equalTo(self.timeLab.snp.right)
             make.top.equalTo(self.timeLab.snp.bottom).offset(-0)
             make.height.equalTo(0)
-            make.width.equalTo(0)
+            make.width.equalTo(32)
         }
         
         self.arrowView.image = UIImage.svgInit("ic_right_point")

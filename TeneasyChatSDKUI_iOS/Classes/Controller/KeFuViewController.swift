@@ -151,6 +151,7 @@ open class KeFuViewController: UIViewController{
     }
 
     @objc func closeClick() {
+        getUnSendMsg()
         quitChat()
         dismiss(animated: true)
     }
