@@ -21,9 +21,16 @@ extension KeFuViewController: teneasySDKDelegate {
             
             lib.callWebsocket()
             lib.delegate = self
+            
+            
+//            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
+//            
+//            lib.callWebsocket()
+//            lib.delegate = self
         }else{
             print("initSDK 重新连接")
             lib.reConnect()
+            //lib.delegate = self
         }
     }
     

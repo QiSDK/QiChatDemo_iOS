@@ -19,17 +19,21 @@ open class KeFuViewController: UIViewController{
     //所选择的咨询类型Id
     var consultId: Int64 = 0
     //聊天SDK库
-    var lib = ChatLib()
+    var lib = ChatLib.shared
     //是否第一次加载页面，历史记录和自动回复列表只是在第一次加载页面的时候调用
     internal var isFirstLoad = true
     //是否在已经连接状态的标记
     var isConnected: Bool = false
-    //一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
-    private var myTimer: Timer?
+   
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
     var workerName: String = ""
      var avatarPath: String = ""
+    
+    //一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
+    //private var myTimer: Timer?
+    //static let shared = KeFuViewController()
+       var myTimer: Timer?
 
     //当前选择的图片
     var chooseImg: UIImage?
@@ -144,10 +148,10 @@ open class KeFuViewController: UIViewController{
         let rightBarItem = UIBarButtonItem(title: "退出", style: .done, target: self, action: #selector(goBack))
         navigationItem.rightBarButtonItem = rightBarItem
         
-        delayExecution(seconds: 5) {
+        //delayExecution(seconds: 5) { //会导致退出页面后仍然开启chatSDK!
             print("开始定时检查")
             self.startTimer()
-        }
+        //}
     }
 
     @objc func closeClick() {
@@ -313,11 +317,10 @@ open class KeFuViewController: UIViewController{
         
         if isFirstLoad{
             //打招呼
-           /* isFirstLoad = false
             let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
             appendDataSource(msg: greetingMsg, isLeft: true)
             print("第一次打招呼")
-            */
+            
             //自动回复的Cell
             let chatModel = ChatModel()
             chatModel.isLeft = true
@@ -348,11 +351,11 @@ open class KeFuViewController: UIViewController{
         //self.headerImg.kf.setImage(with: URL(string: url))
         avatarPath = avatar
         
-        if isFirstLoad{
+        /*if isFirstLoad{
             self.systemMsgLabel.text = ""
-        }else{
+        }else{*/
             self.systemMsgLabel.text = "您好：\(workerName)为您服务！"
-        }
+        //}
     }
     
     func sendMsg(textMsg: String) {
@@ -405,21 +408,25 @@ open class KeFuViewController: UIViewController{
 
     //定时检查SDK连接状态
     @objc func startTimer() {
-       stopTimer()
+        if myTimer != nil{
+            return
+        }
+        print("KeFu计时器开始")
         myTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(checkSDK), userInfo: nil, repeats: true)
-        myTimer!.fire()
+        myTimer?.fire()
     }
 
     //停止定时检查
     func stopTimer() {
-        if myTimer != nil {
-            myTimer!.invalidate() // 销毁timer
-            myTimer = nil
-        }
+        //if myTimer != nil {
+        myTimer?.invalidate() // 销毁timer
+        myTimer = nil
+            print("KeFu计时器销毁")
+        //}
     }
     
     open override func viewWillAppear(_ animated: Bool) {
-        if !isFirstLoad{
+        if !isFirstLoad {
             delayExecution(seconds: 2) {
                 print("页面恢复，检查SDK")
                 self.checkSDK()
@@ -434,6 +441,7 @@ open class KeFuViewController: UIViewController{
         isConnected = false
         lib.disConnect()
         lib.delegate = nil
+        print("已退出聊天")
     }
     
     /**
