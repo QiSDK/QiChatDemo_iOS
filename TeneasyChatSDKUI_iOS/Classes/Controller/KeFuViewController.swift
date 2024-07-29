@@ -317,8 +317,8 @@ open class KeFuViewController: UIViewController{
         
         if isFirstLoad{
             //打招呼
-            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
-            appendDataSource(msg: greetingMsg, isLeft: true)
+            /*let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
+            appendDataSource(msg: greetingMsg, isLeft: true)*/
             print("第一次打招呼")
             
             //自动回复的Cell
