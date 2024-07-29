@@ -411,9 +411,12 @@ open class KeFuViewController: UIViewController{
         if myTimer != nil{
             return
         }
-        print("KeFu计时器开始")
-        myTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(checkSDK), userInfo: nil, repeats: true)
-        myTimer?.fire()
+        
+        self.myTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.checkSDK), userInfo: nil, repeats: true)
+        delayExecution(seconds: 10) {
+            print("KeFu计时器开始")
+            self.myTimer?.fire()
+        }
     }
 
     //停止定时检查
@@ -426,7 +429,7 @@ open class KeFuViewController: UIViewController{
     }
     
     open override func viewWillAppear(_ animated: Bool) {
-        if !isFirstLoad {
+        if !isFirstLoad && !(myTimer?.isValid ?? false){
             delayExecution(seconds: 2) {
                 print("页面恢复，检查SDK")
                 self.checkSDK()
