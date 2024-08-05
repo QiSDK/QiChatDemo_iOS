@@ -7,9 +7,13 @@ class ViewController: UIViewController, LineDetectDelegate  {
     lazy var supportBtn:UIButton = {
         let btn = UIButton(type: .roundedRect)
         btn.setTitle("联系客服", for: .normal)
-        btn.backgroundColor = .lightText
+        if #available(iOS 13.0, *) {
+            btn.backgroundColor = UIColor.tertiarySystemFill
+        } else {
+            // Fallback on earlier versions
+        }
         
-        btn.setTitleColor(UIColor.black, for: .normal)
+        //btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(buttonClick), for: .touchUpInside)
         return btn
     }()
@@ -76,6 +80,11 @@ class ViewController: UIViewController, LineDetectDelegate  {
         super.viewDidLoad()
         initSubViews()
 
+        if #available(iOS 13.0, *) {
+            self.view.backgroundColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

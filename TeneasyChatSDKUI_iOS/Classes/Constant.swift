@@ -76,8 +76,12 @@ var iconWidth = 38.0
 var imgHeight = 114.0
 let titleColour = kHexColor(0x484848)
 let timeColor = kHexColor(0xC4C4C4)
-let chatBackColor = kHexColor(0xf6f6f6)
-let panelBack = kHexColor(0xf4f4f4)
+//let chatBackColor = kHexColor(0xf6f6f6)
+//let panelBack = kHexColor(0xf4f4f4)
+
+let chatBackColor = UIColor.systemGray
+let panelBack = UIColor.lightGray
+
 //#f4f4f4
 
  func convertDateStringToString(datStr: String) -> String{

@@ -111,7 +111,6 @@ class BWKeFuChatToolBarV2: UIView {
     /// 菜单视图
     lazy var menuView: BWKeFuChatMenuView = {
         let menuView = BWKeFuChatMenuView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 240))
-        menuView.backgroundColor = chatBackColor
         menuView.delegate = self
         return menuView
     }()
@@ -191,7 +190,13 @@ class BWKeFuChatToolBarV2: UIView {
     
     func initBindModel() {
         BEmotionHelper.shared.emotionArray = BEmotionHelper.getNewEmoji()
-        backgroundColor = kBgColor
+
+        if #available(iOS 13.0, *) {
+            menuView.backgroundColor = UIColor.secondarySystemBackground
+            backgroundColor = UIColor.secondarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         textView.backgroundColor = .white
         placeTextField.backgroundColor = .white
         textView.addObserver(self, forKeyPath: "attributedText", options: .new, context: nil)

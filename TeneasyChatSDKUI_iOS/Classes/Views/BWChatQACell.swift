@@ -17,7 +17,11 @@ class BWChatQACell: UITableViewCell {
     var question: QuestionModel?
     lazy var questionView: BWQAView = {
         let view = BWQAView()
-        view.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = UIColor.tertiarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         return view
@@ -25,7 +29,11 @@ class BWChatQACell: UITableViewCell {
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
-        lab.textColor = timeColor
+        if #available(iOS 13.0, *) {
+            lab.textColor = UIColor.quaternaryLabel
+        } else {
+            // Fallback on earlier versions
+        }
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
@@ -87,7 +95,6 @@ class BWChatQACell: UITableViewCell {
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        backgroundColor = .clear
         self.iconView.image = UIImage.svgInit("icon_server_def2")
         self.contentView.addSubview(self.iconView)
         self.iconView.snp.makeConstraints { make in

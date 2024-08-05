@@ -16,7 +16,11 @@ class BWQAView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.textColor = titleColour
+        if #available(iOS 13.0, *) {
+            label.textColor = UIColor.secondaryLabel
+        } else {
+            // Fallback on earlier versions
+        }
         return label
     }()
 
@@ -24,7 +28,6 @@ class BWQAView: UIView {
         let view = UITableView(frame: CGRect.zero, style: UITableView.Style.grouped)
         view.delegate = self
         view.dataSource = self
-        view.backgroundColor = .clear
         view.separatorStyle = .none
         view.register(BWQuestionSectionHeader.self, forHeaderFooterViewReuseIdentifier: "BWQuestionSectionHeader")
         return view
@@ -81,11 +84,15 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = BWQuestionCell.cell(tableView: tableView)
+        let cell = BWAutoQuestionCell.cell(tableView: tableView)
         let model: QA? = sectionList[indexPath.section].related?[indexPath.row]
         //cell.titleLab.text = "\(indexPath.row + 1)、\(model?.question?.content?.data ?? "")"
         cell.titleLab.text = "\(model?.question?.content?.data ?? "")"
-        cell.titleLab.textColor = model?.clicked == true ? .lightGray : titleColour
+        if #available(iOS 13.0, *) {
+            cell.titleLab.textColor = model?.clicked == true ? UIColor.tertiaryLabel : UIColor.secondaryLabel
+        } else {
+            // Fallback on earlier versions
+        }
         cell.titleLab.font = UIFont.systemFont(ofSize: 14)
         //cell.imgArrowRight.isHidden = true
         cell.iconView.isHidden = true
@@ -117,7 +124,12 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         headerView.titleLabel.text = "\(section + 1)、\(sectionList[section].question?.content?.data ?? "")"
         
         //headerView.titleLabel.text = "你和我打的的是谁的谁谁谁谁谁谁谁谁谁呃呃等待"
-        headerView.titleLabel.textColor = titleColour
+        if #available(iOS 13.0, *) {
+            headerView.titleLabel.textColor = UIColor.secondaryLabel
+            //headerView.backgroundColor = UIColor.red
+        } else {
+            // Fallback on earlier versions
+        }
         headerView.titleLabel.font = UIFont.systemFont(ofSize: 14)
         if sectionList[section].myExpanded == true {
             headerView.imgView.image = UIImage.svgInit("arrowup")

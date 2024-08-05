@@ -33,7 +33,6 @@ class BWEntranceView: UIView {
         let view = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
         view.delegate = self
         view.dataSource = self
-        view.backgroundColor = .clear
         view.tableFooterView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 221, height: 0.1))
         view.separatorStyle = .none
         return view
@@ -92,10 +91,15 @@ class BWEntranceView: UIView {
             make.top.equalToSuperview().offset(22)
             //make.width.height.equalTo(iconWidth)
         }
-        
 
         self.addSubview(self.tableView)
-        tableView.backgroundColor = UIColor.clear
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = UIColor.secondarySystemBackground
+            arrowView.image = arrowView.image?.withRenderingMode(.alwaysTemplate)
+            arrowView.tintColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         self.tableView.snp.makeConstraints { make in
             //make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
             make.top.equalToSuperview().offset(20)
