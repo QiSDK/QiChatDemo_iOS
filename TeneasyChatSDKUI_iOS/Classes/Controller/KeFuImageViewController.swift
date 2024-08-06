@@ -9,26 +9,41 @@ import Foundation
 class KeFuImageViewController: UIViewController {
     lazy var headerView: UIView = {
         let v = UIView(frame: CGRect.zero)
-        v.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            v.backgroundColor = UIColor.tertiarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         return v
     }()
     
     lazy var imageView: UIImageView = {
         let v = UIImageView(frame: CGRect.zero)
-        v.backgroundColor = titleColour
+        if #available(iOS 13.0, *) {
+            v.backgroundColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         return v
     }()
     
     lazy var headerClose: UIButton = {
         let btn = UIButton(frame: CGRect.zero)
         btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
+        if #available(iOS 13.0, *) {
+            btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))?.withTintColor(UIColor.systemGray), for: UIControl.State.normal)
+        }
         btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
         return btn
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            self.view.backgroundColor = UIColor.secondarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         
         view.addSubview(headerView)
         view.addSubview(imageView)
