@@ -42,7 +42,11 @@ class BWSettingViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = UIColor.secondarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         
         let labels = ["lines", "cert", "merchantId", "userId", "imageBaseUrl"]
         let textFields = [linesTextField, certTextField, merchantIdTextField, userIdTextField, imgBaseUrlTextField]
