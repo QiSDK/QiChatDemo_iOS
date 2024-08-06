@@ -60,9 +60,18 @@ class BWTipCell: UITableViewCell {
                    let attributedString = NSMutableAttributedString()
                    
                    // Add time with a specific color
-                   let timeAttributes: [NSAttributedString.Key: Any] = [
+                   var timeAttributes: [NSAttributedString.Key: Any] = [
                        .foregroundColor: timeColor // Change this to your desired color
                    ]
+            
+            if #available(iOS 13.0, *) {
+                timeAttributes = [
+                    .foregroundColor: UIColor.systemGray2 // Change this to your desired color
+                ]
+            } else {
+                // Fallback on earlier versions
+            }
+            
                    let timeAttributedString = NSAttributedString(string: time, attributes: timeAttributes)
                    attributedString.append(timeAttributedString)
                    

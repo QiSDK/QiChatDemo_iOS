@@ -95,6 +95,11 @@ open class KeFuViewController: UIViewController{
     lazy var headerClose: UIButton = {
         let btn = UIButton(frame: CGRect.zero)
         btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
+        if #available(iOS 13.0, *) {
+            btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))?.withTintColor(UIColor.systemGray), for: UIControl.State.normal)
+        } else {
+            // Fallback on earlier versions
+        }
         btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
         return btn
     }()
@@ -140,7 +145,7 @@ open class KeFuViewController: UIViewController{
     override open func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 13.0, *) {
-            tableView.backgroundColor = UIColor.systemBackground
+            tableView.backgroundColor = UIColor.secondarySystemBackground
         } else {
             // Fallback on earlier versions
         }

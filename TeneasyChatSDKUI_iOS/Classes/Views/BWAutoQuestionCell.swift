@@ -86,6 +86,12 @@ class BWAutoQuestionCell: UITableViewCell {
 //            make.centerY.equalToSuperview()
 //        }
 //        self.imgArrowRight.isHidden = true
+        if #available(iOS 13.0, *) {
+            imgArrowRight.image = imgArrowRight.image?.withRenderingMode(.alwaysTemplate)
+            imgArrowRight.tintColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         self.dotView.snp.makeConstraints { make in
             make.left.equalTo(self.titleLab.snp.right)
             make.top.equalToSuperview().offset(7)

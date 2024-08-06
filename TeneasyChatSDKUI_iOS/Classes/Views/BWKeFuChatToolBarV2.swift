@@ -46,7 +46,11 @@ class BWKeFuChatToolBarV2: UIView {
     
     private lazy var photoBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("Img_box_light")
+        var image = UIImage.svgInit("Img_box_light")
+        if #available(iOS 13.0, *) {
+            image = image?.withTintColor(UIColor.systemGray)
+        } else {
+        }
         btn.setImage(image, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         return btn
@@ -54,18 +58,34 @@ class BWKeFuChatToolBarV2: UIView {
     
     private lazy var cameraBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("camera_light")
+        var image = UIImage.svgInit("camera_light")
+        if #available(iOS 13.0, *) {
+            image = image?.withTintColor(UIColor.systemGray)
+        } else {
+        }
         btn.setImage(image, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        
         return btn
     }()
 
     private lazy var emojiBtn: WButton = {
         let btn = WButton()
-        let image = UIImage.svgInit("emoj_light")
-        let selImage = UIImage.svgInit("ht_shuru")
+        var image = UIImage.svgInit("emoj_light")
+        
+        if #available(iOS 13.0, *) {
+            image = image?.withTintColor(UIColor.systemGray)
+        } else {
+        }
         btn.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+        
+        var selImage = UIImage.svgInit("ht_shuru")
+        if #available(iOS 13.0, *) {
+            selImage = selImage?.withTintColor(UIColor.systemGray)
+        } else {
+        }
         btn.setImage(selImage, for: .selected)
+
         return btn
     }()
     
@@ -82,7 +102,10 @@ class BWKeFuChatToolBarV2: UIView {
         btn.setTitle("发送", for: UIControl.State.normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         btn.setTitleColor(.white, for: UIControl.State.normal)
-        btn.backgroundColor = kMainColor
+       
+        btn.backgroundColor = kHexColor(0x1989FA)
+   
+  
         btn.layer.cornerRadius = 4
         btn.layer.masksToBounds = true
         return btn
@@ -99,7 +122,11 @@ class BWKeFuChatToolBarV2: UIView {
         text.layer.cornerRadius = 8
         text.layer.masksToBounds = true
         text.clipsToBounds = true
-        text.backgroundColor = chatBackColor
+        if #available(iOS 13.0, *) {
+            text.backgroundColor = UIColor.tertiarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         text.delegate = self
         text.font = UIFont.systemFont(ofSize: 14)
         text.textColor = .black
@@ -119,7 +146,11 @@ class BWKeFuChatToolBarV2: UIView {
     lazy var emojiView: BWKeFuChatEmojiView = {
         let emojiView = BWKeFuChatEmojiView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 285))
         emojiView.delegate = self
-        emojiView.backgroundColor = chatBackColor
+        if #available(iOS 13.0, *) {
+            emojiView.backgroundColor = UIColor.tertiarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         return emojiView
     }()
     

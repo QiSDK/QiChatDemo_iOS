@@ -17,11 +17,11 @@ class BWChatQACell: UITableViewCell {
     var question: QuestionModel?
     lazy var questionView: BWQAView = {
         let view = BWQAView()
-        if #available(iOS 13.0, *) {
-            view.backgroundColor = UIColor.tertiarySystemBackground
-        } else {
-            // Fallback on earlier versions
-        }
+//        if #available(iOS 13.0, *) {
+//            view.backgroundColor = UIColor.tertiarySystemBackground
+//        } else {
+//            // Fallback on earlier versions
+//        }
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         return view
@@ -30,7 +30,7 @@ class BWChatQACell: UITableViewCell {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
         if #available(iOS 13.0, *) {
-            lab.textColor = UIColor.quaternaryLabel
+            lab.textColor = UIColor.systemGray2
         } else {
             // Fallback on earlier versions
         }
@@ -50,6 +50,11 @@ class BWChatQACell: UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
         if cell == nil {
             cell = Self(style: .default, reuseIdentifier: cellId)
+        }
+        if #available(iOS 13.0, *) {
+            cell?.backgroundColor = UIColor.secondarySystemBackground
+        } else {
+            // Fallback on earlier versions
         }
         return cell as! Self
     }

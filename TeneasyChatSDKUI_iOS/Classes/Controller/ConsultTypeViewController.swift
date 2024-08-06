@@ -53,11 +53,9 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         let btn = UIButton(frame: CGRect.zero)
         btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
         btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
-//        if #available(iOS 13.0, *) {
-//            headerClose.backgroundColor = UIColor.secondarySystemFill
-//        } else {
-//            // Fallback on earlier versions
-//        }
+        if #available(iOS 13.0, *) {
+            btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))?.withTintColor(UIColor.systemGray), for: UIControl.State.normal)
+        }
         return btn
     }()
     

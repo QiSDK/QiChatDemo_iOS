@@ -61,6 +61,12 @@ class BWQAView: UIView {
             make.right.equalToSuperview()
         }
         tableView.reloadData()
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = UIColor.systemBackground
+            self.backgroundColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
 
         isHidden = true
     }

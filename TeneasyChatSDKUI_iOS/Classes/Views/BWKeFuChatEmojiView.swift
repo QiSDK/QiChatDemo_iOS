@@ -35,13 +35,20 @@ class BWKeFuChatEmojiView: UIView {
         
         //Bar 视图
         let toolView = UIView()
-        toolView.backgroundColor = kHexColor(0xF6F6F6)
+        if #available(iOS 13.0, *) {
+            toolView.backgroundColor = UIColor.tertiarySystemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         addSubview(toolView)
         
         //表情按钮
         let emoImageView = UIButton(type: .custom)
         emoImageView.isUserInteractionEnabled = false
-        let image = UIImage.svgInit("h5_biaoqing")
+        var image = UIImage.svgInit("h5_biaoqing")
+        if #available(iOS 13.0, *) {
+            image = UIImage.svgInit("h5_biaoqing")?.withTintColor(UIColor.systemGray)
+        }
         emoImageView.setImage(image, for: .normal)
         emoImageView.backgroundColor = .white
         emoImageView.layer.cornerRadius = 5
@@ -51,8 +58,14 @@ class BWKeFuChatEmojiView: UIView {
         
         //删除按钮
         deleteBtn = WButton()
-        let image1 = UIImage.svgInit("h5_qingchu")
-        let image2 = UIImage.svgInit("h5_qingchu")
+        var image1 = UIImage.svgInit("h5_qingchu")
+        if #available(iOS 13.0, *) {
+            image1 = UIImage.svgInit("h5_biaoqing")?.withTintColor(UIColor.systemGray)
+        }
+        var image2 = UIImage.svgInit("h5_biaoqing")
+        if #available(iOS 13.0, *) {
+            image2 = UIImage.svgInit("h5_biaoqing")?.withTintColor(UIColor.systemGray)
+        }
         deleteBtn.setImage(image1, for: .normal)
         deleteBtn.setImage(image2, for: .disabled)
         deleteBtn.isEnabled = false

@@ -24,7 +24,11 @@ class BWImageCell: UITableViewCell {
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
-        lab.textColor = timeColor
+        if #available(iOS 13.0, *) {
+            lab.textColor = UIColor.systemGray2
+        } else {
+            // Fallback on earlier versions
+        }
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
