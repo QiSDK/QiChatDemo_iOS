@@ -66,7 +66,7 @@ class BWAutoQuestionCell: UITableViewCell {
         self.contentView.addSubview(self.iconView)
         
         if #available(iOS 13.0, *) {
-            self.titleLab.textColor = UIColor.secondaryLabel
+            self.titleLab.textColor = UIColor.label
         } else {
             // Fallback on earlier versions
         }

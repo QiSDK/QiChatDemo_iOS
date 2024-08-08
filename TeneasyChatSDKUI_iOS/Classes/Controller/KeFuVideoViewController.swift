@@ -94,6 +94,7 @@ class KeFuVideoViewController: UIViewController {
         if #available(iOS 13.0, *) {
             self.view.backgroundColor = UIColor.secondarySystemBackground
             headerView.backgroundColor = UIColor.tertiarySystemBackground
+            setStatusBar(backgroundColor: UIColor.tertiarySystemBackground)
         } else {
             // Fallback on earlier versions
         }
@@ -111,5 +112,18 @@ class KeFuVideoViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         player?.play()
+    }
+    
+    func setStatusBar(backgroundColor: UIColor) {
+        let statusBarFrame: CGRect
+        if #available(iOS 13.0, *) {
+            //statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero
+            statusBarFrame = CGRectMake(0, 0, kScreenWidth, kDeviceTop)
+        } else {
+            statusBarFrame = UIApplication.shared.statusBarFrame
+        }
+        let statusBarView = UIView(frame: statusBarFrame)
+        statusBarView.backgroundColor = backgroundColor
+        view.addSubview(statusBarView)
     }
 }

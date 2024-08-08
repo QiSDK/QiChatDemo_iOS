@@ -15,10 +15,5 @@ class AssignWorker: HandyJSON {
     var greeting: String?
     var State: String?
     var consultId: String?
-    /*
-     "greeting": "您好, t28q为您服务",
-                     "State": "CHAT_STATE_UNPROCESSED_3MIN",
-                     "consultId": "1"
-     */
     required init(){}
 }

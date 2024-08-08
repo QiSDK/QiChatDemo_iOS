@@ -23,7 +23,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
     lazy var headerView: UIView = {
         let v = UIView(frame: CGRect.zero)
         if #available(iOS 13.0, *) {
-            v.backgroundColor = UIColor.systemBackground
+            v.backgroundColor = UIColor.tertiarySystemBackground
         } else {
             v.backgroundColor = UIColor.white
         }
@@ -89,7 +89,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         headerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(50)
             make.top.equalToSuperview().offset(kDeviceTop)
         }
         //
@@ -118,6 +118,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         if #available(iOS 13.0, *) {
             entranceView.backgroundColor = UIColor.secondarySystemBackground
             view.backgroundColor = UIColor.secondarySystemBackground
+            setStatusBar(backgroundColor: UIColor.tertiarySystemBackground)
         } else {
             entranceView.backgroundColor = UIColor.white
         }
@@ -181,5 +182,18 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
             //无可用线路
             self.view.makeToast(error.Message)
         }
+    }
+    
+    func setStatusBar(backgroundColor: UIColor) {
+        let statusBarFrame: CGRect
+        if #available(iOS 13.0, *) {
+            //statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero
+            statusBarFrame = CGRectMake(0, 0, kScreenWidth, kDeviceTop)
+        } else {
+            statusBarFrame = UIApplication.shared.statusBarFrame
+        }
+        let statusBarView = UIView(frame: statusBarFrame)
+        statusBarView.backgroundColor = backgroundColor
+        view.addSubview(statusBarView)
     }
 }

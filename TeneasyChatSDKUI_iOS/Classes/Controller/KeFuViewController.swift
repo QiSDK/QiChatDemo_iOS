@@ -194,7 +194,7 @@ open class KeFuViewController: UIViewController{
         view.addSubview(headerView)
         headerView.snp.makeConstraints { make in
             make.width.equalTo(kScreenWidth)
-            make.height.equalTo(60)
+            make.height.equalTo(50)
             make.left.equalToSuperview()
             make.top.equalToSuperview().offset(kDeviceTop)
         }
@@ -248,6 +248,7 @@ open class KeFuViewController: UIViewController{
         
         if #available(iOS 13.0, *) {
             view.backgroundColor = UIColor.secondarySystemBackground
+            setStatusBar(backgroundColor: UIColor.tertiarySystemBackground)
         } else {
             // Fallback on earlier versions
         }
@@ -343,8 +344,8 @@ open class KeFuViewController: UIViewController{
         
         if isFirstLoad{
             //打招呼
-            /*let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
-            appendDataSource(msg: greetingMsg, isLeft: true)*/
+            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
+            appendDataSource(msg: greetingMsg, isLeft: true)
             print("第一次打招呼")
             
             //自动回复的Cell
@@ -381,6 +382,9 @@ open class KeFuViewController: UIViewController{
             self.systemMsgLabel.text = ""
         }else{*/
             self.systemMsgLabel.text = "您好：\(workerName)为您服务！"
+        delayExecution(seconds: 5, completion: {
+            self.systemMsgLabel.text = ""
+        })
         //}
     }
     
@@ -607,5 +611,18 @@ open class KeFuViewController: UIViewController{
     
     override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func setStatusBar(backgroundColor: UIColor) {
+        let statusBarFrame: CGRect
+        if #available(iOS 13.0, *) {
+            //statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero
+            statusBarFrame = CGRectMake(0, 0, kScreenWidth, kDeviceTop)
+        } else {
+            statusBarFrame = UIApplication.shared.statusBarFrame
+        }
+        let statusBarView = UIView(frame: statusBarFrame)
+        statusBarView.backgroundColor = backgroundColor
+        view.addSubview(statusBarView)
     }
 }
