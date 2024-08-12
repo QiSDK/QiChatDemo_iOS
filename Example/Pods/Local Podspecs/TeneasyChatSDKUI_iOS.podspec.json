@@ -1,6 +1,6 @@
 {
   "name": "TeneasyChatSDKUI_iOS",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "summary": "A short description of TeneasyChatSDKUI_iOS.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/QiSDK/QiChatDemo_iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/QiSDK/QiChatDemo_iOS",
-    "tag": "1.0.4"
+    "tag": "1.0.5"
   },
   "platforms": {
     "ios": "10.0"
