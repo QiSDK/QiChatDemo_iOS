@@ -83,6 +83,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 tableView.reloadData()
             }
+            cell.displayIconImg(path: self.avatarPath)
             return cell
         } else {
             if model.isLeft {

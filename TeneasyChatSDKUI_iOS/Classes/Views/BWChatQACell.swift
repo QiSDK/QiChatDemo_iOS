@@ -42,6 +42,7 @@ class BWChatQACell: UITableViewCell {
         let img = UIImageView()
         img.layer.cornerRadius = iconWidth * 0.5
         img.layer.masksToBounds = true
+        img.isHidden = true
         return img
     }()
     
@@ -80,12 +81,18 @@ class BWChatQACell: UITableViewCell {
                 }else{
                     if let autoReplyItem = model?.autoReplyItem {
                         self.isHidden = false
+                        self.iconView.isHidden = false
                         print("获取到自动回复：" + (autoReplyItem.name ?? ""))
                         self.questionView.setup(model: model!)
                     }
                 }
             }
         }
+    }
+    
+    func displayIconImg(path: String) {
+        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        self.iconView.kf.setImage(with: imgUrl)
     }
     
     var model: ChatModel? {

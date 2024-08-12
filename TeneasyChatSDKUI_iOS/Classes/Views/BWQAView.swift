@@ -17,7 +17,7 @@ class BWQAView: UIView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
         if #available(iOS 13.0, *) {
-            label.textColor = UIColor.secondaryLabel
+            label.textColor = UIColor.label
         } else {
             // Fallback on earlier versions
         }
@@ -131,7 +131,7 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         
         //headerView.titleLabel.text = "你和我打的的是谁的谁谁谁谁谁谁谁谁谁呃呃等待"
         if #available(iOS 13.0, *) {
-            headerView.titleLabel.textColor = UIColor.secondaryLabel
+            headerView.titleLabel.textColor = UIColor.label
             //headerView.backgroundColor = UIColor.red
         } else {
             // Fallback on earlier versions
@@ -141,6 +141,10 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
             headerView.imgView.image = UIImage.svgInit("arrowup")
         } else {
             headerView.imgView.image = UIImage.svgInit("arrowdown")
+        }
+        
+        if sectionList[section].related == nil || sectionList[section].related!.isEmpty {
+            headerView.imgView.isHidden = true
         }
         //headerView.imgView.isHidden = true
         /*
@@ -172,6 +176,17 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         guard let section = sender.view?.tag else { return }
         // 在这里处理点击事件，使用 section 参数
         if sectionList[section].related == nil || sectionList[section].related!.isEmpty {
+            if sectionList[section].clicked{
+                return
+            }
+            var headerView = sender.view as! BWQuestionSectionHeader
+            if #available(iOS 13.0, *) {
+                headerView.titleLabel.textColor = UIColor.tertiaryLabel
+                headerView.enableMode = .disabled
+            } else {
+                // Fallback on earlier versions
+            }
+            sectionList[section].clicked = true
             qaCellClick!(sectionList[section])
         } else {
             sectionList[section].myExpanded = !sectionList[section].myExpanded
