@@ -34,6 +34,8 @@ open class KeFuViewController: UIViewController{
     //private var myTimer: Timer?
     //static let shared = KeFuViewController()
        var myTimer: Timer?
+    
+    var autoReply = CommonMessageAutoReply()
 
     //当前选择的图片
     var chooseImg: UIImage?

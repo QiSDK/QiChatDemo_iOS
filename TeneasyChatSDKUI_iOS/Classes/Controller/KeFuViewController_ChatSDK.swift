@@ -17,12 +17,6 @@ extension KeFuViewController: teneasySDKDelegate {
         if lib.payloadId == 0{
             print("initSDK 初始化SDK")
             // 第一次cert必填，之后token必填
-//            lib = ChatLib(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
-//            
-//            lib.callWebsocket()
-//            lib.delegate = self
-            
-            
             lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
             
             lib.callWebsocket()

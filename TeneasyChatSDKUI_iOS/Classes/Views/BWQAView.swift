@@ -179,7 +179,7 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
             if sectionList[section].clicked{
                 return
             }
-            var headerView = sender.view as! BWQuestionSectionHeader
+            let headerView = sender.view as! BWQuestionSectionHeader
             if #available(iOS 13.0, *) {
                 headerView.titleLabel.textColor = UIColor.tertiaryLabel
                 headerView.enableMode = .disabled
