@@ -1,6 +1,6 @@
 use_frameworks!
 
-platform :ios, '10.0'
+platform :ios, '12.0'
 
 target 'QL-Demo_Example' do
 #  pod 'TeneasyChatSDKUI_iOS', :git => 'https://github.com/tianxuefeng/TeneasyChatSDKUI_iOS.git'

@@ -72,6 +72,7 @@ open class ChatLib: NetworkManagerDelegate {
     private var cert: String = ""
     private var networkManager = NetworkManager()
     public static let shared = ChatLib()
+    private var withAutoReply: CommonWithAutoReply?
      
 
     var consultId: Int64 = 0
@@ -190,9 +191,10 @@ open class ChatLib: NetworkManagerDelegate {
         }
     }
     
-    public func sendMessage(msg: String, type: CommonMessageFormat, consultId: Int64, replyMsgId: Int64? = 0) {
+    public func sendMessage(msg: String, type: CommonMessageFormat, consultId: Int64, replyMsgId: Int64? = 0, withAutoReply: CommonWithAutoReply? = nil) {
         self.replyMsgId = replyMsgId ?? 0
         self.consultId = consultId;
+        self.withAutoReply = withAutoReply
         // 发送信息的封装，有四层
         // payload -> CSSendMessage -> common message -> CommonMessageContent
         switch type{
@@ -210,7 +212,6 @@ open class ChatLib: NetworkManagerDelegate {
             sendTextMessage(txt: msg)
         }
 
-        
         doSend()
     }
     
@@ -333,8 +334,15 @@ open class ChatLib: NetworkManagerDelegate {
     }
     
     private func doSend(payload_Id: UInt64 = 0){
-       guard let msg = sendingMsg else {
+       guard var msg = sendingMsg else {
             return
+        }
+        
+        if let w = self.withAutoReply{
+            if msgList.count == 0{
+                let withAutoReplies = Array(arrayLiteral: w)
+                msg.withAutoReplies = withAutoReplies
+            }
         }
         
         // 第三层

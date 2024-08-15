@@ -35,7 +35,7 @@ open class KeFuViewController: UIViewController{
     //static let shared = KeFuViewController()
        var myTimer: Timer?
     
-    var autoReply = CommonMessageAutoReply()
+    var withAutoReply: CommonWithAutoReply? = nil
 
     //当前选择的图片
     var chooseImg: UIImage?
@@ -395,11 +395,11 @@ open class KeFuViewController: UIViewController{
         if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
                 if !msg.image.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
+                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
                 }else if !msg.video.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0) //+ "\n 回复：视频"
+                    lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply) //+ "\n 回复：视频"
                 }else{
-                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0)
+                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
                 }
             }
             //replyBar.removeFromSuperview()
@@ -408,10 +408,12 @@ open class KeFuViewController: UIViewController{
             }
             replyBar.msg = nil
         }else{
-            lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId)
+            lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, withAutoReply: self.withAutoReply)
         }
+        
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
+            self.withAutoReply = nil
         }
     }
 
@@ -420,6 +422,7 @@ open class KeFuViewController: UIViewController{
         lib.sendMessage(msg: url, type: .msgImg, consultId: consultId)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_Image)
+            self.withAutoReply = nil
         }
     }
     
@@ -427,6 +430,7 @@ open class KeFuViewController: UIViewController{
         lib.sendMessage(msg: url, type: .msgVideo, consultId: consultId)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_VIDEO)
+            self.withAutoReply = nil
         }
     }
     

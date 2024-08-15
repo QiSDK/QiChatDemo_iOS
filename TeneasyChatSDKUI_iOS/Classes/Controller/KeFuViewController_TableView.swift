@@ -73,12 +73,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 self?.appendDataSource(msg: q!, isLeft: false, status: .发送成功)
                 
                 //收集用户点击自动回复的记录
-                var userQa = CommonMessageAutoReplyQA()
-                var userQ = CommonMessageUnion()
-                var uq = CommonMessageContent()
-                uq.data = questionTxt
-                userQa.question = userQ
-                self?.autoReply.qa.append(userQa)
+                
+                self?.withAutoReply = CommonWithAutoReply()
+                self?.withAutoReply?.id = Int64(model.id ?? 0)
+                self?.withAutoReply?.title = questionTxt
 
                 if !txtAnswer.isEmpty {
                     let a = self?.composeALocalTxtMessage(textMsg: txtAnswer)
@@ -87,7 +85,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     var userA = CommonMessageUnion()
                     var uA = CommonMessageContent()
                     uA.data = txtAnswer
-                    userQa.answer.append(userA)
+                    self?.withAutoReply?.answers.append(userA)
                 }
 
                 for answer in multipAnswer {
@@ -97,11 +95,15 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         var userA = CommonMessageUnion()
                         var uA = CommonMessageImage()
                         uA.uri = answer.image?.uri ?? ""
-                        userQa.answer.append(userA)
-                        
+                        self?.withAutoReply?.answers.append(userA)
                     } else if answer.content != nil {
                         let a = self?.composeALocalTxtMessage(textMsg: answer.content?.data ?? "empty")
                         self?.appendDataSource(msg: a!, isLeft: true, status: .发送成功)
+                        
+                        var userA = CommonMessageUnion()
+                        var uA = CommonMessageContent()
+                        uA.data = txtAnswer
+                        self?.withAutoReply?.answers.append(userA)
                     }
                 }
                 tableView.reloadData()

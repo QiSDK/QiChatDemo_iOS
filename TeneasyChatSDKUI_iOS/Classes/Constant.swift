@@ -64,7 +64,7 @@ var xToken = ""
 public var domain = ""  //domain
 var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
 var workerId: Int32 = 2
-
+//未发送出去的消息列表
 var unSentMessage: [Int64: [ChatModel]] = [999: []]
 
 
