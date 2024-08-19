@@ -419,7 +419,7 @@ open class KeFuViewController: UIViewController{
 
     func sendImage(url: String) {
         // lib.sendMessageImage(url: "https://www.bing.com/th?id=OHR.SunriseCastle_ROW9509100997_1920x1080.jpg&rf=LaDigue_1920x1080.jpg")
-        lib.sendMessage(msg: url, type: .msgImg, consultId: consultId)
+        lib.sendMessage(msg: url, type: .msgImg, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_Image)
             self.withAutoReply = nil
@@ -427,7 +427,7 @@ open class KeFuViewController: UIViewController{
     }
     
     func sendVideo(url: String) {
-        lib.sendMessage(msg: url, type: .msgVideo, consultId: consultId)
+        lib.sendMessage(msg: url, type: .msgVideo, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_VIDEO)
             self.withAutoReply = nil

@@ -95,7 +95,7 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         //cell.titleLab.text = "\(indexPath.row + 1)、\(model?.question?.content?.data ?? "")"
         cell.titleLab.text = "\(model?.question?.content?.data ?? "")"
         if #available(iOS 13.0, *) {
-            cell.titleLab.textColor = model?.clicked == true ? UIColor.tertiaryLabel : UIColor.secondaryLabel
+            cell.titleLab.textColor = model?.clicked == true ? UIColor.tertiaryLabel : UIColor.label
         } else {
             // Fallback on earlier versions
         }
