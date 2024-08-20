@@ -77,6 +77,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 self?.withAutoReply = CommonWithAutoReply()
                 self?.withAutoReply?.id = Int64(model.id ?? 0)
                 self?.withAutoReply?.title = questionTxt
+                self?.withAutoReply?.createdTime.seconds = Int64(Date().timeIntervalSince1970)
 
                 if !txtAnswer.isEmpty {
                     let a = self?.composeALocalTxtMessage(textMsg: txtAnswer)
@@ -85,6 +86,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     var userA = CommonMessageUnion()
                     var uA = CommonMessageContent()
                     uA.data = txtAnswer
+                    userA.content = uA
                     self?.withAutoReply?.answers.append(userA)
                 }
 
@@ -94,7 +96,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.appendDataSource(msg: a!, isLeft: true, status: .发送成功, cellType: .TYPE_Image)
                         var userA = CommonMessageUnion()
                         var uA = CommonMessageImage()
+                        userA.image = uA
                         uA.uri = answer.image?.uri ?? ""
+                        
                         self?.withAutoReply?.answers.append(userA)
                     } else if answer.content != nil {
                         let a = self?.composeALocalTxtMessage(textMsg: answer.content?.data ?? "empty")
@@ -102,6 +106,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         
                         var userA = CommonMessageUnion()
                         var uA = CommonMessageContent()
+                        userA.content = uA
                         uA.data = txtAnswer
                         self?.withAutoReply?.answers.append(userA)
                     }
