@@ -413,7 +413,7 @@ open class KeFuViewController: UIViewController{
         
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
-            self.withAutoReply = nil
+          
         }
     }
 
@@ -422,7 +422,6 @@ open class KeFuViewController: UIViewController{
         lib.sendMessage(msg: url, type: .msgImg, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_Image)
-            self.withAutoReply = nil
         }
     }
     
@@ -430,7 +429,6 @@ open class KeFuViewController: UIViewController{
         lib.sendMessage(msg: url, type: .msgVideo, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_VIDEO)
-            self.withAutoReply = nil
         }
     }
     

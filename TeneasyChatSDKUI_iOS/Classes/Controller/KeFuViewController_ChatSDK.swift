@@ -139,6 +139,8 @@ extension KeFuViewController: teneasySDKDelegate {
                         datasouceArray[index!].message?.content.data = newText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     }
                 }
+                //收到一条消息回执后，就可以把选择的自动回复设置nil
+                self.withAutoReply = nil
                 print("状态更新\(msg.msgID) -> 发送成功")
             }
             
