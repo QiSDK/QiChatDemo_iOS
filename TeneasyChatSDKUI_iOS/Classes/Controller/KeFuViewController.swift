@@ -447,6 +447,7 @@ open class KeFuViewController: UIViewController{
         }
         
         self.myTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.checkSDK), userInfo: nil, repeats: true)
+        //注意：至少延迟3秒以上才执行检查sdk的任务
         delayExecution(seconds: 10) {
             print("KeFu计时器开始")
             self.myTimer?.fire()
