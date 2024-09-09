@@ -16,3 +16,5 @@ struct UploadResult: Codable {
 struct FilePath: Codable {
     let filepath: String
 }
+
+

@@ -164,4 +164,28 @@ enum NetworkUtil {
             }
         }
     }
+    
+    
+    static func reportError(reportRequest: ReportRequest, done: @escaping ((_ success: Bool, _ data: QuestionModel?) -> Void)) {
+        let task = ChatApi.reportError(reportRequest: reportRequest)
+        print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
+        print("请求header: \(String(describing: task.headers))")
+        ChatProvider.request(task) { result in
+            switch result {
+                case .success(let response):
+                    print(response)
+                    let dic = try? response.mapJSON() as? [String: Any]
+//                    print("=====\(dic)")
+                    let result = BaseRequestResult<QuestionModel>.deserialize(from: dic)
+                    if result?.code == 0 {
+                        done(true, result?.data)
+                    } else {
+                        done(false, nil)
+                    }
+                case .failure(let error):
+                    print(error)
+                    done(false, nil)
+            }
+        }
+    }
 }

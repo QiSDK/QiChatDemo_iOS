@@ -8,6 +8,7 @@ enum ChatApi {
     case queryEntrance
     case assignWorker(consultId: Int32 = 0)
     case markRead(consultId: Int32 = 0)
+    case reportError(reportRequest: ReportRequest)
 }
 
 /// 实现TargetType协议
@@ -30,7 +31,10 @@ extension ChatApi: TargetType {
             return "/v1/api/assign-worker"
         case .markRead:
             return "/v1/api/chat/mark-read"
+        case .reportError:
+            return "v1/api/error-report/upload"
         }
+
     }
     
     /// 请求方式
@@ -60,6 +64,8 @@ extension ChatApi: TargetType {
             return .requestParameters(parameters: ["consultId": id], encoding: JSONEncoding.default)
         case .markRead(let id):
             return .requestParameters(parameters: ["consultId": id], encoding: JSONEncoding.default)
+        case .reportError(let reportRequest):
+            return .requestJSONEncodable(reportRequest)
         case .queryEntrance:
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
         default:

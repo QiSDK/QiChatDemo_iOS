@@ -24,6 +24,7 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
         controller.allowsEditing = false
         controller.modalPresentationStyle = .fullScreen
+        //controller.videoQuality = .typeHigh
         // controller.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) ?? []
         // controller.mediaTypes = ["public.movie"]
         present(controller, animated: true)
@@ -47,6 +48,19 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                         return
                     }
                     let tt = videoData.count
+                    
+                    
+                    fetchPHAsset(forVideoURL: videoURL) { asset in
+                            if let asset = asset {
+                                // Do something with the PHAsset
+                                print("Found PHAsset: \(asset)")
+                            } else {
+                                print("PHAsset not found for the given URL")
+                            }
+                        }
+                    
+                  
+
                     print("video大小：\(tt)")
                     if tt > 1024 * 1024 * 300  {
                         print("视频/文件限制300M")
@@ -81,6 +95,46 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
         upload(imgData: imgData, isVideo: false)
         picker.dismiss(animated: true)
+    }
+    
+    func fetchPHAsset(forVideoURL videoURL: URL, completion: @escaping (PHAsset?) -> Void) {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
+        
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        
+        // Iterate through assets to find the matching one
+        fetchResult.enumerateObjects { asset, index, stop in
+            let options = PHVideoRequestOptions()
+            options.isNetworkAccessAllowed = true
+            
+            PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { avAsset, audioMix, info in
+                if let urlAsset = avAsset as? AVURLAsset, urlAsset.url == videoURL {
+                    completion(asset)
+                    stop.pointee = true
+                }
+            }
+        }
+    }
+    
+    func fetchVideoAsset(withLocalIdentifier identifier: String, completion: @escaping (PHAsset?) -> Void) {
+        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
+        let asset = fetchResult.firstObject
+        completion(asset)
+    }
+
+    
+    func requestVideoData(for asset: PHAsset, completion: @escaping (URL?) -> Void) {
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        options.isNetworkAccessAllowed = true
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { avAsset, audioMix, info in
+            if let urlAsset = avAsset as? AVURLAsset {
+                completion(urlAsset.url)
+            } else {
+                completion(nil)
+            }
+        }
     }
 
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

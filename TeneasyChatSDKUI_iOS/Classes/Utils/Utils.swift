@@ -87,4 +87,31 @@ struct Utiles{
             }
             return images
     }
+//    
+//    func getWiFiAddress() -> String? {
+//        var address: String?
+//        var ifaddr: UnsafeMutablePointer<ifaddrs>? = nil
+//
+//        if getifaddrs(&ifaddr) == 0 {
+//            var pointer = ifaddr
+//            while pointer != nil {
+//                let interface = pointer?.pointee
+//                let addrFamily = interface?.ifa_addr.pointee.sa_family
+//
+//                if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+//                    let name = String(cString: (interface?.ifa_name)!)
+//                    if name == "en0" { // "en0" is the Wi-Fi interface
+//                        var addr = interface?.ifa_addr.pointee
+//                        let sockAddr = UnsafeMutablePointer<sockaddr_in>(withMemoryRebound(&addr, to: sockaddr_in.self, capacity: 1))
+//                        address = String(cString: inet_ntoa(sockAddr.pointee.sin_addr))
+//                    }
+//                }
+//                pointer = pointer?.pointee.ifa_next
+//            }
+//            freeifaddrs(ifaddr)
+//        }
+//
+//        return address
+//    }
+
 }

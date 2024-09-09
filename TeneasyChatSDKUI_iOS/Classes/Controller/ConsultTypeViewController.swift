@@ -181,6 +181,12 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         if error.Code == 1008{
             //无可用线路
             self.view.makeToast(error.Message)
+            var reportRequest = ReportRequest()
+            reportRequest.data?[0].payload = ""
+            NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
+                
+            }
+            
         }
     }
     
