@@ -67,6 +67,7 @@ var workerId: Int32 = 2
 //未发送出去的消息列表
 var unSentMessage: [Int64: [ChatModel]] = [999: []]
 
+var reportRequest = ReportRequest()
 
 public let PARAM_XTOKEN = "HTTPTOKEN"
 
@@ -82,10 +83,12 @@ let timeColor = kHexColor(0xC4C4C4)
 let chatBackColor = UIColor.systemGray
 let panelBack = UIColor.lightGray
 
+let serverDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
 //#f4f4f4
 
  func convertDateStringToString(datStr: String) -> String{
-    if let date = Date(fromString: datStr, format: "yyyy-MM-dd'T'HH:mm:ssZ") {
+    if let date = Date(fromString: datStr, format: serverDateFormat) {
         return date.toString(format: "yyyy-MM-dd HH:mm:ss")
     }else{
         return datStr
@@ -95,7 +98,7 @@ let panelBack = UIColor.lightGray
 //yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'
 
 func stringToDate(datStr: String) -> Date{
-   if let date = Date(fromString: datStr, format: "yyyy-MM-dd'T'HH:mm:ssZ") {
+   if let date = Date(fromString: datStr, format: serverDateFormat) {
        return date
    }
     return Date()

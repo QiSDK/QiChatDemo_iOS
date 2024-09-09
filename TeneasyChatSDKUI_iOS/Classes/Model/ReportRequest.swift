@@ -8,12 +8,12 @@ import HandyJSON
 
 // MARK: - Main Data Model
 class ReportRequest: Encodable {
-    var data: [DataItem]?
+    var data = [ErrorItem]()
     required init(){}
 }
 
 // MARK: - Data Item
-class DataItem: Encodable {
+class ErrorItem: Encodable {
     var url: String?
     var code: Int?
     var payload: String?

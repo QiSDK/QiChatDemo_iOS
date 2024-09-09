@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import TeneasyChatSDK_iOS
+import SwiftProtobuf
 
 //线路检测和选择咨询类型页面
 open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
@@ -149,6 +150,28 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         
         //线路检测成功之后，获取咨询类型列表
         entranceView.getEntrance()
+        
+        
+        //无可用线路是大事件，需要上报
+        let errorItem = ErrorItem()
+        errorItem.code = 10008
+        errorItem.platform = 2
+        //"2024-09-11T22:22:22Z"
+        //\"2024-09-09T22:57:00+0800\""
+        //"yyyy-MM-dd'T'HH:mm:ssZ"
+        errorItem.createdAt = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        errorItem.payload = ""
+        reportRequest.data.append(errorItem)
+        
+        
+        
+        NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
+            if success{
+                print("上报错误成功")
+            }else{
+                print("上报错误\(data?.msg ?? "")")
+            }
+        }
     }
     
     @objc func closeClick() {
@@ -156,7 +179,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
     }
     
     open override func viewWillAppear(_ animated: Bool) {
- 
+        
     }
     
     
@@ -181,12 +204,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         if error.Code == 1008{
             //无可用线路
             self.view.makeToast(error.Message)
-            var reportRequest = ReportRequest()
-            reportRequest.data?[0].payload = ""
-            NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
-                
-            }
-            
+           
         }
     }
     
