@@ -150,24 +150,7 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         
         //线路检测成功之后，获取咨询类型列表
         entranceView.getEntrance()
-        
-        
-        //无可用线路是大事件，需要上报
-        let errorItem = ErrorItem()
-        errorItem.code = 10008
-        errorItem.platform = 2
-        //"2024-09-11T22:22:22Z"
-        //\"2024-09-09T22:57:00+0800\""
-        //"yyyy-MM-dd'T'HH:mm:ssZ"
-        errorItem.createdAt = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
-        
-        let errorPayload = ErrorPayload()
-        errorPayload.request = "requestxxx"
-        errorPayload.body = "bodyxxx"
-        errorPayload.header = "header"
-        errorItem.payload = errorPayload.toJSONString()
-        reportRequest.data.append(errorItem)
-        
+
         
         
         NetworkUtil.reportError(reportRequest: reportRequest){ success, data in

@@ -84,6 +84,7 @@ enum NetworkUtil {
                         done(true, result?.data)
                     } else {
                         done(false, nil)
+                        logError(request: "", header: String(describing: task.headers), body: response.debugDescription, code: result?.code ?? 1001)
                     }
                 case .failure(let error):
                     print(error)
@@ -181,11 +182,33 @@ enum NetworkUtil {
                         done(true, result)
                     } else {
                         done(false, nil)
+                        
                     }
                 case .failure(let error):
                     print(error)
                     done(false, nil)
             }
         }
+    }
+    
+    static func logError(request: String, header: String, body: String, code: Int){
+        //无可用线路是大事件，需要上报
+        let errorItem = ErrorItem()
+        errorItem.code = code
+        
+        // "platform": 1, // Platform_IOS: 1;Platform_ANDROID: 2;Platform_H5: 4;
+        errorItem.platform = 1
+        //"2024-09-11T22:22:22Z"
+        //\"2024-09-09T22:57:00+0800\""
+        //"yyyy-MM-dd'T'HH:mm:ssZ"
+        errorItem.createdAt = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        
+        let errorPayload = ErrorPayload()
+        errorPayload.request = request
+        errorPayload.body = body
+        errorPayload.header = header
+        errorItem.payload = errorPayload.toJSONString()
+        reportRequest.data.append(errorItem)
+        
     }
 }
