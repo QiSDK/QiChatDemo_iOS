@@ -392,6 +392,10 @@ open class KeFuViewController: UIViewController{
     
     func sendMsg(textMsg: String) {
         print("sendMsg:\(textMsg)")
+        if textMsg.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty{
+            WWProgressHUD.showInfoMsg("消息不能为空")
+            return
+        }
         if replyBar.superview != nil && replyBar.msg != nil{
             if let msg = replyBar.msg{
                 if !msg.image.uri.isEmpty{
