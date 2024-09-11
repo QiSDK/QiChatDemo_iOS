@@ -55,14 +55,16 @@ enum NetworkUtil {
                     // print(dic)
                     let result = BaseRequestResult<HistoryModel>.deserialize(from: dic)
 
-                    if result?.code == 0 {
-                        done(true, result?.data)
-                    } else {
-                        done(false, nil)
-                    }
-                case .failure(let error):
-                    print(error)
+                if result?.code == 0 {
+                    done(true, result?.data)
+                } else {
                     done(false, nil)
+                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                }
+            case .failure(let error):
+                print(error)
+            logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 1001, url: "\(task.baseURL)\(task.path)")
+                done(false, nil)
             }
         }
     }
@@ -84,10 +86,11 @@ enum NetworkUtil {
                         done(true, result?.data)
                     } else {
                         done(false, nil)
-                        logError(request: "", header: String(describing: task.headers), body: response.debugDescription, code: result?.code ?? 1001)
+                        logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
                     }
                 case .failure(let error):
                     print(error)
+                logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 1001, url: "\(task.baseURL)\(task.path)")
                     done(false, nil)
             }
         }
@@ -104,14 +107,16 @@ enum NetworkUtil {
                     let dic = try? response.mapJSON() as? [String: Any]
                     // print(dic)
                     let result = BaseRequestResult<AssignWorker>.deserialize(from: dic)
-                    if result?.code == 0 {
-                        done(true, result?.data)
-                    } else {
-                        done(false, nil)
-                    }
-                case .failure(let error):
-                    print(error)
+                if result?.code == 0 {
+                    done(true, result?.data)
+                } else {
                     done(false, nil)
+                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                }
+            case .failure(let error):
+                print(error)
+            logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 1001, url: "\(task.baseURL)\(task.path)")
+                done(false, nil)
             }
         }
     }
@@ -131,14 +136,16 @@ enum NetworkUtil {
 //                     print("=====\(dic)")
                     let result = BaseRequestResult<QuestionModel>.deserialize(from: dic)
 
-                    if result?.code == 0 {
-                        done(true, result?.data)
-                    } else {
-                        done(false, nil)
-                    }
-                case .failure(let error):
-                    print(error)
+                if result?.code == 0 {
+                    done(true, result?.data)
+                } else {
                     done(false, nil)
+                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                }
+            case .failure(let error):
+                print(error)
+            logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 1001, url: "\(task.baseURL)\(task.path)")
+                done(false, nil)
             }
         }
     }
@@ -191,10 +198,11 @@ enum NetworkUtil {
         }
     }
     
-    static func logError(request: String, header: String, body: String, code: Int){
+    static func logError(request: String, header: String, body: String, code: Int, url: String){
         //无可用线路是大事件，需要上报
         let errorItem = ErrorItem()
         errorItem.code = code
+        errorItem.url = url
         
         // "platform": 1, // Platform_IOS: 1;Platform_ANDROID: 2;Platform_H5: 4;
         errorItem.platform = 1
@@ -209,6 +217,16 @@ enum NetworkUtil {
         errorPayload.header = header
         errorItem.payload = errorPayload.toJSONString()
         reportRequest.data.append(errorItem)
+        
+        
+        
+        NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
+            if success{
+                print("上报错误成功")
+            }else{
+                print("上报错误\(data?.msg ?? "")")
+            }
+        }
         
     }
 }
