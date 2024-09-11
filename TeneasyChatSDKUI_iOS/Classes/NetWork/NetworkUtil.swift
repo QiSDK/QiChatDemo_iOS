@@ -219,14 +219,22 @@ enum NetworkUtil {
         reportRequest.data.append(errorItem)
         
         
-        
+        if reportRequest.data.count == 1{
+            doReportError()
+        }
+    }
+    
+    static func doReportError(){
+        if reportRequest.data.count == 0{
+            return
+        }
         NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
             if success{
                 print("上报错误成功")
+                reportRequest.data.removeAll()
             }else{
                 print("上报错误\(data?.msg ?? "")")
             }
         }
-        
     }
 }

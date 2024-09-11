@@ -476,6 +476,11 @@ open class KeFuViewController: UIViewController{
         }
     }
     
+    open override func viewWillDisappear(_ animated: Bool) {
+        //离开聊天页面，如果有错误日志，上报日志。
+        NetworkUtil.doReportError()
+    }
+    
     //关闭聊天页面之前，与SDK断开聊天
     func quitChat(){
         stopTimer()
