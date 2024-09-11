@@ -150,16 +150,6 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         
         //线路检测成功之后，获取咨询类型列表
         entranceView.getEntrance()
-
-        
-        
-        NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
-            if success{
-                print("上报错误成功")
-            }else{
-                print("上报错误\(data?.msg ?? "")")
-            }
-        }
     }
     
     @objc func closeClick() {
