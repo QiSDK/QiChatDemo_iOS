@@ -160,7 +160,12 @@ open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
         //\"2024-09-09T22:57:00+0800\""
         //"yyyy-MM-dd'T'HH:mm:ssZ"
         errorItem.createdAt = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
-        errorItem.payload = ""
+        
+        let errorPayload = ErrorPayload()
+        errorPayload.request = "requestxxx"
+        errorPayload.body = "bodyxxx"
+        errorPayload.header = "header"
+        errorItem.payload = errorPayload.toJSONString()
         reportRequest.data.append(errorItem)
         
         

@@ -22,3 +22,10 @@ class ErrorItem: Encodable {
     required init(){}
 }
 
+class ErrorPayload: HandyJSON {
+    var header: String?
+    var request: String?
+    var body: String?
+    required init(){}
+}
+
