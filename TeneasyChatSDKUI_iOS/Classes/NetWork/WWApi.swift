@@ -65,6 +65,7 @@ extension ChatApi: TargetType {
         case .markRead(let id):
             return .requestParameters(parameters: ["consultId": id], encoding: JSONEncoding.default)
         case .reportError(let reportRequest):
+            //  request.headers("x-trace-id", UUID.randomUUID().toString())
             return .requestJSONEncodable(reportRequest)
         case .queryEntrance:
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
@@ -75,6 +76,10 @@ extension ChatApi: TargetType {
     
     /// 公共请求头
     var headers: [String: String]? {
+        if path.contains("error-report"){
+            let uuid = UUID().uuidString
+            return ["X-Token": xToken, "Content-Type": "application/json", "x-trace-id": uuid]
+        }
         return ["X-Token": xToken, "Content-Type": "application/json"]
     }
 }

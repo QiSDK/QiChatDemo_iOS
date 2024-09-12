@@ -177,6 +177,7 @@ enum NetworkUtil {
     static func reportError(reportRequest: ReportRequest, done: @escaping ((_ success: Bool, _ data: BaseRequestResult<Any>?) -> Void)) {
         let task = ChatApi.reportError(reportRequest: reportRequest)
         print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
+        //task.headers?.description.addingPercentEscapes(using: <#T##String.Encoding#>)
         print("请求header: \(String(describing: task.headers))")
         ChatProvider.request(task) { result in
             switch result {
@@ -219,21 +220,23 @@ enum NetworkUtil {
         reportRequest.data.append(errorItem)
         
         
-        if reportRequest.data.count == 1{
+        //if reportRequest.data.count == 1{
             doReportError()
-        }
+        //}
     }
     
     static func doReportError(){
         if reportRequest.data.count == 0{
             return
         }
+        print("上报错误")
+        print(reportRequest)
         NetworkUtil.reportError(reportRequest: reportRequest){ success, data in
             if success{
                 print("上报错误成功")
                 reportRequest.data.removeAll()
             }else{
-                print("上报错误\(data?.msg ?? "")")
+                print("上报错误\(data?.msg ?? "失败")")
             }
         }
     }
