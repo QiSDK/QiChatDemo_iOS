@@ -211,7 +211,7 @@ enum NetworkUtil {
         
         // "platform": 1, // Platform_IOS: 1;Platform_ANDROID: 2;Platform_H5: 4;
         errorItem.platform = 1
-        errorItem.created_at = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        errorItem.created_at = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss+08:00")
         
         let errorPayload = ErrorPayload()
         errorPayload.request = request
