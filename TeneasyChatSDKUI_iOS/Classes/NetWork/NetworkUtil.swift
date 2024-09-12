@@ -59,7 +59,7 @@ enum NetworkUtil {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -86,7 +86,7 @@ enum NetworkUtil {
                         done(true, result?.data)
                     } else {
                         done(false, nil)
-                        logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                        logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                     }
                 case .failure(let error):
                     print(error)
@@ -111,7 +111,7 @@ enum NetworkUtil {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -140,7 +140,7 @@ enum NetworkUtil {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: result?.code ?? 1001, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -211,7 +211,7 @@ enum NetworkUtil {
         
         // "platform": 1, // Platform_IOS: 1;Platform_ANDROID: 2;Platform_H5: 4;
         errorItem.platform = 1
-        errorItem.createdAt = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        errorItem.created_at = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss'Z'")
         
         let errorPayload = ErrorPayload()
         errorPayload.request = request
