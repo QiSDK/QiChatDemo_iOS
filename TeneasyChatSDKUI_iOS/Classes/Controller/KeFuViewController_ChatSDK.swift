@@ -17,7 +17,9 @@ extension KeFuViewController: teneasySDKDelegate {
         if lib.payloadId == 0{
             print("initSDK 初始化SDK")
             // 第一次cert必填，之后token必填
-            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc")
+            //custom={"username":"xiaoming"}
+
+            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: "{\"username\":\"xiaoming\"}")
             
             lib.callWebsocket()
             lib.delegate = self
@@ -187,6 +189,10 @@ extension KeFuViewController: teneasySDKDelegate {
              }else{
                  getUnSendMsg()
              }
+             
+             let wssUrl = "wss://" + domain + "/v1/gateway/h5?"
+             //可选：如果断开连接，可以上报日志
+             NetworkUtil.logError(request: "userId: \(userId), cert: \(cert), token: \(xToken), sign: \("9zgd9YUc")", header: "x-token:\(xToken)", body: result.Message, code: result.Code, url: wssUrl)
         }
     }
     

@@ -218,7 +218,15 @@ enum NetworkUtil {
         errorPayload.body = body
         errorPayload.header = header
         errorItem.payload = errorPayload.toJSONString()
-        reportRequest.data.append(errorItem)
+        
+        //避免太多重复的日志，最新1条的日志，跟数组里面的最后一条做比较，如果不同，则添加
+        if reportRequest.data.count > 0{
+            if code != reportRequest.data[0].code && url != reportRequest.data[0].url{
+                reportRequest.data.append(errorItem)
+            }
+        }else{
+            reportRequest.data.append(errorItem)
+        }
 
         doReportError()
     }

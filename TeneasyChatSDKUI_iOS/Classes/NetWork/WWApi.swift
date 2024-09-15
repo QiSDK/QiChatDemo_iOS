@@ -76,10 +76,8 @@ extension ChatApi: TargetType {
     
     /// 公共请求头
     var headers: [String: String]? {
-        if path.contains("error-report"){
-            let uuid = UUID().uuidString
-            return ["X-Token": xToken, "Content-Type": "application/json", "x-trace-id": uuid]
-        }
-        return ["X-Token": xToken, "Content-Type": "application/json"]
+        //if path.contains("error-report"){
+        let uuid = UUID().uuidString
+        return ["X-Token": xToken, "Content-Type": "application/json", "x-trace-id": uuid]
     }
 }
