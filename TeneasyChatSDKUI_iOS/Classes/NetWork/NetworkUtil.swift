@@ -208,6 +208,7 @@ enum NetworkUtil {
         let errorItem = ErrorItem()
         errorItem.code = code
         errorItem.url = url
+        errorItem.tenantId = merchantId
         
         // "platform": 1, // Platform_IOS: 1;Platform_ANDROID: 2;Platform_H5: 4;
         errorItem.platform = 1
@@ -226,9 +227,10 @@ enum NetworkUtil {
             }
         }else{
             reportRequest.data.append(errorItem)
+            delayExecution(seconds: 10) {
+                doReportError()
+            }
         }
-
-        doReportError()
     }
     
     static func doReportError(){

@@ -19,6 +19,7 @@ class ErrorItem: Encodable {
     var payload: String?
     var platform: Int?
     var created_at: String?
+    var tenantId: Int?
     required init(){}
 }
 
