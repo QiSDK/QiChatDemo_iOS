@@ -8,6 +8,7 @@
 
 import Foundation
 import TeneasyChatSDK_iOS
+import HandyJSON
 
 enum MessageSendState: String { case 发送中="0", 发送成功="1", 发送失败="2", 未知="-1" }
 
@@ -27,4 +28,10 @@ class ChatModel {
     var sendStatus: MessageSendState = .发送中
     var payLoadId: UInt64=0
     var cellType: CellType = .TYPE_Text
+}
+
+class Custom: HandyJSON {
+    var username: String?
+    var platform: Int = 1
+    required init(){}
 }
