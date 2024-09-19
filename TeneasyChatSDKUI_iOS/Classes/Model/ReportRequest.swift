@@ -26,7 +26,7 @@ class ErrorItem: Encodable {
 class ErrorPayload: HandyJSON {
     var header: String?
     var request: String?
-    var body: String?
+    var resp: String?
     required init(){}
 }
 

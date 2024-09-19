@@ -143,6 +143,8 @@ class ViewController: UIViewController, LineDetectDelegate  {
         //1008表示没有可用线路，请检查线路数组和商户号
         if error.Code == 1008{
             curLineLB.text = error.Message
+            
+            //记得在这上报错误日志哦
         }
         debugPrint(error.Message)
     }

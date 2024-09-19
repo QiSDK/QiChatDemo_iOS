@@ -201,7 +201,7 @@ enum NetworkUtil {
         }
     }
     
-    static func logError(request: String, header: String, body: String, code: Int, url: String){
+    static public func logError(request: String, header: String, body: String, code: Int, url: String){
         
         print("记录错误日志")
         //无可用线路是大事件，需要上报
@@ -216,7 +216,7 @@ enum NetworkUtil {
         
         let errorPayload = ErrorPayload()
         errorPayload.request = request
-        errorPayload.body = body
+        errorPayload.resp = body
         errorPayload.header = header
         errorItem.payload = errorPayload.toJSONString()
         

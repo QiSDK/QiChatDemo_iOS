@@ -21,7 +21,7 @@ extension KeFuViewController: teneasySDKDelegate {
             
             let custom = Custom()
             custom.username = "张三李四"
-            var c = custom.toJSONString()?.urlEncoded
+            let c = custom.toJSONString()?.urlEncoded
             lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: c ?? "%7B%22platform%22%3A1%2C%22username%22%3A%22xiaoming%22%7D")
             
             lib.callWebsocket()
