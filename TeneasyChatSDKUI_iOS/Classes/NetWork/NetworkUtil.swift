@@ -59,11 +59,11 @@ enum NetworkUtil {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
-            logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
+            logError(request: "", header: String(describing: task.headers), resp: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
                 done(false, nil)
             }
         }
@@ -86,11 +86,11 @@ enum NetworkUtil {
                         done(true, result?.data)
                     } else {
                         done(false, nil)
-                        logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                        logError(request: "", header: "\(task.headers?["x-token"] ?? "")", resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                     }
                 case .failure(let error):
                     print(error)
-                logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
+                logError(request: "", header: "\(task.headers?["x-token"] ?? "")", resp: error.localizedDescription, code: 101, url: "\(task.baseURL)\(task.path)")
                     done(false, nil)
             }
         }
@@ -111,11 +111,11 @@ enum NetworkUtil {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
-            logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
+            logError(request: "", header: String(describing: task.headers), resp: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
                 done(false, nil)
             }
         }
@@ -140,11 +140,11 @@ enum NetworkUtil {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), body: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
-            logError(request: "", header: String(describing: task.headers), body: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
+                logError(request: "", header: String(describing: task.headers), resp: error.localizedDescription, code: 101, url: "\(task.baseURL)\(task.path)")
                 done(false, nil)
             }
         }
@@ -201,22 +201,22 @@ enum NetworkUtil {
         }
     }
     
-    static public func logError(request: String, header: String, body: String, code: Int, url: String){
+    static public func logError(request: String, header: String, resp: String, code: Int, url: String){
         
         print("记录错误日志")
         //无可用线路是大事件，需要上报
         let errorItem = ErrorItem()
         errorItem.code = code
         errorItem.url = url
-        errorItem.tenantId = merchantId
+        //errorItem.tenantId = merchantId
         
         // "platform": 1, // Platform_IOS: 1;Platform_ANDROID: 2;Platform_H5: 4;
         errorItem.platform = 1
-        errorItem.created_at = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss+08:00")
+        errorItem.created_at = Date().toString(format: "yyyy-MM-dd'T'HH:mm:ss.SSS+08:00")
         
         let errorPayload = ErrorPayload()
         errorPayload.request = request
-        errorPayload.resp = body
+        errorPayload.resp = resp
         errorPayload.header = header
         errorItem.payload = errorPayload.toJSONString()
         
@@ -237,7 +237,7 @@ enum NetworkUtil {
         if reportRequest.data.count == 0{
             return
         }
-        print("上报错误")
+        print("开始上报错误日志")
         if let jsonString = convertToJSONString(from: reportRequest) {
             debugPrint(jsonString)
         }

@@ -22,7 +22,7 @@ extension KeFuViewController: teneasySDKDelegate {
             let custom = Custom()
             custom.username = "张三李四"
             let c = custom.toJSONString()?.urlEncoded
-            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: c ?? "%7B%22platform%22%3A1%2C%22username%22%3A%22xiaoming%22%7D")
+            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: c ?? "%7B%22platform%22%3A1%2C%22username%22%3A%22xiaoming%22%7D", maxSessionMinutes: 1)
             
             lib.callWebsocket()
             lib.delegate = self
@@ -184,18 +184,23 @@ extension KeFuViewController: teneasySDKDelegate {
         print("\(result.Message) Code:\(result.Code)")
          if(result.Code >= 1000 && result.Code <= 1010){
              isConnected = false
-             //1002是在别处登录了，1010是无效的Token
-             if result.Code == 1002 || result.Code == 1010{
+             //1002是在别处登录了，1010是无效的Token，1005是会话超时
+             if result.Code == 1002 || result.Code == 1010 || result.Code == 1005{
                  WWProgressHUD.showInfoMsg(result.Message)
                  stopTimer()
-                 //navigationController?.popToRootViewController(animated: true)
+                 //会话超时
+                 if result.Code == 1005{
+                    //navigationController?.popToRootViewController(animated: true)
+                 }
              }else{
                  getUnSendMsg()
              }
              
              let wssUrl = "wss://" + domain + "/v1/gateway/h5?"
              //可选：如果断开连接，可以上报日志
-             NetworkUtil.logError(request: "userId: \(userId), cert: \(cert), token: \(xToken), sign: \("9zgd9YUc")", header: "x-token:\(xToken)", body: result.Message, code: result.Code, url: wssUrl)
+             if result.Code != 1005{
+                 NetworkUtil.logError(request: "userId: \(userId), cert: \(cert), token: \(xToken), sign: \("9zgd9YUc")", header: "x-token:\(xToken)", resp: result.Message, code: result.Code, url: wssUrl)
+             }
         }
     }
     

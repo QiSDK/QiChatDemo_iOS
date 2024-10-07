@@ -15,7 +15,7 @@ enum ChatApi {
 extension ChatApi: TargetType {
     /// url
    public var baseURL: URL {
-        return URL(string: baseUrlApi)!
+        return URL(string: getbaseApiUrl())!
     }
     
     /// 请求路径

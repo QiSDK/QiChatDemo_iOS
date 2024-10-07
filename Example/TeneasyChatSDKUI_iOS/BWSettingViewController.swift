@@ -14,7 +14,9 @@ class BWSettingViewController: UIViewController {
     private let certTextField = UITextView()
     private let merchantIdTextField = UITextView()
     private let userIdTextField = UITextView()
+    private let userNameTextField = UITextView()
     private let imgBaseUrlTextField = UITextView()
+    private let maxSessionMinsTextField = UITextView()
     private let submitButton = UIButton(type: .system)
     
     var callBack: DissmissedCallback?
@@ -48,8 +50,8 @@ class BWSettingViewController: UIViewController {
             // Fallback on earlier versions
         }
         
-        let labels = ["lines", "cert", "merchantId", "userId", "imageBaseUrl"]
-        let textFields = [linesTextField, certTextField, merchantIdTextField, userIdTextField, imgBaseUrlTextField]
+        let labels = ["lines", "cert", "merchantId", "userId", "userName", "imageBaseUrl", "maxSessionMins"]
+        let textFields = [linesTextField, certTextField, merchantIdTextField, userIdTextField, userNameTextField, imgBaseUrlTextField, maxSessionMinsTextField]
                 
         var previousView: UIView?
                 
@@ -79,7 +81,7 @@ class BWSettingViewController: UIViewController {
                 make.top.equalTo(label.snp.bottom).offset(5)
                 make.left.equalTo(label)
                 make.right.equalTo(label)
-                make.height.equalTo(50)
+                make.height.equalTo(35)
             }
             
             previousView = textField
@@ -90,7 +92,7 @@ class BWSettingViewController: UIViewController {
         view.addSubview(submitButton)
         
         submitButton.snp.makeConstraints { make in
-            make.top.equalTo(imgBaseUrlTextField.snp.bottom).offset(20)
+            make.top.equalTo(maxSessionMinsTextField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(50)
@@ -105,12 +107,17 @@ class BWSettingViewController: UIViewController {
         let a_merchantId = UserDefaults.standard.integer(forKey: PARAM_MERCHANT_ID)
         let a_userId = UserDefaults.standard.integer(forKey: PARAM_USER_ID)
         let a_imgUrl = UserDefaults.standard.string(forKey: PARAM_ImageBaseURL) ?? ""
+        let a_userName = UserDefaults.standard.string(forKey: PARAM_USERNAME) ?? ""
+        let a_maxSessionMins = UserDefaults.standard.integer(forKey: PARAM_MAXSESSIONMINS)
         
         linesTextField.text = a_lines.isEmpty ? lines:a_lines
         certTextField.text = a_cert.isEmpty ? cert:a_cert
         merchantIdTextField.text = "\(a_merchantId > 0 ? a_merchantId:merchantId)"
         userIdTextField.text = "\(a_userId > 0 ? Int32(a_userId):userId)"
+        userNameTextField.text = a_userName.isEmpty ? userName: a_userName
         imgBaseUrlTextField.text = a_imgUrl.isEmpty ? baseUrlImage:a_imgUrl
+        maxSessionMinsTextField.text = "\(a_maxSessionMins > 0 ? a_maxSessionMins:maxSessionMinus)"
+        
     }
     
     @objc private func submitButtonTapped() {
@@ -119,13 +126,16 @@ class BWSettingViewController: UIViewController {
         merchantId = Int((merchantIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
          userId = Int32((userIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
         baseUrlImage = imgBaseUrlTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
+        userName = userNameTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
         UserDefaults.standard.set(cert.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), forKey: PARAM_CERT)
         UserDefaults.standard.set(merchantId, forKey: PARAM_MERCHANT_ID)
         UserDefaults.standard.set(userId, forKey: PARAM_USER_ID)
         UserDefaults.standard.set("", forKey: PARAM_XTOKEN)
         UserDefaults.standard.set(baseUrlImage, forKey: PARAM_ImageBaseURL)
+        UserDefaults.standard.set(userName, forKey: PARAM_USERNAME)
+        UserDefaults.standard.set(maxSessionMinus, forKey: PARAM_MAXSESSIONMINS)
         
         dismiss(animated: true)
     }

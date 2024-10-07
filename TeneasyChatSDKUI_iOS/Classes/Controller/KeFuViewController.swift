@@ -511,7 +511,7 @@ open class KeFuViewController: UIViewController{
     func upload(imgData: Data, isVideo: Bool) {
         WWProgressHUD.showLoading("正在上传...")
         // Set Your URL
-        let api_url = baseUrlApi + "/v1/assets/upload-v3"
+        let api_url = getbaseApiUrl() + "/v1/assets/upload-v3"
         guard let url = URL(string: api_url) else {
             return
         }

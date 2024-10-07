@@ -13,6 +13,8 @@ public let PARAM_CERT = "CERT"
 public let PARAM_MERCHANT_ID = "MERCHANT_ID"
 public let PARAM_LINES = "LINES"
 public let PARAM_ImageBaseURL = "IMAGEURL"
+public let PARAM_USERNAME = "userName"
+public let PARAM_MAXSESSIONMINS = "MaxSessionMins"
 
 //这几个是需要在设置里面配置
 //public var lines = ""
@@ -61,8 +63,10 @@ public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
 //动态生成
 //public var CONSULT_ID: Int32 = 1
 var xToken = ""
+public var userName = "Wang Wu iOS"
+public var maxSessionMinus = 19999999
 public var domain = ""  //domain
-var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
+//var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
 var workerId: Int32 = 2
 //未发送出去的消息列表
 var unSentMessage: [Int64: [ChatModel]] = [999: []]
@@ -109,6 +113,10 @@ func stringToDate(datStr: String, format: String) -> Date{
        return date
    }
     return Date()
+}
+
+func getbaseApiUrl() -> String{
+    return "https://" + domain
 }
 
 func stringToTimeStamp(datStr: String) -> Google_Protobuf_Timestamp{
