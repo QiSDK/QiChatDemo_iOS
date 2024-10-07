@@ -96,8 +96,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.appendDataSource(msg: a!, isLeft: true, status: .发送成功, cellType: .TYPE_Image)
                         var userA = CommonMessageUnion()
                         var uA = CommonMessageImage()
-                        userA.image = uA
                         uA.uri = answer.image?.uri ?? ""
+                        userA.image = uA
+             
                         
                         self?.withAutoReply?.answers.append(userA)
                     } else if answer.content != nil {
@@ -106,8 +107,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         
                         var userA = CommonMessageUnion()
                         var uA = CommonMessageContent()
-                        userA.content = uA
                         uA.data = txtAnswer
+                        userA.content = uA
+
                         self?.withAutoReply?.answers.append(userA)
                     }
                 }

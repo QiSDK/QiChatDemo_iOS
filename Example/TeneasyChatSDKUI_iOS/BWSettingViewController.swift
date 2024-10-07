@@ -127,6 +127,8 @@ class BWSettingViewController: UIViewController {
          userId = Int32((userIdTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
         baseUrlImage = imgBaseUrlTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         userName = userNameTextField.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        
+        maxSessionMinus = Int((maxSessionMinsTextField.text ?? "1992883").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
 
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
         UserDefaults.standard.set(cert.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), forKey: PARAM_CERT)

@@ -87,6 +87,7 @@ enum NetworkUtil {
                     } else {
                         done(false, nil)
                         logError(request: "", header: "\(task.headers?["x-token"] ?? "")", resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                        print(result?.msg ?? "")
                     }
                 case .failure(let error):
                     print(error)

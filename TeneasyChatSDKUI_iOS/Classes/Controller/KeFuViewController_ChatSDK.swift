@@ -191,6 +191,8 @@ extension KeFuViewController: teneasySDKDelegate {
                  //会话超时
                  if result.Code == 1005{
                     //navigationController?.popToRootViewController(animated: true)
+                     quitChat()
+                     self.dismiss(animated: true)
                  }
              }else{
                  getUnSendMsg()
