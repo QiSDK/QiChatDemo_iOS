@@ -16,13 +16,7 @@ extension KeFuViewController: teneasySDKDelegate {
         let wssUrl = "wss://" + baseUrl + "/v1/gateway/h5?"
         if lib.payloadId == 0{
             print("initSDK 初始化SDK")
-            // 第一次cert必填，之后token必填
-            //custom={"username":"xiaoming"}
-            
-            let custom = Custom()
-            custom.username = "张三李四"
-            let c = custom.toJSONString()?.urlEncoded
-            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: c ?? "%7B%22platform%22%3A1%2C%22username%22%3A%22xiaoming%22%7D", maxSessionMinutes: 1)
+            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: getCustomParam(), maxSessionMinutes: maxSessionMinus)
             
             lib.callWebsocket()
             lib.delegate = self

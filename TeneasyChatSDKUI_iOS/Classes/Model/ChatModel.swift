@@ -33,5 +33,6 @@ class ChatModel {
 class Custom: HandyJSON {
     var username: String?
     var platform: Int = 1
+    var user_level: Int = 10
     required init(){}
 }

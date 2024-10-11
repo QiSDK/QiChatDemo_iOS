@@ -15,6 +15,7 @@ public let PARAM_LINES = "LINES"
 public let PARAM_ImageBaseURL = "IMAGEURL"
 public let PARAM_USERNAME = "userName"
 public let PARAM_MAXSESSIONMINS = "MaxSessionMins"
+public let PARAM_USERLEVEL = "USERLEVEL"
 
 //这几个是需要在设置里面配置
 //public var lines = ""
@@ -47,6 +48,7 @@ public var cert = "COgBEAUYASDzASitlJSF9zE.5uKWeVH-7G8FIgkaLIhvzCROkWr4D3pMU0-tq
 public var merchantId = 232
 public var userId: Int32 = 364312 //364310
 public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+public var userLevel = 8
  
 
 
@@ -88,6 +90,15 @@ let chatBackColor = UIColor.systemGray
 let panelBack = UIColor.lightGray
 
 let serverDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
+func getCustomParam() -> String{
+    let custom = Custom()
+    custom.username = "李四"
+    custom.platform = 1
+    custom.user_level = userLevel
+    let c = custom.toJSONString()?.urlEncoded
+    return c ?? ""
+}
 
 //#f4f4f4
 
