@@ -39,6 +39,7 @@ PODS:
   - XMMenuPopover (0.0.3)
 
 DEPENDENCIES:
+  - HandyJSON
   - IQKeyboardManagerSwift
   - IQKeyboardManagerSwift (~> 6.5.9)
   - SnapKit (~> 5.0.1)
@@ -92,6 +93,6 @@ SPEC CHECKSUMS:
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
 
-PODFILE CHECKSUM: e5424dadbd3c44ff93ba9ce8eb9c449ff9a9aa1e
+PODFILE CHECKSUM: 49851ea833e9435131cc074f7561e4963c3c2fd7
 
 COCOAPODS: 1.15.2
