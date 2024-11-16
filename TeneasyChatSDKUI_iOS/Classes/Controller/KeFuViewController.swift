@@ -508,7 +508,7 @@ open class KeFuViewController: UIViewController{
      * }
      */
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool) {
+    func upload(imgData: Data, isVideo: Bool, thumbnail: Data? = nil) {
         WWProgressHUD.showLoading("正在上传...")
         // Set Your URL
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v3"
@@ -544,6 +544,9 @@ open class KeFuViewController: UIViewController{
                 }
             }
             if (isVideo) {
+                if (thumbnail != nil){
+                    multiPart.append(thumbnail!, withName: "thumbnail", fileName:  "\(Date().milliStamp)thumbnail.jpg", mimeType: "image/jpeg")
+                }
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
             } else {
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")

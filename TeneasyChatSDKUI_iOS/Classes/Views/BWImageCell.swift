@@ -97,12 +97,14 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayVideoThumbnail(path: String) {
-        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        var ext = path.split(separator: ".").last ?? "mp4"
+        var thumbnailFileName = path.replacingOccurrences(of: "." + ext, with: ".jpg");
         self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        if imgUrl != nil{
-            //暂时不显示视频的缩略图，等接口那边支持
-//            Utiles().generateThumbnail(path: imgUrl!, imgView: self.thumbnail){_ in
-//            }
+        var urlcomps = URLComponents(string: baseUrlImage)
+        urlcomps?.path = thumbnailFileName
+        
+        if let imgUrl = urlcomps?.url{
+            initImg(imgUrl: imgUrl)
         }
     }
     

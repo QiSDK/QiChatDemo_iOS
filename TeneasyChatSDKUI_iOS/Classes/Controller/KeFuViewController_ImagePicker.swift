@@ -49,7 +49,6 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                     }
                     let tt = videoData.count
                     
-                    
                     fetchPHAsset(forVideoURL: videoURL) { asset in
                             if let asset = asset {
                                 // Do something with the PHAsset
@@ -58,8 +57,6 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                                 print("PHAsset not found for the given URL")
                             }
                         }
-                    
-                  
 
                     print("video大小：\(tt)")
                     if tt > 1024 * 1024 * 300  {
@@ -72,7 +69,14 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                         picker.present(alertVC, animated: true, completion: nil)
                         return
                     }
-                    upload(imgData: videoData, isVideo: true)
+                    
+                    Utiles().generateThumbnail(path: videoURL) { img in
+                        print("视频缩略图\(String(describing: img?.cgImage?.width))");
+                        self.upload(imgData: videoData, isVideo: true, thumbnail: img?.jpegData(compressionQuality: 0.8))
+                    }
+                    
+                  
+                   
                     picker.dismiss(animated: true)
                 }
             }

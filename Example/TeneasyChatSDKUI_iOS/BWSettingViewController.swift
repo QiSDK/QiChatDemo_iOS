@@ -68,9 +68,9 @@ class BWSettingViewController: UIViewController {
             
             label.snp.makeConstraints { make in
                 if let previousView = previousView {
-                    make.top.equalTo(previousView.snp.bottom).offset(20)
+                    make.top.equalTo(previousView.snp.bottom).offset(10)
                 } else {
-                    make.top.equalToSuperview().offset(20)
+                    make.top.equalToSuperview().offset(10)
                 }
                 make.left.equalToSuperview().offset(20)
                 make.right.equalToSuperview().offset(-20)

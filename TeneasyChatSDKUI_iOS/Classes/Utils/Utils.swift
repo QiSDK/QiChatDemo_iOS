@@ -87,7 +87,28 @@ struct Utiles{
             }
             return images
     }
-//    
+    
+    func createThumbnailImage(image: UIImage, size: CGSize) -> UIImage? {
+        // Resize the image while maintaining the aspect ratio
+        let scale = max(size.width/image.size.width, size.height/image.size.height)
+        let width = image.size.width * scale
+        let height = image.size.height * scale
+        let newSize = CGSize(width: width, height: height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // Compress the image
+        if let jpegData = newImage?.jpegData(compressionQuality: 0.8) {
+            return UIImage(data: jpegData)
+        } else {
+            return nil
+        }
+    }
+    
+    
+//
 //    func getWiFiAddress() -> String? {
 //        var address: String?
 //        var ifaddr: UnsafeMutablePointer<ifaddrs>? = nil
