@@ -137,7 +137,7 @@ class BWSettingViewController: UIViewController {
         userLevel = Int((userLevelTextField.text ?? "0").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)) ?? 0
 
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
-        UserDefaults.standard.set(cert.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), forKey: PARAM_CERT)
+        UserDefaults.standard.set(cert, forKey: PARAM_CERT)
         UserDefaults.standard.set(merchantId, forKey: PARAM_MERCHANT_ID)
         UserDefaults.standard.set(userId, forKey: PARAM_USER_ID)
         UserDefaults.standard.set("", forKey: PARAM_XTOKEN)
