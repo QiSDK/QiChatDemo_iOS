@@ -98,4 +98,47 @@ class NetRequest: NSObject {
         }
         return Dictionary()
     }
+    
+    func downloadVideo(from urlString: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+        //var fileName = urlString.split(separator: "/").last;
+
+        let session = URLSession(configuration: .default)
+        let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let tempLocalUrl = tempLocalUrl else {
+                completion(.failure(NSError(domain: "No temporary file", code: -2, userInfo: nil)))
+                return
+            }
+
+            // Get documents directory
+            let fileManager = FileManager.default
+            let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+            // Set destination path
+            let destinationUrl = documentsDirectory.appendingPathComponent(url.lastPathComponent)
+
+            // Remove file if it already exists
+            if fileManager.fileExists(atPath: destinationUrl.path) {
+                try? fileManager.removeItem(at: destinationUrl)
+            }
+
+            do {
+                // Move file to the destination
+                try fileManager.moveItem(at: tempLocalUrl, to: destinationUrl)
+                completion(.success(destinationUrl))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
 }

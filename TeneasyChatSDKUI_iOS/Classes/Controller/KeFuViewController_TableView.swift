@@ -255,6 +255,30 @@ extension KeFuViewController {
             self.copyData(model: model, indexPath: indexPath)
         }
         menu.menuItems = [item1, item2]
+        
+        if (model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO){
+            var imgUrl = ""
+            if model?.cellType == .TYPE_Image{
+                imgUrl = model?.message?.image.uri ?? ""
+            }else {
+                imgUrl = model?.message?.video.uri ?? ""
+            }
+            let item3 = XMMenuItem(title: "下载") {
+                WWProgressHUD.showLoading()
+                NetRequest.standard.downloadVideo(from: baseUrlImage + imgUrl) { result in
+                    switch result {
+                    case .success(let filePath):
+                        print(filePath)
+                        WWProgressHUD.showSuccessWith("下载成功")
+                    case .failure(let error):
+                        WWProgressHUD.showFailure("下载失败")
+                        print(error)
+                    }
+                   
+                }
+            }
+            menu.menuItems = [item1, item2, item3]
+        }
         guard let targetView = guesture.view else { return }
         menu.show(from: targetView, rect: CGRect(x: 0, y: 20, width: targetView.bounds.width, height: targetView.bounds.height), animated: true)
     }
