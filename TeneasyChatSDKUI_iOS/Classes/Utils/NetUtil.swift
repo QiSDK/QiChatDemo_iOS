@@ -150,7 +150,7 @@ class NetRequest: NSObject {
         
          var fileExtension = urlString.split(separator: ".").last;
         
-        var video = "mp4, avi, mkv, mov, wmv, flv, webm";
+        let video = "mp4, avi, mkv, mov, wmv, flv, webm";
         if (fileExtension != nil && video.contains(fileExtension!)){
             fileExtension = "mp4";
         }else{
