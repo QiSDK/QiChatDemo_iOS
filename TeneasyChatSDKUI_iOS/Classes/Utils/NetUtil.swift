@@ -5,6 +5,8 @@
 //  Created by XiaoFu on 2023/2/2.
 //
 
+import Photos
+
 typealias RequestCompletionBlock = (_ response: URLResponse?, _ responseObject: [String: Any]?, _ error: Error?) -> Void
 
 class NetRequest: NSObject {
@@ -105,8 +107,6 @@ class NetRequest: NSObject {
             return
         }
         
-        //var fileName = urlString.split(separator: "/").last;
-
         let session = URLSession(configuration: .default)
         let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
             if let error = error {
@@ -140,5 +140,92 @@ class NetRequest: NSObject {
             }
         }
         task.resume()
+    }
+    
+    func downloadAndSaveVideoToPhotoLibrary(from urlString: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+         var fileExtension = urlString.split(separator: ".").last;
+        
+        let video = "mp4, avi, mkv, mov, wmv, flv, webm";
+        if (fileExtension != nil && video.contains(fileExtension!)){
+            fileExtension = "mp4";
+        }else{
+            fileExtension = "png";
+        }
+
+        let session = URLSession(configuration: .default)
+        let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let tempLocalUrl = tempLocalUrl else {
+                completion(.failure(NSError(domain: "No temporary file", code: -2, userInfo: nil)))
+                return
+            }
+            self.saveVideoWithCorrectExtension(tempLocalUrl: tempLocalUrl, ext: String(fileExtension ?? "png"), completion: completion);
+
+        }
+        task.resume()
+    }
+    
+    func saveVideoWithCorrectExtension(tempLocalUrl: URL, ext: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let correctedUrl = documentsDirectory.appendingPathComponent("test.\(ext)" ) // Correct extension
+
+        do {
+            // Remove existing file at destination if necessary
+            if fileManager.fileExists(atPath: correctedUrl.path) {
+                try fileManager.removeItem(at: correctedUrl)
+            }
+            // Copy file with correct extension
+            try fileManager.copyItem(at: tempLocalUrl, to: correctedUrl)
+
+            // Save to Photo Library
+            saveToPhotoLibrary(fileUrl: correctedUrl, ext: ext, completion: completion)
+
+        } catch {
+            completion(.failure(error))
+        }
+    }
+
+    func saveToPhotoLibrary(fileUrl: URL, ext: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        PHPhotoLibrary.requestAuthorization { status in
+            guard status == .authorized else {
+                completion(.failure(NSError(domain: "Photo Library Access Denied", code: -1, userInfo: nil)))
+                return
+            }
+            
+            
+            if (ext == "png"){
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: fileUrl)
+                }) { success, error in
+                    if success {
+                        completion(.success(()))
+                    } else {
+                        completion(.failure(error ?? NSError(domain: "Unknown Error", code: -2, userInfo: nil)))
+                    }
+                }
+                
+            }else{
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileUrl)
+                }) { success, error in
+                    if success {
+                        completion(.success(()))
+                    } else {
+                        completion(.failure(error ?? NSError(domain: "Unknown Error", code: -2, userInfo: nil)))
+                    }
+                }
+                
+            }
+        }
     }
 }

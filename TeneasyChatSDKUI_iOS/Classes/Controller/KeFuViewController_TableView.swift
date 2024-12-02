@@ -265,7 +265,7 @@ extension KeFuViewController {
             }
             let item3 = XMMenuItem(title: "下载") {
                 WWProgressHUD.showLoading()
-                NetRequest.standard.downloadVideo(from: baseUrlImage + imgUrl) { result in
+                NetRequest.standard.downloadAndSaveVideoToPhotoLibrary(from: baseUrlImage + imgUrl) { result in
                     switch result {
                     case .success(let filePath):
                         print(filePath)
