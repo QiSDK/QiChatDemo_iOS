@@ -13,7 +13,8 @@ import TeneasyChatSDK_iOS
 import UIKit
 
 //客服聊天页面
-open class KeFuViewController: UIViewController{
+open class KeFuViewController: UIViewController, UploadListener{
+    
     //消息列表的数据源
     var datasouceArray: [ChatModel] = []
     //所选择的咨询类型Id
@@ -510,96 +511,24 @@ open class KeFuViewController: UIViewController{
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool, thumbnail: Data? = nil) {
         WWProgressHUD.showLoading("正在上传...")
-        // Set Your URL
-        let api_url = getbaseApiUrl() + "/v1/assets/upload-v3"
-        guard let url = URL(string: api_url) else {
-            return
+        
+        UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo)
+    }
+    
+    func uploadSuccess(path: String, isVideo: Bool) {
+        if !isVideo{
+            self.sendImage(url: path)
+        }else{
+            self.sendVideo(url: path)
         }
+    }
+    
+    func uploadProgress(progress: Int) {
         
-        var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
-        urlRequest.httpMethod = "POST"
-        // urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        //let boundary = "Boundary-\(UUID().uuidString)"
-        //let contentType = "multipart/form-data; " + boundary
-        
-        //urlRequest.addValue(contentType, forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("multipart/form-data", forHTTPHeaderField: "Accept")
-        urlRequest.httpBody = imgData
-        
-        urlRequest.addValue(xToken, forHTTPHeaderField: "X-Token")
-        
-        // Set Your Parameter
-        let parameterDict = NSMutableDictionary()
-        parameterDict.setValue(4, forKey: "type")
-        // parameterDict.setValue("phot.png", forKey: "myFile")
-        
-        // Now Execute
-        AF.upload(multipartFormData: { multiPart in
-            for (key, value) in parameterDict {
-                if let temp = value as? String {
-                    multiPart.append(temp.data(using: .utf8)!, withName: key as! String)
-                }
-                if let temp = value as? Int {
-                    multiPart.append("\(temp)".data(using: .utf8)!, withName: key as! String)
-                }
-            }
-            if (isVideo) {
-                if (thumbnail != nil){
-                    multiPart.append(thumbnail!, withName: "thumbnail", fileName:  "\(Date().milliStamp)thumbnail.jpg", mimeType: "image/jpeg")
-                }
-                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
-            } else {
-                multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
-            }
-        }, with: urlRequest)
-        .uploadProgress(queue: .main, closure: { progress in
-            // Current upload progress of file
-            print("Upload Progress: \(progress.fractionCompleted)")
-        })
-        .response(completionHandler: { data in
-            WWProgressHUD.dismiss()
-            switch data.result {
-            case .success:
-                if let resData = data.data {
-                    let path = String(data: resData, encoding: String.Encoding.utf8)
-                    #if DEBUG
-                    print(path ?? "")
-                    #endif
-                    let myResult = try? JSONDecoder().decode(UploadResult.self, from: resData)
-                    
-                    if myResult == nil {
-                        WWProgressHUD.showFailure("数据返回不对，解析失败！")
-                        return
-                    }
-                    
-                    if myResult?.code != 200 && myResult?.code != 0 {
-                        WWProgressHUD.showFailure(myResult?.message)
-                        return
-                    }
-                    
-                    print(myResult?.data?.filepath ?? "filePath is null")
-
-                    /*if filePath.contains(".png") || filePath.contains(".tiff") || filePath.contains(".gif") || filePath.contains(".tif") || filePath.contains(".jpg") || filePath.contains(".jpeg"){
-                        self.sendImage(url: path ?? "")
-                    }else{
-                        self.sendVideo(url: path ?? "")
-                    }*/
-                    
-                    if !isVideo{
-                        self.sendImage(url: myResult?.data?.filepath ?? "")
-                    }else{
-                        self.sendVideo(url: myResult?.data?.filepath ?? "")
-                    }
-                } else {
-                    print("图片上传失败：")
-                    WWProgressHUD.showFailure("上传失败！")
-                }
-            case .failure(let error):
-                WWProgressHUD.showFailure("上传失败！")
-                print("图片上传失败：" + error.localizedDescription)
-            }
-        })
-        
+    }
+    
+    func uploadFailed(msg: String) {
+        WWProgressHUD.showFailure(msg)
     }
 
     @objc func keyboardWillChangeFrame(node: Notification) {

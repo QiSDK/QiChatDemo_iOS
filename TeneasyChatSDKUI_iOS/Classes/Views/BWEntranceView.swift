@@ -145,7 +145,7 @@ extension BWEntranceView: UITableViewDelegate, UITableViewDataSource {
         cell.titleLab.text = list[indexPath.row].name
         cell.dotView.isHidden = (list[indexPath.row].unread ?? 0) == 0
         
-        if let avatar = list[indexPath.row].Works?[0].avatar{
+        if let avatar = list[indexPath.row].Works?.first?.avatar{
             cell.displayThumbnail(path: avatar)
         }
         return cell

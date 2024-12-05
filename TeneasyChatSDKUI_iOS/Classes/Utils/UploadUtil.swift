@@ -4,18 +4,36 @@
 //
 //  Created by Xuefeng on 2/12/24.
 //
-
+import Foundation
 import Alamofire
 import Network
 import PhotosUI
 import TeneasyChatSDK_iOS
 import UIKit
 
-class UploadUtil{
+protocol UploadListener {
+    /// Called when the upload is successful.
+    /// - Parameters:
+    ///   - path: The path of the uploaded file.
+    ///   - isVideo: A Boolean indicating whether the uploaded file is a video.
+    func uploadSuccess(path: String, isVideo: Bool)
+    
+    /// Called to indicate the upload progress.
+    /// - Parameter progress: The progress of the upload as an integer percentage (0-100).
+    func uploadProgress(progress: Int)
+    
+    /// Called when the upload fails.
+    /// - Parameter msg: A message describing the failure.
+    func uploadFailed(msg: String)
+}
+
+struct UploadUtil {
+    
+    var  listener : UploadListener?;
     
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool) {
-        WWProgressHUD.showLoading("正在上传...")
+        //WWProgressHUD.showLoading("正在上传...")
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
             return
@@ -44,59 +62,45 @@ class UploadUtil{
                 }
             }
             if (isVideo) {
-                
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
             } else {
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
             }
         }, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
-            // Current upload progress of file
-            print("Upload Progress: \(progress.fractionCompleted)")
+
         })
         .response(completionHandler: { data in
             WWProgressHUD.dismiss()
             switch data.result {
             case .success:
                 if let resData = data.data {
-                    let path = String(data: resData, encoding: String.Encoding.utf8)
-#if DEBUG
-                    print(path ?? "")
-#endif
-                    let myResult = try? JSONDecoder().decode(UploadResult.self, from: resData)
-                    
-                    if myResult == nil {
-                        WWProgressHUD.showFailure("数据返回不对，解析失败！")
-                        return
+                    guard let strData = String(data: resData, encoding: String.Encoding.utf8) else {   listener?.uploadFailed(msg: "上传失败"); return}
+                    print(strData)
+                 
+                    let dic = strData.convertToDictionary()
+
+                    if strData.contains("code\":200"){
+                        let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
+                        if !(myResult?.data?.filepath ?? "").isEmpty{
+                            listener?.uploadSuccess(path: myResult?.data?.filepath ?? "", isVideo: false)
+                            return
+                        }
+                    }else if strData.contains("code\":202"){
+                        let myResult = BaseRequestResult<String>.deserialize(from: dic)
+                        if !(myResult?.data ?? "").isEmpty{
+                            //开始订阅视频上传
+                           self.subscribeToSSE(uploadId: myResult?.data ?? "", isVideo: true)
+                            return
+                        }
                     }
-                    
-                    if myResult?.code != 200 && myResult?.code != 202 {
-                        WWProgressHUD.showFailure(myResult?.message)
-                        return
-                    }
-                    
-                    print(myResult?.data?.filepath ?? "filePath is null")
-                    
-                    //图片上传成功
-                    if myResult?.code == 200{
-                        
-                    }else{
-                        //开始订阅视频上传
-                        self.subscribeToSSE(uploadId: myResult?.data?.filepath ?? "", isVideo: true)
-                    }
-                    
-                    
-//                    if !isVideo{
-//                        self.sendImage(url: myResult?.data?.filepath ?? "")
-//                    }else{
-//                        self.sendVideo(url: myResult?.data?.filepath ?? "")
-//                    }
+                    listener?.uploadFailed(msg: "图片上传失败\(strData)");
                 } else {
                     print("图片上传失败：")
-                    WWProgressHUD.showFailure("上传失败！")
+                    listener?.uploadFailed(msg: "图片上传失败");
                 }
             case .failure(let error):
-                WWProgressHUD.showFailure("上传失败！")
+                listener?.uploadFailed(msg: "图片上传失败");
                 print("图片上传失败：" + error.localizedDescription)
             }
         })
@@ -125,31 +129,32 @@ class UploadUtil{
             switch data.result {
             case .success:
                 if let resData = data.data {
-                    let path = String(data: resData, encoding: String.Encoding.utf8)
+                    let strData = String(data: resData, encoding: String.Encoding.utf8)
 #if DEBUG
-                    print(path ?? "")
+                    print(strData ?? "")
                     
 #endif
-                   var dic = path?.convertToDictionary()
+                   var dic = strData?.convertToDictionary()
                     //let dic = try? data.mapJSON() as? [String: Any]
                     let myResult = BaseRequestResult<UploadPercent>.deserialize(from: dic)
                     
                     if myResult == nil {
-                        WWProgressHUD.showFailure("数据返回不对，解析失败！")
+                        listener?.uploadFailed(msg: "数据返回不对，视频解析失败！");
                         return
                     }
     
                     
                     if myResult?.code != 200{
-                        WWProgressHUD.showFailure("上传失败！\(myResult?.code ?? 0) \(myResult?.msg ?? "")")
+                        listener?.uploadFailed(msg: "上传失败！\(myResult?.code ?? 0) \(myResult?.msg ?? "")");
                         return
                     }
                     
                     if (myResult?.data?.percentage == 100){
                         //上传成功
-                        
+                        listener?.uploadSuccess(path: myResult?.data?.path ?? "", isVideo: true)
                     }else{
                         //正常上传
+                        listener?.uploadProgress(progress: myResult?.data?.percentage ?? 0);
                     }
                     
                     
@@ -160,10 +165,10 @@ class UploadUtil{
 //                    }
                 } else {
                     print("图片上传失败：")
-                    WWProgressHUD.showFailure("上传失败！")
+                    listener?.uploadFailed(msg: "上传失败！");
                 }
             case .failure(let error):
-                WWProgressHUD.showFailure("上传失败！")
+                listener?.uploadFailed(msg: "上传失败！");
                 print("图片上传失败：" + error.localizedDescription)
             }
         })

@@ -6,15 +6,12 @@
 import Foundation
 
 // MARK: - Welcome
-struct UploadResult: Codable {
-    let code: Int
-    let message: String?
-    let data: FilePath?
-}
+//struct UploadResult: Codable {
+//    let code: Int
+//    let message: String?
+//    let data: FilePath?
+//}
 
-// MARK: - DataClass
-struct FilePath: Codable {
-    let filepath: String
-}
+
 
 

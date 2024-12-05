@@ -20,3 +20,14 @@ class WorkerModel: HandyJSON {
     var workerAvatar: String?
     required init() {}
 }
+
+// MARK: - DataClass
+class FilePath: HandyJSON {
+    var filepath: String?
+    required init() {}
+}
+
+class UploadPercent {
+    var percentage: Int = 0
+    var path: String? = ""
+}
