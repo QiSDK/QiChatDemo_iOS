@@ -62,7 +62,7 @@ struct UploadUtil {
                 }
             }
             if (isVideo) {
-                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
+                multiPart.append(imgData, withName: "myFile", fileName:  "file.mp4", mimeType: "video/mp4")
             } else {
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
             }
@@ -71,7 +71,6 @@ struct UploadUtil {
 
         })
         .response(completionHandler: { data in
-            WWProgressHUD.dismiss()
             switch data.result {
             case .success:
                 if let resData = data.data {
@@ -81,9 +80,16 @@ struct UploadUtil {
                     let dic = strData.convertToDictionary()
 
                     if strData.contains("code\":200"){
-                        let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
-                        if !(myResult?.data?.filepath ?? "").isEmpty{
-                            listener?.uploadSuccess(path: myResult?.data?.filepath ?? "", isVideo: false)
+//                        let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
+//                        if !(myResult?.data?.filepath ?? "").isEmpty{
+//                            listener?.uploadSuccess(path: myResult?.data?.filepath ?? "", isVideo: false)
+//                            return
+//                        }
+                        
+                        let myResult = BaseRequestResult<String>.deserialize(from: dic)
+                        if !(myResult?.data ?? "").isEmpty{
+                            //开始订阅视频上传
+                           self.subscribeToSSE(uploadId: myResult?.data ?? "", isVideo: true)
                             return
                         }
                     }else if strData.contains("code\":202"){
@@ -105,28 +111,37 @@ struct UploadUtil {
             }
         })
     }
-    
+
     private func subscribeToSSE(uploadId: String, isVideo: Bool){
-        let api_url = getbaseApiUrl() + "/v1/assets/upload-v4/" + uploadId
+        let api_url = getbaseApiUrl() + "/v1/assets/upload-v4?uploadId=" + uploadId
+        print("SSE 视频 url \(api_url)")
         guard let url = URL(string: api_url) else {
             return
         }
         let uuid = UUID().uuidString
-        var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
-        urlRequest.httpMethod = "POST"
+        var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60.0 * 1000 * 10)
+        urlRequest.httpMethod = "GET"
         urlRequest.addValue("text/event-stream", forHTTPHeaderField: "Accept")
         urlRequest.addValue(xToken, forHTTPHeaderField: "X-Token")
         urlRequest.addValue(uuid, forHTTPHeaderField: "x-trace-id")
-
+        
+        // Define headers
+           let headers: HTTPHeaders = [
+               "X-Token": xToken,
+               "Accept": "text/event-stream",
+               "x-trace-id": uuid
+           ]
         // Now Execute
+        //AF.request(url, headers: headers)
         AF.upload(url, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
             // Current upload progress of file
             print("Upload Progress: \(progress.fractionCompleted)")
         })
         .response(completionHandler: { data in
-            WWProgressHUD.dismiss()
+            print(data)
             switch data.result {
+                
             case .success:
                 if let resData = data.data {
                     let strData = String(data: resData, encoding: String.Encoding.utf8)
@@ -134,35 +149,43 @@ struct UploadUtil {
                     print(strData ?? "")
                     
 #endif
-                   var dic = strData?.convertToDictionary()
-                    //let dic = try? data.mapJSON() as? [String: Any]
-                    let myResult = BaseRequestResult<UploadPercent>.deserialize(from: dic)
                     
-                    if myResult == nil {
-                        listener?.uploadFailed(msg: "数据返回不对，视频解析失败！");
-                        return
-                    }
-    
+                    let lines = (strData ?? "").split(separator: "\n")
+                           var event = ""
+                           var data = ""
+                           
+                           for line in lines {
+                               if line.starts(with: "event:") {
+                                   event = line.replacingOccurrences(of: "event: ", with: "")
+                               } else if line.starts(with: "data:") {
+                                   data = line.replacingOccurrences(of: "data: ", with: "")
+                                   
+                                   
+                                   let dic = data.convertToDictionary()
+                                    let myResult = UploadPercent.deserialize(from: dic)
+                                    print("视频SSE:\(myResult)")
+                                    
+                                    if myResult == nil {
+                                        listener?.uploadFailed(msg: "数据返回不对，视频解析失败！");
+                                        return
+                                    }
                     
-                    if myResult?.code != 200{
-                        listener?.uploadFailed(msg: "上传失败！\(myResult?.code ?? 0) \(myResult?.msg ?? "")");
-                        return
-                    }
+                                    
+                                   if (myResult?.percentage == 100){
+                                        //上传成功
+                                       listener?.uploadSuccess(path: myResult?.path ?? "", isVideo: true)
+                                    }else{
+                                        //正常上传
+                                        listener?.uploadProgress(progress: myResult?.percentage ?? 0);
+                                    }
+                               }
+                           }
+                           
+                           if !event.isEmpty || !data.isEmpty {
+                               print("Event: \(event), Data: \(data)")
+                           }
                     
-                    if (myResult?.data?.percentage == 100){
-                        //上传成功
-                        listener?.uploadSuccess(path: myResult?.data?.path ?? "", isVideo: true)
-                    }else{
-                        //正常上传
-                        listener?.uploadProgress(progress: myResult?.data?.percentage ?? 0);
-                    }
-                    
-                    
-//                    if !isVideo{
-//                        self.sendImage(url: myResult?.data?.filepath ?? "")
-//                    }else{
-//                        self.sendVideo(url: myResult?.data?.filepath ?? "")
-//                    }
+                 
                 } else {
                     print("图片上传失败：")
                     listener?.uploadFailed(msg: "上传失败！");

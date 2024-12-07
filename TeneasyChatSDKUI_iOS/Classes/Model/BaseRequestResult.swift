@@ -27,7 +27,8 @@ class FilePath: HandyJSON {
     required init() {}
 }
 
-class UploadPercent {
+class UploadPercent : HandyJSON {
     var percentage: Int = 0
     var path: String? = ""
+    required init() {}
 }

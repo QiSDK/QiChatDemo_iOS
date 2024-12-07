@@ -170,7 +170,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 WWProgressHUD.showFailure("无效的播放链接")
             }else{
                 //写死一个，仅测试
-                videoUrl =  URL(string:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
+                //videoUrl =  URL(string:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
                 playVideoFullScreen(url: videoUrl!)
                 print("视频地址:\(videoUrl?.absoluteString ?? "")")
             }
