@@ -79,7 +79,7 @@ struct UploadUtil {
                  
                     let dic = strData.convertToDictionary()
 
-                    if strData.contains("code\":200"){
+                    if data.response?.statusCode == 200{
 //                        let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
 //                        if !(myResult?.data?.filepath ?? "").isEmpty{
 //                            listener?.uploadSuccess(path: myResult?.data?.filepath ?? "", isVideo: false)
@@ -92,7 +92,7 @@ struct UploadUtil {
                            self.subscribeToSSE(uploadId: myResult?.data ?? "", isVideo: true)
                             return
                         }
-                    }else if strData.contains("code\":202"){
+                    }else if data.response?.statusCode == 202{
                         let myResult = BaseRequestResult<String>.deserialize(from: dic)
                         if !(myResult?.data ?? "").isEmpty{
                             //开始订阅视频上传
