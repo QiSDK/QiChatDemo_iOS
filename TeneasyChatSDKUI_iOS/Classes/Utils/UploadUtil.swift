@@ -163,17 +163,16 @@ struct UploadUtil {
                                    
                                    let dic = data.convertToDictionary()
                                     let myResult = UploadPercent.deserialize(from: dic)
-                                    print("视频SSE:\(myResult)")
+                                   print("视频SSE:\(String(describing: myResult))")
                                     
                                     if myResult == nil {
                                         listener?.uploadFailed(msg: "数据返回不对，视频解析失败！");
                                         return
                                     }
-                    
                                     
                                    if (myResult?.percentage == 100){
                                         //上传成功
-                                       listener?.uploadSuccess(path: myResult?.path ?? "", isVideo: true)
+                                       listener?.uploadSuccess(path: ("/" + (myResult?.data?.origin_url ?? "")), isVideo: true)
                                     }else{
                                         //正常上传
                                         listener?.uploadProgress(progress: myResult?.percentage ?? 0);
