@@ -164,7 +164,8 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             print("图片地址:\(imgUrl.absoluteString )")
             
         }else{
-            var videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
+            let m3u8 = msg.video.uri.replacingOccurrences(of: "index.mp4", with: "master.m3u8")
+            let videoUrl = URL(string: "\(baseUrlImage)\(m3u8)")
             
             if videoUrl == nil {
                 WWProgressHUD.showFailure("无效的播放链接")

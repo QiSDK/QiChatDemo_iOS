@@ -62,7 +62,7 @@ struct UploadUtil {
                 }
             }
             if (isVideo) {
-                multiPart.append(imgData, withName: "myFile", fileName:  "file.mp4", mimeType: "video/mp4")
+                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
             } else {
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
             }
@@ -172,7 +172,7 @@ struct UploadUtil {
                                     
                                    if (myResult?.percentage == 100){
                                         //上传成功
-                                       listener?.uploadSuccess(path: ("/" + (myResult?.data?.origin_url ?? "")), isVideo: true)
+                                       listener?.uploadSuccess(path: myResult?.data?.origin_url ?? "", isVideo: true)
                                     }else{
                                         //正常上传
                                         listener?.uploadProgress(progress: myResult?.percentage ?? 0);

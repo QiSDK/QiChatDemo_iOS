@@ -521,11 +521,14 @@ open class KeFuViewController: UIViewController, UploadListener{
         }else{
             self.sendVideo(url: path)
         }
+        print("上传进度：100% \(Date())")
         WWProgressHUD.dismiss()
     }
     
     func uploadProgress(progress: Int) {
-        WWProgressHUD.showLoading("正在上传：\(progress)%")
+        WWProgressHUD.dismiss()
+        WWProgressHUD.showLoading("上传进度：\(progress)%")
+        print("上传进度：\(progress)% \(Date())")
     }
     
     func uploadFailed(msg: String) {

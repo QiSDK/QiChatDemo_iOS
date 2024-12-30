@@ -97,14 +97,21 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayVideoThumbnail(path: String) {
-        var ext = path.split(separator: ".").last ?? "mp4"
-        var thumbnailFileName = path.replacingOccurrences(of: "." + ext, with: ".jpg");
-        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        var urlcomps = URLComponents(string: baseUrlImage)
-        urlcomps?.path = thumbnailFileName
+//        var ext = path.split(separator: ".").last ?? "mp4"
+//        var thumbnailFileName = path.replacingOccurrences(of: "." + ext, with: ".jpg");
+//        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+//        var urlcomps = URLComponents(string: baseUrlImage)
+//        urlcomps?.path = thumbnailFileName
+//        
+//        if let imgUrl = urlcomps?.url{
+//            initImg(imgUrl: imgUrl)
+//        }
         
-        if let imgUrl = urlcomps?.url{
-            initImg(imgUrl: imgUrl)
+        let path = path.replacingOccurrences(of: "index.mp4", with: "thumb.jpg")
+        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        print("\(baseUrlImage)\(path)")
+        if (imgUrl != nil){
+            initImg(imgUrl: imgUrl!)
         }
     }
     
