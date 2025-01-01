@@ -24,7 +24,7 @@ PODS:
     - SwiftProtobuf (~> 1.27.0)
   - TeneasyChatSDKUI_iOS (1.0.5):
     - Alamofire (~> 5.4.4)
-    - HandyJSON (~> 5.0.2)
+    - HandyJSON
     - IQKeyboardManagerSwift (~> 6.5.9)
     - Kingfisher (~> 6.3.1)
     - Moya (~> 15.0.0)
@@ -88,10 +88,10 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftProtobuf: b109bd17979d7993a84da14b1e1fdd8b0ded934a
   TeneasyChatSDK_iOS: f41557ff15e071c5e66f8259a79c36dbd502a274
-  TeneasyChatSDKUI_iOS: aeb4e7169379f17c5e0535889d1c16d989c53ed7
+  TeneasyChatSDKUI_iOS: 68380ede2f890fa803e74d1b7e7c174c00fa5f36
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
 
 PODFILE CHECKSUM: e5424dadbd3c44ff93ba9ce8eb9c449ff9a9aa1e
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
