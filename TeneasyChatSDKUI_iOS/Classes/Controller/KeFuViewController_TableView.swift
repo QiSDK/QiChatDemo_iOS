@@ -24,7 +24,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.playBtn.isHidden = true
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
                 }else{
-                    cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
+                    cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
                 return cell
             } else {
@@ -44,7 +44,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
                 }else{
                     //cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-                    cell.displayVideoThumbnail(path: model.message?.video.uri ?? "")
+                    cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
                 return cell
             }
@@ -164,8 +164,13 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             print("图片地址:\(imgUrl.absoluteString )")
             
         }else{
-            let m3u8 = msg.video.uri.replacingOccurrences(of: "index.mp4", with: "master.m3u8")
+            var m3u8 = msg.video.uri
+            if !msg.video.hlsUri.isEmpty{
+                m3u8 = msg.video.hlsUri
+            }
             let videoUrl = URL(string: "\(baseUrlImage)\(m3u8)")
+            
+            
             
             if videoUrl == nil {
                 WWProgressHUD.showFailure("无效的播放链接")

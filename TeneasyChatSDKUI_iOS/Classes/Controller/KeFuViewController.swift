@@ -339,7 +339,7 @@ open class KeFuViewController: UIViewController, UploadListener{
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_VIDEO"{
                     chatModel.cellType = .TYPE_VIDEO
-                    chatModel.message = composeALocalVideoMessage(url: item.video?.uri ?? "", timeInS: item.msgTime, msgId: msgId)
+                    chatModel.message = composeALocalVideoMessage(url:  item.video?.uri ?? "", thumb: item.video?.thumbnailUri ?? "", hls: item.video?.hlsUri ?? "", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
                 }
             }
@@ -430,8 +430,8 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
     }
     
-    func sendVideo(url: String) {
-        lib.sendMessage(msg: url, type: .msgVideo, consultId: consultId, withAutoReply: self.withAutoReply)
+    func sendVideoMessage(url: String, thumb: String, hls: String) {
+        lib.sendVideoMessage(url: url, thumbnailUri: thumb, hlsUri: hls, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_VIDEO)
         }
@@ -509,17 +509,17 @@ open class KeFuViewController: UIViewController, UploadListener{
      * }
      */
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool, thumbnail: Data? = nil) {
+    func upload(imgData: Data, isVideo: Bool) {
         WWProgressHUD.showLoading("正在上传...")
         
         UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo)
     }
     
-    func uploadSuccess(path: String, isVideo: Bool) {
+    func uploadSuccess(paths: Urls, isVideo: Bool) {
         if !isVideo{
-            self.sendImage(url: path)
+            self.sendImage(url: paths.uri ?? "")
         }else{
-            self.sendVideo(url: path)
+            self.sendVideoMessage(url: paths.uri ?? "", thumb: paths.thumbnailUri, hls: paths.hlsUri ?? "")
         }
         print("上传进度：100% \(Date())")
         WWProgressHUD.dismiss()

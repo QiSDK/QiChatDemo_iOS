@@ -107,9 +107,9 @@ class BWImageCell: UITableViewCell {
 //            initImg(imgUrl: imgUrl)
 //        }
         
-        let path = path.replacingOccurrences(of: "index.mp4", with: "thumb.jpg")
+        //let path = path.replacingOccurrences(of: "index.mp4", with: "thumb.jpg")
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
-        print("\(baseUrlImage)\(path)")
+        print("视频缩略图地址：\(baseUrlImage)\(path)")
         if (imgUrl != nil){
             initImg(imgUrl: imgUrl!)
         }

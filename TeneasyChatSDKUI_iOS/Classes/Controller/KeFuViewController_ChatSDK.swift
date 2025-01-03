@@ -290,10 +290,12 @@ extension KeFuViewController: teneasySDKDelegate {
     
     
     //产生一个本地视频消息
-    func composeALocalVideoMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
+    func composeALocalVideoMessage(url: String, thumb: String, hls: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
         // 第一层
         var content = CommonMessageVideo()
         content.uri = url
+        content.thumbnailUri = thumb
+        content.hlsUri = hls
         
         // 第二层, 消息主题
         var msg = CommonMessage()

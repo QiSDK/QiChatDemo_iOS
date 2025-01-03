@@ -38,8 +38,12 @@ class UploadPercent : HandyJSON {
 }
 
 class Urls: HandyJSON {
-    var origin_url: String? = ""
-    var hls_master_url: String? = ""
-    var thumbnail_url = ""
+    var uri: String? = ""
+    var hlsUri: String? = ""
+    var thumbnailUri = ""
     required init() {}
 }
+
+/*
+ {"percentage":100,"data":{"uri":"/session/tenant_230/20250102/Videos/3137333538313235353133303966696c65d41d8cd98f00b204e9800998ecf8427e/index.mp4","hls_uri":"/session/tenant_230/20250102/Videos/3137333538313235353133303966696c65d41d8cd98f00b204e9800998ecf8427e/master.m3u8","thumbnail_uri":"/session/tenant_230/20250102/Videos/3137333538313235353133303966696c65d41d8cd98f00b204e9800998ecf8427e/thumb.jpg"}}
+ */

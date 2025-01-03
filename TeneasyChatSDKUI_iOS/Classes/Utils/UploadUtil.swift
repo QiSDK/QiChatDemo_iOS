@@ -16,7 +16,7 @@ protocol UploadListener {
     /// - Parameters:
     ///   - path: The path of the uploaded file.
     ///   - isVideo: A Boolean indicating whether the uploaded file is a video.
-    func uploadSuccess(path: String, isVideo: Bool)
+    func uploadSuccess(paths: Urls, isVideo: Bool)
     
     /// Called to indicate the upload progress.
     /// - Parameter progress: The progress of the upload as an integer percentage (0-100).
@@ -80,18 +80,15 @@ struct UploadUtil {
                     let dic = strData.convertToDictionary()
 
                     if data.response?.statusCode == 200{
-//                        let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
-//                        if !(myResult?.data?.filepath ?? "").isEmpty{
-//                            listener?.uploadSuccess(path: myResult?.data?.filepath ?? "", isVideo: false)
-//                            return
-//                        }
+                        let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
                         
-                        let myResult = BaseRequestResult<String>.deserialize(from: dic)
-                        if !(myResult?.data ?? "").isEmpty{
-                            //开始订阅视频上传
-                           self.subscribeToSSE(uploadId: myResult?.data ?? "", isVideo: true)
+                        if let path = myResult?.data?.filepath{
+                            let urls = Urls()
+                            urls.uri = path
+                            listener?.uploadSuccess(paths: urls, isVideo: false)
                             return
                         }
+          
                     }else if data.response?.statusCode == 202{
                         let myResult = BaseRequestResult<String>.deserialize(from: dic)
                         if !(myResult?.data ?? "").isEmpty{
@@ -114,7 +111,7 @@ struct UploadUtil {
 
     private func subscribeToSSE(uploadId: String, isVideo: Bool){
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4?uploadId=" + uploadId
-        print("SSE 视频 url \(api_url)")
+        print("SSE 视频 url \(api_url) ---#")
         guard let url = URL(string: api_url) else {
             return
         }
@@ -124,15 +121,7 @@ struct UploadUtil {
         urlRequest.addValue("text/event-stream", forHTTPHeaderField: "Accept")
         urlRequest.addValue(xToken, forHTTPHeaderField: "X-Token")
         urlRequest.addValue(uuid, forHTTPHeaderField: "x-trace-id")
-        
-        // Define headers
-           let headers: HTTPHeaders = [
-               "X-Token": xToken,
-               "Accept": "text/event-stream",
-               "x-trace-id": uuid
-           ]
-        // Now Execute
-        //AF.request(url, headers: headers)
+
         AF.upload(url, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
             // Current upload progress of file
@@ -147,9 +136,11 @@ struct UploadUtil {
                     let strData = String(data: resData, encoding: String.Encoding.utf8)
 #if DEBUG
                     print(strData ?? "")
-                    
 #endif
-                    
+                    if (strData?.contains("无效UploadID") ?? false){
+                        listener?.uploadFailed(msg: "无效UploadID");
+                        return
+                    }
                     let lines = (strData ?? "").split(separator: "\n")
                            var event = ""
                            var data = ""
@@ -171,8 +162,13 @@ struct UploadUtil {
                                     }
                                     
                                    if (myResult?.percentage == 100){
-                                        //上传成功
-                                       listener?.uploadSuccess(path: myResult?.data?.origin_url ?? "", isVideo: true)
+                                       //let urls = myResult?.data
+                                       if let urls = myResult?.data{
+                                           //上传成功
+                                           listener?.uploadSuccess(paths:urls , isVideo: true)
+                                       }else{
+                                           listener?.uploadFailed(msg: "上传100%，但没返回路径");
+                                       }
                                     }else{
                                         //正常上传
                                         listener?.uploadProgress(progress: myResult?.percentage ?? 0);

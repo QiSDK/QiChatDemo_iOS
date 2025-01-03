@@ -70,13 +70,7 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                         return
                     }
                     
-                    Utiles().generateThumbnail(path: videoURL) { img in
-                        print("视频缩略图\(String(describing: img?.cgImage?.width))");
-                        self.upload(imgData: videoData, isVideo: true, thumbnail: img?.jpegData(compressionQuality: 0.8))
-                    }
-                    
-                  
-                   
+                    self.upload(imgData: videoData, isVideo: true)
                     picker.dismiss(animated: true)
                 }
             }
