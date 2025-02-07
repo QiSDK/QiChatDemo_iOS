@@ -65,7 +65,7 @@ public var userLevel = 8
 //动态生成
 //public var CONSULT_ID: Int32 = 1
 var xToken = ""
-public var userName = "Wang Wu iOS"
+public var userName = "王五"
 public var maxSessionMinus = 19999999
 public var domain = ""  //domain
 //var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
