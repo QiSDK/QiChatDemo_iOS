@@ -20,7 +20,7 @@ protocol UploadListener {
     
     /// Called to indicate the upload progress.
     /// - Parameter progress: The progress of the upload as an integer percentage (0-100).
-    func uploadProgress(progress: Int)
+    func updateProgress(progress: Int)
     
     /// Called when the upload fails.
     /// - Parameter msg: A message describing the failure.
@@ -50,6 +50,10 @@ struct UploadUtil {
         let parameterDict = NSMutableDictionary()
         parameterDict.setValue(4, forKey: "type")
         // parameterDict.setValue("phot.png", forKey: "myFile")
+        
+        if isVideo{
+            listener?.updateProgress(progress: uploadProgress);
+        }
         
         // Now Execute
         AF.upload(multipartFormData: { multiPart in
@@ -90,6 +94,12 @@ struct UploadUtil {
                         }
           
                     }else if data.response?.statusCode == 202{
+                        if uploadProgress < 70{
+                            uploadProgress = 70
+                        }else{
+                            uploadProgress += 10
+                        }
+                        listener?.updateProgress(progress: uploadProgress)
                         let myResult = BaseRequestResult<String>.deserialize(from: dic)
                         if !(myResult?.data ?? "").isEmpty{
                             //开始订阅视频上传
@@ -171,7 +181,7 @@ struct UploadUtil {
                                        }
                                     }else{
                                         //正常上传
-                                        listener?.uploadProgress(progress: myResult?.percentage ?? 0);
+                                        listener?.updateProgress(progress: myResult?.percentage ?? 0);
                                     }
                                }
                            }

@@ -88,6 +88,7 @@ let timeColor = kHexColor(0xC4C4C4)
 
 let chatBackColor = UIColor.systemGray
 let panelBack = UIColor.lightGray
+var uploadProgress = 0;
 
 let serverDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 

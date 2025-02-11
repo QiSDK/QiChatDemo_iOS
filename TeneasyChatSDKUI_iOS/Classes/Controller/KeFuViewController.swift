@@ -443,6 +443,12 @@ open class KeFuViewController: UIViewController, UploadListener{
        if !isConnected{
            initSDK(baseUrl: domain)
        }
+       
+       //上传视频的时候，在这里更新上传进度，对接开发人员可以有自己的办法，和聊天sdk无关。
+       if (uploadProgress > 0 && (uploadProgress < 67 || uploadProgress >= 70) && uploadProgress < 96){
+           uploadProgress += 5
+           updateProgress(progress: uploadProgress)
+       }
     }
 
     //定时检查SDK连接状态
@@ -511,7 +517,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool) {
         WWProgressHUD.showLoading("正在上传...")
-        
+        uploadProgress = 1
         UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo)
     }
     
@@ -523,16 +529,19 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
         print("上传进度：100% \(Date())")
         WWProgressHUD.dismiss()
+        uploadProgress = 0
     }
     
-    func uploadProgress(progress: Int) {
-        WWProgressHUD.dismiss()
+    func updateProgress(progress: Int) {
+        //WWProgressHUD.dismiss()
         WWProgressHUD.showLoading("上传进度：\(progress)%")
         print("上传进度：\(progress)% \(Date())")
+
     }
     
     func uploadFailed(msg: String) {
         WWProgressHUD.showFailure(msg)
+        uploadProgress = 0
     }
 
     @objc func keyboardWillChangeFrame(node: Notification) {
