@@ -241,7 +241,7 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     //产生一个本地文本消息
-    func composeALocalTxtMessage(textMsg: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
+    func composeALocalTxtMessage(textMsg: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0) -> CommonMessage {
         // 第一层
         var content = CommonMessageContent()
         content.data = textMsg
@@ -251,6 +251,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.content = content
         msg.sender = 0
         msg.chatID = 0
+        msg.replyMsgID = replyMsgId
         msg.msgID = msgId
         msg.payload = .content(content)
         msg.worker = 0
@@ -264,7 +265,7 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     //产生一个本地图片消息
-    func composeALocalImgMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0)  -> CommonMessage {
+    func composeALocalImgMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0)  -> CommonMessage {
         // 第一层
         var content = CommonMessageImage()
         content.uri = url
@@ -275,7 +276,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.image = content
         msg.sender = 0
         msg.msgID = msgId
-
+        msg.replyMsgID = replyMsgId
         msg.chatID = 0
         msg.payload = .image(content)
         msg.worker = 0
@@ -290,7 +291,7 @@ extension KeFuViewController: teneasySDKDelegate {
     
     
     //产生一个本地视频消息
-    func composeALocalVideoMessage(url: String, thumb: String, hls: String, timeInS: String? = nil, msgId: Int64 = 0) -> CommonMessage {
+    func composeALocalVideoMessage(url: String, thumb: String, hls: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0) -> CommonMessage {
         // 第一层
         var content = CommonMessageVideo()
         content.uri = url
@@ -303,7 +304,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.video = content
         msg.sender = 0
         msg.msgID = msgId
-
+        msg.replyMsgID = replyMsgId
         msg.chatID = 0
         msg.payload = .video(content)
         msg.worker = 0

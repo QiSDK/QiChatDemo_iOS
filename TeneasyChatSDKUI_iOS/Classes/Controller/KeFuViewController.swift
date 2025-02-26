@@ -320,7 +320,7 @@ open class KeFuViewController: UIViewController, UploadListener{
                             replayQuote = "[视频]"
                         }
                     }
-                    chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId)
+                    chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     chatModel.replayQuote = replayQuote
                     datasouceArray.append(chatModel)
                 }
@@ -330,16 +330,16 @@ open class KeFuViewController: UIViewController, UploadListener{
                     datasouceArray.append(chatModel)
                 }
                 else if item.msgFmt == "MSG_TEXT"{
-                    chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId)
+                    chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_IMG"{
                     chatModel.cellType = .TYPE_Image
                     //print(item.image?.uri ?? "")
-                    chatModel.message = composeALocalImgMessage(url: item.image?.uri ?? "", timeInS: item.msgTime, msgId: msgId)
+                    chatModel.message = composeALocalImgMessage(url: item.image?.uri ?? "", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_VIDEO"{
                     chatModel.cellType = .TYPE_VIDEO
-                    chatModel.message = composeALocalVideoMessage(url:  item.video?.uri ?? "", thumb: item.video?.thumbnailUri ?? "", hls: item.video?.hlsUri ?? "", timeInS: item.msgTime, msgId: msgId)
+                    chatModel.message = composeALocalVideoMessage(url:  item.video?.uri ?? "", thumb: item.video?.thumbnailUri ?? "", hls: item.video?.hlsUri ?? "", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
                 }
             }

@@ -27,6 +27,12 @@ protocol UploadListener {
     func uploadFailed(msg: String)
 }
 
+/*
+ ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".jfif", ".heic": // 图片
+ ".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".webm": // 视频
+ ".docx", ".doc", ".pdf", ".xls", ".xlsx", ".csv": // 文件
+ */
+
 struct UploadUtil {
     
     var  listener : UploadListener?;
@@ -49,11 +55,8 @@ struct UploadUtil {
         // Set Your Parameter
         let parameterDict = NSMutableDictionary()
         parameterDict.setValue(4, forKey: "type")
-        // parameterDict.setValue("phot.png", forKey: "myFile")
-        
-        if isVideo{
-            listener?.updateProgress(progress: uploadProgress);
-        }
+ 
+        listener?.updateProgress(progress: uploadProgress);
         
         // Now Execute
         AF.upload(multipartFormData: { multiPart in

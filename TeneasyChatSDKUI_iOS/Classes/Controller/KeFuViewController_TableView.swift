@@ -61,9 +61,6 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.model = model
       
-            
-     
-            
             cell.qaClickBlock = { [weak self] (model: QA) in
 
                 let questionTxt = model.question?.content?.data ?? ""
@@ -127,6 +124,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 cell.displayIconImg(path: self.avatarPath)
+                cell.showOriginalBack = {
+                    print(model.replayQuote)
+                    self.showOriginal(model: model)
+                }
                 return cell
             } else {
                 let cell = BWChatRightCell.cell(tableView: tableView)
@@ -140,8 +141,31 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.showMenu(gesure, model: model, indexPath: indexPath)
                     }
                 }
+                cell.showOriginalBack = {
+                    print(model.replayQuote)
+                    self.showOriginal(model: model)
+                }
                
                 return cell
+            }
+        }
+    }
+    
+    func showOriginal(model: ChatModel){
+        let myModel = self.datasouceArray.filter({ p in
+            p.message?.msgID == model.message?.replyMsgID
+        })
+        
+        if let m = myModel.first, let path = m.message?.image.uri, !path.isEmpty{
+            if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
+                playImageFullScreen(url: imgUrl)
+            }
+        }
+        
+        if let m = myModel.first, let path = m.message?.video.uri, !path.isEmpty{
+            if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
+                
+                playVideoFullScreen(url: imgUrl)
             }
         }
     }
@@ -184,6 +208,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func playVideoFullScreen(url: URL) {
+        print(url.absoluteString)
         let vc = KeFuVideoViewController()
         vc.configure(with: url, workerName: workerName)
         vc.modalPresentationStyle = .fullScreen
@@ -197,15 +222,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         present(vc, animated: false, completion: nil)
     }
     
-    
-
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datasouceArray.count
     }
-
-//    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//
-//    }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = datasouceArray[indexPath.row]

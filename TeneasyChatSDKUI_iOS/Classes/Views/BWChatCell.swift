@@ -13,11 +13,12 @@ import UIKit
 import TeneasyChatSDK_iOS
 
 typealias BWChatCellLongGestCallBack = (UILongPressGestureRecognizer) -> ()
+typealias BWShowOriginalClickBlock = () -> ()
 
 class BWChatCell: UITableViewCell {
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
-    
+    var showOriginalBack: BWShowOriginalClickBlock?
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -373,11 +374,21 @@ class BWChatRightCell: BWChatCell {
         // tapGesture.cancelsTouchesInView = false
         self.loadingView.addGestureRecognizer(tapGesture)
         self.loadingView.isUserInteractionEnabled = true
+
+        // Add tap gesture recognizer to the label
+        let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
+        self.replyQuoteLabel.addGestureRecognizer(tapShowOriginalGesture)
+
+        self.replyQuoteLabel.isUserInteractionEnabled = true
     }
 
     @objc func clickErrorIcon() {
         print("Resend tapped")
         self.resendBlock!(self.titleLab.text ?? "")
+    }
+    
+    @objc func showOriginal() {
+        self.showOriginalBack!()
     }
     
     override func initTitle(msg: CommonMessage) {

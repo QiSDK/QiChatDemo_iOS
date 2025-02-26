@@ -11,8 +11,11 @@ import UIKit
 
 //typealias BWVideoCellClickBlock = () -> ()
 
+
+
 class BWImageCell: UITableViewCell {
     var playBlock: BWVideoCellClickBlock?
+
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
     var boarder = 3
