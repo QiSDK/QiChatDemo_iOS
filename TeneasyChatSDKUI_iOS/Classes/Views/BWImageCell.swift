@@ -133,12 +133,16 @@ class BWImageCell: UITableViewCell {
          }
          */
         
-        //if (ext == "pdf"){
-        
-        //var dd = UIImage(named: "qiliaoicon_withback", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        let dd = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-            self.thumbnail.image = dd
-        //}
+        //"docx","doc","pdf", "xls", "xlsx", "csv"
+        var fileIcon = UIImage(named: "unknown_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        if (ext == "pdf"){
+            fileIcon = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        }else if (ext == "xls" || ext == "xlsx" || ext == "csv"){
+            fileIcon = UIImage(named: "excel_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        }else if (ext == "doc" || ext == "docx"){
+            fileIcon = UIImage(named: "word_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        }
+        self.thumbnail.image = fileIcon
     }
     
     
