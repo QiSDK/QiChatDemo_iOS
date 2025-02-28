@@ -8,7 +8,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = BWTipCell()
             cell.model = model
             return cell
-        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
+        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image || model.cellType == .TYPE_File{
             if model.isLeft {
                 let cell = BWImageLeftCell.cell(tableView: tableView)
                 cell.longGestCallBack = { [weak self] gesure in
@@ -23,7 +23,11 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 if model.cellType == .TYPE_Image{
                     cell.playBtn.isHidden = true
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
-                }else{
+                } else  if model.cellType == .TYPE_File{
+                    cell.playBtn.isHidden = true
+                    cell.displayFileThumbnail(path: model.message?.file.uri ?? "")
+                }
+                else{
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
                 return cell
@@ -42,7 +46,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 if model.cellType == .TYPE_Image{
                     cell.playBtn.isHidden = true
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
-                }else{
+                } else  if model.cellType == .TYPE_File{
+                    cell.playBtn.isHidden = true
+                    cell.displayFileThumbnail(path: model.message?.file.uri ?? "")
+                } else{
                     //cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
@@ -156,6 +163,12 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             p.message?.msgID == model.message?.replyMsgID
         })
         
+        if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty{
+            if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
+                playImageFullScreen(url: imgUrl)
+            }
+        }
+        
         if let m = myModel.first, let path = m.message?.image.uri, !path.isEmpty{
             if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
                 playImageFullScreen(url: imgUrl)
@@ -164,7 +177,6 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let m = myModel.first, let path = m.message?.video.uri, !path.isEmpty{
             if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
-                
                 playVideoFullScreen(url: imgUrl)
             }
         }
