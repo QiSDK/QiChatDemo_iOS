@@ -3,7 +3,7 @@ use_frameworks!
 platform :ios, '12.0'
 
 target 'QL-Demo_Example' do
-#  pod 'TeneasyChatSDKUI_iOS', :git => 'https://github.com/tianxuefeng/TeneasyChatSDKUI_iOS.git'
+# pod 'TeneasyChatSDKUI_iOS', :git => 'https://github.com/tianxuefeng/TeneasyChatSDKUI_iOS.git'
   pod 'TeneasyChatSDKUI_iOS', :path => '../'
   pod 'SnapKit', '~> 5.0.1'
   pod 'IQKeyboardManagerSwift', '~> 6.5.9'

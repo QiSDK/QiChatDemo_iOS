@@ -187,10 +187,14 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        if model.cellType == .TYPE_Image{
+        if model.cellType == .TYPE_Image || model.cellType == .TYPE_File{
             //let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
             var urlcomps = URLComponents(string: baseUrlImage)
             urlcomps?.path = msg.image.uri
+            
+            if model.cellType == .TYPE_File{
+                urlcomps?.path = msg.file.uri
+            }
             
             guard let imgUrl = urlcomps?.url else {
                 WWProgressHUD.showFailure("无效的图片链接")

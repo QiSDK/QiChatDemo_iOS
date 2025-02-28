@@ -134,7 +134,9 @@ class BWImageCell: UITableViewCell {
          */
         
         //if (ext == "pdf"){
-        var dd = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        
+        //var dd = UIImage(named: "qiliaoicon_withback", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        let dd = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
             self.thumbnail.image = dd
         //}
     }
