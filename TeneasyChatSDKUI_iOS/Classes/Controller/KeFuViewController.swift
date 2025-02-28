@@ -402,28 +402,20 @@ open class KeFuViewController: UIViewController, UploadListener{
             WWProgressHUD.showInfoMsg("消息不能为空")
             return
         }
+        lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
+        
+        //lib.sendMessage(msg: "/session/tenant_230/20250227/Documents/31373430363530373836333432d41d8cd98f00b204e9800998ecf8427e.xlsx", type: .msgFile, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
+        
+        
         if replyBar.superview != nil && replyBar.msg != nil{
-            if let msg = replyBar.msg{
-                if !msg.image.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
-                }else if !msg.video.uri.isEmpty{
-                    lib.sendMessage(msg: textMsg , type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply) //+ "\n 回复：视频"
-                }else{
-                    lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
-                }
-            }
-            //replyBar.removeFromSuperview()
             replyBar.snp.updateConstraints { make in
                 make.top.equalTo(self.toolBar.snp.top)
             }
             replyBar.msg = nil
-        }else{
-            lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, withAutoReply: self.withAutoReply)
         }
-        
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
-          
+            //appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: CellType.TYPE_File)
         }
     }
 

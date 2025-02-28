@@ -121,18 +121,6 @@ class BWImageCell: UITableViewCell {
     func displayFileThumbnail(path: String) {
         var ext = (path.split(separator: ".").last ?? "").lowercased()
         
-        /*
-         switch self {
-         case .useDefaultKeys: return key
-         case .convertToSnakeCase: return convertToSnakeCase(key)
-         case .convertToKebabCase: return convertToKebabCase(key)
-         case .capitalized: return String(key.prefix(1).uppercased() + key.dropFirst())
-         case .uppercased: return key.uppercased()
-         case .lowercased: return key.lowercased()
-         case let .custom(encoding): return encoding(key)
-         }
-         */
-        
         //"docx","doc","pdf", "xls", "xlsx", "csv"
         var fileIcon = UIImage(named: "unknown_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         if (ext == "pdf"){
@@ -144,8 +132,6 @@ class BWImageCell: UITableViewCell {
         }
         self.thumbnail.image = fileIcon
     }
-    
-    
     
     func initImg(imgUrl: URL) {
        // let processor = DownsamplingImageProcessor(size: thumbnail.bounds.size)
