@@ -113,10 +113,21 @@ class BWChatCell: UITableViewCell {
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
         self.titleLab.addGestureRecognizer(self.gesture!)
+        
+        
+        // Add tap gesture recognizer to the label
+        let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
+        self.replyQuoteLabel.addGestureRecognizer(tapShowOriginalGesture)
+
+        self.replyQuoteLabel.isUserInteractionEnabled = true
     }
 
     @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
         self.longGestCallBack?(tap)
+    }
+    
+    @objc func showOriginal() {
+        self.showOriginalBack!()
     }
     
     override func prepareForReuse() {
@@ -374,21 +385,11 @@ class BWChatRightCell: BWChatCell {
         // tapGesture.cancelsTouchesInView = false
         self.loadingView.addGestureRecognizer(tapGesture)
         self.loadingView.isUserInteractionEnabled = true
-
-        // Add tap gesture recognizer to the label
-        let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
-        self.replyQuoteLabel.addGestureRecognizer(tapShowOriginalGesture)
-
-        self.replyQuoteLabel.isUserInteractionEnabled = true
     }
 
     @objc func clickErrorIcon() {
         print("Resend tapped")
         self.resendBlock!(self.titleLab.text ?? "")
-    }
-    
-    @objc func showOriginal() {
-        self.showOriginalBack!()
     }
     
     override func initTitle(msg: CommonMessage) {

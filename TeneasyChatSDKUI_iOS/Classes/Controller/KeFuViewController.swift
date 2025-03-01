@@ -318,6 +318,8 @@ open class KeFuViewController: UIViewController, UploadListener{
                             replayQuote = "[图片]"
                         }else if(oriMsg?.msgFmt == "MSG_VIDEO"){
                             replayQuote = "[视频]"
+                        }else if(oriMsg?.msgFmt == "MSG_FILE"){
+                            replayQuote = "[文件]"
                         }
                     }
                     chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)

@@ -75,6 +75,8 @@ extension KeFuViewController: teneasySDKDelegate {
                         replayQuote = "[视频]"
                     }else if !(model.message?.image.uri ?? "").isEmpty {
                         replayQuote = "[图片]"
+                    }else if !(model.message?.file.uri ?? "").isEmpty {
+                        replayQuote = "[文件]"
                     }
                     let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
@@ -132,6 +134,8 @@ extension KeFuViewController: teneasySDKDelegate {
                             replyQuote = "[视频]"
                         }else if !(model.message?.image.uri ?? "").isEmpty {
                             replyQuote = "[图片]"
+                        }else if !(model.message?.file.uri ?? "").isEmpty {
+                            replyQuote = "[文件]"
                         }
                         let newText = "\(msg.content.data)"
                         datasouceArray[index!].replayQuote = replyQuote ?? ""

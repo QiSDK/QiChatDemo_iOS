@@ -133,6 +133,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.displayIconImg(path: self.avatarPath)
                 cell.showOriginalBack = {
                     print(model.replayQuote)
+                    //WWProgressHUD.showLoading()
                     self.showOriginal(model: model)
                 }
                 return cell
@@ -150,6 +151,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.showOriginalBack = {
                     print(model.replayQuote)
+                    //WWProgressHUD.showLoading()
                     self.showOriginal(model: model)
                 }
                

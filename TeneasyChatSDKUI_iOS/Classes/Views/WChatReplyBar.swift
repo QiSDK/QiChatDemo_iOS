@@ -100,8 +100,10 @@ class WChatReplyBar: WBaseView {
     func updateUI(with chatModel:ChatModel) {
         msg = chatModel.message
         titleLabel.text = "回复 "
-        
-        if !(msg?.image.uri ?? "").isEmpty{
+        if !(msg?.file.uri ?? "").isEmpty{
+            contentLabel.text = "[文件]"
+        }
+        else if !(msg?.image.uri ?? "").isEmpty{
             contentLabel.text = "[图片]"
         }else if !(msg?.video.uri ?? "").isEmpty{
             contentLabel.text = "[视频]"
