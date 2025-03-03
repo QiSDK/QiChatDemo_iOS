@@ -119,7 +119,7 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayFileThumbnail(path: String) {
-        var ext = (path.split(separator: ".").last ?? "").lowercased()
+        let ext = (path.split(separator: ".").last ?? "").lowercased()
         
         //"docx","doc","pdf", "xls", "xlsx", "csv"
         var fileIcon = UIImage(named: "unknown_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)

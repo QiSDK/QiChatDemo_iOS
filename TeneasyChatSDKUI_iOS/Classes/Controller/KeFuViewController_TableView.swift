@@ -212,8 +212,6 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             }
             let videoUrl = URL(string: "\(baseUrlImage)\(m3u8)")
             
-            
-            
             if videoUrl == nil {
                 WWProgressHUD.showFailure("无效的播放链接")
             }else{
@@ -301,9 +299,11 @@ extension KeFuViewController {
         }
         menu.menuItems = [item1, item2]
         
-        if (model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO){
+        if (model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO  || model?.cellType == .TYPE_File){
             var imgUrl = ""
-            if model?.cellType == .TYPE_Image{
+            if model?.cellType == .TYPE_File{
+                imgUrl = model?.message?.file.uri ?? ""
+            }  else if model?.cellType == .TYPE_Image{
                 imgUrl = model?.message?.image.uri ?? ""
             }else {
                 imgUrl = model?.message?.video.uri ?? ""

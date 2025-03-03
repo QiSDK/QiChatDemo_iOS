@@ -4,6 +4,14 @@ extension KeFuViewController: BWKeFuChatToolBarV2Delegate {
     
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedMenu btn: UIButton) {}
     
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectFile btn: UIButton) {
+        
+    }
+    
+    func toolBar(toolBar: BWKeFuChatToolBarV2, disSelectedFile btn: UIButton) {
+        openDocumentPicker()
+    }
+    
     /// 表情
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedEmoji btn: UIButton) {}
     

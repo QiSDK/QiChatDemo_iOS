@@ -19,6 +19,7 @@ protocol BWKeFuChatToolBarV2Delegate: AnyObject {
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedMenu btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedPhoto btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedCamera btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, disSelectedFile btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSendMsg btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedEmoji btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, sendVoice gesture: UILongPressGestureRecognizer)
@@ -85,6 +86,18 @@ class BWKeFuChatToolBarV2: UIView {
         } else {
         }
         btn.setImage(selImage, for: .selected)
+
+        return btn
+    }()
+    
+    private lazy var fileBtn: WButton = {
+        let btn = WButton()
+        var image = UIImage.init(named: "file_icon", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        if #available(iOS 13.0, *) {
+            image = image?.withTintColor(UIColor.systemGray)
+        } else {
+        }
+        btn.setImage(image, for: .normal)
 
         return btn
     }()
@@ -205,6 +218,14 @@ class BWKeFuChatToolBarV2: UIView {
             make.width.height.equalTo(photoBtn.snp.width)
         }
         
+        //文件选择按钮
+        addSubview(fileBtn)
+        fileBtn.snp.makeConstraints { make in
+            make.left.equalTo(emojiBtn.snp.right).offset(5)
+            make.centerY.equalTo(photoBtn.snp.centerY)
+            make.width.height.equalTo(photoBtn.snp.width)
+        }
+        
         addSubview(sendBtn)
         sendBtn.snp.makeConstraints { make in
             make.right.equalTo(textView.snp.right)
@@ -236,6 +257,7 @@ class BWKeFuChatToolBarV2: UIView {
         photoBtn.addTarget(self, action: #selector(photoBtnAction(sender:)), for: UIControl.Event.touchUpInside)
         cameraBtn.addTarget(self, action: #selector(cameraBtnAction(sender:)), for: UIControl.Event.touchUpInside)
         sendBtn.addTarget(self, action: #selector(sendBtnAction(sender:)), for: UIControl.Event.touchUpInside)
+        fileBtn.addTarget(self, action: #selector(fileBtnAction(sender:)), for: UIControl.Event.touchUpInside)
         emojiBtn.addTarget(self, action: #selector(emojiBtnAction(sender:)), for: UIControl.Event.touchUpInside)
                 
         /// 主动调一下懒加载，提前创建好两个视图
@@ -281,6 +303,9 @@ extension BWKeFuChatToolBarV2 {
     }
     @objc private func sendBtnAction(sender: UIButton) {
         delegate?.toolBar(toolBar: self, didSendMsg: sender)
+    }
+    @objc private func fileBtnAction(sender: UIButton) {
+        delegate?.toolBar(toolBar: self, disSelectedFile: sender)
     }
     
     /// 表情

@@ -38,7 +38,7 @@ struct UploadUtil {
     var  listener : UploadListener?;
     
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool) {
+    func upload(imgData: Data, isVideo: Bool, filePath: String?) {
         //WWProgressHUD.showLoading("正在上传...")
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
@@ -68,7 +68,12 @@ struct UploadUtil {
                     multiPart.append("\(temp)".data(using: .utf8)!, withName: key as! String)
                 }
             }
-            if (isVideo) {
+            
+            let ext = filePath?.split(separator: ".").last?.lowercased() ?? "$"
+            if (filePath != nil &&  fileTypes.contains(ext)){
+                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: getMimeType(for: ext))
+            }
+            else if (isVideo) {
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
             } else {
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
@@ -203,6 +208,19 @@ struct UploadUtil {
                 print("图片上传失败：" + error.localizedDescription)
             }
         })
+    }
+    
+    private func getMimeType(for ext: String) -> String {
+        switch ext.lowercased() {
+        case "pdf":
+            return "application/pdf"
+        case "doc", "docx":
+            return "application/msword"
+        case "xls", "xlsx":
+            return "application/vnd.ms-excel"
+        default:
+            return "*/*"
+        }
     }
 }
 

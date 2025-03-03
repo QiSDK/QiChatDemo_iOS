@@ -11,6 +11,7 @@ import Network
 import PhotosUI
 import TeneasyChatSDK_iOS
 import UIKit
+import MobileCoreServices
 
 //客服聊天页面
 open class KeFuViewController: UIViewController, UploadListener{
@@ -45,6 +46,9 @@ open class KeFuViewController: UIViewController, UploadListener{
         pick.delegate = self
         return pick
     }()
+    
+    var documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypeData)], in: .open)
+    
 
     lazy var headerView: UIView = {
         let v = UIView(frame: CGRect.zero)
@@ -429,6 +433,13 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
     }
     
+    func sendFile(url: String) {
+        lib.sendMessage(msg: url, type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply)
+        if let cMsg = lib.sendingMsg {
+            appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_File)
+        }
+    }
+    
     func sendVideoMessage(url: String, thumb: String, hls: String) {
         lib.sendVideoMessage(url: url, thumbnailUri: thumb, hlsUri: hls, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
@@ -514,17 +525,20 @@ open class KeFuViewController: UIViewController, UploadListener{
      * }
      */
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool) {
+    func upload(imgData: Data, isVideo: Bool, filePath: String? = nil) {
         WWProgressHUD.showLoading("正在上传...")
         uploadProgress = 1
-        UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo)
+        UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo, filePath: filePath)
     }
     
     func uploadSuccess(paths: Urls, isVideo: Bool) {
-        if !isVideo{
+        let ext = paths.uri?.split(separator: ".").last?.lowercased() ?? "#"
+        if imageTypes.contains(ext){
             self.sendImage(url: paths.uri ?? "")
-        }else{
+        }else if videoTypes.contains(ext){
             self.sendVideoMessage(url: paths.uri ?? "", thumb: paths.thumbnailUri, hls: paths.hlsUri ?? "")
+        }else{
+            self.sendFile(url: paths.uri ?? "")
         }
         print("上传进度：100% \(Date())")
         WWProgressHUD.dismiss()
