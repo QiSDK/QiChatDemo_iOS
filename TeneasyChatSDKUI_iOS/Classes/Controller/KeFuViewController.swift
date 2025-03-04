@@ -525,10 +525,10 @@ open class KeFuViewController: UIViewController, UploadListener{
      * }
      */
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool, filePath: String? = nil) {
+    func upload(imgData: Data, isVideo: Bool, filePath: String? = nil, size: Int = 0) {
         WWProgressHUD.showLoading("正在上传...")
         uploadProgress = 1
-        UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo, filePath: filePath)
+        UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo, filePath: filePath, size: size)
     }
     
     func uploadSuccess(paths: Urls, isVideo: Bool) {

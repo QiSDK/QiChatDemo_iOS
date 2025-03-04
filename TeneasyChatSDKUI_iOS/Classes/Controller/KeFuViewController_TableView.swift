@@ -298,7 +298,6 @@ extension KeFuViewController {
             self.copyData(model: model, indexPath: indexPath)
         }
        
-        
         if (model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO  || model?.cellType == .TYPE_File){
             var imgUrl = ""
             if model?.cellType == .TYPE_File{

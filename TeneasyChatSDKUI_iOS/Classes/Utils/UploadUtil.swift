@@ -16,7 +16,7 @@ protocol UploadListener {
     /// - Parameters:
     ///   - path: The path of the uploaded file.
     ///   - isVideo: A Boolean indicating whether the uploaded file is a video.
-    func uploadSuccess(paths: Urls, isVideo: Bool)
+    func uploadSuccess(paths: Urls, isVideo: Bool, filePath: String?, size: Int)
     
     /// Called to indicate the upload progress.
     /// - Parameter progress: The progress of the upload as an integer percentage (0-100).
@@ -38,7 +38,7 @@ struct UploadUtil {
     var  listener : UploadListener?;
     
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool, filePath: String?) {
+    func upload(imgData: Data, isVideo: Bool, filePath: String?, fileSize: Int = 0) {
         //WWProgressHUD.showLoading("正在上传...")
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
@@ -97,7 +97,7 @@ struct UploadUtil {
                         if let path = myResult?.data?.filepath{
                             let urls = Urls()
                             urls.uri = path
-                            listener?.uploadSuccess(paths: urls, isVideo: false)
+                            listener?.uploadSuccess(paths: urls, isVideo: false, filePath: filePath, size: fileSize)
                             return
                         }
           
@@ -115,14 +115,13 @@ struct UploadUtil {
                             return
                         }
                     }
-                    listener?.uploadFailed(msg: "图片上传失败\(strData)");
+                    listener?.uploadFailed(msg: "上传失败\(strData)");
                 } else {
-                    print("图片上传失败：")
-                    listener?.uploadFailed(msg: "图片上传失败");
+                    listener?.uploadFailed(msg: "上传失败");
                 }
             case .failure(let error):
-                listener?.uploadFailed(msg: "图片上传失败");
-                print("图片上传失败：" + error.localizedDescription)
+                listener?.uploadFailed(msg: "上传失败");
+                print("上传失败：" + error.localizedDescription)
             }
         })
     }
@@ -183,7 +182,7 @@ struct UploadUtil {
                                        //let urls = myResult?.data
                                        if let urls = myResult?.data{
                                            //上传成功
-                                           listener?.uploadSuccess(paths:urls , isVideo: true)
+                                           listener?.uploadSuccess(paths:urls , isVideo: true, filePath: nil, size: 0)
                                        }else{
                                            listener?.uploadFailed(msg: "上传100%，但没返回路径");
                                        }
@@ -200,12 +199,12 @@ struct UploadUtil {
                     
                  
                 } else {
-                    print("图片上传失败：")
-                    listener?.uploadFailed(msg: "上传失败！");
+                    print("视频上传失败：")
+                    listener?.uploadFailed(msg: "视频上传失败！");
                 }
             case .failure(let error):
-                listener?.uploadFailed(msg: "上传失败！");
-                print("图片上传失败：" + error.localizedDescription)
+                listener?.uploadFailed(msg: "视频上传失败！");
+                print("视频上传失败：" + error.localizedDescription)
             }
         })
     }
