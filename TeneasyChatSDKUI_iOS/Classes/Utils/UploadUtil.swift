@@ -75,7 +75,7 @@ struct UploadUtil {
             }
             else if (isVideo) {
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
-            } else {
+            } else if (imageTypes.contains(ext)){
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
             }
         }, with: urlRequest)
@@ -216,7 +216,7 @@ struct UploadUtil {
             return "application/pdf"
         case "doc", "docx":
             return "application/msword"
-        case "xls", "xlsx":
+        case "xls", "xlsx", "csv":
             return "application/vnd.ms-excel"
         default:
             return "*/*"

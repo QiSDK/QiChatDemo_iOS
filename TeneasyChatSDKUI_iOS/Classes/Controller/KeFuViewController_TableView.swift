@@ -297,7 +297,7 @@ extension KeFuViewController {
         let item2 = XMMenuItem(title: "复制") {
             self.copyData(model: model, indexPath: indexPath)
         }
-        menu.menuItems = [item1, item2]
+       
         
         if (model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO  || model?.cellType == .TYPE_File){
             var imgUrl = ""
@@ -322,7 +322,9 @@ extension KeFuViewController {
                    
                 }
             }
-            menu.menuItems = [item1, item2, item3]
+            menu.menuItems = [item1, item3]
+        }else{
+            menu.menuItems = [item1, item2]
         }
         guard let targetView = guesture.view else { return }
         menu.show(from: targetView, rect: CGRect(x: 0, y: 20, width: targetView.bounds.width, height: targetView.bounds.height), animated: true)
