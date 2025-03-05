@@ -75,6 +75,7 @@ class BWFileCell: UITableViewCell {
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
+        backgroundColor = .clear
         //self.contentView.backgroundColor = .red
         self.contentView.addSubview(self.contentBgView)
         self.contentView.addSubview(self.arrowView)
