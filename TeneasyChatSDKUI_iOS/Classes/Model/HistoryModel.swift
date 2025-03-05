@@ -39,7 +39,7 @@ struct Message: HandyJSON {
     var content: MessageContent?
     var image: imgUri?
     var video: Urls?
-    var file: imgUri?
+    var file: myFile?
     var workerChanged: AssignWorker?
 }
 
@@ -49,4 +49,10 @@ struct MessageContent: HandyJSON {
 
 struct imgUri: HandyJSON {
     var uri: String?
+}
+
+struct myFile: HandyJSON {
+    var uri: String?
+    var fileName: String?
+    var size: Int32?
 }

@@ -1,5 +1,5 @@
-import XMMenuPopover
 import TeneasyChatSDK_iOS
+import XMMenuPopover
 
 extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -8,7 +8,17 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = BWTipCell()
             cell.model = model
             return cell
-        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image || model.cellType == .TYPE_File{
+        } else if model.cellType == .TYPE_File {
+            if model.isLeft {
+                let cell = BWFileLeftCell.cell(tableView: tableView)
+                cell.model = model
+                return cell
+            } else {
+                let cell = BWFileRightCell.cell(tableView: tableView)
+                cell.model = model
+                return cell
+            }
+        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image {
             if model.isLeft {
                 let cell = BWImageLeftCell.cell(tableView: tableView)
                 cell.longGestCallBack = { [weak self] gesure in
@@ -20,14 +30,13 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.playBlock = { [weak self] in
                     self?.cellTaped(model: model)
                 }
-                if model.cellType == .TYPE_Image{
+                if model.cellType == .TYPE_Image {
                     cell.playBtn.isHidden = true
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
-                } else  if model.cellType == .TYPE_File{
+                } else if model.cellType == .TYPE_File {
                     cell.playBtn.isHidden = true
                     cell.displayFileThumbnail(path: model.message?.file.uri ?? "")
-                }
-                else{
+                } else {
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
                 return cell
@@ -43,14 +52,14 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     self?.cellTaped(model: model)
                 }
                 
-                if model.cellType == .TYPE_Image{
+                if model.cellType == .TYPE_Image {
                     cell.playBtn.isHidden = true
                     cell.displayThumbnail(path: model.message?.image.uri ?? "")
-                } else  if model.cellType == .TYPE_File{
+                } else if model.cellType == .TYPE_File {
                     cell.playBtn.isHidden = true
                     cell.displayFileThumbnail(path: model.message?.file.uri ?? "")
-                } else{
-                    //cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+                } else {
+                    // cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
                 return cell
@@ -76,7 +85,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 let q = self?.composeALocalTxtMessage(textMsg: questionTxt)
                 self?.appendDataSource(msg: q!, isLeft: false, status: .发送成功)
                 
-                //收集用户点击自动回复的记录
+                // 收集用户点击自动回复的记录
                 
                 self?.withAutoReply = CommonWithAutoReply()
                 self?.withAutoReply?.id = Int64(model.id ?? 0)
@@ -103,7 +112,6 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         uA.uri = answer.image?.uri ?? ""
                         userA.image = uA
              
-                        
                         self?.withAutoReply?.answers.append(userA)
                     } else if answer.content != nil {
                         let a = self?.composeALocalTxtMessage(textMsg: answer.content?.data ?? "empty")
@@ -133,7 +141,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.displayIconImg(path: self.avatarPath)
                 cell.showOriginalBack = {
                     print(model.replayQuote)
-                    //WWProgressHUD.showLoading()
+                    // WWProgressHUD.showLoading()
                     self.showOriginal(model: model)
                 }
                 return cell
@@ -151,7 +159,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.showOriginalBack = {
                     print(model.replayQuote)
-                    //WWProgressHUD.showLoading()
+                    // WWProgressHUD.showLoading()
                     self.showOriginal(model: model)
                 }
                
@@ -160,41 +168,41 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func showOriginal(model: ChatModel){
-        let myModel = self.datasouceArray.filter({ p in
+    func showOriginal(model: ChatModel) {
+        let myModel = self.datasouceArray.filter { p in
             p.message?.msgID == model.message?.replyMsgID
-        })
+        }
         
-        if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty{
-            if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
-                playImageFullScreen(url: imgUrl)
+        if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty {
+            if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
+                self.playImageFullScreen(url: imgUrl)
             }
         }
         
-        if let m = myModel.first, let path = m.message?.image.uri, !path.isEmpty{
-            if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
-                playImageFullScreen(url: imgUrl)
+        if let m = myModel.first, let path = m.message?.image.uri, !path.isEmpty {
+            if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
+                self.playImageFullScreen(url: imgUrl)
             }
         }
         
-        if let m = myModel.first, let path = m.message?.video.uri, !path.isEmpty{
-            if let imgUrl = URL(string: "\(baseUrlImage)\(path)"){
-                playVideoFullScreen(url: imgUrl)
+        if let m = myModel.first, let path = m.message?.video.uri, !path.isEmpty {
+            if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
+                self.playVideoFullScreen(url: imgUrl)
             }
         }
     }
     
-    func cellTaped(model: ChatModel){
+    func cellTaped(model: ChatModel) {
         guard let msg = model.message else {
             return
         }
         
-        if model.cellType == .TYPE_Image || model.cellType == .TYPE_File{
-            //let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
+        if model.cellType == .TYPE_Image || model.cellType == .TYPE_File {
+            // let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
             var urlcomps = URLComponents(string: baseUrlImage)
             urlcomps?.path = msg.image.uri
             
-            if model.cellType == .TYPE_File{
+            if model.cellType == .TYPE_File {
                 urlcomps?.path = msg.file.uri
             }
             
@@ -202,22 +210,22 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 WWProgressHUD.showFailure("无效的图片链接")
                 return
             }
-            playImageFullScreen(url: imgUrl)
-            print("图片地址:\(imgUrl.absoluteString )")
+            self.playImageFullScreen(url: imgUrl)
+            print("图片地址:\(imgUrl.absoluteString)")
             
-        }else{
+        } else {
             var m3u8 = msg.video.uri
-            if !msg.video.hlsUri.isEmpty{
+            if !msg.video.hlsUri.isEmpty {
                 m3u8 = msg.video.hlsUri
             }
             let videoUrl = URL(string: "\(baseUrlImage)\(m3u8)")
             
             if videoUrl == nil {
                 WWProgressHUD.showFailure("无效的播放链接")
-            }else{
-                //写死一个，仅测试
-                //videoUrl =  URL(string:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
-                playVideoFullScreen(url: videoUrl!)
+            } else {
+                // 写死一个，仅测试
+                // videoUrl =  URL(string:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
+                self.playVideoFullScreen(url: videoUrl!)
                 print("视频地址:\(videoUrl?.absoluteString ?? "")")
             }
         }
@@ -298,13 +306,13 @@ extension KeFuViewController {
             self.copyData(model: model, indexPath: indexPath)
         }
        
-        if (model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO  || model?.cellType == .TYPE_File){
+        if model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO || model?.cellType == .TYPE_File {
             var imgUrl = ""
-            if model?.cellType == .TYPE_File{
+            if model?.cellType == .TYPE_File {
                 imgUrl = model?.message?.file.uri ?? ""
-            }  else if model?.cellType == .TYPE_Image{
+            } else if model?.cellType == .TYPE_Image {
                 imgUrl = model?.message?.image.uri ?? ""
-            }else {
+            } else {
                 imgUrl = model?.message?.video.uri ?? ""
             }
             let item3 = XMMenuItem(title: "下载") {
@@ -318,11 +326,10 @@ extension KeFuViewController {
                         WWProgressHUD.showFailure("下载失败")
                         print(error)
                     }
-                   
                 }
             }
             menu.menuItems = [item1, item3]
-        }else{
+        } else {
             menu.menuItems = [item1, item2]
         }
         guard let targetView = guesture.view else { return }

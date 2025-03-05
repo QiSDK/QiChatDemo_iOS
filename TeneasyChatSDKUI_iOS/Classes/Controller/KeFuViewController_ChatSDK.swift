@@ -294,10 +294,12 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     //产生一个本地文件消息
-    func composeALocalFileMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0)  -> CommonMessage {
+    func composeALocalFileMessage(url: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0, fileSize: Int32, fileName: String)  -> CommonMessage {
         // 第一层
         var content = CommonMessageFile()
         content.uri = url
+        content.fileName = fileName
+        content.size = fileSize
         
         // 第二层, 消息主题
         var msg = CommonMessage()

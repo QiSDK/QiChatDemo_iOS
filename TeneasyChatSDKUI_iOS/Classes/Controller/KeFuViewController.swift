@@ -337,7 +337,7 @@ open class KeFuViewController: UIViewController, UploadListener{
                 }
                 else if item.msgFmt == "MSG_FILE"{
                     chatModel.cellType = .TYPE_File
-                    chatModel.message = composeALocalFileMessage(url: item.file?.uri ?? "unknown_default", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
+                    chatModel.message = composeALocalFileMessage(url: item.file?.uri ?? "unknown_default", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId, fileSize: item.file?.size ?? 0, fileName: item.file?.fileName ?? "")
                     datasouceArray.append(chatModel)
                 }
                 else if item.msgFmt == "MSG_TEXT"{

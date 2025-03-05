@@ -569,7 +569,7 @@
 		90ED1EF4ABA31F7DEDDD5D043CF52052 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE76BEA8F597A9EA2926EBFEE6E00D5 /* SVIndefiniteAnimatedView.m */; };
 		91267812E1837E1777607B1B148AF95E /* FormatIndicatedCacheSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5406B88B1FF868694F9F160A60C47630 /* FormatIndicatedCacheSerializer.swift */; };
 		91291CD014F03A2C7BEC0408BF50188E /* camera_light.svg in Resources */ = {isa = PBXBuildFile; fileRef = E7620D45FEC4E073BFAC2AB68A9067C4 /* camera_light.svg */; };
-		912B580455A279132A35A0FBC57839A7 /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS in Resources */ = {isa = PBXBuildFile; fileRef = 5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS */; };
+		912B580455A279132A35A0FBC57839A7 /* TeneasyChatSDKUI_iOS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS.bundle */; };
 		914C4DE301A79FB6E3BF3749593DA323 /* Element.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF4A1DE18B6453D8C99CF14D3F5FCAB /* Element.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		915AB05121AA6ABACD1CFD0808BE8FBE /* SessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C9BE4CF8C1D509EBDFAE14577E9780 /* SessionDataTask.swift */; };
 		91713E7E3336EC1CBA503614E12B8D22 /* CSSRuleList+Mutable.h in Headers */ = {isa = PBXBuildFile; fileRef = 34715A12D7E5BFEF3C961EF2A3FEFFC4 /* CSSRuleList+Mutable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -772,7 +772,7 @@
 		BEA084E260B2F85E4FB84A8E7B551F7B /* SnapKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BF2B047113C45698EB0FFC266A41E /* SnapKit-dummy.m */; };
 		C0067AF40C7E48662784429C714605E0 /* emoticon_98.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C903A5D8599AEBB6CB3FE50FED9791F /* emoticon_98.png */; };
 		C0834B60E2150E7B1CC02055D53FAEE4 /* SVProgressAnimatedView.h in Headers */ = {isa = PBXBuildFile; fileRef = AC742E25D7A1A06B0E128F66F66AA27E /* SVProgressAnimatedView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C0D1AE435FFC82F5CA91B676CB9310C6 /* CocoaLumberjack-CocoaLumberjackPrivacy in Resources */ = {isa = PBXBuildFile; fileRef = 519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjack-CocoaLumberjackPrivacy */; };
+		C0D1AE435FFC82F5CA91B676CB9310C6 /* CocoaLumberjackPrivacy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjackPrivacy.bundle */; };
 		C114B395248096CA23C1A7009AEB6097 /* emoticon_56.png in Resources */ = {isa = PBXBuildFile; fileRef = 62824F920F1B72FA735BE69E78AEE50A /* emoticon_56.png */; };
 		C150DCAB417E531F5429AEB7BB795679 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F061AE51C9BC24083149EC0B79F033F7 /* Properties.swift */; };
 		C1AD8D7E07E92B87CDE29E63C17BFAFA /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BFD617D5453F487A4F247C3EA84528 /* LayoutConstraintItem.swift */; };
@@ -804,7 +804,7 @@
 		C72F37CACEC780E304BA0B9D1077EFCC /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13C5CA79EA1BCB52C350E7D3E17ADB2 /* Response.swift */; };
 		C7665CC4D87B6B19379DCF2A7AE81480 /* XMMenuPopoverDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DFAB4B09909A6E6C2DC2DD887ED56AA /* XMMenuPopoverDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C79E66A1CD03B32922F5EFA9B94211C7 /* emoticon_60.png in Resources */ = {isa = PBXBuildFile; fileRef = C437F743E35B55A6DFF84CFA8AD5627E /* emoticon_60.png */; };
-		C87BA627F6FBEC8220A01A37943A608F /* SwiftProtobuf-SwiftProtobuf in Resources */ = {isa = PBXBuildFile; fileRef = 38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf-SwiftProtobuf */; };
+		C87BA627F6FBEC8220A01A37943A608F /* SwiftProtobuf.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf.bundle */; };
 		C92063DD64AE66E008E163741FB818EF /* right_chat_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 97200095F0DD6D7DB9C238D95A94D64C /* right_chat_bg.png */; };
 		C92B8E6E73E1616AFE1C8862BD493DF3 /* SVGTextLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = FD075119C88169BC6D0E9A827A256BDF /* SVGTextLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93F8464AE7DD6D2EFCB5576556AAC52 /* SVGGElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 21F701DE0EB95D61AEEBCAFFDDAC2E21 /* SVGGElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -901,6 +901,7 @@
 		DC6264869084B3499E06650F37111D54 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1139C5BE3C90E010FDD169D6C7422FC8 /* ConstraintPriorityTarget.swift */; };
 		DC92A2498EAC90F6131BCA1D292AE292 /* SVGClipPathElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 32B6AFD8F2637FE265167ED1061F7BEC /* SVGClipPathElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DCC31EDA96E49D3E90EB35EDBB94D5BD /* Deserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4078ADEEC300F4282A95C4A05AB7969C /* Deserializer.swift */; };
+		DCC4E7CC2D78514400F4D049 /* BWFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC4E7CB2D78514400F4D049 /* BWFileCell.swift */; };
 		DCD85668B124632FC46DC1CD8F57625F /* BWQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02839EE93351A6AAC19EA3FEAD06C204 /* BWQuestionCell.swift */; };
 		DE4B8F8293330D49854BC0935B75ACBE /* Google_Protobuf_Any+Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED638C123662E1886E6C841E227B46 /* Google_Protobuf_Any+Registry.swift */; };
 		DE4EA6F3EC52664B9BC6E0AF0B53FAA4 /* IQBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD4C406434B43E127691132DE17FDC8 /* IQBarButtonItem.swift */; };
@@ -1318,7 +1319,7 @@
 		03DE7CA4E92F225DE8351A588006DBC2 /* SwiftProtobuf.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftProtobuf.modulemap; sourceTree = "<group>"; };
 		03FC744ADB7D7609D0AD70CD01365608 /* TinySVGTextAreaElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TinySVGTextAreaElement.m; path = "Source/DOM classes/Unported or Partial DOM/TinySVGTextAreaElement.m"; sourceTree = "<group>"; };
 		03FEE01C735C72B95EC9FE8372007F4A /* BinaryDelimited.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryDelimited.swift; path = Sources/SwiftProtobuf/BinaryDelimited.swift; sourceTree = "<group>"; };
-		0457CABF7FD2A8C9210E56071F713614 /* ic_right_point.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = ic_right_point.svg; sourceTree = "<group>"; };
+		0457CABF7FD2A8C9210E56071F713614 /* ic_right_point.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = ic_right_point.svg; sourceTree = "<group>"; };
 		045FEB135388099673C130084190784C /* KeFuViewController_ChatSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_ChatSDK.swift; sourceTree = "<group>"; };
 		048407473A5E527D9F67FDF1D906976E /* SVGStyleElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGStyleElement.m; path = "Source/DOM classes/Unported or Partial DOM/SVGStyleElement.m"; sourceTree = "<group>"; };
 		050035D5DC5AF58A233C5F196FAFEAB3 /* SVGRect.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGRect.m; path = "Source/DOM classes/SVG-DOM/SVGRect.m"; sourceTree = "<group>"; };
@@ -1348,7 +1349,7 @@
 		0DA4C3217B27DCD873E9B6B0A65912F3 /* XMMenuPopover-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "XMMenuPopover-prefix.pch"; sourceTree = "<group>"; };
 		0DE6A4C4881A77EAE4EF3574BAFFFFF0 /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0DE76BEA8F597A9EA2926EBFEE6E00D5 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVIndefiniteAnimatedView.m; path = SVProgressHUD/SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
-		0DFF0DAF84F88BAFE9E8E631BDEC985F /* circle.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = circle.svg; sourceTree = "<group>"; };
+		0DFF0DAF84F88BAFE9E8E631BDEC985F /* circle.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = circle.svg; sourceTree = "<group>"; };
 		0E21ADEB1BD564C7E55B76579469278A /* StringHTTPHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringHTTPHandler.swift; path = Sources/Framer/StringHTTPHandler.swift; sourceTree = "<group>"; };
 		0E3C7082C2B22A3E0FE17FD313CE9BE8 /* ConverterSVGToCALayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ConverterSVGToCALayer.h; path = "Source/DOM classes/Unported or Partial DOM/ConverterSVGToCALayer.h"; sourceTree = "<group>"; };
 		0E495B79337D53C631B4ABAF7FC67AB0 /* IQUIViewController+Additions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUIViewController+Additions.swift"; path = "IQKeyboardManagerSwift/Categories/IQUIViewController+Additions.swift"; sourceTree = "<group>"; };
@@ -1368,7 +1369,7 @@
 		11BB51A286A772084FCB1A2641CBDF7B /* CredentialsPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CredentialsPlugin.swift; path = Sources/Moya/Plugins/CredentialsPlugin.swift; sourceTree = "<group>"; };
 		11E3B806169C3838A66E3E13F0467735 /* Formatter+Protocols.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Formatter+Protocols.swift"; path = "Sources/SwiftDate/Formatters/Formatter+Protocols.swift"; sourceTree = "<group>"; };
 		120C31309B125F606EF6817B6A3D4786 /* Pods-QL-Demo_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-QL-Demo_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		1250D14170EFEC926D45A1ACF639A2D8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		1250D14170EFEC926D45A1ACF639A2D8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		1280B0DA87A68C6F23CE7908A63D32B1 /* UnsafeRawPointer+Shims.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UnsafeRawPointer+Shims.swift"; path = "Sources/SwiftProtobuf/UnsafeRawPointer+Shims.swift"; sourceTree = "<group>"; };
 		12921F6B8EE80C09A4B1F71838536E7F /* DDContextFilterLogFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDContextFilterLogFormatter.m; path = Sources/CocoaLumberjack/Extensions/DDContextFilterLogFormatter.m; sourceTree = "<group>"; };
 		12B105B76D58CF403EDD313DBD81F13B /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1399,13 +1400,13 @@
 		184C336DB74A926745DE175A237D953D /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		19054C90F818AD0359A741F21A6D2340 /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = TeneasyChatSDK_iOS/Classes/Session.swift; sourceTree = "<group>"; };
 		19F8053C7C4948C59B6BE6480E29A0D8 /* SVGTextPositioningElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGTextPositioningElement.m; path = "Source/DOM classes/SVG-DOM/SVGTextPositioningElement.m"; sourceTree = "<group>"; };
-		19F8864EC4386A0ED6954CEFD7F7AFC9 /* service.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = service.svg; sourceTree = "<group>"; };
+		19F8864EC4386A0ED6954CEFD7F7AFC9 /* service.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = service.svg; sourceTree = "<group>"; };
 		19FE9D72D112344DE0029C52C0229ED0 /* CSSRuleList.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CSSRuleList.m; path = "Source/DOM classes/Core DOM/CSSRuleList.m"; sourceTree = "<group>"; };
 		1A1112795969E610BEE7F28FA518A393 /* KeFuVideoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuVideoViewController.swift; sourceTree = "<group>"; };
 		1A40E19BC1929BEF1DFBEBB790BF3124 /* WSCompression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WSCompression.swift; path = Sources/Compression/WSCompression.swift; sourceTree = "<group>"; };
 		1AB5A7AED22C53E36C47CF0D8E9B3573 /* SVGRectElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGRectElement.m; path = "Source/DOM classes/Unported or Partial DOM/SVGRectElement.m"; sourceTree = "<group>"; };
 		1AE4ED79C96C110AD4BDA249B23CE641 /* ParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoder.swift; path = Source/ParameterEncoder.swift; sourceTree = "<group>"; };
-		1AFCC39520435933F46D796A4A58BA15 /* close.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = close.svg; sourceTree = "<group>"; };
+		1AFCC39520435933F46D796A4A58BA15 /* close.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = close.svg; sourceTree = "<group>"; };
 		1B9555767FAFF007D0B0A1DD48E4DB66 /* SVGKParserPatternsAndGradients.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKParserPatternsAndGradients.m; path = "Source/Parsers/Parser Extensions/SVGKParserPatternsAndGradients.m"; sourceTree = "<group>"; };
 		1C177023AA76B673E67045F276126622 /* emoticon_57.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_57.png; sourceTree = "<group>"; };
 		1C4FFCEBE727D16A8FE16C855B3C7866 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMultiplierTarget.swift; path = Source/ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
@@ -1421,8 +1422,8 @@
 		1E0DB8B5EBC61ADA9E26E6F4F68126CB /* Text.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Text.h; path = "Source/DOM classes/Core DOM/Text.h"; sourceTree = "<group>"; };
 		1E22E626268564A576A6C9417D6D3905 /* emoticon_39.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_39.png; sourceTree = "<group>"; };
 		1E537877D08D392EBBC9B3CB95CEF7D7 /* SVGMatrix.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGMatrix.h; path = "Source/DOM classes/SVG-DOM/SVGMatrix.h"; sourceTree = "<group>"; };
-		1E8D7F44811D06C704A2148EC42D6E79 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Sources/SwiftProtobuf/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		1EEE93D4C8BC109B68D76C941C1EB946 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Sources/CocoaLumberjack/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		1E8D7F44811D06C704A2148EC42D6E79 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Sources/SwiftProtobuf/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		1EEE93D4C8BC109B68D76C941C1EB946 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Sources/CocoaLumberjack/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1F5BF1BD1E35204DD550C6346DEE5485 /* Pods-QL-Demo_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-QL-Demo_Example-frameworks.sh"; sourceTree = "<group>"; };
 		2002B9B03AC660CF990B2C1EB986E3CC /* KF.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KF.swift; path = Sources/General/KF.swift; sourceTree = "<group>"; };
 		204A410D1E80049D7D343B5D7AF4499B /* emoticon_58.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_58.png; sourceTree = "<group>"; };
@@ -1433,7 +1434,7 @@
 		2118B3DEE6E9E3C00D5668A299E1A719 /* IQUITextFieldView+Additions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUITextFieldView+Additions.swift"; path = "IQKeyboardManagerSwift/Categories/IQUITextFieldView+Additions.swift"; sourceTree = "<group>"; };
 		2119B522C69BC9E6957CD7775DA5B031 /* emoticon_10.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_10.png; sourceTree = "<group>"; };
 		21F701DE0EB95D61AEEBCAFFDDAC2E21 /* SVGGElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGGElement.h; path = "Source/DOM classes/SVG-DOM/SVGGElement.h"; sourceTree = "<group>"; };
-		221BCF57C6E78CD6F06422ACCB938629 /* com_shmoren.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = com_shmoren.svg; sourceTree = "<group>"; };
+		221BCF57C6E78CD6F06422ACCB938629 /* com_shmoren.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = com_shmoren.svg; sourceTree = "<group>"; };
 		22434EE46B2CEF33CA2E66989205D459 /* JSONDecoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSONDecoder.swift; path = Sources/SwiftProtobuf/JSONDecoder.swift; sourceTree = "<group>"; };
 		229745326A1E20FCE0840F2FB22063D2 /* NameMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NameMap.swift; path = Sources/SwiftProtobuf/NameMap.swift; sourceTree = "<group>"; };
 		229AF2F06B2054E5D51BAC04A145C917 /* SVGKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SVGKit.modulemap; sourceTree = "<group>"; };
@@ -1455,9 +1456,9 @@
 		26F0163D2AE80A254D13ED7600E13A2E /* DDASLLogCapture.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDASLLogCapture.m; path = Sources/CocoaLumberjack/DDASLLogCapture.m; sourceTree = "<group>"; };
 		273C5A6E782E4EFAEDA9FC010C290B60 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		2796355816721FF570D7F64B1D652815 /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
-		27A082EC552DBFAF46180FD899E26E1A /* h5_qingchu.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_qingchu.svg; sourceTree = "<group>"; };
+		27A082EC552DBFAF46180FD899E26E1A /* h5_qingchu.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_qingchu.svg; sourceTree = "<group>"; };
 		27A1B2A3B5602AC272D684437041E908 /* CALayerWithClipRender.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CALayerWithClipRender.h; path = "Source/QuartzCore additions/CALayerWithClipRender.h"; sourceTree = "<group>"; };
-		282E581AD8EDA5D0385908C1CF555CB1 /* logo.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = logo.svg; sourceTree = "<group>"; };
+		282E581AD8EDA5D0385908C1CF555CB1 /* logo.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = logo.svg; sourceTree = "<group>"; };
 		2861E55EC4C4C06A7411F5D053EE8350 /* XMMenuItemSystemView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuItemSystemView.h; path = MenuPopover/Views/MenuItemViews/XMMenuItemSystemView.h; sourceTree = "<group>"; };
 		2886EFCBAC84E775B1801B1A34045120 /* DDASLLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDASLLogger.m; path = Sources/CocoaLumberjack/DDASLLogger.m; sourceTree = "<group>"; };
 		28C282B70E11EEBFAE2C2FBD44A39C44 /* emoticon_91.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_91.png; sourceTree = "<group>"; };
@@ -1467,7 +1468,7 @@
 		2942CD254CD2C56444522359FFA2D127 /* SVGSVGElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGSVGElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGSVGElement.h"; sourceTree = "<group>"; };
 		2957C2D22C9DF03612E311C324F0C689 /* Node.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Node.m; path = "Source/DOM classes/Core DOM/Node.m"; sourceTree = "<group>"; };
 		29C114FD188F2F725311C36F4442E1AF /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutSupport+Extensions.swift"; path = "Source/UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
-		2A36CBB225DCDFEF1DE956DB4E4F4A22 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		2A36CBB225DCDFEF1DE956DB4E4F4A22 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2A435BC767BE91A4356F5A3497A1FE04 /* sentry.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = sentry.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/sentry/sentry.pb.swift; sourceTree = "<group>"; };
 		2A5129279A40963A83CC8FFEB56D0D30 /* SVGElementInstanceList.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGElementInstanceList.h; path = "Source/DOM classes/SVG-DOM/SVGElementInstanceList.h"; sourceTree = "<group>"; };
 		2A8BF05CDBF8479E6FA401475A622D59 /* playvideo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = playvideo.png; sourceTree = "<group>"; };
@@ -1480,8 +1481,8 @@
 		2C622977A8727E66A75A0FE6811D6262 /* SVGGradientStop.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGGradientStop.m; path = "Source/DOM classes/Unported or Partial DOM/SVGGradientStop.m"; sourceTree = "<group>"; };
 		2CAB6B19BBCEC3EFF8D99426323219A0 /* emoticon_6.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_6.png; sourceTree = "<group>"; };
 		2CF59BFBFDAD741AAB1E0D79F09FDE3E /* KingfisherOptionsInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KingfisherOptionsInfo.swift; path = Sources/General/KingfisherOptionsInfo.swift; sourceTree = "<group>"; };
-		2D3207AA2104FDE212485BCC448C3FAD /* Img_box_light.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = Img_box_light.svg; sourceTree = "<group>"; };
-		2D46F779E782A6B51098432F97AF05AD /* Group 30.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 30.svg"; sourceTree = "<group>"; };
+		2D3207AA2104FDE212485BCC448C3FAD /* Img_box_light.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = Img_box_light.svg; sourceTree = "<group>"; };
+		2D46F779E782A6B51098432F97AF05AD /* Group 30.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 30.svg"; sourceTree = "<group>"; };
 		2D6C79EA9F7F89FC3178AA40CE0F674F /* BWQuestionSectionHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWQuestionSectionHeader.swift; sourceTree = "<group>"; };
 		2D8EB207956C6166D23345EBE152ACBB /* field_mask.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = field_mask.pb.swift; path = Sources/SwiftProtobuf/field_mask.pb.swift; sourceTree = "<group>"; };
 		2DB37A394DB77D12CD294886034FE69E /* BaseClassForAllSVGBasicShapes_ForSubclasses.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BaseClassForAllSVGBasicShapes_ForSubclasses.h; path = "Source/DOM classes/Unported or Partial DOM/BaseClassForAllSVGBasicShapes_ForSubclasses.h"; sourceTree = "<group>"; };
@@ -1511,8 +1512,8 @@
 		327EB6C5F42BED99405774248F5992C1 /* DateInRegion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DateInRegion.swift; path = Sources/SwiftDate/DateInRegion/DateInRegion.swift; sourceTree = "<group>"; };
 		32B6AFD8F2637FE265167ED1061F7BEC /* SVGClipPathElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGClipPathElement.h; path = "Source/DOM classes/SVG-DOM/SVGClipPathElement.h"; sourceTree = "<group>"; };
 		32E53AECA23A14FB8D04756AE8F5882F /* SwiftDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftDate.release.xcconfig; sourceTree = "<group>"; };
-		32EB9951A55F80B08398241B8F873CE5 /* png */ = {isa = PBXFileReference; includeInIndex = 1; name = png; path = TeneasyChatSDKUI_iOS/Assets/png; sourceTree = "<group>"; };
-		32FE988F85F28315918A7B167E8C1A50 /* Frame 2124.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Frame 2124.svg"; sourceTree = "<group>"; };
+		32EB9951A55F80B08398241B8F873CE5 /* png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = png; path = TeneasyChatSDKUI_iOS/Assets/png; sourceTree = "<group>"; };
+		32FE988F85F28315918A7B167E8C1A50 /* Frame 2124.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Frame 2124.svg"; sourceTree = "<group>"; };
 		336F193F3D0331F4671FD15242C77F9E /* NativeEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeEngine.swift; path = Sources/Engine/NativeEngine.swift; sourceTree = "<group>"; };
 		339796116FF45EAA5CFFFFD3AE584387 /* BWKeFuChatToolBarV2.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWKeFuChatToolBarV2.swift; sourceTree = "<group>"; };
 		339FD1A1275A1868E64A47FBC61962DC /* BinaryEncodingVisitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryEncodingVisitor.swift; path = Sources/SwiftProtobuf/BinaryEncodingVisitor.swift; sourceTree = "<group>"; };
@@ -1525,8 +1526,8 @@
 		3550901AE7E0DC83C236B043C51AF065 /* ZigZag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZigZag.swift; path = Sources/SwiftProtobuf/ZigZag.swift; sourceTree = "<group>"; };
 		359B0EE67FE139C30E6F4274EDCA7CCF /* SVGKLayeredImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKLayeredImageView.m; path = Source/ImageViews/SVGKLayeredImageView.m; sourceTree = "<group>"; };
 		359C86B98F18DBA629E99BDF74A18D42 /* RedirectHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RedirectHandler.swift; path = Source/RedirectHandler.swift; sourceTree = "<group>"; };
-		35A283CFE2C55B28FDE2E9C609FA9C57 /* icon_server_def.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = icon_server_def.svg; sourceTree = "<group>"; };
-		35B24AF90AB4FD5AC1A79C495E016F6E /* TeneasyChatSDKUI_iOS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = TeneasyChatSDKUI_iOS.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		35A283CFE2C55B28FDE2E9C609FA9C57 /* icon_server_def.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = icon_server_def.svg; sourceTree = "<group>"; };
+		35B24AF90AB4FD5AC1A79C495E016F6E /* TeneasyChatSDKUI_iOS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = TeneasyChatSDKUI_iOS.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3649B117F8C97AC9B350DC7D9D727F57 /* Internal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Internal.swift; path = Sources/SwiftProtobuf/Internal.swift; sourceTree = "<group>"; };
 		3699C104F85AA4C2C4499ABCF3441E4E /* CSSStyleSheet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSSStyleSheet.h; path = "Source/DOM classes/Core DOM/CSSStyleSheet.h"; sourceTree = "<group>"; };
 		369A19CE678C73DDE1D6506F212D666D /* Starscream.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Starscream.modulemap; sourceTree = "<group>"; };
@@ -1535,7 +1536,7 @@
 		36FE5BD3FD27660E1A28AF9E5656511D /* KeFuViewController_TableView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_TableView.swift; sourceTree = "<group>"; };
 		370F4810A8569422CF8B3DB38EB5FD8F /* Message+BinaryAdditions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+BinaryAdditions.swift"; path = "Sources/SwiftProtobuf/Message+BinaryAdditions.swift"; sourceTree = "<group>"; };
 		372A2B907D5A19CD2399DA9B0D876EF8 /* HexColorTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HexColorTransform.swift; path = Source/HexColorTransform.swift; sourceTree = "<group>"; };
-		3756A9BBE41ABEE8DCBF5BCA6972C4DA /* Moya */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Moya; path = Moya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3756A9BBE41ABEE8DCBF5BCA6972C4DA /* Moya.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Moya.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		375C5A8E83ADD83FE173C93B3AF7290A /* XMMenuItemBaseView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuItemBaseView.h; path = MenuPopover/Views/MenuItemViews/XMMenuItemBaseView.h; sourceTree = "<group>"; };
 		3767A5D3B9545CE69F1660BD21DDACD7 /* IQKeyboardManagerSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IQKeyboardManagerSwift-prefix.pch"; sourceTree = "<group>"; };
 		37C4F26E8C3269E60291A72FCD3EDAB7 /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Source/LayoutConstraint.swift; sourceTree = "<group>"; };
@@ -1544,7 +1545,7 @@
 		385D788BB5FF96BA05D9E4293271FAF6 /* RequestTaskMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestTaskMap.swift; path = Source/RequestTaskMap.swift; sourceTree = "<group>"; };
 		389C106DE3822639A27219A100F03435 /* ImagePrefetcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImagePrefetcher.swift; path = Sources/Networking/ImagePrefetcher.swift; sourceTree = "<group>"; };
 		38DCC7D3100A53FC1860925ECE4F0900 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
-		38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf-SwiftProtobuf */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "SwiftProtobuf-SwiftProtobuf"; path = SwiftProtobuf.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftProtobuf.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		392FB67843916A3569857413956816AB /* SVGKSourceLocalFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKSourceLocalFile.m; path = Source/Sources/SVGKSourceLocalFile.m; sourceTree = "<group>"; };
 		397AD01E8D965EA124FB414675F02C0A /* Google_Protobuf_NullValue+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_NullValue+Extensions.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_NullValue+Extensions.swift"; sourceTree = "<group>"; };
 		3A65FB882562DF6FABE10C7F32E46868 /* events_tracking.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = events_tracking.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/events_tracking.pb.swift; sourceTree = "<group>"; };
@@ -1560,7 +1561,7 @@
 		3BD4A6F3948D98BD93B2431BB1F7EB23 /* SVGTextPositioningElement_Mutable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGTextPositioningElement_Mutable.h; path = "Source/DOM classes/SVG-DOM/SVGTextPositioningElement_Mutable.h"; sourceTree = "<group>"; };
 		3BDA2FE090101CD38DAA0664BEE5AA62 /* Kingfisher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Kingfisher.debug.xcconfig; sourceTree = "<group>"; };
 		3BE441873F53BE6DBE13BB4E1CA4C0C6 /* Measuable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Measuable.swift; path = Source/Measuable.swift; sourceTree = "<group>"; };
-		3BF5FEC8C31C4D11784360E557D79A2D /* icon_server_def2.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = icon_server_def2.svg; sourceTree = "<group>"; };
+		3BF5FEC8C31C4D11784360E557D79A2D /* icon_server_def2.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = icon_server_def2.svg; sourceTree = "<group>"; };
 		3BFC3A27313AF126ACE789B56D97C9D9 /* Message+BinaryAdditions_Data.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+BinaryAdditions_Data.swift"; path = "Sources/SwiftProtobuf/Message+BinaryAdditions_Data.swift"; sourceTree = "<group>"; };
 		3C28417624C8580DDC4F223EF1FE3341 /* emoticon_45.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_45.png; sourceTree = "<group>"; };
 		3C5E278C75A52AA2FD8177E6E10B1596 /* ConstraintDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDSL.swift; path = Source/ConstraintDSL.swift; sourceTree = "<group>"; };
@@ -1611,24 +1612,24 @@
 		47CF52CDC6A00739929A9791BFA3B1FF /* emoticon_71.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_71.png; sourceTree = "<group>"; };
 		4800A21B2CD3D5D1DD75C12ACA839997 /* c_error_report.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = c_error_report.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/common/c_error_report.pb.swift; sourceTree = "<group>"; };
 		4836B1D4E5189B57A81F991ED6D06A79 /* BinaryEncodingOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryEncodingOptions.swift; path = Sources/SwiftProtobuf/BinaryEncodingOptions.swift; sourceTree = "<group>"; };
-		48385A217B902776AADDCA9FBC6323D8 /* Rectangle 590.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Rectangle 590.svg"; sourceTree = "<group>"; };
+		48385A217B902776AADDCA9FBC6323D8 /* Rectangle 590.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Rectangle 590.svg"; sourceTree = "<group>"; };
 		4838E972C901E46F68E616408651D807 /* emoticon_81.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_81.png; sourceTree = "<group>"; };
 		48CBBFC18DB0E22AFC34D1473EE60178 /* KingfisherManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KingfisherManager.swift; path = Sources/General/KingfisherManager.swift; sourceTree = "<group>"; };
 		49877A128BDED6DF8B3E03216E3C3AED /* SVGElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGElement.m; path = "Source/DOM classes/Unported or Partial DOM/SVGElement.m"; sourceTree = "<group>"; };
-		498EA26639AB3239C1CE11C34F267469 /* emoj_light.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = emoj_light.svg; sourceTree = "<group>"; };
+		498EA26639AB3239C1CE11C34F267469 /* emoj_light.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = emoj_light.svg; sourceTree = "<group>"; };
 		49D2AE3CA384BB0F25576E297DFF4B56 /* EntityReference.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EntityReference.m; path = "Source/DOM classes/Core DOM/EntityReference.m"; sourceTree = "<group>"; };
 		49DDBFFEF4B831EC56D42460714DCD96 /* Compression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Compression.swift; path = Sources/Compression/Compression.swift; sourceTree = "<group>"; };
 		49F367AFDBA2ED35979C043061BA1BA4 /* message.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = message.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/message.pb.swift; sourceTree = "<group>"; };
 		49FCEB1BA21DB7B3E6C7B41D74BA6C93 /* SVGDescriptionElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGDescriptionElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGDescriptionElement.h"; sourceTree = "<group>"; };
 		4A21F1495DA85D05471C1F489C99EC90 /* HTTPMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = Source/HTTPMethod.swift; sourceTree = "<group>"; };
 		4A3BEB66E0D8A50BD733EAD5810E8E5D /* ImageDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDataProvider.swift; path = Sources/General/ImageSource/ImageDataProvider.swift; sourceTree = "<group>"; };
-		4A460F722C09E8ED1DB8EC3E915C7D7B /* backicon.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = backicon.svg; sourceTree = "<group>"; };
+		4A460F722C09E8ED1DB8EC3E915C7D7B /* backicon.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = backicon.svg; sourceTree = "<group>"; };
 		4A6359B20FD0AE4B5BC114A5BA85FD4C /* BWLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWLabel.swift; sourceTree = "<group>"; };
 		4A7CDA1DE923DA73AB21A229AEA95628 /* SwiftDate.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftDate.modulemap; sourceTree = "<group>"; };
 		4AD79C1D0031A16450E439C68D857C43 /* AsyncMessageSequence.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncMessageSequence.swift; path = Sources/SwiftProtobuf/AsyncMessageSequence.swift; sourceTree = "<group>"; };
 		4B4637474C2BB8525A905DD461C79CB1 /* Zones.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Zones.swift; path = Sources/SwiftDate/Supports/Zones.swift; sourceTree = "<group>"; };
-		4BE300EBB415147DD3BDAD84C16814F2 /* h5_zhaoping.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_zhaoping.svg; sourceTree = "<group>"; };
-		4BFD23CACFAC7A8DF144255E36791B0F /* chatCopy.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = chatCopy.svg; sourceTree = "<group>"; };
+		4BE300EBB415147DD3BDAD84C16814F2 /* h5_zhaoping.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_zhaoping.svg; sourceTree = "<group>"; };
+		4BFD23CACFAC7A8DF144255E36791B0F /* chatCopy.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = chatCopy.svg; sourceTree = "<group>"; };
 		4C28B352597503D9356D12681BB9FA69 /* DDFileLogger+Buffering.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "DDFileLogger+Buffering.h"; path = "Sources/CocoaLumberjack/include/CocoaLumberjack/DDFileLogger+Buffering.h"; sourceTree = "<group>"; };
 		4CD171DE7FF5F71A383EF9F81A4CE52E /* metric.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = metric.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/metric.pb.swift; sourceTree = "<group>"; };
 		4CE44677135647BF978988A49B064624 /* video_default.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = video_default.png; sourceTree = "<group>"; };
@@ -1647,7 +1648,7 @@
 		50D186ECCE5193A042ADC4DBAC47B8FA /* SVGKImage+CGContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SVGKImage+CGContext.h"; path = "Source/Exporters/SVGKImage+CGContext.h"; sourceTree = "<group>"; };
 		50D1E00B5B663BC3F4D40BCF0A4A1008 /* ConstraintRelatableTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelatableTarget.swift; path = Source/ConstraintRelatableTarget.swift; sourceTree = "<group>"; };
 		51667B7591F709B3E7CFA7621C2DD1D0 /* HandyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HandyJSON-prefix.pch"; sourceTree = "<group>"; };
-		519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjack-CocoaLumberjackPrivacy */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "CocoaLumberjack-CocoaLumberjackPrivacy"; path = CocoaLumberjackPrivacy.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjackPrivacy.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaLumberjackPrivacy.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B86936586FB38AE856340A1DD36861 /* emoticon_31.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_31.png; sourceTree = "<group>"; };
 		5210160B217A00344DE6C6D62B6B6C33 /* SVGTextContentElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGTextContentElement.h; path = "Source/DOM classes/SVG-DOM/SVGTextContentElement.h"; sourceTree = "<group>"; };
 		52CB0327F8EFE00CF73D1A97BFCAB895 /* Engine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Engine.swift; path = Sources/Engine/Engine.swift; sourceTree = "<group>"; };
@@ -1678,17 +1679,17 @@
 		583F4CDCD3C97EEDDD954E6B3E80DDBA /* SVGKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SVGKit.debug.xcconfig; sourceTree = "<group>"; };
 		5847C45CBF7DF6CA7FE4EC9F4299CF39 /* ConstraintMakerEditable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerEditable.swift; path = Source/ConstraintMakerEditable.swift; sourceTree = "<group>"; };
 		58852D78DBED19BBE6C6D9B6EFB7E922 /* CSSStyleRule.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CSSStyleRule.m; path = "Source/DOM classes/Core DOM/CSSStyleRule.m"; sourceTree = "<group>"; };
-		58AE0544E0C381DDBD09356C357EC82B /* SwiftDate */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftDate; path = SwiftDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		58AE0544E0C381DDBD09356C357EC82B /* SwiftDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		58D51695D93AB6B0A64B4403F6FCD47E /* Transport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transport.swift; path = Sources/Transport/Transport.swift; sourceTree = "<group>"; };
 		58DA860470CF700973A0293B14C4A254 /* IQKeyboardManager+Toolbar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQKeyboardManager+Toolbar.swift"; path = "IQKeyboardManagerSwift/IQKeyboardManager+Toolbar.swift"; sourceTree = "<group>"; };
-		5903D23CE4857918EDA1A9DFDDDB5824 /* langs */ = {isa = PBXFileReference; includeInIndex = 1; name = langs; path = Sources/SwiftDate/Formatters/RelativeFormatter/langs; sourceTree = "<group>"; };
+		5903D23CE4857918EDA1A9DFDDDB5824 /* langs */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = langs; path = Sources/SwiftDate/Formatters/RelativeFormatter/langs; sourceTree = "<group>"; };
 		5908C059E6F64CA81FA50F69026E8AA6 /* Delegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Delegate.swift; path = Sources/Utility/Delegate.swift; sourceTree = "<group>"; };
 		590915B4536D4B783A2B04DBB0A17F7B /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		598C12BB4B5F0FBA9BD3F40B345D8394 /* asset.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = asset.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/asset/asset.pb.swift; sourceTree = "<group>"; };
 		59B009C25E7A86E49DD4D07E47588FB7 /* WWProgressHUD.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WWProgressHUD.swift; sourceTree = "<group>"; };
 		59F21294A6F75F7B80B95F112EAB1085 /* MoyaProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MoyaProvider.swift; path = Sources/Moya/MoyaProvider.swift; sourceTree = "<group>"; };
-		5A0167249F93BD7C01C5533E5A536C9D /* Group 28.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 28.svg"; sourceTree = "<group>"; };
-		5A979DCCEE7F75242F3364FD240F1F67 /* h5_btshanchu.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_btshanchu.svg; sourceTree = "<group>"; };
+		5A0167249F93BD7C01C5533E5A536C9D /* Group 28.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 28.svg"; sourceTree = "<group>"; };
+		5A979DCCEE7F75242F3364FD240F1F67 /* h5_btshanchu.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_btshanchu.svg; sourceTree = "<group>"; };
 		5AEDEB2D2CB45008F14FFE4BE30B9845 /* CocoaLumberjack-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CocoaLumberjack-dummy.m"; sourceTree = "<group>"; };
 		5B111FE06BCDD57A3443F528E4D4129E /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Source/ConstraintMaker.swift; sourceTree = "<group>"; };
 		5B20E3E90AC3D3952D47C87B9EE36C59 /* emoticon_27.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_27.png; sourceTree = "<group>"; };
@@ -1698,11 +1699,11 @@
 		5BF4A1DE18B6453D8C99CF14D3F5FCAB /* Element.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Element.m; path = "Source/DOM classes/Core DOM/Element.m"; sourceTree = "<group>"; };
 		5C1BB16EA6114E133F34C1D86239C5D7 /* HandyJSON-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HandyJSON-dummy.m"; sourceTree = "<group>"; };
 		5D722AC6478B41F42C00971A14CF50B7 /* BWAutoQuestionCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWAutoQuestionCell.swift; sourceTree = "<group>"; };
-		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E5C422717BC3E05BD087A6775305465 /* HandyJSON.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HandyJSON.h; path = Source/HandyJSON.h; sourceTree = "<group>"; };
-		5EC7ED4BE59C20C78FAE50262D0DFDF2 /* left_chat_bg.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = left_chat_bg.svg; sourceTree = "<group>"; };
+		5EC7ED4BE59C20C78FAE50262D0DFDF2 /* left_chat_bg.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = left_chat_bg.svg; sourceTree = "<group>"; };
 		5EC9F3399FD74EEBC5F509BDDA93AE41 /* SVGKImageRep.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKImageRep.h; path = "Source/AppKit additions/SVGKImageRep.h"; sourceTree = "<group>"; };
-		5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS"; path = TeneasyChatSDKUI_iOS.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeneasyChatSDKUI_iOS.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EDFFE17D71D47FD359E9C16D9BFC907 /* FieldTag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FieldTag.swift; path = Sources/SwiftProtobuf/FieldTag.swift; sourceTree = "<group>"; };
 		5F6955A7AC6C228186A56C646AB2D872 /* Calendars.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Calendars.swift; path = Sources/SwiftDate/Supports/Calendars.swift; sourceTree = "<group>"; };
 		5F6C0C1792F30D951800D5E944E4C238 /* AccessTokenPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccessTokenPlugin.swift; path = Sources/Moya/Plugins/AccessTokenPlugin.swift; sourceTree = "<group>"; };
@@ -1766,8 +1767,8 @@
 		6C923A816053289DE0F35872956B77E9 /* DateInRegion+Components.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DateInRegion+Components.swift"; path = "Sources/SwiftDate/DateInRegion/DateInRegion+Components.swift"; sourceTree = "<group>"; };
 		6CFA6107600FB9C026D25C327DBD973A /* DoubleParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DoubleParser.swift; path = Sources/SwiftProtobuf/DoubleParser.swift; sourceTree = "<group>"; };
 		6D30655CDB4BBDA15A4C680213C0B3F0 /* ProtobufAPIVersionCheck.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtobufAPIVersionCheck.swift; path = Sources/SwiftProtobuf/ProtobufAPIVersionCheck.swift; sourceTree = "<group>"; };
-		6D6B61453857E088623509F48868E770 /* Rectangle 595.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Rectangle 595.svg"; sourceTree = "<group>"; };
-		6DDC4AC62490A50CFC51078F96D71CF7 /* Rectangle 137.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Rectangle 137.svg"; sourceTree = "<group>"; };
+		6D6B61453857E088623509F48868E770 /* Rectangle 595.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Rectangle 595.svg"; sourceTree = "<group>"; };
+		6DDC4AC62490A50CFC51078F96D71CF7 /* Rectangle 137.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Rectangle 137.svg"; sourceTree = "<group>"; };
 		6DEE67BCCE1B98C7EF931E4EE92469B2 /* KeFuImageViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuImageViewController.swift; sourceTree = "<group>"; };
 		6DFAB4B09909A6E6C2DC2DD887ED56AA /* XMMenuPopoverDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuPopoverDefine.h; path = MenuPopover/XMMenuPopoverDefine.h; sourceTree = "<group>"; };
 		6E6BB69166956E6037111AED6EE10AC8 /* Version.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Sources/SwiftProtobuf/Version.swift; sourceTree = "<group>"; };
@@ -1776,10 +1777,10 @@
 		6FC40A40E23522FC3F2974A0ACCBCD9A /* CSSStyleDeclaration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSSStyleDeclaration.h; path = "Source/DOM classes/Core DOM/CSSStyleDeclaration.h"; sourceTree = "<group>"; };
 		6FCD5DDD54C01992580668BDA5B96415 /* NSCharacterSet+SVGKExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSCharacterSet+SVGKExtensions.m"; path = "Source/Foundation additions/NSCharacterSet+SVGKExtensions.m"; sourceTree = "<group>"; };
 		700B8D101182B0F2392C380941922283 /* Date+Components.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+Components.swift"; path = "Sources/SwiftDate/Date/Date+Components.swift"; sourceTree = "<group>"; };
-		7029E283AFD67158DECFCDBFB61C5F75 /* arrowdown.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = arrowdown.svg; sourceTree = "<group>"; };
-		70483D43AFB64D0E75273CC3107BB92A /* emoticon */ = {isa = PBXFileReference; includeInIndex = 1; name = emoticon; path = TeneasyChatSDKUI_iOS/Assets/emoticon; sourceTree = "<group>"; };
+		7029E283AFD67158DECFCDBFB61C5F75 /* arrowdown.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = arrowdown.svg; sourceTree = "<group>"; };
+		70483D43AFB64D0E75273CC3107BB92A /* emoticon */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = emoticon; path = TeneasyChatSDKUI_iOS/Assets/emoticon; sourceTree = "<group>"; };
 		70567C8AE2F5D222DE54FE5F4866A9A0 /* SVGGradientStop.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGGradientStop.h; path = "Source/DOM classes/Unported or Partial DOM/SVGGradientStop.h"; sourceTree = "<group>"; };
-		70584A18D98E6CC46B4247E599E34890 /* Group 26.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 26.svg"; sourceTree = "<group>"; };
+		70584A18D98E6CC46B4247E599E34890 /* Group 26.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 26.svg"; sourceTree = "<group>"; };
 		70968FA3EE6773264B8EA265C5124912 /* NamedNodeMap_Iterable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NamedNodeMap_Iterable.h; path = "Source/DOM classes/Core DOM/NamedNodeMap_Iterable.h"; sourceTree = "<group>"; };
 		70A4D29668C109A1049C11AA21ED0D6D /* JSONDecodingOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSONDecodingOptions.swift; path = Sources/SwiftProtobuf/JSONDecodingOptions.swift; sourceTree = "<group>"; };
 		70B03C33B9C0D83ADA2410650540CD4F /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Source/Constraint.swift; sourceTree = "<group>"; };
@@ -1792,7 +1793,7 @@
 		72F8CA9E23F66D9A210A6BF6629A35C2 /* HelpingMapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HelpingMapper.swift; path = Source/HelpingMapper.swift; sourceTree = "<group>"; };
 		72FE3EFB44D089954D65C82DC6916D8A /* DateInRegion+Create.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DateInRegion+Create.swift"; path = "Sources/SwiftDate/DateInRegion/DateInRegion+Create.swift"; sourceTree = "<group>"; };
 		738FFD341108042650D64F6E7C27DB79 /* ConstraintPriority.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriority.swift; path = Source/ConstraintPriority.swift; sourceTree = "<group>"; };
-		74099709007F5A93AC3B3D9486836F74 /* Group 15.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 15.svg"; sourceTree = "<group>"; };
+		74099709007F5A93AC3B3D9486836F74 /* Group 15.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 15.svg"; sourceTree = "<group>"; };
 		743D1281565AA82FC75778C387FEB71D /* SVGUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGUtils.h; path = Source/Utils/SVGUtils.h; sourceTree = "<group>"; };
 		7467FFC6AE76B41BC260FC60C04FDB51 /* Pods-QL-Demo_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-QL-Demo_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		749B337E49BCA3D24391923E40DA325F /* ExtendCustomBasicType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExtendCustomBasicType.swift; path = Source/ExtendCustomBasicType.swift; sourceTree = "<group>"; };
@@ -1814,14 +1815,14 @@
 		7900EEF91EE8EB1CB7429FACEBB3DB3B /* SVGKSourceURL.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKSourceURL.m; path = Source/Sources/SVGKSourceURL.m; sourceTree = "<group>"; };
 		791BB7123D39303425AC6ABACD7AF336 /* AVAssetImageDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AVAssetImageDataProvider.swift; path = Sources/General/ImageSource/AVAssetImageDataProvider.swift; sourceTree = "<group>"; };
 		791C9878003FAB92F9530522B51EDBE0 /* chat_quality.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = chat_quality.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/chat_quality.pb.swift; sourceTree = "<group>"; };
-		791F99EA210D9B1DF01EF367CA02F734 /* Group 29.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 29.svg"; sourceTree = "<group>"; };
+		791F99EA210D9B1DF01EF367CA02F734 /* Group 29.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 29.svg"; sourceTree = "<group>"; };
 		7930315040194864E5B15A8AFFE9F6D1 /* Atomic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Atomic.swift; path = Sources/Moya/Atomic.swift; sourceTree = "<group>"; };
 		7932E89A55F791D151A82B33816A6BFA /* Google_Protobuf_Struct+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_Struct+Extensions.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_Struct+Extensions.swift"; sourceTree = "<group>"; };
 		795FC5E692D20C5B6A4D4A7322F7B7B8 /* IQInvocation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQInvocation.swift; path = IQKeyboardManagerSwift/IQToolbar/IQInvocation.swift; sourceTree = "<group>"; };
 		7A08320E6FFE057C9AADCF3172144615 /* ConstraintDirectionalInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintDirectionalInsetTarget.swift; path = Source/ConstraintDirectionalInsetTarget.swift; sourceTree = "<group>"; };
 		7A11F4CD7A32E9C5FF9F61DFBADDD3B7 /* SVGPolygonElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGPolygonElement.m; path = "Source/DOM classes/Unported or Partial DOM/SVGPolygonElement.m"; sourceTree = "<group>"; };
 		7A1318380F81545BFC27164DAFF4542D /* SVGKPointsAndPathsParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKPointsAndPathsParser.m; path = Source/Parsers/SVGKPointsAndPathsParser.m; sourceTree = "<group>"; };
-		7A72F235668BC932AB553B5B821D89EC /* h5_kfrukou.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_kfrukou.svg; sourceTree = "<group>"; };
+		7A72F235668BC932AB553B5B821D89EC /* h5_kfrukou.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_kfrukou.svg; sourceTree = "<group>"; };
 		7A9C591DDF3421166BFCB1557C3AD9A9 /* emoticon_33.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_33.png; sourceTree = "<group>"; };
 		7AF715E26816072C0DF0AFB937B6CC50 /* Pods-QL-Demo_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-QL-Demo_Tests.modulemap"; sourceTree = "<group>"; };
 		7B2F3CC770A09AE630392477D60662BC /* NamedNodeMap.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NamedNodeMap.h; path = "Source/DOM classes/Core DOM/NamedNodeMap.h"; sourceTree = "<group>"; };
@@ -1853,7 +1854,7 @@
 		7F463B8349F4383E438C42F7B8116DFD /* Date.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Date.swift; path = Sources/SwiftDate/Date/Date.swift; sourceTree = "<group>"; };
 		80077EFFBEDDEDE0CDAB6EAE5227D146 /* XMMenuPopover.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XMMenuPopover.m; path = MenuPopover/XMMenuPopover.m; sourceTree = "<group>"; };
 		8039F24B864F8018B910FA5D7F3A6D38 /* ConstraintConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConfig.swift; path = Source/ConstraintConfig.swift; sourceTree = "<group>"; };
-		8078F691EC86ED9583EC7D0B3D112101 /* Pods-QL-Demo_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-QL-Demo_Tests"; path = Pods_QL_Demo_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8078F691EC86ED9583EC7D0B3D112101 /* Pods_QL_Demo_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QL_Demo_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8083249E16178CE41DCF70A632D247BD /* FoundationTransport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FoundationTransport.swift; path = Sources/Transport/FoundationTransport.swift; sourceTree = "<group>"; };
 		808D2E710F41E4849C70E47626EC966C /* SVGPoint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGPoint.m; path = "Source/DOM classes/SVG-DOM/SVGPoint.m"; sourceTree = "<group>"; };
 		80ECF45382FE7F4A49CDF80AAAC7B1A0 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
@@ -1877,7 +1878,7 @@
 		84BD9DA4B7A82A5AA1D867DE496341F4 /* SVGViewSpec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGViewSpec.h; path = "Source/DOM classes/SVG-DOM/SVGViewSpec.h"; sourceTree = "<group>"; };
 		84CC3E9E27034CC332A9CD84D16AFAA2 /* SVGElementInstance.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGElementInstance.h; path = "Source/DOM classes/SVG-DOM/SVGElementInstance.h"; sourceTree = "<group>"; };
 		84EA8B10753B8A0B2DFFC77C9F25CFCA /* SVGKLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKLayer.h; path = "Source/QuartzCore additions/SVGKLayer.h"; sourceTree = "<group>"; };
-		84F62D216882DCA8524F511A02293AF2 /* h5_fszhong.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_fszhong.svg; sourceTree = "<group>"; };
+		84F62D216882DCA8524F511A02293AF2 /* h5_fszhong.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_fszhong.svg; sourceTree = "<group>"; };
 		851656B08A5B96D4F474490EC7C12567 /* SVGKParseResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKParseResult.h; path = Source/Parsers/SVGKParseResult.h; sourceTree = "<group>"; };
 		85DCA0E5416E0FDFF7584E9360736978 /* ConstraintViewDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintViewDSL.swift; path = Source/ConstraintViewDSL.swift; sourceTree = "<group>"; };
 		8698A6D7E1AB39E956C80928BCB1D3ED /* CustomDateFormatTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CustomDateFormatTransform.swift; path = Source/CustomDateFormatTransform.swift; sourceTree = "<group>"; };
@@ -1895,10 +1896,10 @@
 		88C2630A172A91DB5712D901179224CA /* Combine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Combine.swift; path = Source/Combine.swift; sourceTree = "<group>"; };
 		88EB078DBE71D66A93E8C28907829072 /* SwiftProtobuf-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftProtobuf-umbrella.h"; sourceTree = "<group>"; };
 		88F3BF868BAB85559B5517CD65967332 /* Message+JSONArrayAdditions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+JSONArrayAdditions.swift"; path = "Sources/SwiftProtobuf/Message+JSONArrayAdditions.swift"; sourceTree = "<group>"; };
-		891B2270823847ED23F2ECFC28F935EC /* Starscream */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Starscream; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		891B2270823847ED23F2ECFC28F935EC /* Starscream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		899C96282B0E32319EF6A9510414F45D /* Plugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Plugin.swift; path = Sources/Moya/Plugin.swift; sourceTree = "<group>"; };
 		89CDA11A00A6A8C1CC40414844EAB490 /* Image.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Image.swift; path = Sources/Image/Image.swift; sourceTree = "<group>"; };
-		8A0049ED930BC41A563AE85C85F4840C /* h5_biaoqing.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_biaoqing.svg; sourceTree = "<group>"; };
+		8A0049ED930BC41A563AE85C85F4840C /* h5_biaoqing.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_biaoqing.svg; sourceTree = "<group>"; };
 		8A29D6C9B0460245144D2300C50D1762 /* g_pubsub.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = g_pubsub.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/gateway/g_pubsub.pb.swift; sourceTree = "<group>"; };
 		8A2D22936C9EF2D64A09248EEEE76196 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Source/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
 		8AA199F69308488DACA89BB0B2433337 /* CALayerWithClipRender.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CALayerWithClipRender.m; path = "Source/QuartzCore additions/CALayerWithClipRender.m"; sourceTree = "<group>"; };
@@ -1922,7 +1923,7 @@
 		8E1FD615769FC6D4F1A0AD5AAAEB085E /* SVGDocument.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGDocument.h; path = "Source/DOM classes/SVG-DOM/SVGDocument.h"; sourceTree = "<group>"; };
 		8E3145F17C8AFCA56D006764F943F133 /* Kingfisher-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Kingfisher-Info.plist"; sourceTree = "<group>"; };
 		8E72EA1C0A8E7A923DD46B094A1D4971 /* DDOSLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DDOSLogger.h; path = Sources/CocoaLumberjack/include/CocoaLumberjack/DDOSLogger.h; sourceTree = "<group>"; };
-		8E7C90C1A693D0806D9870175EEA0AB5 /* Group 25.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 25.svg"; sourceTree = "<group>"; };
+		8E7C90C1A693D0806D9870175EEA0AB5 /* Group 25.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 25.svg"; sourceTree = "<group>"; };
 		8F1A88BEC3B28E767AF8F466006E68BC /* SVGSVGElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGSVGElement.m; path = "Source/DOM classes/Unported or Partial DOM/SVGSVGElement.m"; sourceTree = "<group>"; };
 		8FCD5C881172A78916AB3D181196672B /* URLRequest+Encoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLRequest+Encoding.swift"; path = "Sources/Moya/URLRequest+Encoding.swift"; sourceTree = "<group>"; };
 		8FDE182EE16F28E2BB4FB52C96BADA73 /* SVProgressHUD-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-umbrella.h"; sourceTree = "<group>"; };
@@ -1938,11 +1939,11 @@
 		9286CC980A4723614FC38A1117403959 /* SVGKParserGradient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKParserGradient.m; path = "Source/Parsers/Parser Extensions/SVGKParserGradient.m"; sourceTree = "<group>"; };
 		92C2565D74D3DD1FF32BFD1B9B1D0F92 /* ValidationType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ValidationType.swift; path = Sources/Moya/ValidationType.swift; sourceTree = "<group>"; };
 		92D4D52E02B007380E4AA7BCF92957D1 /* Toast-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Toast-Swift.release.xcconfig"; sourceTree = "<group>"; };
-		92DAB4A143C91F279F6F5B404EB171FB /* h5_cehui.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_cehui.svg; sourceTree = "<group>"; };
+		92DAB4A143C91F279F6F5B404EB171FB /* h5_cehui.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_cehui.svg; sourceTree = "<group>"; };
 		932DEDF7A5F2DBDDBD3E61F466CC2AA8 /* NetworkActivityPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkActivityPlugin.swift; path = Sources/Moya/Plugins/NetworkActivityPlugin.swift; sourceTree = "<group>"; };
 		9365F80905FBA5AEEB508173E1B829BF /* AuthenticationChallengeResponsable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthenticationChallengeResponsable.swift; path = Sources/Networking/AuthenticationChallengeResponsable.swift; sourceTree = "<group>"; };
 		94019F28D40F2008EEA19ACF695BC5B2 /* Node.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Node.h; path = "Source/DOM classes/Core DOM/Node.h"; sourceTree = "<group>"; };
-		943D347E61A2E181A4FA2CA894307B6E /* SwiftProtobuf */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftProtobuf; path = SwiftProtobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		943D347E61A2E181A4FA2CA894307B6E /* SwiftProtobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftProtobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		944803F3C3A0BFEEEFB3ED43FB44239F /* EnumType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumType.swift; path = Source/EnumType.swift; sourceTree = "<group>"; };
 		947896552C0110279F363289E8D4ADC7 /* SVGKSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKSource.m; path = Source/SVGKSource.m; sourceTree = "<group>"; };
 		949517177914B5FA934A9C6266210617 /* BaseClassForAllSVGBasicShapes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BaseClassForAllSVGBasicShapes.h; path = "Source/DOM classes/Unported or Partial DOM/BaseClassForAllSVGBasicShapes.h"; sourceTree = "<group>"; };
@@ -1956,7 +1957,7 @@
 		96F0043176A8E926DF05C8DCEC1F0975 /* empty.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = empty.pb.swift; path = Sources/SwiftProtobuf/empty.pb.swift; sourceTree = "<group>"; };
 		97200095F0DD6D7DB9C238D95A94D64C /* right_chat_bg.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = right_chat_bg.png; sourceTree = "<group>"; };
 		978107092935E84B60B18D23035D0044 /* quick_reply.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = quick_reply.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/quick_reply.pb.swift; sourceTree = "<group>"; };
-		979486118B3E90C08386079D57962701 /* SnapKit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SnapKit; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		979486118B3E90C08386079D57962701 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		979C559D2927D62D1B9733BFA3F12DAF /* BWQAView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWQAView.swift; sourceTree = "<group>"; };
 		97AE87350861C7BCB8082D6119CAB631 /* c_qr_code.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = c_qr_code.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/common/c_qr_code.pb.swift; sourceTree = "<group>"; };
 		97E304875EB4F508AC0CD22E18C2830F /* RelativeFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RelativeFormatter.swift; path = Sources/SwiftDate/Formatters/RelativeFormatter/RelativeFormatter.swift; sourceTree = "<group>"; };
@@ -1970,7 +1971,7 @@
 		9A2393C1E68F74ABBAE447AEB32F62FC /* ConstraintLayoutGuideDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuideDSL.swift; path = Source/ConstraintLayoutGuideDSL.swift; sourceTree = "<group>"; };
 		9A285F484739D77904AD9D033599A1A8 /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
 		9A83C4AFBD9BE5B9E6E76061A8655EA7 /* IQKeyboardManager+UIKeyboardNotification.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQKeyboardManager+UIKeyboardNotification.swift"; path = "IQKeyboardManagerSwift/IQKeyboardManager+UIKeyboardNotification.swift"; sourceTree = "<group>"; };
-		9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods-QL-Demo_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-QL-Demo_Example"; path = Pods_QL_Demo_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods_QL_Demo_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QL_Demo_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B6BEBE8274F93D01907CB5B980B3393 /* qiliaoicon_withback.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = qiliaoicon_withback.png; sourceTree = "<group>"; };
 		9C300F416D7CCA13DEBAC1C10FEFC164 /* emoticon_34.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_34.png; sourceTree = "<group>"; };
 		9C3DFF2048B8CD010709D324FB557F66 /* DDLogMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DDLogMacros.h; path = Sources/CocoaLumberjack/include/CocoaLumberjack/DDLogMacros.h; sourceTree = "<group>"; };
@@ -1982,7 +1983,7 @@
 		9CDBFCB2063669C5340A5E4D7A68A29B /* Date+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		9D023480DF5D0585A78FACEFCD97DDE7 /* Pods-QL-Demo_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-QL-Demo_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		9D48A530AB67E3CC8683640C15B17F81 /* Toast-Swift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Toast-Swift-Info.plist"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DA44B801E4DE881F929A4B1E43C7EE4 /* SVGTransform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGTransform.h; path = "Source/DOM classes/SVG-DOM/SVGTransform.h"; sourceTree = "<group>"; };
 		9DA89800791BBD0BE441B011AC8DB8A2 /* XMMenuItemConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuItemConfig.h; path = MenuPopover/MenuModel/XMMenuItemConfig.h; sourceTree = "<group>"; };
 		9DC66033E3B76366DE10CF61DBB69403 /* SVGKSourceLocalFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKSourceLocalFile.h; path = Source/Sources/SVGKSourceLocalFile.h; sourceTree = "<group>"; };
@@ -2011,7 +2012,7 @@
 		A19B7880F23FCB5E6BC3F9AFCC8DB247 /* CocoaLumberjack.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = CocoaLumberjack.modulemap; sourceTree = "<group>"; };
 		A19EA18AA511C118A921B56F64E34253 /* DDFileLogger+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "DDFileLogger+Internal.h"; path = "Sources/CocoaLumberjack/DDFileLogger+Internal.h"; sourceTree = "<group>"; };
 		A1F4ABD738BB51E7F8C5AB4B45FA1FCC /* emoticon_90.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_90.png; sourceTree = "<group>"; };
-		A204E1AD83C6F147116AA0D855998B9A /* Rectangle 594.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Rectangle 594.svg"; sourceTree = "<group>"; };
+		A204E1AD83C6F147116AA0D855998B9A /* Rectangle 594.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Rectangle 594.svg"; sourceTree = "<group>"; };
 		A21DE38533A65CBE9B86685F56C34B03 /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Source/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
 		A22241A86E3DBFCF943849C857126112 /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
 		A254F5D5D9520B9453FA1D1864D68145 /* DDFileLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDFileLogger.m; path = Sources/CocoaLumberjack/DDFileLogger.m; sourceTree = "<group>"; };
@@ -2045,7 +2046,7 @@
 		A86B704062A22043AA1E5A2463897DBC /* Indicator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Indicator.swift; path = Sources/Views/Indicator.swift; sourceTree = "<group>"; };
 		A86CEC5547D0DB7B03F92CBA09FB542B /* SVGUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGUtils.m; path = Source/Utils/SVGUtils.m; sourceTree = "<group>"; };
 		A891CD8060BCB3E1EAC34F4AF57ABA42 /* DDLegacyMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DDLegacyMacros.h; path = "Sources/CocoaLumberjack/Supporting Files/DDLegacyMacros.h"; sourceTree = "<group>"; };
-		A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IQKeyboardManagerSwift; path = IQKeyboardManagerSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IQKeyboardManagerSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93CDF66DD10D606A9CF64885B15F033 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		A992BF0006CC4B4CDBC249ED76DF67B4 /* KeFuWebViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuWebViewController.swift; sourceTree = "<group>"; };
 		A9DCC2488082C95290DFF6577C779B24 /* Kingfisher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Kingfisher-prefix.pch"; sourceTree = "<group>"; };
@@ -2076,8 +2077,8 @@
 		AF6EA7D755F14E193F118F9232AEB512 /* DDASLLogCapture.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DDASLLogCapture.h; path = Sources/CocoaLumberjack/include/CocoaLumberjack/DDASLLogCapture.h; sourceTree = "<group>"; };
 		AFE420B0B4063F2614B2B001595DBE55 /* tenant.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = tenant.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/tenant.pb.swift; sourceTree = "<group>"; };
 		B0128A98ECDD6E409ACE6505F3FB2CB8 /* SVGPathElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGPathElement.m; path = "Source/DOM classes/Unported or Partial DOM/SVGPathElement.m"; sourceTree = "<group>"; };
-		B1056736DAB881554CCC3115B1C4704A /* ht_hfshanchu.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = ht_hfshanchu.svg; sourceTree = "<group>"; };
-		B10EDC7E105D736ED113225D177C0C27 /* ht_shuru.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = ht_shuru.svg; sourceTree = "<group>"; };
+		B1056736DAB881554CCC3115B1C4704A /* ht_hfshanchu.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = ht_hfshanchu.svg; sourceTree = "<group>"; };
+		B10EDC7E105D736ED113225D177C0C27 /* ht_shuru.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = ht_shuru.svg; sourceTree = "<group>"; };
 		B19698B6DC8D65C8B387F00A38B40588 /* SVGPathElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGPathElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGPathElement.h"; sourceTree = "<group>"; };
 		B19A143CC5FD9391F7A24306E1BF26F0 /* SVGKDefine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKDefine.h; path = Source/SVGKDefine.h; sourceTree = "<group>"; };
 		B21ED8FA056C4D06164E76A604CB496D /* UIButton+XMMenuPopover.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+XMMenuPopover.m"; path = "MenuPopover/Categorys/UIButton+XMMenuPopover.m"; sourceTree = "<group>"; };
@@ -2087,7 +2088,7 @@
 		B2BEBE1AEAB6D7C6E0CA7DE95D4C94E3 /* lt_biaoqing.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = lt_biaoqing.png; sourceTree = "<group>"; };
 		B333A2D594565ED87711932DB4EE952B /* data_statistic.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = data_statistic.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/data_statistic.pb.swift; sourceTree = "<group>"; };
 		B35089375D0FBF722D04FFFF641A94AB /* unknown_default.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = unknown_default.png; sourceTree = "<group>"; };
-		B35C8D8C279674605AA6D51AD02BF562 /* reupload.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = reupload.svg; sourceTree = "<group>"; };
+		B35C8D8C279674605AA6D51AD02BF562 /* reupload.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = reupload.svg; sourceTree = "<group>"; };
 		B36EA440A6B7944A35B1884851F7F120 /* IQKeyboardManagerSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "IQKeyboardManagerSwift-dummy.m"; sourceTree = "<group>"; };
 		B3F38DACE2A78F62220D600944E0E68E /* SVGUnitTypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGUnitTypes.h; path = "Source/DOM classes/SVG-DOM/SVGUnitTypes.h"; sourceTree = "<group>"; };
 		B4518AF5E69A09DE26551110322BE6B2 /* JSONScanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSONScanner.swift; path = Sources/SwiftProtobuf/JSONScanner.swift; sourceTree = "<group>"; };
@@ -2105,7 +2106,7 @@
 		B74FEE43264FAC34E9F7A55770771AFA /* BWKeFuChatEmojiView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWKeFuChatEmojiView.swift; sourceTree = "<group>"; };
 		B7680E5E6130E5ED6C63CC9ACEAF1953 /* SVGTextPositioningElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGTextPositioningElement.h; path = "Source/DOM classes/SVG-DOM/SVGTextPositioningElement.h"; sourceTree = "<group>"; };
 		B7D7054DBD6E24F9DA5279B418018252 /* CacheSerializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CacheSerializer.swift; path = Sources/Cache/CacheSerializer.swift; sourceTree = "<group>"; };
-		B8307FA4D20DE84478FD4FCEC2420A0E /* arrowup.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = arrowup.svg; sourceTree = "<group>"; };
+		B8307FA4D20DE84478FD4FCEC2420A0E /* arrowup.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = arrowup.svg; sourceTree = "<group>"; };
 		B832BA4DC6FD22B00C16D5805575D48F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		B836BB1E443937A1462774D9371FB2DC /* BWEntranceView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWEntranceView.swift; sourceTree = "<group>"; };
 		B84698057D97AAA4D6AE6061EABE688A /* loading_animation.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; path = loading_animation.gif; sourceTree = "<group>"; };
@@ -2122,7 +2123,7 @@
 		BAEDCF7891D2575DB4640A0C34D3EA11 /* DiskStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DiskStorage.swift; path = Sources/Cache/DiskStorage.swift; sourceTree = "<group>"; };
 		BAF21B884B4F8B38EACDC2A7DA6377D6 /* KingfisherError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KingfisherError.swift; path = Sources/General/KingfisherError.swift; sourceTree = "<group>"; };
 		BB64872CB20068469A733587828148CE /* ImageDownloader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = Sources/Networking/ImageDownloader.swift; sourceTree = "<group>"; };
-		BBE6AC7551A068575F588BACF9814DB9 /* Polygon 1.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Polygon 1.svg"; sourceTree = "<group>"; };
+		BBE6AC7551A068575F588BACF9814DB9 /* Polygon 1.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Polygon 1.svg"; sourceTree = "<group>"; };
 		BC5BCB2014260316F8D9CA76C7381FF4 /* word_default.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = word_default.png; sourceTree = "<group>"; };
 		BC8C7EA98F91BA5A5D1F0A2B6E5742BD /* XMMenuItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XMMenuItem.h; path = MenuPopover/MenuModel/XMMenuItem.h; sourceTree = "<group>"; };
 		BC924FAA7CBEC2884F42A66BDD318D51 /* DDOSLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDOSLogger.m; path = Sources/CocoaLumberjack/DDOSLogger.m; sourceTree = "<group>"; };
@@ -2142,11 +2143,11 @@
 		C16FDF59BE5F693F8197690293F76639 /* Image.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Image.swift; path = Sources/Moya/Image.swift; sourceTree = "<group>"; };
 		C204D6036A81A87486E6AB6C86ACF366 /* Date+Create.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+Create.swift"; path = "Sources/SwiftDate/Date/Date+Create.swift"; sourceTree = "<group>"; };
 		C20E0647C0C93DB2EBAC4715077183B1 /* AssociatedValues.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssociatedValues.swift; path = Sources/SwiftDate/Supports/AssociatedValues.swift; sourceTree = "<group>"; };
-		C261436D14052AE3C35F240BCD155CAC /* CocoaLumberjack */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CocoaLumberjack; path = CocoaLumberjack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C261436D14052AE3C35F240BCD155CAC /* CocoaLumberjack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoaLumberjack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C6F38B57112B003DDF4743FB43B544 /* SVGKParserGradient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKParserGradient.h; path = "Source/Parsers/Parser Extensions/SVGKParserGradient.h"; sourceTree = "<group>"; };
 		C2EFBC18F535DCE858E3C84E8EF50417 /* WBaseView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBaseView.swift; sourceTree = "<group>"; };
 		C3A03C6C97A4138573DC71A79EECD7C3 /* Starscream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Starscream.release.xcconfig; sourceTree = "<group>"; };
-		C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Kingfisher; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4331735BA581ED2435D9BD2DBCC8736 /* XMMenuItemSystemView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XMMenuItemSystemView.m; path = MenuPopover/Views/MenuItemViews/XMMenuItemSystemView.m; sourceTree = "<group>"; };
 		C437F743E35B55A6DFF84CFA8AD5627E /* emoticon_60.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_60.png; sourceTree = "<group>"; };
 		C49E2FBBF3DE29308AF38DCAB8148F44 /* loading.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -2170,32 +2171,32 @@
 		C775A006C0D7051377DEFCE3AAD1DC6D /* error_report.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = error_report.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/error_report.pb.swift; sourceTree = "<group>"; };
 		C782B874658DF2F9A099852984A20493 /* SVGTextContentElement.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGTextContentElement.m; path = "Source/DOM classes/SVG-DOM/SVGTextContentElement.m"; sourceTree = "<group>"; };
 		C7AD3332048C2AAA4CBDC15BFC1FD51C /* emoticon_44.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_44.png; sourceTree = "<group>"; };
-		C80C6B7AD932BD50178D8A8E03329EA6 /* error.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = error.svg; sourceTree = "<group>"; };
+		C80C6B7AD932BD50178D8A8E03329EA6 /* error.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = error.svg; sourceTree = "<group>"; };
 		C8944A00E9AB100A4B0444B8EDE5CC96 /* SVGGradientLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGGradientLayer.m; path = "Source/QuartzCore additions/SVGGradientLayer.m"; sourceTree = "<group>"; };
 		C8A8215F59E064F96A12A4BFD7DF5EB4 /* ImageView+Kingfisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ImageView+Kingfisher.swift"; path = "Sources/Extensions/ImageView+Kingfisher.swift"; sourceTree = "<group>"; };
 		C8C9BE4CF8C1D509EBDFAE14577E9780 /* SessionDataTask.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDataTask.swift; path = Sources/Networking/SessionDataTask.swift; sourceTree = "<group>"; };
 		C90054A32882F26633A2198C6001C1C3 /* TeneasyChatSDKUI_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TeneasyChatSDKUI_iOS.debug.xcconfig; sourceTree = "<group>"; };
-		C97C8354EC4C81F120BEB4FC34ACCCDA /* h5_huifu.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_huifu.svg; sourceTree = "<group>"; };
+		C97C8354EC4C81F120BEB4FC34ACCCDA /* h5_huifu.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_huifu.svg; sourceTree = "<group>"; };
 		C97F81A66E54B9FA3CFF83EA17E43234 /* WTimeConvertUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WTimeConvertUtil.swift; sourceTree = "<group>"; };
 		C99DB7638876485400F6171EDD3A86EF /* SVGKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGKit.h; path = Source/SVGKit.h; sourceTree = "<group>"; };
 		C99FE32DC10717B1E29CC86B84A48F17 /* SVGKSourceNSData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKSourceNSData.m; path = Source/Sources/SVGKSourceNSData.m; sourceTree = "<group>"; };
-		CA24C48E0DA34E34BDA168C81286D9FC /* ic_left_point.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = ic_left_point.svg; sourceTree = "<group>"; };
+		CA24C48E0DA34E34BDA168C81286D9FC /* ic_left_point.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = ic_left_point.svg; sourceTree = "<group>"; };
 		CA59E5BAB4C70CD4214ECF920576848E /* SVGDefsElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGDefsElement.h; path = "Source/DOM classes/SVG-DOM/SVGDefsElement.h"; sourceTree = "<group>"; };
 		CA6280751E4A48A4E1DF796A8294EA4D /* BWKeFuChatToolBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BWKeFuChatToolBar.swift; sourceTree = "<group>"; };
 		CAA78F1C329539E1286A89672B99738A /* SVGKParserDOM.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKParserDOM.m; path = "Source/Parsers/Parser Extensions/SVGKParserDOM.m"; sourceTree = "<group>"; };
 		CB200CE0E5331740FA1846C1FF3AF911 /* emoticon_16.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_16.png; sourceTree = "<group>"; };
 		CBA77D31BD6D5B70A8E323B0A01F42DF /* xtbq_guanbi1.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = xtbq_guanbi1.png; sourceTree = "<group>"; };
 		CBC2379EC0A61ECE243B4C821ADC5741 /* DDContextFilterLogFormatter+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "DDContextFilterLogFormatter+Deprecated.h"; path = "Sources/CocoaLumberjack/include/CocoaLumberjack/DDContextFilterLogFormatter+Deprecated.h"; sourceTree = "<group>"; };
-		CBF491483A644DF7D3BC6E2DDED2636C /* service-1.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "service-1.svg"; sourceTree = "<group>"; };
+		CBF491483A644DF7D3BC6E2DDED2636C /* service-1.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "service-1.svg"; sourceTree = "<group>"; };
 		CC0D51DCF2D69FFB7CDD1107B8F4431F /* BinaryDecodingOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryDecodingOptions.swift; path = Sources/SwiftProtobuf/BinaryDecodingOptions.swift; sourceTree = "<group>"; };
 		CC1DF47F1209D8BB342094D6CF828B81 /* ConstConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConstConfig.swift; sourceTree = "<group>"; };
 		CC250CA4443F6323892B0E2BD571CA84 /* FoundationSecurity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FoundationSecurity.swift; path = Sources/Security/FoundationSecurity.swift; sourceTree = "<group>"; };
 		CC298422980EE3ED0D83AA936955CA62 /* DocumentType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DocumentType.h; path = "Source/DOM classes/Core DOM/DocumentType.h"; sourceTree = "<group>"; };
 		CCD4C406434B43E127691132DE17FDC8 /* IQBarButtonItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQBarButtonItem.swift; path = IQKeyboardManagerSwift/IQToolbar/IQBarButtonItem.swift; sourceTree = "<group>"; };
 		CD1F603C77543705D43A135D23E9AF77 /* emoticon_52.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_52.png; sourceTree = "<group>"; };
-		CD54121DDA84872534168702B5F92950 /* HandyJSON */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HandyJSON; path = HandyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD54121DDA84872534168702B5F92950 /* HandyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HandyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD75356ABCC389B1AF6B1C49648A99C5 /* regular_reply.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = regular_reply.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/regular_reply.pb.swift; sourceTree = "<group>"; };
-		CDD02A7A3C73F574395E060CCDDCF6A1 /* h5_shibai.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = h5_shibai.svg; sourceTree = "<group>"; };
+		CDD02A7A3C73F574395E060CCDDCF6A1 /* h5_shibai.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = h5_shibai.svg; sourceTree = "<group>"; };
 		CE1714667270B9F9D1BB47A08B942C12 /* CharacterData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CharacterData.h; path = "Source/DOM classes/Core DOM/CharacterData.h"; sourceTree = "<group>"; };
 		CE4985E3F0F66794D527168C1BAC99EA /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Source/ConstraintItem.swift; sourceTree = "<group>"; };
 		CE8D98A315EB9638FDD8906B7AA3DA5E /* Message+TextFormatAdditions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+TextFormatAdditions.swift"; path = "Sources/SwiftProtobuf/Message+TextFormatAdditions.swift"; sourceTree = "<group>"; };
@@ -2212,7 +2213,7 @@
 		D13C5CA79EA1BCB52C350E7D3E17ADB2 /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Sources/Moya/Response.swift; sourceTree = "<group>"; };
 		D14F06EC3CD3F9D04CB9D6EE1FD337CE /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVIndefiniteAnimatedView.h; path = SVProgressHUD/SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		D1B649DAE4C516C5BF48C17E0D0E04C4 /* SwiftProtobuf-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftProtobuf-Info.plist"; sourceTree = "<group>"; };
-		D2073AA6B25E599AC415DF3D800B47A5 /* Polygon 2.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Polygon 2.svg"; sourceTree = "<group>"; };
+		D2073AA6B25E599AC415DF3D800B47A5 /* Polygon 2.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Polygon 2.svg"; sourceTree = "<group>"; };
 		D21B1B505BB02F569194000FED5ED17C /* emoticon_18.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_18.png; sourceTree = "<group>"; };
 		D271DD74A8521A0EE631022D3D969450 /* CSSStyleDeclaration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CSSStyleDeclaration.m; path = "Source/DOM classes/Core DOM/CSSStyleDeclaration.m"; sourceTree = "<group>"; };
 		D2A8D6075F976F3A87CF69343DA86C3E /* SVGGradientLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGGradientLayer.h; path = "Source/QuartzCore additions/SVGGradientLayer.h"; sourceTree = "<group>"; };
@@ -2224,9 +2225,9 @@
 		D50D49B787C88E1D0D1CD9A7DDCD846C /* MediaList.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MediaList.m; path = "Source/DOM classes/Core DOM/MediaList.m"; sourceTree = "<group>"; };
 		D521A6CD9B848AF0A95204F944DBD907 /* TeneasyChatSDK_iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TeneasyChatSDK_iOS-umbrella.h"; sourceTree = "<group>"; };
 		D587B219C3908263A6147DD899DD7ED4 /* AuthenticationInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthenticationInterceptor.swift; path = Source/AuthenticationInterceptor.swift; sourceTree = "<group>"; };
-		D5B32997FEE08D4547A28E7D33FE00FD /* arrow-right.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "arrow-right.svg"; sourceTree = "<group>"; };
+		D5B32997FEE08D4547A28E7D33FE00FD /* arrow-right.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = "arrow-right.svg"; sourceTree = "<group>"; };
 		D5BEE94296490D78F7A78D2B55D17F46 /* ProtobufMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProtobufMap.swift; path = Sources/SwiftProtobuf/ProtobufMap.swift; sourceTree = "<group>"; };
-		D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast-Swift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Toast-Swift"; path = Toast_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Toast_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D607103B1AE2FC062E32D824CF97E389 /* worker.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = worker.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/worker.pb.swift; sourceTree = "<group>"; };
 		D61B6E966FEA0FABA0F1671BCACFE2C7 /* KeFuViewController_ImagePicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeFuViewController_ImagePicker.swift; sourceTree = "<group>"; };
 		D6352E5B8351890F083DAE42E5969F4A /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVRadialGradientLayer.m; path = SVProgressHUD/SVRadialGradientLayer.m; sourceTree = "<group>"; };
@@ -2255,7 +2256,8 @@
 		DC33FCDC5C14447A0F72EB9D7C3E78BB /* SizeExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SizeExtensions.swift; path = Sources/Utility/SizeExtensions.swift; sourceTree = "<group>"; };
 		DC4D769BFD4EE8559FED27D4A4188290 /* TextFormatScanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextFormatScanner.swift; path = Sources/SwiftProtobuf/TextFormatScanner.swift; sourceTree = "<group>"; };
 		DC62CE408E508C2C16668D6966A12C29 /* DDMultiFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDMultiFormatter.m; path = Sources/CocoaLumberjack/Extensions/DDMultiFormatter.m; sourceTree = "<group>"; };
-		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDKUI_iOS; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCC4E7CB2D78514400F4D049 /* BWFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BWFileCell.swift; sourceTree = "<group>"; };
 		DD70143A2318565A5757DA0192DE6D35 /* ISO8601DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ISO8601DateTransform.swift; path = Source/ISO8601DateTransform.swift; sourceTree = "<group>"; };
 		DD9865C6C95734D9D3025F9CAA6ADE5A /* Serializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Serializer.swift; path = Source/Serializer.swift; sourceTree = "<group>"; };
 		DDEA9B14BFF049FDF22EF5FA921F14D7 /* CDATASection.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDATASection.h; path = "Source/DOM classes/Core DOM/CDATASection.h"; sourceTree = "<group>"; };
@@ -2282,7 +2284,7 @@
 		E2DCBCDF24E76DAB77BF21B86AA3CE70 /* XMMenuPopover.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = XMMenuPopover.debug.xcconfig; sourceTree = "<group>"; };
 		E30AEF5014217E8CD9B1C9A50DB39FAA /* Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E32131DAAF45E7DBAFC79D632EEA7D52 /* emoticon_1.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_1.png; sourceTree = "<group>"; };
-		E3254EBDE71371F73B5F1B8BE047CB03 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = IQKeyboardManagerSwift/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E3254EBDE71371F73B5F1B8BE047CB03 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = IQKeyboardManagerSwift/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		E3578EC223BBB1492E50508BBFD303B7 /* note.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = note.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/note.pb.swift; sourceTree = "<group>"; };
 		E35AA2437AAAE6B76198B4D89CB02845 /* emoticon_8.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_8.png; sourceTree = "<group>"; };
 		E3ACCB1652153BF511680294CB8A614F /* CAShapeLayerWithHitTest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CAShapeLayerWithHitTest.m; path = "Source/QuartzCore additions/CAShapeLayerWithHitTest.m"; sourceTree = "<group>"; };
@@ -2301,17 +2303,17 @@
 		E7040343697CC540597DC9027D3778FB /* CSSStyleRule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSSStyleRule.h; path = "Source/DOM classes/Core DOM/CSSStyleRule.h"; sourceTree = "<group>"; };
 		E73C7745799E47FA0C35952819E714CD /* IQKeyboardManagerSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IQKeyboardManagerSwift.release.xcconfig; sourceTree = "<group>"; };
 		E75B3B6E27EA332F6ACF5526376C9C9C /* MultipartUpload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartUpload.swift; path = Source/MultipartUpload.swift; sourceTree = "<group>"; };
-		E7620D45FEC4E073BFAC2AB68A9067C4 /* camera_light.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = camera_light.svg; sourceTree = "<group>"; };
+		E7620D45FEC4E073BFAC2AB68A9067C4 /* camera_light.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = camera_light.svg; sourceTree = "<group>"; };
 		E763F7D4DE11186ECBE0EE9000561192 /* emoticon_92.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_92.png; sourceTree = "<group>"; };
 		E796123596F3939027F9F2858642920E /* Message+JSONAdditions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+JSONAdditions.swift"; path = "Sources/SwiftProtobuf/Message+JSONAdditions.swift"; sourceTree = "<group>"; };
 		E7BF95039E4AA6FA6D730EC9CEB5BB7D /* TargetType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TargetType.swift; path = Sources/Moya/TargetType.swift; sourceTree = "<group>"; };
-		E7E00AE75324E174AACD36855024FAEB /* Frame 2125.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Frame 2125.svg"; sourceTree = "<group>"; };
+		E7E00AE75324E174AACD36855024FAEB /* Frame 2125.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Frame 2125.svg"; sourceTree = "<group>"; };
 		E867710804D162BE49BB097E8581EB01 /* ContextDescriptorType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ContextDescriptorType.swift; path = Source/ContextDescriptorType.swift; sourceTree = "<group>"; };
 		E884D252C843B8452CF32B9BCA62130C /* ReflectionHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReflectionHelper.swift; path = Source/ReflectionHelper.swift; sourceTree = "<group>"; };
 		E886394083FE633D387D71EDE10F1772 /* RequestModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestModifier.swift; path = Sources/Networking/RequestModifier.swift; sourceTree = "<group>"; };
 		E8B8BC9DED646048EC0BA4B326DF7A44 /* BEmotionHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BEmotionHelper.swift; sourceTree = "<group>"; };
 		E8CB5851D7BFB567F96D8A4ECD0F166D /* SVGAnimatedPreserveAspectRatio.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGAnimatedPreserveAspectRatio.h; path = "Source/DOM classes/SVG-DOM/SVGAnimatedPreserveAspectRatio.h"; sourceTree = "<group>"; };
-		E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SVProgressHUD; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA07FFB0D902737025098BAF906F5471 /* emoticon_64.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_64.png; sourceTree = "<group>"; };
 		EA75D1DFCA8D4BE841C24950130E1072 /* emoticon_70.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_70.png; sourceTree = "<group>"; };
 		EAB75763EF7DD3A68979DD21E1100A88 /* FieldTypes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FieldTypes.swift; path = Sources/SwiftProtobuf/FieldTypes.swift; sourceTree = "<group>"; };
@@ -2323,8 +2325,8 @@
 		EC039673C2942207DDD94F13F2881620 /* Decoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Decoder.swift; path = Sources/SwiftProtobuf/Decoder.swift; sourceTree = "<group>"; };
 		EC0D930E41455D063C735F30E5E8BBC4 /* SVGImageElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGImageElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGImageElement.h"; sourceTree = "<group>"; };
 		EC0E56763DD0AE2AAB6105749D131A70 /* SVProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		EC8730CA8C6B8B4EA46F3013BEF63441 /* com_moren.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = com_moren.svg; sourceTree = "<group>"; };
-		EC9671A534273B613252DF1FC2839DE5 /* right_chat_bg.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = right_chat_bg.svg; sourceTree = "<group>"; };
+		EC8730CA8C6B8B4EA46F3013BEF63441 /* com_moren.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = com_moren.svg; sourceTree = "<group>"; };
+		EC9671A534273B613252DF1FC2839DE5 /* right_chat_bg.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = right_chat_bg.svg; sourceTree = "<group>"; };
 		ED806CF2955504EF066141D24C27DF68 /* ImageDownloaderDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDownloaderDelegate.swift; path = Sources/Networking/ImageDownloaderDelegate.swift; sourceTree = "<group>"; };
 		EDA23337906BEB3A3FD9D9A7E6F2E72A /* emoticon_20.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_20.png; sourceTree = "<group>"; };
 		EDA82994DB7747797E135BBB8FE176A8 /* TimePeriodCollection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimePeriodCollection.swift; path = Sources/SwiftDate/TimePeriod/Groups/TimePeriodCollection.swift; sourceTree = "<group>"; };
@@ -2349,7 +2351,7 @@
 		F2706B8606135864A07DC43C40E03783 /* emoticon_4.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_4.png; sourceTree = "<group>"; };
 		F273E2D950EB6D2974FF877F3BB4704E /* SVGKImage+CGContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SVGKImage+CGContext.m"; path = "Source/Exporters/SVGKImage+CGContext.m"; sourceTree = "<group>"; };
 		F27418A43F1439357C66E4B3B26CAA44 /* SVGKImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKImage.m; path = Source/SVGKImage.m; sourceTree = "<group>"; };
-		F2BEB931CD49567E5415D31C9C465D7F /* XMMenuPopover */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = XMMenuPopover; path = XMMenuPopover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2BEB931CD49567E5415D31C9C465D7F /* XMMenuPopover.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XMMenuPopover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2E8E3481BABF1CC3226542F4441C19E /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		F3769A2CBFCE76971AA67C36A044ABCB /* ResizableImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ResizableImageView.swift; sourceTree = "<group>"; };
 		F376BE6A0A08D2CF5369D1F858CCD370 /* IQToolbar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQToolbar.swift; path = IQKeyboardManagerSwift/IQToolbar/IQToolbar.swift; sourceTree = "<group>"; };
@@ -2369,7 +2371,7 @@
 		F77C24E0B7FDF595D04B8E434FA9BAA6 /* WKInterfaceImage+Kingfisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "WKInterfaceImage+Kingfisher.swift"; path = "Sources/Extensions/WKInterfaceImage+Kingfisher.swift"; sourceTree = "<group>"; };
 		F7A32BA867CA151EC2B3B27BFAC77C86 /* CocoaLumberjack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = CocoaLumberjack.release.xcconfig; sourceTree = "<group>"; };
 		F7E018D5C655E1FD3FADEAA804B0AEE7 /* emoticon_5.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_5.png; sourceTree = "<group>"; };
-		F8437BE58881E63196CF1F80191B3E2F /* SVGKit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SVGKit; path = SVGKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8437BE58881E63196CF1F80191B3E2F /* SVGKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVGKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8698A69510D19626947A5E14F7AFBD1 /* Google_Protobuf_Any+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_Any+Extensions.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_Any+Extensions.swift"; sourceTree = "<group>"; };
 		F88740D123CF9ED050A0A0A3EB1204E5 /* RequestInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestInterceptor.swift; path = Source/RequestInterceptor.swift; sourceTree = "<group>"; };
 		F8CCEDBA51EF07CDD5850CAEB8754109 /* String+MD5.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+MD5.swift"; path = "Sources/Utility/String+MD5.swift"; sourceTree = "<group>"; };
@@ -2377,13 +2379,13 @@
 		F9249B33A564AD50150BBEF146CEE1F3 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
 		F927D0F356D59532A659451A11580F3D /* emoticon_75.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_75.png; sourceTree = "<group>"; };
 		F93D1D612B38AD1924EAD45405CBB1D3 /* SVGKFastImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SVGKFastImageView.m; path = Source/ImageViews/SVGKFastImageView.m; sourceTree = "<group>"; };
-		F943002A2D938F9D058471851F6AE1F7 /* ht_fuzhi.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = ht_fuzhi.svg; sourceTree = "<group>"; };
+		F943002A2D938F9D058471851F6AE1F7 /* ht_fuzhi.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = ht_fuzhi.svg; sourceTree = "<group>"; };
 		FA060F1A8FE7A1C502C955F73EB586E4 /* c_operate.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = c_operate.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/common/c_operate.pb.swift; sourceTree = "<group>"; };
 		FA29825F9566449476D08D03F34A6429 /* duration.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = duration.pb.swift; path = Sources/SwiftProtobuf/duration.pb.swift; sourceTree = "<group>"; };
 		FA38CD0E0C44FEFFCCF1072D02399B10 /* GraphicsContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GraphicsContext.swift; path = Sources/Image/GraphicsContext.swift; sourceTree = "<group>"; };
 		FA69A209B3B68ACB8E1D495630B68FE1 /* Google_Protobuf_Value+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Google_Protobuf_Value+Extensions.swift"; path = "Sources/SwiftProtobuf/Google_Protobuf_Value+Extensions.swift"; sourceTree = "<group>"; };
 		FAACC495C8A56F7BBDD6D4685E770396 /* SVGUseElement_Mutable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGUseElement_Mutable.h; path = "Source/DOM classes/SVG-DOM/SVGUseElement_Mutable.h"; sourceTree = "<group>"; };
-		FAC11C3BDCA2996FAADB849DA4F8CFE4 /* TeneasyChatSDK_iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TeneasyChatSDK_iOS; path = TeneasyChatSDK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAC11C3BDCA2996FAADB849DA4F8CFE4 /* TeneasyChatSDK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TeneasyChatSDK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD021E404745CD6E1C6BC3B71FC37B6 /* RetryPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RetryPolicy.swift; path = Source/RetryPolicy.swift; sourceTree = "<group>"; };
 		FB226215CA328A4777A2D591EACF3814 /* TeneasyChatSDK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TeneasyChatSDK_iOS.release.xcconfig; sourceTree = "<group>"; };
 		FB6859EC2E9B626F186CB06DF644C8B3 /* emoticon_66.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_66.png; sourceTree = "<group>"; };
@@ -2399,12 +2401,12 @@
 		FDCBF050BF0B1E59B73A9CA6C6D0E584 /* NSCharacterSet+SVGKExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet+SVGKExtensions.h"; path = "Source/Foundation additions/NSCharacterSet+SVGKExtensions.h"; sourceTree = "<group>"; };
 		FDF2CA24345D098934BF44BBEBA76D93 /* any.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = any.pb.swift; path = Sources/SwiftProtobuf/any.pb.swift; sourceTree = "<group>"; };
 		FE208B744E5BE9EC0857E038942610A1 /* SVProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SVProgressHUD.modulemap; sourceTree = "<group>"; };
-		FE892D3B912AAA76400E2041789481C2 /* emoj.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = emoj.svg; sourceTree = "<group>"; };
+		FE892D3B912AAA76400E2041789481C2 /* emoj.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = emoj.svg; sourceTree = "<group>"; };
 		FE987B783F71BA7EF0FAC6872034D14C /* DocumentStyle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DocumentStyle.h; path = "Source/DOM classes/Core DOM/DocumentStyle.h"; sourceTree = "<group>"; };
 		FEF15F186268B1A47AE6F89793EE3E16 /* emoticon_7.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_7.png; sourceTree = "<group>"; };
 		FEF85D41CFFE046F3DFF22F49A265B16 /* Kingfisher.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Kingfisher.modulemap; sourceTree = "<group>"; };
-		FF3D8D53C753E895547B48D52F8437D4 /* svg */ = {isa = PBXFileReference; includeInIndex = 1; name = svg; path = TeneasyChatSDKUI_iOS/Assets/svg; sourceTree = "<group>"; };
-		FF417A0CDC72907476B1AE09B0241064 /* Group 27.svg */ = {isa = PBXFileReference; includeInIndex = 1; path = "Group 27.svg"; sourceTree = "<group>"; };
+		FF3D8D53C753E895547B48D52F8437D4 /* svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = svg; path = TeneasyChatSDKUI_iOS/Assets/svg; sourceTree = "<group>"; };
+		FF417A0CDC72907476B1AE09B0241064 /* Group 27.svg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Group 27.svg"; sourceTree = "<group>"; };
 		FF7D97127DDDACC6E424F5FB58E3E87B /* SVGGroupElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGGroupElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGGroupElement.h"; sourceTree = "<group>"; };
 		FF91B97A9BAE2F76861ED8D7BDEE8F7C /* Date+Compare.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+Compare.swift"; path = "Sources/SwiftDate/Date/Date+Compare.swift"; sourceTree = "<group>"; };
 		FF9591C378E5B9FB3B17113D0ED96A06 /* SVGStyleCatcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGStyleCatcher.h; path = "Source/DOM classes/Unported or Partial DOM/SVGStyleCatcher.h"; sourceTree = "<group>"; };
@@ -2641,7 +2643,6 @@
 				29C114FD188F2F725311C36F4442E1AF /* UILayoutSupport+Extensions.swift */,
 				AA35DE1D32585F3FD6DBFEECDA0A868C /* Support Files */,
 			);
-			name = SnapKit;
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
@@ -2715,7 +2716,6 @@
 				A06F7A743D883FEEF08EF79674435EE8 /* WSEngine.swift */,
 				3D983FEDF77C32109CE6666B8AA34647 /* Support Files */,
 			);
-			name = Starscream;
 			path = Starscream;
 			sourceTree = "<group>";
 		};
@@ -2918,7 +2918,6 @@
 				F77C24E0B7FDF595D04B8E434FA9BAA6 /* WKInterfaceImage+Kingfisher.swift */,
 				4C0685E79DCFB8E2F5F80921209971E9 /* Support Files */,
 			);
-			name = Kingfisher;
 			path = Kingfisher;
 			sourceTree = "<group>";
 		};
@@ -2946,7 +2945,6 @@
 				E52BE49A304D4D87416A6500997E58FB /* XMMenuView.m */,
 				EC43843047EDD4E80C61397A0555CA77 /* Support Files */,
 			);
-			name = XMMenuPopover;
 			path = XMMenuPopover;
 			sourceTree = "<group>";
 		};
@@ -2970,7 +2968,6 @@
 				0C86F1C423E84559671847EB568BD44D /* Core */,
 				38CCBA44D3D8484D819564BE3CD358E0 /* Support Files */,
 			);
-			name = Moya;
 			path = Moya;
 			sourceTree = "<group>";
 		};
@@ -3024,7 +3021,6 @@
 				969104B54CA1E59E5C30608EDA341476 /* Resources */,
 				15BBFCC148551839CC324CF5F9A87AD5 /* Support Files */,
 			);
-			name = SwiftDate;
 			path = SwiftDate;
 			sourceTree = "<group>";
 		};
@@ -3273,7 +3269,6 @@
 				03FC744ADB7D7609D0AD70CD01365608 /* TinySVGTextAreaElement.m */,
 				2492A08D5F589C15B1E8AAA6E86DF649 /* Support Files */,
 			);
-			name = SVGKit;
 			path = SVGKit;
 			sourceTree = "<group>";
 		};
@@ -3347,7 +3342,6 @@
 				B12F7441A9A02D1278095C22D9CE15AC /* Resources */,
 				DE2CF6D0AEF477E40F84CAE0C22A255F /* Support Files */,
 			);
-			name = SVProgressHUD;
 			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
@@ -3432,7 +3426,6 @@
 				65BA78395B04DAB0B82CF5DDCD85CD36 /* worker_group.pb.swift */,
 				B29D6606A0082D9101918D634C165B3C /* Support Files */,
 			);
-			name = TeneasyChatSDK_iOS;
 			path = TeneasyChatSDK_iOS;
 			sourceTree = "<group>";
 		};
@@ -3508,7 +3501,6 @@
 				2694A520CA2FF3C24F2BE878796BDB0D /* Resources */,
 				FC05885FF21893C1E8BAA7F48F1CC76E /* Support Files */,
 			);
-			name = IQKeyboardManagerSwift;
 			path = IQKeyboardManagerSwift;
 			sourceTree = "<group>";
 		};
@@ -3607,7 +3599,6 @@
 				74FD1DC23BEF0D35A644F02F96A65205 /* Resources */,
 				65013DE69E407DBDEE95DF1E8876902D /* Support Files */,
 			);
-			name = SwiftProtobuf;
 			path = SwiftProtobuf;
 			sourceTree = "<group>";
 		};
@@ -3625,7 +3616,6 @@
 				3CB44BC57E4EFB8367CE308CA5DCBCE3 /* Toast.swift */,
 				AC71E756707A8D69BC919C0A6850E03F /* Support Files */,
 			);
-			name = "Toast-Swift";
 			path = "Toast-Swift";
 			sourceTree = "<group>";
 		};
@@ -3633,6 +3623,7 @@
 			isa = PBXGroup;
 			children = (
 				5D722AC6478B41F42C00971A14CF50B7 /* BWAutoQuestionCell.swift */,
+				DCC4E7CB2D78514400F4D049 /* BWFileCell.swift */,
 				C601C2B524BD07644E09530DC1C81AFD /* BWChatCell.swift */,
 				C4CF740BFCC3A9FE8E55EE2E5BE2F817 /* BWChatQACell.swift */,
 				B836BB1E443937A1462774D9371FB2DC /* BWEntranceView.swift */,
@@ -3682,7 +3673,6 @@
 				CDE384DB10C9245D64C33E7326AA58AE /* Core */,
 				FF2F966ED1A87C603EB383A683212452 /* Support Files */,
 			);
-			name = CocoaLumberjack;
 			path = CocoaLumberjack;
 			sourceTree = "<group>";
 		};
@@ -3746,27 +3736,27 @@
 		BD052C41ED8E13A820440934D8F18B44 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */,
-				C261436D14052AE3C35F240BCD155CAC /* CocoaLumberjack */,
-				519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjack-CocoaLumberjackPrivacy */,
-				CD54121DDA84872534168702B5F92950 /* HandyJSON */,
-				A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift */,
-				C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher */,
-				3756A9BBE41ABEE8DCBF5BCA6972C4DA /* Moya */,
-				9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods-QL-Demo_Example */,
-				8078F691EC86ED9583EC7D0B3D112101 /* Pods-QL-Demo_Tests */,
-				979486118B3E90C08386079D57962701 /* SnapKit */,
-				891B2270823847ED23F2ECFC28F935EC /* Starscream */,
-				F8437BE58881E63196CF1F80191B3E2F /* SVGKit */,
-				E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD */,
-				58AE0544E0C381DDBD09356C357EC82B /* SwiftDate */,
-				943D347E61A2E181A4FA2CA894307B6E /* SwiftProtobuf */,
-				38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf-SwiftProtobuf */,
-				FAC11C3BDCA2996FAADB849DA4F8CFE4 /* TeneasyChatSDK_iOS */,
-				DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */,
-				5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS */,
-				D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast-Swift */,
-				F2BEB931CD49567E5415D31C9C465D7F /* XMMenuPopover */,
+				5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */,
+				C261436D14052AE3C35F240BCD155CAC /* CocoaLumberjack.framework */,
+				519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjackPrivacy.bundle */,
+				CD54121DDA84872534168702B5F92950 /* HandyJSON.framework */,
+				A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift.framework */,
+				C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher.framework */,
+				3756A9BBE41ABEE8DCBF5BCA6972C4DA /* Moya.framework */,
+				9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods_QL_Demo_Example.framework */,
+				8078F691EC86ED9583EC7D0B3D112101 /* Pods_QL_Demo_Tests.framework */,
+				979486118B3E90C08386079D57962701 /* SnapKit.framework */,
+				891B2270823847ED23F2ECFC28F935EC /* Starscream.framework */,
+				F8437BE58881E63196CF1F80191B3E2F /* SVGKit.framework */,
+				E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD.framework */,
+				58AE0544E0C381DDBD09356C357EC82B /* SwiftDate.framework */,
+				943D347E61A2E181A4FA2CA894307B6E /* SwiftProtobuf.framework */,
+				38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf.bundle */,
+				FAC11C3BDCA2996FAADB849DA4F8CFE4 /* TeneasyChatSDK_iOS.framework */,
+				DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS.framework */,
+				5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS.bundle */,
+				D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast_Swift.framework */,
+				F2BEB931CD49567E5415D31C9C465D7F /* XMMenuPopover.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3812,7 +3802,6 @@
 				10B906E14F4388CB27B27A39E3AEA1C0 /* URLTransform.swift */,
 				50E3DF5046D9489D22842F15BE7088F2 /* Support Files */,
 			);
-			name = HandyJSON;
 			path = HandyJSON;
 			sourceTree = "<group>";
 		};
@@ -3895,7 +3884,6 @@
 				F2E8E3481BABF1CC3226542F4441C19E /* Validation.swift */,
 				E9C546018440137ECB5DE6AFE99105CF /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -4149,7 +4137,6 @@
 			children = (
 				59B009C25E7A86E49DD4D07E47588FB7 /* WWProgressHUD.swift */,
 			);
-			name = WWProgressHUD;
 			path = WWProgressHUD;
 			sourceTree = "<group>";
 		};
@@ -4545,7 +4532,7 @@
 			);
 			name = HandyJSON;
 			productName = HandyJSON;
-			productReference = CD54121DDA84872534168702B5F92950 /* HandyJSON */;
+			productReference = CD54121DDA84872534168702B5F92950 /* HandyJSON.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		17F9141D333DA1A7BE5937F227221070 /* Moya */ = {
@@ -4564,7 +4551,7 @@
 			);
 			name = Moya;
 			productName = Moya;
-			productReference = 3756A9BBE41ABEE8DCBF5BCA6972C4DA /* Moya */;
+			productReference = 3756A9BBE41ABEE8DCBF5BCA6972C4DA /* Moya.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */ = {
@@ -4582,7 +4569,7 @@
 			);
 			name = SnapKit;
 			productName = SnapKit;
-			productReference = 979486118B3E90C08386079D57962701 /* SnapKit */;
+			productReference = 979486118B3E90C08386079D57962701 /* SnapKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		1C8D67D8B72D6BA42CCEDB648537A340 /* SVProgressHUD */ = {
@@ -4600,7 +4587,7 @@
 			);
 			name = SVProgressHUD;
 			productName = SVProgressHUD;
-			productReference = E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD */;
+			productReference = E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		276021C4482165D46E0CBBEFB822FE95 /* CocoaLumberjack-CocoaLumberjackPrivacy */ = {
@@ -4617,7 +4604,7 @@
 			);
 			name = "CocoaLumberjack-CocoaLumberjackPrivacy";
 			productName = CocoaLumberjackPrivacy;
-			productReference = 519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjack-CocoaLumberjackPrivacy */;
+			productReference = 519AF98C92B517DD023896CD077EBFD4 /* CocoaLumberjackPrivacy.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		2C407B86549A226D4B1EB592F58138AC /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS */ = {
@@ -4634,7 +4621,7 @@
 			);
 			name = "TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS";
 			productName = TeneasyChatSDKUI_iOS;
-			productReference = 5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS */;
+			productReference = 5EDA5356F4A8913B5CC705B1C4A8B909 /* TeneasyChatSDKUI_iOS.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		4C14C0B55EC71E5D1F7FC2BD55343ABB /* Pods-QL-Demo_Example */ = {
@@ -4668,7 +4655,7 @@
 			);
 			name = "Pods-QL-Demo_Example";
 			productName = Pods_QL_Demo_Example;
-			productReference = 9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods-QL-Demo_Example */;
+			productReference = 9AC97FC594B8A5AD6688E94E3B77F3D2 /* Pods_QL_Demo_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		573713AE5D1A5E70886FB835FF46F436 /* TeneasyChatSDKUI_iOS */ = {
@@ -4699,7 +4686,7 @@
 			);
 			name = TeneasyChatSDKUI_iOS;
 			productName = TeneasyChatSDKUI_iOS;
-			productReference = DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS */;
+			productReference = DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		6038CE6006EFBE9D905454CF01909C42 /* SwiftDate */ = {
@@ -4717,7 +4704,7 @@
 			);
 			name = SwiftDate;
 			productName = SwiftDate;
-			productReference = 58AE0544E0C381DDBD09356C357EC82B /* SwiftDate */;
+			productReference = 58AE0544E0C381DDBD09356C357EC82B /* SwiftDate.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		9B78EE4AF6AE03E79D88886319853FF7 /* Starscream */ = {
@@ -4735,7 +4722,7 @@
 			);
 			name = Starscream;
 			productName = Starscream;
-			productReference = 891B2270823847ED23F2ECFC28F935EC /* Starscream */;
+			productReference = 891B2270823847ED23F2ECFC28F935EC /* Starscream.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		A5F702E0DA383BC1479572581615A916 /* SwiftProtobuf */ = {
@@ -4754,7 +4741,7 @@
 			);
 			name = SwiftProtobuf;
 			productName = SwiftProtobuf;
-			productReference = 943D347E61A2E181A4FA2CA894307B6E /* SwiftProtobuf */;
+			productReference = 943D347E61A2E181A4FA2CA894307B6E /* SwiftProtobuf.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		ADC1D5EF2AF1FFA1EC94BB12634D20C0 /* TeneasyChatSDK_iOS */ = {
@@ -4776,7 +4763,7 @@
 			);
 			name = TeneasyChatSDK_iOS;
 			productName = TeneasyChatSDK_iOS;
-			productReference = FAC11C3BDCA2996FAADB849DA4F8CFE4 /* TeneasyChatSDK_iOS */;
+			productReference = FAC11C3BDCA2996FAADB849DA4F8CFE4 /* TeneasyChatSDK_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		AF5D35E8B8F106C60C667C6B9270C384 /* XMMenuPopover */ = {
@@ -4794,7 +4781,7 @@
 			);
 			name = XMMenuPopover;
 			productName = XMMenuPopover;
-			productReference = F2BEB931CD49567E5415D31C9C465D7F /* XMMenuPopover */;
+			productReference = F2BEB931CD49567E5415D31C9C465D7F /* XMMenuPopover.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B490E7485944099E16C9CBD79119D1D4 /* IQKeyboardManagerSwift */ = {
@@ -4812,7 +4799,7 @@
 			);
 			name = IQKeyboardManagerSwift;
 			productName = IQKeyboardManagerSwift;
-			productReference = A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift */;
+			productReference = A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B537A1FD6BC67DF7FE8C2B34E5CE6F19 /* SVGKit */ = {
@@ -4831,7 +4818,7 @@
 			);
 			name = SVGKit;
 			productName = SVGKit;
-			productReference = F8437BE58881E63196CF1F80191B3E2F /* SVGKit */;
+			productReference = F8437BE58881E63196CF1F80191B3E2F /* SVGKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B990BD87169C76A3ED3FE8A9258D91A3 /* Toast-Swift */ = {
@@ -4849,7 +4836,7 @@
 			);
 			name = "Toast-Swift";
 			productName = Toast_Swift;
-			productReference = D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast-Swift */;
+			productReference = D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast_Swift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C5BF3B47A101F9035F421A55CED919AB /* Pods-QL-Demo_Tests */ = {
@@ -4868,7 +4855,7 @@
 			);
 			name = "Pods-QL-Demo_Tests";
 			productName = Pods_QL_Demo_Tests;
-			productReference = 8078F691EC86ED9583EC7D0B3D112101 /* Pods-QL-Demo_Tests */;
+			productReference = 8078F691EC86ED9583EC7D0B3D112101 /* Pods_QL_Demo_Tests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E8022D22FAA6690B5E1C379C1BCE1491 /* Kingfisher */ = {
@@ -4886,7 +4873,7 @@
 			);
 			name = Kingfisher;
 			productName = Kingfisher;
-			productReference = C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher */;
+			productReference = C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E95654B155D25890BE8E26081FCA8265 /* CocoaLumberjack */ = {
@@ -4905,7 +4892,7 @@
 			);
 			name = CocoaLumberjack;
 			productName = CocoaLumberjack;
-			productReference = C261436D14052AE3C35F240BCD155CAC /* CocoaLumberjack */;
+			productReference = C261436D14052AE3C35F240BCD155CAC /* CocoaLumberjack.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */ = {
@@ -4923,7 +4910,7 @@
 			);
 			name = Alamofire;
 			productName = Alamofire;
-			productReference = 5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */;
+			productReference = 5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		FA0CBCD9613A8E95F24D86AAD4A86E26 /* SwiftProtobuf-SwiftProtobuf */ = {
@@ -4940,7 +4927,7 @@
 			);
 			name = "SwiftProtobuf-SwiftProtobuf";
 			productName = SwiftProtobuf;
-			productReference = 38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf-SwiftProtobuf */;
+			productReference = 38DFD12C0DE83AD51C78858605BBA299 /* SwiftProtobuf.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -4961,8 +4948,6 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = BD052C41ED8E13A820440934D8F18B44 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -5025,7 +5010,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C87BA627F6FBEC8220A01A37943A608F /* SwiftProtobuf-SwiftProtobuf in Resources */,
+				C87BA627F6FBEC8220A01A37943A608F /* SwiftProtobuf.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5054,7 +5039,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				912B580455A279132A35A0FBC57839A7 /* TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS in Resources */,
+				912B580455A279132A35A0FBC57839A7 /* TeneasyChatSDKUI_iOS.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5077,7 +5062,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0D1AE435FFC82F5CA91B676CB9310C6 /* CocoaLumberjack-CocoaLumberjackPrivacy in Resources */,
+				C0D1AE435FFC82F5CA91B676CB9310C6 /* CocoaLumberjackPrivacy.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5501,6 +5486,7 @@
 				09699A47AA036E06FB5267407A7884B2 /* ChatModel.swift in Sources */,
 				F7B18F118523E3980A8C82E539D41814 /* Constant.swift in Sources */,
 				A12D9D6C8563C0B449B57761F8554249 /* ConstConfig.swift in Sources */,
+				DCC4E7CC2D78514400F4D049 /* BWFileCell.swift in Sources */,
 				CA067D6DB0F8B724F44694DBD315FB1A /* ConsultTypeViewController.swift in Sources */,
 				7AAF501E70F8244F19007BF0D0283D1A /* Date+Extensions.swift in Sources */,
 				98A3839F5D3980D6388B34FB29ED6D76 /* EntranceModel.swift in Sources */,
