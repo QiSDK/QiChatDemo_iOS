@@ -12,9 +12,25 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             if model.isLeft {
                 let cell = BWFileLeftCell.cell(tableView: tableView)
                 cell.model = model
+                cell.cellTapedGesture = {
+                    self.cellTaped(model: model)
+                }
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+                    }
+                }
                 return cell
             } else {
                 let cell = BWFileRightCell.cell(tableView: tableView)
+                cell.cellTapedGesture = {
+                    self.cellTaped(model: model)
+                }
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+                    }
+                }
                 cell.model = model
                 return cell
             }
@@ -173,7 +189,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             p.message?.msgID == model.message?.replyMsgID
         }
         
-        if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty {
+        if let m = myModel.first{
+            cellTaped(model: m)
+        }
+        /*if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty {
             if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
                 self.playImageFullScreen(url: imgUrl)
             }
@@ -189,7 +208,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
                 self.playVideoFullScreen(url: imgUrl)
             }
-        }
+        }*/
     }
     
     func cellTaped(model: ChatModel) {

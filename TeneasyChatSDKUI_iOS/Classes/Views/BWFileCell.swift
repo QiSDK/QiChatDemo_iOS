@@ -2,10 +2,13 @@
 //  BWFileCell.swift
 //  TeneasyChatSDKUI_iOS
 //
-//  Created by 陈亮 on 2025/3/5.
+//  Created by Xiao Fu on 2025/3/5.
 //
 
 class BWFileCell: UITableViewCell {
+    var cellTapedGesture: BWShowOriginalClickBlock?
+    var longGestCallBack: BWChatCellLongGestCallBack?
+    
     lazy var contentBgView: UIView = {
         let img = UIImageView()
         return img
@@ -20,6 +23,7 @@ class BWFileCell: UITableViewCell {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
         lab.textColor = UIColor.black
+        lab.lineBreakMode = .byTruncatingMiddle
         return lab
     }()
 
@@ -71,18 +75,33 @@ class BWFileCell: UITableViewCell {
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        backgroundColor = .clear
-        
+        //self.contentView.backgroundColor = .red
         self.contentView.addSubview(self.contentBgView)
         self.contentView.addSubview(self.arrowView)
         self.contentView.addSubview(self.fileIcon)
         self.contentView.addSubview(self.timeLab)
-        self.contentView.addSubview(self.fileNameLab)
+        self.contentBgView.addSubview(self.fileNameLab)
         self.contentView.addSubview(self.fileSizeLab)
         self.contentView.addSubview(self.iconView)
 
         self.contentBgView.layer.cornerRadius = 5
         self.contentBgView.layer.masksToBounds = true
+        
+        // Add tap gesture recognizer to the label
+        let tapOpenFileGesture = UITapGestureRecognizer(target: self, action: #selector(self.openFile))
+        self.contentBgView.addGestureRecognizer(tapOpenFileGesture)
+        self.contentBgView.isUserInteractionEnabled = true
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick))
+        self.contentBgView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func openFile() {
+        self.cellTapedGesture!()
+    }
+    
+    @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
+        self.longGestCallBack?(tap)
     }
 
     var model: ChatModel? {
@@ -160,16 +179,16 @@ class BWFileLeftCell: BWFileCell {
         }
 
         self.fileIcon.snp.makeConstraints { make in
-            make.left.equalTo(self.timeLab.snp.left)
+            make.left.equalTo(self.timeLab.snp.left).offset(10)
             //make.top.equalToSuperview().offset(8)
-            make.top.equalTo(self.timeLab.snp.bottom).offset(12)
+            make.top.equalTo(self.timeLab.snp.bottom).offset(10)
             make.width.equalTo(fileIconWidth)
             make.height.equalTo(fileIconWidth)
         }
         //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         self.fileNameLab.snp.makeConstraints { make in
             make.left.equalTo(self.fileIcon.snp.right).offset(10)
-            make.top.equalTo(self.fileIcon.snp.top)
+            make.top.equalTo(self.contentBgView.snp.top).offset(8)
             make.right.equalToSuperview().offset(-10)
             make.height.equalTo(20)
         }
@@ -223,7 +242,7 @@ class BWFileRightCell: BWFileCell {
         //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         self.fileNameLab.snp.makeConstraints { make in
             make.left.equalTo(self.fileIcon.snp.right).offset(0)
-            make.top.equalTo(self.fileIcon.snp.top)
+            make.top.equalTo(self.contentBgView.snp.top).offset(8)
             make.right.equalToSuperview().offset(-10)
             make.height.equalTo(20)
         }
