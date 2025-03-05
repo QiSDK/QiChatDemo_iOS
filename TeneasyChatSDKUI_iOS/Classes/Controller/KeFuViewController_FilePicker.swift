@@ -57,7 +57,7 @@ extension KeFuViewController: UIDocumentPickerDelegate {
             defer { fileURL.stopAccessingSecurityScopedResource() }
             do {
                 let fileData = try Data(contentsOf: fileURL)
-                self.upload(imgData: fileData, isVideo: false, filePath: fileName, size: fileData.count)
+                self.upload(imgData: fileData, isVideo: false, filePath: fileName, size: Int32(fileData.count))
             
                 print("File data loaded successfully")
             } catch {

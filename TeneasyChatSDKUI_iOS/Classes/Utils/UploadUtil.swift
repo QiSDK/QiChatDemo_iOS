@@ -16,7 +16,7 @@ protocol UploadListener {
     /// - Parameters:
     ///   - path: The path of the uploaded file.
     ///   - isVideo: A Boolean indicating whether the uploaded file is a video.
-    func uploadSuccess(paths: Urls, isVideo: Bool, filePath: String?, size: Int)
+    func uploadSuccess(paths: Urls, isVideo: Bool, filePath: String?, size: Int32)
     
     /// Called to indicate the upload progress.
     /// - Parameter progress: The progress of the upload as an integer percentage (0-100).
@@ -38,7 +38,7 @@ struct UploadUtil {
     var  listener : UploadListener?;
     
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool, filePath: String?, fileSize: Int = 0) {
+    func upload(imgData: Data, isVideo: Bool, filePath: String?, fileSize: Int32 = 0) {
         //WWProgressHUD.showLoading("正在上传...")
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
