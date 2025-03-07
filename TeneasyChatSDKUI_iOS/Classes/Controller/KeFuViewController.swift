@@ -263,7 +263,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         //addShadowToTableView()
     }
 
-    func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text, replayQuote: String? = nil) {
+    func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text, replayQuote: ReplyMessageItem? = nil) {
         let model = ChatModel()
         model.isLeft = isLeft
         model.cellType = cellType
@@ -273,7 +273,7 @@ open class KeFuViewController: UIViewController, UploadListener{
             model.sendStatus = status
         }
         if let replayQuote = replayQuote{
-            model.replayQuote = replayQuote
+            model.replyItem = replayQuote
         }
         datasouceArray.append(model)
         tableView.reloadData()
@@ -313,21 +313,24 @@ open class KeFuViewController: UIViewController, UploadListener{
                     var replayQuote = ""
                     let oriMsg = replyList?.first(where: { Message in
                         Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
+                       
                     })
                     
-                    if oriMsg != nil{
-                        if oriMsg?.msgFmt == "MSG_TEXT"{
-                            replayQuote = "\(oriMsg!.content?.data ?? "")"
-                        }else if(oriMsg?.msgFmt == "MSG_IMG"){
-                            replayQuote = "[图片]"
-                        }else if(oriMsg?.msgFmt == "MSG_VIDEO"){
-                            replayQuote = "[视频]"
-                        }else if(oriMsg?.msgFmt == "MSG_FILE"){
-                            replayQuote = "[文件]"
-                        }
+                    var replyItem = ReplyMessageItem()
+                    if (oriMsg?.msgFmt == "MSG_TEXT"){
+                        replyItem.content = oriMsg?.content?.data ?? ""
                     }
+                    else if (oriMsg?.msgFmt == "MSG_IMG"){
+                        replyItem.fileName = oriMsg?.image?.uri ?? ""
+                    }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
+                        replyItem.fileName =  oriMsg?.video?.uri ?? ""
+                    }else if (oriMsg?.msgFmt == "MSG_FILE"){
+                        replyItem.size = oriMsg?.file?.size ?? 0
+                        replyItem.fileName = oriMsg?.file?.fileName ?? ""
+                    }
+                 
                     chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
-                    chatModel.replayQuote = replayQuote
+                    chatModel.replyItem = replyItem
                     datasouceArray.append(chatModel)
                 }
                 else if item.workerChanged != nil{
@@ -401,6 +404,22 @@ open class KeFuViewController: UIViewController, UploadListener{
         })
         //}
     }
+    
+    func getReplyItem(oriMsg: CommonMessage?) -> ReplyMessageItem{
+       var replyItem = ReplyMessageItem()
+       if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
+           replyItem.content = oriMsg?.content.data ?? ""
+       }
+       else if (oriMsg?.msgFmt == CommonMessageFormat.msgImg){
+           replyItem.fileName = oriMsg?.image.uri ?? ""
+       }else if (oriMsg?.msgFmt == CommonMessageFormat.msgVideo){
+           replyItem.fileName =  oriMsg?.video.uri ?? ""
+       }else if (oriMsg?.msgFmt == CommonMessageFormat.msgFile){
+           replyItem.size = oriMsg?.file.size ?? 0
+           replyItem.fileName = oriMsg?.file.fileName ?? ""
+       }
+       return replyItem
+   }
     
     func sendMsg(textMsg: String) {
         print("sendMsg:\(textMsg)")

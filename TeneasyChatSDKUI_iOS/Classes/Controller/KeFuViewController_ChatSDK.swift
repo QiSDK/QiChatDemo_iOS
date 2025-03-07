@@ -70,18 +70,10 @@ extension KeFuViewController: teneasySDKDelegate {
                 if let model = datasouceArray.first(where: { ChatModel in
                     ChatModel.message?.msgID == msg.replyMsgID
                 }){
-                    var replayQuote = model.message?.content.data.components(separatedBy: "回复：")[0]
-                    if !(model.message?.video.uri ?? "").isEmpty {
-                        replayQuote = "[视频]"
-                    }else if !(model.message?.image.uri ?? "").isEmpty {
-                        replayQuote = "[图片]"
-                    }else if !(model.message?.file.uri ?? "").isEmpty {
-                        replayQuote = "[文件]"
-                    }
                     let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
                     //model.replayQuote = replayQuote ?? ""
-                    appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: replayQuote)
+                    appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: getReplyItem(oriMsg: model.message))
                 }else{
                     appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Text)
                 }
@@ -126,19 +118,11 @@ extension KeFuViewController: teneasySDKDelegate {
                     if let x = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.replyMsgID }) {
                         // Update the content of the found ChatModel
                         //datasouceArray[index].message?.content.data = msg.content.data
-                        let model = datasouceArray[x]
-                        //let txt = (model.message?.content.data ?? "")
-                        var replyQuote = model.message?.content.data.components(separatedBy: "回复：")[0]
+                        let oriMsg = datasouceArray[x].message
                         
-                        if !(model.message?.video.uri ?? "").isEmpty {
-                            replyQuote = "[视频]"
-                        }else if !(model.message?.image.uri ?? "").isEmpty {
-                            replyQuote = "[图片]"
-                        }else if !(model.message?.file.uri ?? "").isEmpty {
-                            replyQuote = "[文件]"
-                        }
+                       
                         let newText = "\(msg.content.data)"
-                        datasouceArray[index!].replayQuote = replyQuote ?? ""
+                        datasouceArray[index!].replyItem = getReplyItem(oriMsg: oriMsg)
                         datasouceArray[index!].message?.content.data = newText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     }
                 }
