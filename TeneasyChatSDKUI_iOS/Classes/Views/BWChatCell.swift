@@ -71,19 +71,25 @@ class BWChatCell: UITableViewCell {
         return v
     }()
     
-    lazy var replyQuoteLabel: BWLabel = {
-        let lab = BWLabel()
-        lab.font = UIFont.systemFont(ofSize: 14)
-        lab.textColor = .black
-        lab.numberOfLines = 1000
-        lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
-        lab.backgroundColor = kHexColor(0xD7E8FD)
-        lab.layer.cornerRadius = 4
-        lab.layer.masksToBounds = true
-        // 不可动态设置，会有复用问题
-        lab.textInsets = UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
-        return lab
+    lazy var replyView: BWReplyViewLeft = {
+        let v = BWReplyViewLeft()
+        return v
     }()
+    
+    
+//    lazy var replyQuoteLabel: BWLabel = {
+//        let lab = BWLabel()
+//        lab.font = UIFont.systemFont(ofSize: 14)
+//        lab.textColor = .black
+//        lab.numberOfLines = 1000
+//        lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
+//        lab.backgroundColor = kHexColor(0xD7E8FD)
+//        lab.layer.cornerRadius = 4
+//        lab.layer.masksToBounds = true
+//        // 不可动态设置，会有复用问题
+//        lab.textInsets = UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
+//        return lab
+//    }()
     
     var leftConstraint: Constraint?
     var rightConstraint: Constraint?
@@ -107,7 +113,7 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.arrowView)
         self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
-        self.contentView.addSubview(self.replyQuoteLabel)
+        self.contentView.addSubview(self.replyView)
         self.contentView.addSubview(self.titleLab)
         
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
@@ -117,9 +123,9 @@ class BWChatCell: UITableViewCell {
         
         // Add tap gesture recognizer to the label
         let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
-        self.replyQuoteLabel.addGestureRecognizer(tapShowOriginalGesture)
+        self.replyView.addGestureRecognizer(tapShowOriginalGesture)
 
-        self.replyQuoteLabel.isUserInteractionEnabled = true
+        self.replyView.isUserInteractionEnabled = true
     }
 
     @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
@@ -147,7 +153,23 @@ class BWChatCell: UITableViewCell {
                 return
             }
             
-            let quote = self.model?.replayQuote ?? ""
+            let quote = self.model?.replyItem?.content ?? ""
+            replyView.model = model;
+            
+            // 现在SDK并没有把时间传回来，所以暂时不用这样转换
+            self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
+            self.initTitle(msg: msg)
+        }
+    }
+    
+  /*  var model: ChatModel? {
+        didSet {
+            
+            guard let msg = model?.message else {
+                return
+            }
+            
+            let quote = self.model?.replyItem?.content ?? "" 
             if quote.contains("[emoticon_") == true {
                 let atttext = BEmotionHelper.shared.attributedStringByText(text: quote, font: self.replyQuoteLabel.font)
                 self.replyQuoteLabel.attributedText = atttext
@@ -170,7 +192,6 @@ class BWChatCell: UITableViewCell {
                     make.top.equalTo(self.timeLab.snp.bottom).offset(2)
                     make.height.equalTo(sizeQuote.height)
                 }
-//                replyQuoteLabelHeightConstraint?.update(offset: UITableView.automaticDimension)
             }
             self.replyQuoteLabel.sizeToFit()
             self.replyQuoteLabel.layoutIfNeeded()
@@ -178,20 +199,46 @@ class BWChatCell: UITableViewCell {
             
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
-       
- 
-                self.initTitle(msg: msg)
-            
-            
+            self.initTitle(msg: msg)
         }
     }
+   */
     
     func updateBgConstraints() {
         let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
         let size = self.titleLab.sizeThatFits(maxSize)
+      
+        let margin = 4.0
+        var quoteHeight = 50.0
+        let sizeQuoteWidth = 160.0
+        if (replyView.fileNameLab.text ?? "").isEmpty {
+            //margin = 0
+            quoteHeight = 0
+            //print("contentBgView width:\(size.width)")
+            self.contentBgView.snp.updateConstraints { make in
+                make.width.equalTo(size.width)
+                make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
+            }
+        }else{
+            
+            var newWidth = (size.width > sizeQuoteWidth + 24) ? size.width : sizeQuoteWidth + 24
+            if newWidth < 12{
+                newWidth = 12
+            }
+            //print("contentBgView width:\(newWidth)")
+            self.contentBgView.snp.updateConstraints { make in
+                make.width.equalTo(newWidth)
+                make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
+            }
+        }
+    }
+    
+   /* func updateBgConstraints() {
+        let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+        let size = self.titleLab.sizeThatFits(maxSize)
         let maxSizeQuote = CGSize(width: replyQuoteLabel.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
         let sizeQuote = self.replyQuoteLabel.sizeThatFits(maxSizeQuote)
-        var margin = 4.0
+        let margin = 4.0
         var quoteHeight = sizeQuote.height
         if (replyQuoteLabel.text?.isEmpty ?? true) {
             //margin = 0
@@ -214,6 +261,7 @@ class BWChatCell: UITableViewCell {
             }
         }
     }
+    */
     
     func displayIconImg(path: String) {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
@@ -268,23 +316,26 @@ class BWChatLeftCell: BWChatCell {
             make.right.equalToSuperview().offset(-12)
             make.height.equalTo(20)
         }
-        self.replyQuoteLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom)
-            make.left.equalTo(self.timeLab.snp.left).offset(12)
-            make.height.equalTo(0)
-        }
-        
-        var marginLeft = 16
-        if (self.replyQuoteLabel.text ?? "").isEmpty{
-            marginLeft = 4
-        }
         
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.replyQuoteLabel.snp.bottom).priority(.low)
-            make.left.equalTo(self.contentBgView.snp.left).offset(marginLeft)
+            make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
+            make.left.equalTo(self.contentBgView.snp.left).offset(4)
             make.right.equalTo(self.contentBgView.snp.right).offset(4)
             make.bottom.equalToSuperview()
         }
+        
+        self.replyView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleLab.snp.bottom).offset(20)
+            make.left.equalTo(self.timeLab.snp.left).offset(12)
+            make.height.equalTo(50)
+        }
+        
+//        var marginLeft = 16
+//        if (self.replyView.text ?? "").isEmpty{
+//            marginLeft = 4
+//        }
+        
+
         rightConstraint?.deactivate()
 
         let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
@@ -334,22 +385,17 @@ class BWChatRightCell: BWChatCell {
             make.right.equalTo(self.iconView.snp.left).offset(-16)
             make.height.equalTo(20)
         }
-        self.replyQuoteLabel.snp.makeConstraints { make in
+        self.replyView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
+            //make.left.equalToSuperview().offset(20)
             make.right.equalTo(self.timeLab.snp.right).offset(-12)
-            make.height.equalTo(0)
-        }
-        
-        //实际没起作用，只使用-4
-        var marginRight = -16
-        if (self.replyQuoteLabel.text ?? "").isEmpty{
-            marginRight = -4
+            make.height.equalTo(50)
         }
         
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.replyQuoteLabel.snp.bottom).priority(.low)
+            make.top.equalTo(self.replyView.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView.snp.left).offset(4)
-            make.right.equalTo(self.contentBgView.snp.right).offset(marginRight)
+            make.right.equalTo(self.contentBgView.snp.right).offset(-4)
             make.bottom.equalToSuperview()
         }
         
