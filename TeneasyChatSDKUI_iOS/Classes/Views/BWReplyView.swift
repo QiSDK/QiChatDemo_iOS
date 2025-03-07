@@ -18,6 +18,14 @@ class BWReplyView: UIView {
         return img
     }()
     
+    lazy var replyLab: UILabel = {
+        let lab = UILabel()
+        lab.textColor = UIColor.black
+        lab.font = UIFont.systemFont(ofSize: 12)
+        lab.text = "回复："
+        return lab
+    }()
+    
     lazy var fileNameLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -35,8 +43,8 @@ class BWReplyView: UIView {
     
 
     let fileIconWidth: CGFloat = 36
-    let cellWidth: CGFloat = 200
-    let cellHeight: CGFloat = 56
+//    let cellWidth: CGFloat = 200
+//    let cellHeight: CGFloat = 56
 
  
     
@@ -55,13 +63,13 @@ class BWReplyView: UIView {
             self.fileSizeLab.isHidden = true
             self.fileIcon.isHidden = true
             if fileTypes.contains(ext){
-                let size = Double(msg.file.size) * 0.001
+                let size = Double(model?.replyItem?.size ?? 0) * 0.001
                 self.fileSizeLab.text = "\(size)K"
                 self.fileSizeLab.isHidden = false
             }
             
             if fileTypes.contains(ext) || imageTypes.contains(ext){
-                self.fileIcon.image = getFileThumbnail(path: msg.file.uri)
+                self.fileIcon.image = getFileThumbnail(path: ext)
                 self.fileIcon.isHidden = false
                 self.fileNameLab.text = model?.replyItem?.fileName
             }else{
@@ -74,6 +82,7 @@ class BWReplyView: UIView {
         super.layoutSubviews()
         
         self.addSubview(self.contentBgView)
+        self.contentBgView.addSubview(self.replyLab)
         self.contentBgView.addSubview(self.fileIcon)
         self.contentBgView.addSubview(self.fileNameLab)
         self.contentBgView.addSubview(self.fileSizeLab)
@@ -115,31 +124,33 @@ class BWReplyViewLeft: BWReplyView {
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.top.equalToSuperview()
-            make.width.equalTo(cellWidth)
-            make.height.equalTo(cellHeight)
-            make.bottom.equalToSuperview().priority(.low)
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
         }
 
+        self.replyLab.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalTo(fileIconWidth)
+            make.height.equalTo(38)
+        }
 
         self.fileIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.top.equalToSuperview()
+            make.left.equalTo(self.replyLab.snp.right)
+            make.top.equalToSuperview().offset(10)
             make.width.equalTo(fileIconWidth)
             make.height.equalTo(fileIconWidth)
         }
         //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         self.fileNameLab.snp.makeConstraints { make in
             make.left.equalTo(self.fileIcon.snp.right).offset(10)
-            make.top.equalTo(self.contentBgView.snp.top).offset(8)
+            make.top.equalTo(self.fileIcon.snp.top).offset(0)
             make.right.equalToSuperview().offset(-10)
-            
-            make.height.equalTo(35)
         }
         self.fileSizeLab.snp.makeConstraints { make in
             make.left.equalTo(self.fileNameLab.snp.left)
             make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
             make.right.equalToSuperview().offset(-10)
-            make.height.equalTo(20)
         }
         
         self.contentBgView.backgroundColor = UIColor.white

@@ -73,23 +73,10 @@ class BWChatCell: UITableViewCell {
     
     lazy var replyView: BWReplyViewLeft = {
         let v = BWReplyViewLeft()
+        v.layer.cornerRadius = 8
+        v.layer.masksToBounds = true
         return v
     }()
-    
-    
-//    lazy var replyQuoteLabel: BWLabel = {
-//        let lab = BWLabel()
-//        lab.font = UIFont.systemFont(ofSize: 14)
-//        lab.textColor = .black
-//        lab.numberOfLines = 1000
-//        lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
-//        lab.backgroundColor = kHexColor(0xD7E8FD)
-//        lab.layer.cornerRadius = 4
-//        lab.layer.masksToBounds = true
-//        // 不可动态设置，会有复用问题
-//        lab.textInsets = UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
-//        return lab
-//    }()
     
     var leftConstraint: Constraint?
     var rightConstraint: Constraint?
@@ -153,12 +140,41 @@ class BWChatCell: UITableViewCell {
                 return
             }
             
-            let quote = self.model?.replyItem?.content ?? ""
+            //let quote = self.model?.replyItem?.content ?? ""
             replyView.model = model;
             
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             self.initTitle(msg: msg)
+            
+            let quote = self.model?.replyItem?.content ?? ""
+                        if quote.contains("[emoticon_") == true {
+                            let atttext = BEmotionHelper.shared.attributedStringByText(text: quote, font: self.replyView.fileNameLab.font)
+                            self.replyView.fileNameLab.attributedText = atttext
+                        }
+            
+            
+            if (quote.isEmpty && (self.model?.replyItem?.fileName ?? "").isEmpty) {
+                            self.replyView.isHidden = true
+                            self.replyView.snp.updateConstraints { make in
+                                make.top.equalTo(self.titleLab.snp.bottom).offset(0)
+                                //make.top.equalToSuperview()
+                                make.height.equalTo(0)
+                            }
+                            
+                            
+                        } else {
+                            self.replyView.isHidden = false
+                            self.replyView.backgroundColor = UIColor.red
+                            self.replyView.snp.updateConstraints { make in
+                                make.top.equalTo(self.titleLab.snp.bottom).offset(2)
+                                make.height.equalTo(56)
+                            }
+                        }
+                        self.replyView.sizeToFit()
+                        self.replyView.layoutIfNeeded()
+                        self.replyView.setNeedsLayout()
+            
         }
     }
     
@@ -209,8 +225,8 @@ class BWChatCell: UITableViewCell {
         let size = self.titleLab.sizeThatFits(maxSize)
       
         let margin = 4.0
-        var quoteHeight = 50.0
-        let sizeQuoteWidth = 160.0
+        var quoteHeight = 0.0
+        let sizeQuoteWidth = 0.0
         if (replyView.fileNameLab.text ?? "").isEmpty {
             //margin = 0
             quoteHeight = 0
@@ -219,12 +235,14 @@ class BWChatCell: UITableViewCell {
                 make.width.equalTo(size.width)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
             }
+            replyView.isHidden = true
         }else{
-            
             var newWidth = (size.width > sizeQuoteWidth + 24) ? size.width : sizeQuoteWidth + 24
             if newWidth < 12{
                 newWidth = 12
             }
+            
+            replyView.isHidden = false
             //print("contentBgView width:\(newWidth)")
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(newWidth)
@@ -321,13 +339,16 @@ class BWChatLeftCell: BWChatCell {
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView.snp.left).offset(4)
             make.right.equalTo(self.contentBgView.snp.right).offset(4)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(self.contentBgView.snp.bottom)
         }
         
         self.replyView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom).offset(20)
-            make.left.equalTo(self.timeLab.snp.left).offset(12)
-            make.height.equalTo(50)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(10)
+            //make.top.equalTo(self.titleLab.snp.bottom).offset(4)
+            make.left.equalTo(self.arrowView.snp.right)
+            make.height.equalTo(56)
+            make.width.equalTo(200)
+            //make.bottom.equalToSuperview()
         }
         
 //        var marginLeft = 16
@@ -385,18 +406,21 @@ class BWChatRightCell: BWChatCell {
             make.right.equalTo(self.iconView.snp.left).offset(-16)
             make.height.equalTo(20)
         }
-        self.replyView.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom)
-            //make.left.equalToSuperview().offset(20)
-            make.right.equalTo(self.timeLab.snp.right).offset(-12)
-            make.height.equalTo(50)
-        }
+        
         
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.replyView.snp.bottom).priority(.low)
+            make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView.snp.left).offset(4)
             make.right.equalTo(self.contentBgView.snp.right).offset(-4)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(self.contentBgView.snp.bottom)
+        }
+        
+        self.replyView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleLab.snp.bottom).offset(10)
+            make.right.equalTo(self.arrowView.snp.left)
+            make.height.equalTo(56)
+            make.width.equalTo(200)
+            //make.bottom.equalToSuperview()
         }
         
         // Remove the left constraint

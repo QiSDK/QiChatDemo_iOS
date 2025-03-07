@@ -316,7 +316,7 @@ open class KeFuViewController: UIViewController, UploadListener{
                        
                     })
                     
-                    var replyItem = ReplyMessageItem()
+                    let replyItem = ReplyMessageItem()
                     if (oriMsg?.msgFmt == "MSG_TEXT"){
                         replyItem.content = oriMsg?.content?.data ?? ""
                     }
@@ -406,7 +406,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     }
     
     func getReplyItem(oriMsg: CommonMessage?) -> ReplyMessageItem{
-       var replyItem = ReplyMessageItem()
+       let replyItem = ReplyMessageItem()
        if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
            replyItem.content = oriMsg?.content.data ?? ""
        }
