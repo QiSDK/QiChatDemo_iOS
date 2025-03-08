@@ -36,8 +36,14 @@ class BWChatCell: UITableViewCell {
         let lab = BWLabel()
         lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = .white
-        lab.numberOfLines = 1000
-        lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 10, right: 15)
+        
+        //lab.numberOfLines = 1000
+        lab.layer.cornerRadius = 8
+        lab.layer.masksToBounds = true
+        lab.numberOfLines = 0 // Allow unlimited lines
+        lab.lineBreakMode = .byWordWrapping
+        lab.textInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        //lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 10, right: 15)
         lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
         return lab
     }()
@@ -100,19 +106,24 @@ class BWChatCell: UITableViewCell {
         self.contentView.addSubview(self.arrowView)
         self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
-        self.contentView.addSubview(self.replyView)
-        self.contentView.addSubview(self.titleLab)
+        self.contentBgView.addSubview(self.replyView)
+        self.contentBgView.addSubview(self.titleLab)
+        
+        self.contentBgView.isUserInteractionEnabled = true
+        self.contentView.isUserInteractionEnabled = true
+
         
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
         self.titleLab.addGestureRecognizer(self.gesture!)
         
-        
+        self.replyView.isUserInteractionEnabled = true
+        self.replyView.fileNameLab.isUserInteractionEnabled = true
         // Add tap gesture recognizer to the label
         let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
+        tapShowOriginalGesture.cancelsTouchesInView = false
+        tapShowOriginalGesture.require(toFail: self.gesture!)  
         self.replyView.addGestureRecognizer(tapShowOriginalGesture)
-
-        self.replyView.isUserInteractionEnabled = true
     }
 
     @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
@@ -145,7 +156,7 @@ class BWChatCell: UITableViewCell {
             
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
-            self.initTitle(msg: msg)
+ 
             
             let quote = self.model?.replyItem?.content ?? ""
                         if quote.contains("[emoticon_") == true {
@@ -157,23 +168,23 @@ class BWChatCell: UITableViewCell {
             if (quote.isEmpty && (self.model?.replyItem?.fileName ?? "").isEmpty) {
                             self.replyView.isHidden = true
                             self.replyView.snp.updateConstraints { make in
-                                make.top.equalTo(self.titleLab.snp.bottom).offset(0)
+                                make.top.equalTo(self.titleLab.snp.bottom)
                                 //make.top.equalToSuperview()
                                 make.height.equalTo(0)
                             }
-                            
-                            
                         } else {
                             self.replyView.isHidden = false
                             self.replyView.backgroundColor = UIColor.red
                             self.replyView.snp.updateConstraints { make in
-                                make.top.equalTo(self.titleLab.snp.bottom).offset(2)
+                                make.top.equalTo(self.titleLab.snp.bottom).offset(5)
                                 make.height.equalTo(56)
                             }
                         }
                         self.replyView.sizeToFit()
                         self.replyView.layoutIfNeeded()
                         self.replyView.setNeedsLayout()
+            
+            self.initTitle(msg: msg)
             
         }
     }
@@ -225,7 +236,7 @@ class BWChatCell: UITableViewCell {
         let size = self.titleLab.sizeThatFits(maxSize)
       
         let margin = 4.0
-        var quoteHeight = 0.0
+        var quoteHeight = 160.0
         let sizeQuoteWidth = 0.0
         if (replyView.fileNameLab.text ?? "").isEmpty {
             //margin = 0
@@ -319,7 +330,7 @@ class BWChatCell: UITableViewCell {
 class BWChatLeftCell: BWChatCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        self.titleLab.backgroundColor = .white
+        self.titleLab.backgroundColor = .white
         self.titleLab.textColor = .black
         self.iconView.image = UIImage.svgInit("icon_server_def2")
         self.iconView.snp.makeConstraints { make in
@@ -337,9 +348,9 @@ class BWChatLeftCell: BWChatCell {
         
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
-            make.left.equalTo(self.contentBgView.snp.left).offset(4)
-            make.right.equalTo(self.contentBgView.snp.right).offset(4)
-            make.bottom.equalTo(self.contentBgView.snp.bottom)
+            make.left.equalToSuperview().offset(4)
+            make.right.equalToSuperview().offset(4)
+           // make.bottom.equalToSuperview()
         }
         
         self.replyView.snp.makeConstraints { make in
@@ -359,14 +370,14 @@ class BWChatLeftCell: BWChatCell {
 
         rightConstraint?.deactivate()
 
-        let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        //let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
         let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
+        //self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
-            make.height.equalTo(0)
+            make.height.equalTo(95)
             make.width.equalTo(32)
         }
         self.arrowView.image = UIImage.svgInit("ic_left_point")
@@ -395,7 +406,9 @@ class BWChatRightCell: BWChatCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.iconView.image = UIImage.svgInit("icon_server_def2")
-
+        self.titleLab.backgroundColor = blueColor
+        //self.contentBgView.backgroundColor = UIColor.red
+        
         self.iconView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-12)
             make.top.equalToSuperview().offset(34) // 加大cell之间的上下间距
@@ -410,9 +423,9 @@ class BWChatRightCell: BWChatCell {
         
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
-            make.left.equalTo(self.contentBgView.snp.left).offset(4)
-            make.right.equalTo(self.contentBgView.snp.right).offset(-4)
-            make.bottom.equalTo(self.contentBgView.snp.bottom)
+            make.left.equalToSuperview().offset(4)
+            make.right.equalToSuperview()//.offset(-4)
+           // make.bottom.equalToSuperview()
         }
         
         self.replyView.snp.makeConstraints { make in
@@ -437,11 +450,11 @@ class BWChatRightCell: BWChatCell {
         //let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         //self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         
-        self.contentBgView.image = image
+        //self.contentBgView.image = image
         self.contentBgView.snp.makeConstraints { make in
             make.right.equalTo(self.timeLab.snp.right)
             make.top.equalTo(self.timeLab.snp.bottom).offset(-0)
-            make.height.equalTo(0)
+            make.height.equalTo(95)
             make.width.equalTo(32)
         }
         

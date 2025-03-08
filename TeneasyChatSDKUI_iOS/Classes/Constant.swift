@@ -83,6 +83,8 @@ var iconWidth = 38.0
 var imgHeight = 114.0
 let titleColour = kHexColor(0x484848)
 let timeColor = kHexColor(0xC4C4C4)
+
+let blueColor = UIColor(red: 69/255, green: 137/255, blue: 246/255, alpha: 1.0)
 //let chatBackColor = kHexColor(0xf6f6f6)
 //let panelBack = kHexColor(0xf4f4f4)
 

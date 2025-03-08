@@ -344,6 +344,7 @@ open class KeFuViewController: UIViewController, UploadListener{
                     datasouceArray.append(chatModel)
                 }
                 else if item.msgFmt == "MSG_TEXT"{
+                    chatModel.cellType = .TYPE_Text
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
                 }else if item.msgFmt == "MSG_IMG"{
