@@ -124,7 +124,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         view.delegate = self
         view.dataSource = self
         view.separatorStyle = .none
-        view.estimatedRowHeight = 50
+        view.estimatedRowHeight = 60
         view.rowHeight = UITableView.automaticDimension
         view.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 20, right: 0)
         return view

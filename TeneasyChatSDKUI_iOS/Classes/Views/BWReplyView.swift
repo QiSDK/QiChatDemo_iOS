@@ -86,6 +86,15 @@ class BWReplyView: UIView {
         self.contentBgView.addSubview(self.fileIcon)
         self.contentBgView.addSubview(self.fileNameLab)
         self.contentBgView.addSubview(self.fileSizeLab)
+        
+     
+//        // Enable user interaction for fileNameLab
+//           self.fileNameLab.isUserInteractionEnabled = true
+//           
+//           // Add tap gesture recognizer to fileNameLab
+//           let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.openFile))
+//           tapShowOriginalGesture.cancelsTouchesInView = false // Ensure it doesn't cancel other touches
+//           self.fileNameLab.addGestureRecognizer(tapShowOriginalGesture)
     }
     
  
@@ -152,6 +161,8 @@ class BWReplyViewLeft: BWReplyView {
             make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
             make.right.equalToSuperview().offset(-10)
         }
+        
+        //self.fileNameLab.textColor = UIColor.green
         
         self.contentBgView.backgroundColor = UIColor.white
         self.fileNameLab.textColor = kHexColor(0x333333)

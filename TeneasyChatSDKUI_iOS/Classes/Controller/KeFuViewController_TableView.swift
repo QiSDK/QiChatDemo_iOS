@@ -178,7 +178,6 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     // WWProgressHUD.showLoading()
                     self.showOriginal(model: model)
                 }
-               
                 return cell
             }
         }
@@ -276,11 +275,11 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         } else if model.cellType == .TYPE_Tip {
             return 80.0
         }
-        else if model.replyItem != nil{
-            return 125
-        } else if model.cellType == .TYPE_Text{
-            return 80
-        }
+//        else if model.replyItem != nil{
+//            return 135
+//        } else if model.cellType == .TYPE_Text{
+//            return 80
+//        }
 //        else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
 //            return 114 + 10 + 20
 //        }
