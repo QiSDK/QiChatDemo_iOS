@@ -158,7 +158,7 @@ class BWChatCell: UITableViewCell {
             }
             
             //let quote = self.model?.replyItem?.content ?? ""
-            replyView.model = model;
+
             
             // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
@@ -179,15 +179,31 @@ class BWChatCell: UITableViewCell {
                                   }
                               } else {
                                   self.replyView.isHidden = false
-                                  self.replyView.backgroundColor = UIColor.red
-                                  self.replyView.snp.updateConstraints { make in
-                                      make.top.equalTo(self.titleLab.snp.bottom).offset(5)
-                                      make.height.equalTo(56)
+                                  
+                                  //不是文本消息
+                                  if quote.isEmpty{
+                                      self.replyView.snp.updateConstraints { make in
+                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5)
+                                          make.height.equalTo(56)
+                                          make.width.equalTo(200)
+                                      }
+                                  }else{
+                                      self.replyView.snp.updateConstraints { make in
+                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5)
+                                          make.height.equalTo(56)
+                                          make.width.equalTo(155)
+                                      }
                                   }
+            
+                                  
                               }
-                              self.replyView.sizeToFit()
-                              self.replyView.layoutIfNeeded()
-                              self.replyView.setNeedsLayout()
+
+            
+            replyView.model = model;
+            
+            self.replyView.sizeToFit()
+            self.replyView.layoutIfNeeded()
+            self.replyView.setNeedsLayout()
             
             self.initTitle(msg: msg)
         }

@@ -55,10 +55,6 @@ class BWReplyView: UIView {
 
     var model: ChatModel? {
         didSet {
-            guard let msg = model?.message else {
-                return
-            }
-            
             let ext = (model?.replyItem?.fileName.split(separator: ".").last ?? "").lowercased()
             self.fileSizeLab.isHidden = true
             self.fileIcon.isHidden = true
@@ -72,9 +68,20 @@ class BWReplyView: UIView {
                 self.fileIcon.image = getFileThumbnail(path: ext)
                 self.fileIcon.isHidden = false
                 self.fileNameLab.text = model?.replyItem?.fileName
+//                self.fileIcon.snp.updateConstraints { make in
+//                    make.width.equalTo(36)
+//                }
             }else{
                 self.fileNameLab.text = model?.replyItem?.content
+                self.fileIcon.isHidden = true
+//                self.fileIcon.snp.updateConstraints { make in
+//                    make.width.equalTo(0)
+//                }
             }
+            
+//            self.sizeToFit()
+//            self.layoutIfNeeded()
+//            self.setNeedsLayout()
         }
     }
 
@@ -95,6 +102,46 @@ class BWReplyView: UIView {
 //           let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.openFile))
 //           tapShowOriginalGesture.cancelsTouchesInView = false // Ensure it doesn't cancel other touches
 //           self.fileNameLab.addGestureRecognizer(tapShowOriginalGesture)
+        
+        self.contentBgView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+        }
+
+        self.replyLab.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalTo(36)
+            make.height.equalTo(38)
+        }
+        
+        let ext = (model?.replyItem?.fileName.split(separator: ".").last ?? "").lowercased()
+        var fWidth = 0
+        if fileTypes.contains(ext) || imageTypes.contains(ext){
+            fWidth = 36
+        }
+
+        self.fileIcon.snp.removeConstraints()
+        self.fileIcon.snp.makeConstraints { make in
+            make.left.equalTo(self.replyLab.snp.right)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalTo(fWidth)
+            make.height.equalTo(fileIconWidth)
+        }
+        //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        self.fileNameLab.snp.makeConstraints { make in
+            make.left.equalTo(self.fileIcon.snp.right).offset(10)
+            make.top.equalTo(self.fileIcon.snp.top).offset(0)
+            make.right.equalToSuperview().offset(-10)
+        }
+        self.fileSizeLab.snp.makeConstraints { make in
+            make.left.equalTo(self.fileNameLab.snp.left)
+            make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
+            make.right.equalToSuperview().offset(-10)
+        }
+        
     }
     
  
@@ -130,38 +177,7 @@ class BWReplyViewLeft: BWReplyView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.contentBgView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview()
-        }
-
-        self.replyLab.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.top.equalToSuperview().offset(10)
-            make.width.equalTo(fileIconWidth)
-            make.height.equalTo(38)
-        }
-
-        self.fileIcon.snp.makeConstraints { make in
-            make.left.equalTo(self.replyLab.snp.right)
-            make.top.equalToSuperview().offset(10)
-            make.width.equalTo(fileIconWidth)
-            make.height.equalTo(fileIconWidth)
-        }
-        //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        self.fileNameLab.snp.makeConstraints { make in
-            make.left.equalTo(self.fileIcon.snp.right).offset(10)
-            make.top.equalTo(self.fileIcon.snp.top).offset(0)
-            make.right.equalToSuperview().offset(-10)
-        }
-        self.fileSizeLab.snp.makeConstraints { make in
-            make.left.equalTo(self.fileNameLab.snp.left)
-            make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
-            make.right.equalToSuperview().offset(-10)
-        }
-        
+      
         //self.fileNameLab.textColor = UIColor.green
         
         self.contentBgView.backgroundColor = UIColor.white
