@@ -41,6 +41,66 @@ class BWReplyView: UIView {
         return lab
     }()
     
+    override init(frame: CGRect) {
+            super.init(frame: frame)
+            setupViews()
+            setupConstraints()
+        }
+
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+            setupViews()
+            setupConstraints()
+        }
+    
+    func setupViews(){
+        self.addSubview(self.contentBgView)
+        self.contentBgView.addSubview(self.replyLab)
+        self.contentBgView.addSubview(self.fileIcon)
+        self.contentBgView.addSubview(self.fileNameLab)
+        self.contentBgView.addSubview(self.fileSizeLab)
+    }
+    
+    func setupConstraints(){
+        self.contentBgView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+        }
+
+        self.replyLab.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalTo(36)
+            make.height.equalTo(38)
+        }
+        
+        let ext = (model?.replyItem?.fileName.split(separator: ".").last ?? "").lowercased()
+        var fWidth = 0
+        if fileTypes.contains(ext) || imageTypes.contains(ext){
+            fWidth = 36
+        }
+
+        //self.fileIcon.snp.removeConstraints()
+        self.fileIcon.snp.makeConstraints { make in
+            make.left.equalTo(self.replyLab.snp.right)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalTo(fWidth)
+            make.height.equalTo(fileIconWidth)
+        }
+        //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        self.fileNameLab.snp.makeConstraints { make in
+            make.left.equalTo(self.fileIcon.snp.right).offset(10)
+            make.top.equalTo(self.fileIcon.snp.top).offset(0)
+            make.right.equalToSuperview().offset(-10)
+        }
+        self.fileSizeLab.snp.makeConstraints { make in
+            make.left.equalTo(self.fileNameLab.snp.left)
+            make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
+            make.right.equalToSuperview().offset(-10)
+        }
+    }
 
     let fileIconWidth: CGFloat = 36
 //    let cellWidth: CGFloat = 200
@@ -68,87 +128,28 @@ class BWReplyView: UIView {
                 self.fileIcon.image = getFileThumbnail(path: ext)
                 self.fileIcon.isHidden = false
                 self.fileNameLab.text = model?.replyItem?.fileName
-//                self.fileIcon.snp.updateConstraints { make in
-//                    make.width.equalTo(36)
-//                }
+                self.fileIcon.snp.updateConstraints { make in
+                    make.width.equalTo(36)
+                }
             }else{
                 self.fileNameLab.text = model?.replyItem?.content
                 self.fileIcon.isHidden = true
-//                self.fileIcon.snp.updateConstraints { make in
-//                    make.width.equalTo(0)
-//                }
+                self.fileIcon.snp.updateConstraints { make in
+                    make.width.equalTo(0)
+                }
             }
             
-//            self.sizeToFit()
-//            self.layoutIfNeeded()
-//            self.setNeedsLayout()
+            self.sizeToFit()
+            self.layoutIfNeeded()
+            self.setNeedsLayout()
         }
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        self.addSubview(self.contentBgView)
-        self.contentBgView.addSubview(self.replyLab)
-        self.contentBgView.addSubview(self.fileIcon)
-        self.contentBgView.addSubview(self.fileNameLab)
-        self.contentBgView.addSubview(self.fileSizeLab)
-        
-     
-//        // Enable user interaction for fileNameLab
-//           self.fileNameLab.isUserInteractionEnabled = true
-//           
-//           // Add tap gesture recognizer to fileNameLab
-//           let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.openFile))
-//           tapShowOriginalGesture.cancelsTouchesInView = false // Ensure it doesn't cancel other touches
-//           self.fileNameLab.addGestureRecognizer(tapShowOriginalGesture)
-        
-        self.contentBgView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview()
-        }
-
-        self.replyLab.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.top.equalToSuperview().offset(10)
-            make.width.equalTo(36)
-            make.height.equalTo(38)
-        }
-        
-        let ext = (model?.replyItem?.fileName.split(separator: ".").last ?? "").lowercased()
-        var fWidth = 0
-        if fileTypes.contains(ext) || imageTypes.contains(ext){
-            fWidth = 36
-        }
-
-        self.fileIcon.snp.removeConstraints()
-        self.fileIcon.snp.makeConstraints { make in
-            make.left.equalTo(self.replyLab.snp.right)
-            make.top.equalToSuperview().offset(10)
-            make.width.equalTo(fWidth)
-            make.height.equalTo(fileIconWidth)
-        }
-        //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        self.fileNameLab.snp.makeConstraints { make in
-            make.left.equalTo(self.fileIcon.snp.right).offset(10)
-            make.top.equalTo(self.fileIcon.snp.top).offset(0)
-            make.right.equalToSuperview().offset(-10)
-        }
-        self.fileSizeLab.snp.makeConstraints { make in
-            make.left.equalTo(self.fileNameLab.snp.left)
-            make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
-            make.right.equalToSuperview().offset(-10)
-        }
-        
+ 
     }
     
- 
-    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
     
     func getFileThumbnail(path: String) -> UIImage? {
         let ext = (path.split(separator: ".").last ?? "").lowercased()
@@ -174,15 +175,26 @@ class BWReplyView: UIView {
 
 class BWReplyViewLeft: BWReplyView {
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.contentBgView.backgroundColor = UIColor.white
+        self.fileNameLab.textColor = kHexColor(0x333333)
+        self.fileSizeLab.textColor = kHexColor(0x999999)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
       
         //self.fileNameLab.textColor = UIColor.green
         
-        self.contentBgView.backgroundColor = UIColor.white
-        self.fileNameLab.textColor = kHexColor(0x333333)
-        self.fileSizeLab.textColor = kHexColor(0x999999)
+
     }
     
     

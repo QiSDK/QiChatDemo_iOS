@@ -79,7 +79,7 @@ class BWChatCell: UITableViewCell {
         return v
     }()
     
-    lazy var replyView: BWReplyViewLeft = {
+    lazy var replyView: BWReplyView = {
         let v = BWReplyViewLeft()
         v.layer.cornerRadius = 8
         v.layer.masksToBounds = true
