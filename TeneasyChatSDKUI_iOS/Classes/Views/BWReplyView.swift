@@ -76,17 +76,11 @@ class BWReplyView: UIView {
             make.height.equalTo(38)
         }
         
-        let ext = (model?.replyItem?.fileName.split(separator: ".").last ?? "").lowercased()
-        var fWidth = 0
-        if fileTypes.contains(ext) || imageTypes.contains(ext){
-            fWidth = 36
-        }
-
         //self.fileIcon.snp.removeConstraints()
         self.fileIcon.snp.makeConstraints { make in
             make.left.equalTo(self.replyLab.snp.right)
             make.top.equalToSuperview().offset(10)
-            make.width.equalTo(fWidth)
+            make.width.equalTo(fileIconWidth)
             make.height.equalTo(fileIconWidth)
         }
         //self.fileIcon.image = UIImage(named: "pdf_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
@@ -99,19 +93,13 @@ class BWReplyView: UIView {
             make.left.equalTo(self.fileNameLab.snp.left)
             make.top.equalTo(self.fileNameLab.snp.bottom).offset(0)
             make.right.equalToSuperview().offset(-10)
+            //make.bottom.equalToSuperview().offset(-5)
         }
     }
 
     let fileIconWidth: CGFloat = 36
 //    let cellWidth: CGFloat = 200
 //    let cellHeight: CGFloat = 56
-
- 
-    
-    @objc func openFile() {
-        self.cellTapedGesture!()
-    }
-    
 
     var model: ChatModel? {
         didSet {
@@ -127,16 +115,30 @@ class BWReplyView: UIView {
             if fileTypes.contains(ext) || imageTypes.contains(ext){
                 self.fileIcon.image = getFileThumbnail(path: ext)
                 self.fileIcon.isHidden = false
+                //self.replyLab.isHidden = false
                 self.fileNameLab.text = model?.replyItem?.fileName
                 self.fileIcon.snp.updateConstraints { make in
                     make.width.equalTo(36)
                 }
+                
+                self.fileNameLab.snp.updateConstraints { make in
+                    make.left.equalTo(self.fileIcon.snp.right).offset(10)
+                }
+                self.fileNameLab.lineBreakMode = .byTruncatingMiddle
+                self.fileNameLab.numberOfLines = 1
             }else{
                 self.fileNameLab.text = model?.replyItem?.content
                 self.fileIcon.isHidden = true
+                //self.replyLab.isHidden = true
                 self.fileIcon.snp.updateConstraints { make in
                     make.width.equalTo(0)
                 }
+                self.fileNameLab.snp.updateConstraints { make in
+                    //make.left.equalToSuperview().offset(10)
+                    make.left.equalTo(self.fileIcon.snp.right).offset(1)
+                }
+                self.fileNameLab.numberOfLines = 2
+                self.fileNameLab.lineBreakMode = .byWordWrapping
             }
             
             self.sizeToFit()

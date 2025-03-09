@@ -189,6 +189,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         if let m = myModel.first{
+            //文本回复直接返回
+            if (m.replyItem?.fileName ?? "").isEmpty{
+                return
+            }
             cellTaped(model: m)
         }
         /*if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty {

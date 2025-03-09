@@ -187,6 +187,7 @@ class BWChatCell: UITableViewCell {
                                           make.height.equalTo(56)
                                           make.width.equalTo(200)
                                       }
+
                                   }else{
                                       self.replyView.snp.updateConstraints { make in
                                           make.top.equalTo(self.titleLab.snp.bottom).offset(5)
@@ -194,8 +195,6 @@ class BWChatCell: UITableViewCell {
                                           make.width.equalTo(155)
                                       }
                                   }
-            
-                                  
                               }
 
             
