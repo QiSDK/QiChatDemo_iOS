@@ -39,7 +39,6 @@ PODS:
   - XMMenuPopover (0.0.3)
 
 DEPENDENCIES:
-  - IQKeyboardManagerSwift
   - IQKeyboardManagerSwift (~> 6.5.9)
   - SnapKit (~> 5.0.1)
   - TeneasyChatSDK_iOS (from `https://github.com/QiSDK/QiChatSDK_iOS.git`)
@@ -71,7 +70,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   TeneasyChatSDK_iOS:
-    :commit: e24a4eb1959d8ea2f5b4d29219336fa4999ed01f
+    :commit: 13b3f8543b6199214d1d655a07b8ba1437e1d88a
     :git: https://github.com/QiSDK/QiChatSDK_iOS.git
 
 SPEC CHECKSUMS:
@@ -92,6 +91,6 @@ SPEC CHECKSUMS:
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
 
-PODFILE CHECKSUM: d3404e378b5da1c275da907c10b2cbd1983ce312
+PODFILE CHECKSUM: c8cf11851e82371b9f041389df656d66cc493a01
 
 COCOAPODS: 1.16.2

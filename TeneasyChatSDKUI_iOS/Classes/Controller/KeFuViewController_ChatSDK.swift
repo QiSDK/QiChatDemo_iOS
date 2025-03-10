@@ -80,7 +80,10 @@ extension KeFuViewController: teneasySDKDelegate {
             }else{
                 
                 //如果是视频消息，cellType是TYPE_VIDEO
-                if !msg.video.uri.isEmpty {
+                if !msg.file.uri.isEmpty {
+                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_File)
+                }
+                else if !msg.video.uri.isEmpty {
                     appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_VIDEO)
                 }else  if !msg.image.uri.isEmpty {
                     appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Image)
@@ -241,6 +244,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.chatID = 0
         msg.replyMsgID = replyMsgId
         msg.msgID = msgId
+        msg.msgFmt = CommonMessageFormat.msgText
         msg.payload = .content(content)
         msg.worker = 0
         if timeInS == nil{
@@ -264,6 +268,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.image = content
         msg.sender = 0
         msg.msgID = msgId
+        msg.msgFmt = CommonMessageFormat.msgImg
         msg.replyMsgID = replyMsgId
         msg.chatID = 0
         msg.payload = .image(content)
@@ -291,6 +296,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.file = content
         msg.sender = 0
         msg.msgID = msgId
+        msg.msgFmt = CommonMessageFormat.msgFile
         msg.replyMsgID = replyMsgId
         msg.chatID = 0
         msg.payload = .file(content)
@@ -320,6 +326,7 @@ extension KeFuViewController: teneasySDKDelegate {
         msg.video = content
         msg.sender = 0
         msg.msgID = msgId
+        msg.msgFmt = CommonMessageFormat.msgVideo
         msg.replyMsgID = replyMsgId
         msg.chatID = 0
         msg.payload = .video(content)

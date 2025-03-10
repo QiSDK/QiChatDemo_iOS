@@ -75,7 +75,7 @@ struct UploadUtil {
             }
             else if (isVideo) {
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
-            } else if (imageTypes.contains(ext)){
+            } else {
                 multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
             }
         }, with: urlRequest)
