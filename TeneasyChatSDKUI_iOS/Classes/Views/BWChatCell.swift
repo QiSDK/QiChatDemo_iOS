@@ -229,22 +229,14 @@ class BWChatCell: UITableViewCell {
             }
             replyView.isHidden = true
         }else{
-            var newWidth = (size.width > sizeQuoteWidth + 24) ? size.width : sizeQuoteWidth + 24
-            if newWidth < 12{
-                newWidth = 12
-            }
+            var newWidth = size.width + 12
             
             replyView.isHidden = false
-            //print("contentBgView width:\(newWidth)")
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(newWidth)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
             }
         }
-        
-//        if (self.heightBlock != nil){
-//            self.heightBlock!(size.height + quoteHeight + margin)
-//        }
     }
     
     func displayIconImg(path: String) {
@@ -304,7 +296,7 @@ class BWChatLeftCell: BWChatCell {
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView)//.offset(4)
-            make.right.equalTo(self.contentBgView).offset(-4)  //make.bottom.equalToSuperview()
+            make.right.equalTo(self.contentBgView).offset(2)
         }
         
         self.replyView.snp.makeConstraints { make in
@@ -326,7 +318,7 @@ class BWChatLeftCell: BWChatCell {
 
         //let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
-        let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        //let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         //self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.timeLab.snp.left)
@@ -384,7 +376,7 @@ class BWChatRightCell: BWChatCell {
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView).offset(4)
-            make.right.equalTo(self.contentBgView)//.offset(-4)
+            make.right.equalTo(self.contentBgView).offset(-4)
             //make.bottom.equalToSuperview()
         }
         

@@ -187,31 +187,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         let myModel = self.datasouceArray.filter { p in
             p.message?.msgID == model.message?.replyMsgID
         }
-        
-        if let m = myModel.first{
-            //文本回复直接返回
-            if (m.replyItem?.fileName ?? "").isEmpty{
-                return
-            }
-            cellTaped(model: m)
-        }
-        /*if let m = myModel.first, let path = m.message?.file.uri, !path.isEmpty {
-            if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
-                self.playImageFullScreen(url: imgUrl)
-            }
-        }
-        
-        if let m = myModel.first, let path = m.message?.image.uri, !path.isEmpty {
-            if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
-                self.playImageFullScreen(url: imgUrl)
-            }
-        }
-        
-        if let m = myModel.first, let path = m.message?.video.uri, !path.isEmpty {
-            if let imgUrl = URL(string: "\(baseUrlImage)\(path)") {
-                self.playVideoFullScreen(url: imgUrl)
-            }
-        }*/
+        cellTaped(model: myModel.first ?? ChatModel())
     }
     
     func cellTaped(model: ChatModel) {
@@ -219,7 +195,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        if model.cellType == .TYPE_Image || model.cellType == .TYPE_File {
+        if model.cellType == .TYPE_Text{
+            //
+        }
+        else if model.cellType == .TYPE_Image || model.cellType == .TYPE_File {
             // let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
             var urlcomps = URLComponents(string: baseUrlImage)
             urlcomps?.path = msg.image.uri
