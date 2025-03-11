@@ -31,9 +31,6 @@ public var  merchantId: Int = 230
 public var userId: Int32 = 666665//1125324
 public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地址
 
-//
- 
-
 /*
  public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
         public var cert = "COEBEAUYASDjASiewpj-8TE.-1R9Mw9xzDNrSxoQ5owopxciklACjBUe43NANibVuy-XPlhqnhAOEaZpxjvTyJ6n79P5bUBCGxO7PcEFQ9p9Cg"
