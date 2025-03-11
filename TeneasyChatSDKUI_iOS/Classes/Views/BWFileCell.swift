@@ -131,6 +131,11 @@ class BWFileCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    func displayIconImg(path: String) {
+        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        self.iconView.kf.setImage(with: imgUrl)
+    }
+    
     func getFileThumbnail(path: String) -> UIImage? {
         let ext = (path.split(separator: ".").last ?? "").lowercased()
         

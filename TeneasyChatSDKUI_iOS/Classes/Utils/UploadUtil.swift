@@ -57,6 +57,13 @@ struct UploadUtil {
         parameterDict.setValue(4, forKey: "type")
  
         listener?.updateProgress(progress: uploadProgress);
+        let ext = filePath?.split(separator: ".").last?.lowercased() ?? "$"
+        
+        //目前只有pdf, word, excel等文件，filePath才不为空
+        if (filePath != nil && !fileTypes.contains(ext)){
+            self.listener?.uploadFailed(msg: "不支持的文件格式")
+            return
+        }
         
         // Now Execute
         AF.upload(multipartFormData: { multiPart in
@@ -69,8 +76,8 @@ struct UploadUtil {
                 }
             }
             
-            let ext = filePath?.split(separator: ".").last?.lowercased() ?? "$"
-            if (filePath != nil &&  fileTypes.contains(ext)){
+
+            if (fileTypes.contains(ext)){
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: getMimeType(for: ext))
             }
             else if (isVideo) {

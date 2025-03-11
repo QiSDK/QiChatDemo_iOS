@@ -18,7 +18,7 @@ extension KeFuViewController: UIDocumentPickerDelegate {
             kUTTypeRTF,          // Rich Text Format (Word documents)
             kUTTypePlainText,    // Plain text files
             kUTTypeSpreadsheet,  // Excel files
-            //kUTTypePresentation
+            kUTTypePresentation
         ] as [String]
         
         // Create a document picker for all file types

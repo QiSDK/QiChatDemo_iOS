@@ -112,7 +112,7 @@ class BWReplyView: UIView {
                 self.fileSizeLab.isHidden = false
             }
             
-            if fileTypes.contains(ext) || imageTypes.contains(ext){
+            if fileTypes.contains(ext) || imageTypes.contains(ext) || videoTypes.contains(ext){
                 self.fileIcon.image = getFileThumbnail(path: ext)
                 self.fileIcon.isHidden = false
                 //self.replyLab.isHidden = false

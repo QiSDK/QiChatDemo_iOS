@@ -20,6 +20,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         self?.showMenu(gesure, model: model, indexPath: indexPath)
                     }
                 }
+                cell.displayIconImg(path: self.avatarPath)
                 return cell
             } else {
                 let cell = BWFileRightCell.cell(tableView: tableView)
@@ -32,9 +33,11 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 cell.model = model
+                cell.displayIconImg(path: self.avatarPath)
                 return cell
             }
         } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image {
+            
             if model.isLeft {
                 let cell = BWImageLeftCell.cell(tableView: tableView)
                 cell.longGestCallBack = { [weak self] gesure in
@@ -55,6 +58,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
+                cell.displayIconImg(path: self.avatarPath)
                 return cell
             } else {
                 let cell = BWImageRightCell.cell(tableView: tableView)
@@ -78,6 +82,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     // cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
+                cell.displayIconImg(path: self.avatarPath)
                 return cell
             }
         } else if model.cellType == CellType.TYPE_QA {

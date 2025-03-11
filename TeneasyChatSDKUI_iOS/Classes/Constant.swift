@@ -29,7 +29,7 @@ public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
 public var  cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
 public var  merchantId: Int = 230
 public var userId: Int32 = 666665//1125324
-public var baseUrlImage = "https://sssacc.wwc09.com" //用于拼接图片地址
+public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地址
 
 //
  

@@ -376,7 +376,7 @@ class BWChatRightCell: BWChatCell {
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView).offset(4)
-            make.right.equalTo(self.contentBgView).offset(-4)
+            make.right.equalTo(self.contentBgView)//.offset(-1)
             //make.bottom.equalToSuperview()
         }
         
