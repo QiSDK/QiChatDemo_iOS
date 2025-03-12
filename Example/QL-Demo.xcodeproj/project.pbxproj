@@ -52,6 +52,7 @@
 		A4738D87398DCC0B57F003F2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C75EC1D72999485B00AB5A40 /* WKeFu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKeFu.swift; sourceTree = "<group>"; };
 		D552A8E2A4E621C7A421D876 /* Pods_QL_Demo_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QL_Demo_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC2543F52D81937200FE93D1 /* QL-Demo_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "QL-Demo_Example.entitlements"; sourceTree = "<group>"; };
 		DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BWSettingViewController.swift; sourceTree = "<group>"; };
 		DC9750302C4E32CD00DEB7BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FB494DFC836706F32AA07CA9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				DC2543F52D81937200FE93D1 /* QL-Demo_Example.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for TeneasyChatSDKUI_iOS */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -556,6 +558,7 @@
 			baseConfigurationReference = 3D06C846B144D3BDAA35CCFA /* Pods-QL-Demo_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "QL-Demo_Example.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N32BWJ887Q;
@@ -579,6 +582,7 @@
 			baseConfigurationReference = 2F0B23B0B45B1DD33B541E51 /* Pods-QL-Demo_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "QL-Demo_Example.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N32BWJ887Q;

@@ -112,8 +112,8 @@ class BWFileCell: UITableViewCell {
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             self.fileNameLab.text = msg.file.fileName
-            let size = Double(msg.file.size) * 0.001
-            self.fileSizeLab.text = "\(size)K"
+            //let size = Double(msg.file.size) * 0.001
+            self.fileSizeLab.text = Utiles.formatSize(bytes: msg.file.size)
             
             self.fileIcon.image = getFileThumbnail(path: msg.file.uri)
         }

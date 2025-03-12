@@ -399,7 +399,7 @@ class BWChatRightCell: BWChatCell {
         }
         
        // let image = UIImage.svgInit("right_chat_bg")
-        let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        //let insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         //self.contentBgView.image = image?.resizableImage(withCapInsets: insets, resizingMode: .stretch)
         
         //self.contentBgView.image = image

@@ -31,18 +31,33 @@ extension KeFuViewController: UIDocumentPickerDelegate {
     
         // Called when the user selects a file
     public  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            guard let selectedFileURL = urls.first else {
-                print("No file selected")
-                return
-            }
-            self.documentPicker.dismiss(animated: true)
-            // Handle the selected file
-            handleSelectedFile(selectedFileURL)
+        guard let selectedFileURL = urls.first else {
+            print("No file selected")
+            return
         }
+        controller.dismiss(animated: true)
+        
+        /*var ext = selectedFileURL.absoluteString.split(separator: ".")
+        
+        //是目录，开始下载
+        if ext.count == 1{
+            if selectedFileURL.startAccessingSecurityScopedResource() {
+                defer { selectedFileURL.stopAccessingSecurityScopedResource() }
+                // Handle the selected file
+                self.startToDownload(imgUrl: downloadFile ?? "#", toDirectory: selectedFileURL);
+            }else {
+                print("Could not access 所选择的目录")
+                documentPicker.dismiss(animated: true)
+            }
+        }else{*/
+            handleSelectedFile(selectedFileURL)
+        //}
+    }
 
         // Called when the user cancels the file picker
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             print("File picker was cancelled")
+        controller.dismiss(animated: true)
         }
 
     private func handleSelectedFile(_ fileURL: URL) {
@@ -62,9 +77,11 @@ extension KeFuViewController: UIDocumentPickerDelegate {
                 print("File data loaded successfully")
             } catch {
                 print("Failed to read file data: \(error.localizedDescription)")
+                documentPicker.dismiss(animated: true)
             }
         } else {
             print("Could not access file URL")
+            documentPicker.dismiss(animated: true)
         }
         
 //        guard let localUrl = copyFileToLocal(from: fileURL) else {

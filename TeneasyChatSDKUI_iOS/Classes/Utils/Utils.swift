@@ -107,6 +107,22 @@ struct Utiles{
         }
     }
     
+    static func formatSize(bytes: Int32) -> String {
+        // Convert bytes to KB
+        let kb = Double(bytes) / 1024.0
+        
+        // Format the KB value to show two decimal places
+        var formattedSize = String(format: "%.0fKB", kb)
+        
+        if kb > 1024{
+            formattedSize = String(format: "%.2fM", kb / 1024.0)
+        }else if kb < 1{
+            formattedSize = String(format: "%.2fKB", kb)
+        }
+        
+        return formattedSize
+    }
+    
     
 //
 //    func getWiFiAddress() -> String? {

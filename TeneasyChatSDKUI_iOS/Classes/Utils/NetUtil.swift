@@ -142,20 +142,21 @@ class NetRequest: NSObject {
         task.resume()
     }
     
-    func downloadAndSaveVideoToPhotoLibrary(from urlString: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func downloadAndSaveVideoToPhotoLibrary(from urlString: String, toDirectory: URL? = nil, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
             return
         }
         
-         var fileExtension = urlString.split(separator: ".").last;
+         let fileExtension = urlString.split(separator: ".").last;
+        let fileName = urlString.split(separator: "/").last
         
-        let video = "mp4, avi, mkv, mov, wmv, flv, webm";
-        if (fileExtension != nil && video.contains(fileExtension!)){
-            fileExtension = "mp4";
-        }else{
-            fileExtension = "png";
-        }
+//        let video = "mp4, avi, mkv, mov, wmv, flv, webm";
+//        if (fileExtension != nil && video.contains(fileExtension!)){
+//            fileExtension = "mp4";
+//        }else{
+//            fileExtension = "png";
+//        }
 
         let session = URLSession(configuration: .default)
         let task = session.downloadTask(with: url) { tempLocalUrl, response, error in
@@ -168,16 +169,20 @@ class NetRequest: NSObject {
                 completion(.failure(NSError(domain: "No temporary file", code: -2, userInfo: nil)))
                 return
             }
-            self.saveVideoWithCorrectExtension(tempLocalUrl: tempLocalUrl, ext: String(fileExtension ?? "png"), completion: completion);
+            self.saveVideoWithCorrectExtension(tempLocalUrl: tempLocalUrl, ext: String(fileExtension ?? "png"), fileName: (String(fileName ?? "dsgsd dsga")), toDirectory: toDirectory, completion: completion);
 
         }
         task.resume()
     }
     
-    func saveVideoWithCorrectExtension(tempLocalUrl: URL, ext: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func saveVideoWithCorrectExtension(tempLocalUrl: URL, ext: String, fileName: String, toDirectory: URL?, completion: @escaping (Result<Void, Error>) -> Void) {
         let fileManager = FileManager.default
-        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let correctedUrl = documentsDirectory.appendingPathComponent("test.\(ext)" ) // Correct extension
+        //let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        var documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        if toDirectory != nil{
+            documentsDirectory = toDirectory!
+        }
+        let correctedUrl = documentsDirectory.appendingPathComponent(fileName) // Correct extension
 
         do {
             // Remove existing file at destination if necessary
@@ -187,9 +192,12 @@ class NetRequest: NSObject {
             // Copy file with correct extension
             try fileManager.copyItem(at: tempLocalUrl, to: correctedUrl)
 
-            // Save to Photo Library
-            saveToPhotoLibrary(fileUrl: correctedUrl, ext: ext, completion: completion)
-
+            if fileTypes.contains(ext){
+                completion(.success(()))
+            }else{
+                // Save to Photo Library
+                saveToPhotoLibrary(fileUrl: correctedUrl, ext: ext, completion: completion)
+            }
         } catch {
             completion(.failure(error))
         }

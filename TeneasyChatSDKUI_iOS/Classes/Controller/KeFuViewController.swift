@@ -38,6 +38,7 @@ open class KeFuViewController: UIViewController, UploadListener{
        var myTimer: Timer?
     
     var withAutoReply: CommonWithAutoReply? = nil
+    var downloadFile: String? = nil
 
     //当前选择的图片
     var chooseImg: UIImage?

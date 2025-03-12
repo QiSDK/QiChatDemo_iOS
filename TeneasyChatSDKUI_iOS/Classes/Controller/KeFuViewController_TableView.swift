@@ -33,7 +33,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 cell.model = model
-                cell.displayIconImg(path: self.avatarPath)
+              
                 return cell
             }
         } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image {
@@ -82,7 +82,6 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     // cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
                     cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
                 }
-                cell.displayIconImg(path: self.avatarPath)
                 return cell
             }
         } else if model.cellType == CellType.TYPE_QA {
@@ -327,16 +326,13 @@ extension KeFuViewController {
                 imgUrl = model?.message?.video.uri ?? ""
             }
             let item3 = XMMenuItem(title: "下载") {
-                WWProgressHUD.showLoading()
-                NetRequest.standard.downloadAndSaveVideoToPhotoLibrary(from: baseUrlImage + imgUrl) { result in
-                    switch result {
-                    case .success(let filePath):
-                        print(filePath)
-                        WWProgressHUD.showSuccessWith("下载成功")
-                    case .failure(let error):
-                        WWProgressHUD.showFailure("下载失败")
-                        print(error)
+                if model?.cellType == .TYPE_File{
+                    if let link = URL(string: baseUrlImage + imgUrl) {
+                      UIApplication.shared.open(link)
                     }
+                }else{
+                    WWProgressHUD.showLoading()
+                    self.startToDownload(imgUrl: imgUrl);
                 }
             }
             menu.menuItems = [item1, item3]
@@ -345,6 +341,19 @@ extension KeFuViewController {
         }
         guard let targetView = guesture.view else { return }
         menu.show(from: targetView, rect: CGRect(x: 0, y: 20, width: targetView.bounds.width, height: targetView.bounds.height), animated: true)
+    }
+    
+    func startToDownload(imgUrl: String, toDirectory: URL? = nil){
+        NetRequest.standard.downloadAndSaveVideoToPhotoLibrary(from: baseUrlImage + imgUrl, toDirectory: toDirectory) { result in
+            switch result {
+            case .success(let filePath):
+                print(filePath)
+                WWProgressHUD.showSuccessWith("下载成功")
+            case .failure(let error):
+                WWProgressHUD.showFailure("下载失败")
+                print(error)
+            }
+        }
     }
 
     func copyData(model: ChatModel?, indexPath: IndexPath) {
