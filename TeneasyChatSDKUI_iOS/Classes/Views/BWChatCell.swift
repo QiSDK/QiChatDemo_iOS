@@ -199,7 +199,7 @@ class BWChatCell: UITableViewCell {
         let margin = 4.0
         var quoteHeight = 80.0
         if (replyView.fileNameLab.text ?? "").isEmpty {
-            quoteHeight = 30
+            quoteHeight = 20
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(size.width)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
