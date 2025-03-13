@@ -224,14 +224,13 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 m3u8 = msg.video.hlsUri
             }
             let videoUrl = URL(string: "\(baseUrlImage)\(m3u8)")
-            
+            print("视频地址:\(videoUrl?.absoluteString ?? "")")
             if videoUrl == nil {
                 WWProgressHUD.showFailure("无效的播放链接")
             } else {
                 // 写死一个，仅测试
                 // videoUrl =  URL(string:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
                 self.playVideoFullScreen(url: videoUrl!)
-                print("视频地址:\(videoUrl?.absoluteString ?? "")")
             }
         }
     }
