@@ -21,6 +21,7 @@ class BWChatCell: UITableViewCell {
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
     var showOriginalBack: BWShowOriginalClickBlock?
+    var msgMaxWidth = 188.0
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -44,9 +45,9 @@ class BWChatCell: UITableViewCell {
         lab.layer.masksToBounds = true
         //lab.numberOfLines = 0 // Allow unlimited lines
         lab.lineBreakMode = .byWordWrapping
-        //lab.textInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 10, right: 15)
-        lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
+        lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 15)
+
+        //lab.preferredMaxLayoutWidth = kScreenWidth - 120 - iconWidth - 12
         return lab
     }()
     
@@ -156,10 +157,13 @@ class BWChatCell: UITableViewCell {
                             self.replyView.fileNameLab.attributedText = atttext
                         }
             
+            self.initTitle(msg: msg)
+            replyView.model = model;
+            
             if (quote.isEmpty && (self.model?.replyItem?.fileName ?? "").isEmpty) {
-                                  self.replyView.isHidden = true
+                                  //self.replyView.isHidden = true
                                   self.replyView.snp.updateConstraints { make in
-                                      make.top.equalTo(self.titleLab.snp.bottom)
+                                      make.top.equalTo(self.titleLab.snp.bottom).offset(0).priority(.low)
                                       make.height.equalTo(0)
                                   }
                               } else {
@@ -167,39 +171,35 @@ class BWChatCell: UITableViewCell {
                                   //不是文本消息
                                   if quote.isEmpty{
                                       self.replyView.snp.updateConstraints { make in
-                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5)
+                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5).priority(.low)
                                           make.height.equalTo(56)
                                           make.width.equalTo(200)
                                       }
-
                                   }else{
                                       self.replyView.snp.updateConstraints { make in
-                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5)
+                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5).priority(.low)
                                           make.height.equalTo(56)
                                           make.width.equalTo(155)
                                       }
                                   }
                               }
-
-            
-            replyView.model = model;
             
             self.replyView.sizeToFit()
             self.replyView.layoutIfNeeded()
             self.replyView.setNeedsLayout()
-            
-            self.initTitle(msg: msg)
         }
     }
     
     func updateBgConstraints() {
-        let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+        //let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
+        let maxSize = CGSize(width: msgMaxWidth, height: CGFloat.greatestFiniteMagnitude)
+        //168
         let size = self.titleLab.sizeThatFits(maxSize)
       
         let margin = 4.0
         var quoteHeight = 80.0
         if (replyView.fileNameLab.text ?? "").isEmpty {
-            quoteHeight = 0
+            quoteHeight = 30
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(size.width)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
@@ -211,6 +211,8 @@ class BWChatCell: UITableViewCell {
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
             }
         }
+        //self.titleLab.backgroundColor = UIColor.green
+        //self.contentBgView.backgroundColor = UIColor.red
     }
     
     func displayIconImg(path: String) {
@@ -267,14 +269,15 @@ class BWChatLeftCell: BWChatCell {
         }
         
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
+            make.top.equalTo(self.timeLab.snp.bottom)
             make.left.equalTo(self.contentBgView)//.offset(4)
-            make.right.equalTo(self.contentBgView).offset(2)
-            //make.bottom.equalToSuperview().priority(.low)
+            //make.right.equalTo(self.contentBgView).offset(2)
+            make.width.lessThanOrEqualTo(msgMaxWidth)
+            make.bottom.lessThanOrEqualTo(self.contentBgView).offset(-4) // Allow vertical growth
         }
         
         self.replyView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom).offset(10)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(10).priority(.low)
             //make.top.equalTo(self.titleLab.snp.bottom).offset(4)
             make.left.equalTo(self.arrowView.snp.right)
             make.height.equalTo(56)
@@ -339,14 +342,15 @@ class BWChatRightCell: BWChatCell {
         }
 
         self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
-            make.left.equalTo(self.contentBgView).offset(4)
+            make.top.equalTo(self.timeLab.snp.bottom)
+            //make.left.equalTo(self.contentBgView).offset(4)
             make.right.equalTo(self.contentBgView)//.offset(-1)
-            //make.bottom.equalToSuperview()
+            make.width.lessThanOrEqualTo(msgMaxWidth)
+            make.bottom.lessThanOrEqualTo(self.contentBgView).offset(-4) // Allow vertical growth
         }
         
         self.replyView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom).offset(10)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(10).priority(.low)
             make.right.equalTo(self.arrowView.snp.left)
             make.height.equalTo(56)
             make.width.equalTo(200)
