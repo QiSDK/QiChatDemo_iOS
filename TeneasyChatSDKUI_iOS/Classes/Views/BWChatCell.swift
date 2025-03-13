@@ -39,13 +39,13 @@ class BWChatCell: UITableViewCell {
         lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = .white
         
-        //lab.numberOfLines = 1000
+        lab.numberOfLines = 1000
         lab.layer.cornerRadius = 8
         lab.layer.masksToBounds = true
-        lab.numberOfLines = 0 // Allow unlimited lines
+        //lab.numberOfLines = 0 // Allow unlimited lines
         lab.lineBreakMode = .byWordWrapping
-        lab.textInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        //lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 10, right: 15)
+        //lab.textInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 10, right: 15)
         lab.preferredMaxLayoutWidth = kScreenWidth - 100 - iconWidth - 12
         return lab
     }()
@@ -120,16 +120,8 @@ class BWChatCell: UITableViewCell {
         self.titleLab.addGestureRecognizer(self.gesture!)
         
         self.replyView.isUserInteractionEnabled = true
-
-        
-        // Add tap gesture recognizer to the label
         let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
-        //tapShowOriginalGesture.cancelsTouchesInView = false // Ensure it doesn't cancel other touches
         self.replyView.addGestureRecognizer(tapShowOriginalGesture)
-        //self.replyView.fileNameLab.addGestureRecognizer(tapShowOriginalGesture)
-        //self.replyView.fileIcon.addGestureRecognizer(tapShowOriginalGesture)
-        
-        //self.backgroundColor = UIColor.black
     }
 
     @objc func longGestureClick(tap: UILongPressGestureRecognizer) {
@@ -156,13 +148,7 @@ class BWChatCell: UITableViewCell {
             guard let msg = model?.message else {
                 return
             }
-            
-            //let quote = self.model?.replyItem?.content ?? ""
-
-            
-            // 现在SDK并没有把时间传回来，所以暂时不用这样转换
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
- 
             
             let quote = self.model?.replyItem?.content ?? ""
                         if quote.contains("[emoticon_") == true {
@@ -174,12 +160,10 @@ class BWChatCell: UITableViewCell {
                                   self.replyView.isHidden = true
                                   self.replyView.snp.updateConstraints { make in
                                       make.top.equalTo(self.titleLab.snp.bottom)
-                                      //make.top.equalToSuperview()
                                       make.height.equalTo(0)
                                   }
                               } else {
                                   self.replyView.isHidden = false
-                                  
                                   //不是文本消息
                                   if quote.isEmpty{
                                       self.replyView.snp.updateConstraints { make in
@@ -208,30 +192,20 @@ class BWChatCell: UITableViewCell {
         }
     }
     
-    func updateCellHeight(){
-        
-    }
-    
     func updateBgConstraints() {
         let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
         let size = self.titleLab.sizeThatFits(maxSize)
       
         let margin = 4.0
         var quoteHeight = 80.0
-        let sizeQuoteWidth = 0.0
         if (replyView.fileNameLab.text ?? "").isEmpty {
-            //margin = 0
             quoteHeight = 0
-            //print("contentBgView width:\(size.width)")
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(size.width)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
             }
-            replyView.isHidden = true
         }else{
-            var newWidth = size.width + 12
-            
-            replyView.isHidden = false
+            let newWidth = size.width + 12
             self.contentBgView.snp.updateConstraints { make in
                 make.width.equalTo(newWidth)
                 make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
@@ -253,7 +227,6 @@ class BWChatCell: UITableViewCell {
             self.updateBgConstraints()
         } else {
             self.titleLab.text = msg.content.data
-            // print("message text:" + (msg.content.data))
             self.updateBgConstraints()
         }
     }
@@ -297,6 +270,7 @@ class BWChatLeftCell: BWChatCell {
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView)//.offset(4)
             make.right.equalTo(self.contentBgView).offset(2)
+            //make.bottom.equalToSuperview().priority(.low)
         }
         
         self.replyView.snp.makeConstraints { make in
@@ -307,14 +281,6 @@ class BWChatLeftCell: BWChatCell {
             make.width.equalTo(200)
             make.bottom.equalToSuperview()
         }
-        
-//        var marginLeft = 16
-//        if (self.replyView.text ?? "").isEmpty{
-//            marginLeft = 4
-//        }
-        
-
-        rightConstraint?.deactivate()
 
         //let image = UIImage.svgInit("left_chat_bg") // UIImage(named: "left_chat_bg", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         // 表示图像的四边各保留 15 点，不被拉伸，拉伸的部分是图像的中心区域
@@ -372,7 +338,6 @@ class BWChatRightCell: BWChatCell {
             make.top.equalTo(self.contentBgView.snp.top).offset(4)
         }
 
-        
         self.titleLab.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom).priority(.low)
             make.left.equalTo(self.contentBgView).offset(4)
@@ -387,9 +352,6 @@ class BWChatRightCell: BWChatCell {
             make.width.equalTo(200)
             make.bottom.equalToSuperview()
         }
-        
-        // Remove the left constraint
-        leftConstraint?.deactivate()
                 
         self.contentView.addSubview(self.loadingView)
         self.loadingView.snp.makeConstraints { make in
