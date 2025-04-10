@@ -67,15 +67,19 @@ extension KeFuViewController: teneasySDKDelegate {
                    }
             }
             else if msg.replyMsgID > 0{
+                let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
                 if let model = datasouceArray.first(where: { ChatModel in
                     ChatModel.message?.msgID == msg.replyMsgID
                 }){
-                    let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                    let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
-                    //model.replayQuote = replayQuote ?? ""
                     appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: getReplyItem(oriMsg: model.message))
                 }else{
-                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Text)
+                    var list = [String(msg.replyMsgID)]
+                    NetworkUtil.queryMessage(msgIds: list) { success, data in
+                        if ((data?.replyList?.count ?? 0) > 0){
+                            self.appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: self.getReplyItem(oriMsg: data?.replyList?[0]))
+                        }
+                    }
                 }
             }else{
                 

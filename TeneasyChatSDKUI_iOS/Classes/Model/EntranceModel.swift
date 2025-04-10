@@ -21,6 +21,13 @@ class EntranceModel: HandyJSON {
     required init(){}
 }
 
+class MessageList: HandyJSON {
+
+    var replyList: [Message]?
+
+    required init(){}
+}
+
 // MARK: - Consult
 class Consult: HandyJSON {
     var consultId: Int32?

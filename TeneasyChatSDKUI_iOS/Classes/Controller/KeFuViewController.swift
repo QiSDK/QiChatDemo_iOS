@@ -285,9 +285,10 @@ open class KeFuViewController: UIViewController, UploadListener{
     func buildHistory(history: HistoryModel){
         //guard let historyList = history.list?.reversed() else { return } //获取自动回复后return
         datasouceArray.removeAll()
+        chatId = history.request?.chatId ?? "0"
         if let historyList = history.list?.reversed(){
             print("获取历史记录")
-            
+                
              let replyList = history.replyList
           
             for item in historyList {
@@ -317,21 +318,21 @@ open class KeFuViewController: UIViewController, UploadListener{
                        
                     })
                     
-                    let replyItem = ReplyMessageItem()
-                    if (oriMsg?.msgFmt == "MSG_TEXT"){
-                        replyItem.content = oriMsg?.content?.data ?? ""
-                    }
-                    else if (oriMsg?.msgFmt == "MSG_IMG"){
-                        replyItem.fileName = oriMsg?.image?.uri ?? ""
-                    }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
-                        replyItem.fileName =  oriMsg?.video?.uri ?? ""
-                    }else if (oriMsg?.msgFmt == "MSG_FILE"){
-                        replyItem.size = oriMsg?.file?.size ?? 0
-                        replyItem.fileName = oriMsg?.file?.fileName ?? ""
-                    }
+//                    let replyItem = ReplyMessageItem()
+//                    if (oriMsg?.msgFmt == "MSG_TEXT"){
+//                        replyItem.content = oriMsg?.content?.data ?? ""
+//                    }
+//                    else if (oriMsg?.msgFmt == "MSG_IMG"){
+//                        replyItem.fileName = oriMsg?.image?.uri ?? ""
+//                    }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
+//                        replyItem.fileName =  oriMsg?.video?.uri ?? ""
+//                    }else if (oriMsg?.msgFmt == "MSG_FILE"){
+//                        replyItem.size = oriMsg?.file?.size ?? 0
+//                        replyItem.fileName = oriMsg?.file?.fileName ?? ""
+//                    }
                  
                     chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
-                    chatModel.replyItem = replyItem
+                    chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
                     datasouceArray.append(chatModel)
                 }
                 else if item.workerChanged != nil{
@@ -387,6 +388,38 @@ open class KeFuViewController: UIViewController, UploadListener{
         tableView.reloadData()
         scrollToBottom()
     }
+    
+    func getReplyItem(oriMsg: Message?) -> ReplyMessageItem{
+        let replyItem = ReplyMessageItem()
+        if (oriMsg?.msgFmt == "MSG_TEXT"){
+            replyItem.content = oriMsg?.content?.data ?? ""
+        }
+        else if (oriMsg?.msgFmt == "MSG_IMG"){
+            replyItem.fileName = oriMsg?.image?.uri ?? ""
+        }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
+            replyItem.fileName =  oriMsg?.video?.uri ?? ""
+        }else if (oriMsg?.msgFmt == "MSG_FILE"){
+            replyItem.size = oriMsg?.file?.size ?? 0
+            replyItem.fileName = oriMsg?.file?.fileName ?? ""
+        }
+        return replyItem
+    }
+    
+    func getReplyItem(oriMsg: CommonMessage?) -> ReplyMessageItem{
+       let replyItem = ReplyMessageItem()
+       if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
+           replyItem.content = oriMsg?.content.data ?? ""
+       }
+       else if (oriMsg?.msgFmt == CommonMessageFormat.msgImg){
+           replyItem.fileName = oriMsg?.image.uri ?? ""
+       }else if (oriMsg?.msgFmt == CommonMessageFormat.msgVideo){
+           replyItem.fileName =  oriMsg?.video.uri ?? ""
+       }else if (oriMsg?.msgFmt == CommonMessageFormat.msgFile){
+           replyItem.size = oriMsg?.file.size ?? 0
+           replyItem.fileName = oriMsg?.file.fileName ?? ""
+       }
+       return replyItem
+   }
 
     func updateWorker(workerName:String, avatar: String){
         self.workerName = workerName
@@ -406,22 +439,6 @@ open class KeFuViewController: UIViewController, UploadListener{
         })
         //}
     }
-    
-    func getReplyItem(oriMsg: CommonMessage?) -> ReplyMessageItem{
-       let replyItem = ReplyMessageItem()
-       if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
-           replyItem.content = oriMsg?.content.data ?? ""
-       }
-       else if (oriMsg?.msgFmt == CommonMessageFormat.msgImg){
-           replyItem.fileName = oriMsg?.image.uri ?? ""
-       }else if (oriMsg?.msgFmt == CommonMessageFormat.msgVideo){
-           replyItem.fileName =  oriMsg?.video.uri ?? ""
-       }else if (oriMsg?.msgFmt == CommonMessageFormat.msgFile){
-           replyItem.size = oriMsg?.file.size ?? 0
-           replyItem.fileName = oriMsg?.file.fileName ?? ""
-       }
-       return replyItem
-   }
     
     func sendMsg(textMsg: String) {
         print("sendMsg:\(textMsg)")

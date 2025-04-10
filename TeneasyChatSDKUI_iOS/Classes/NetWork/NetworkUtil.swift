@@ -96,6 +96,33 @@ enum NetworkUtil {
             }
         }
     }
+    
+    // 根据消息ID获取消息体
+    static func queryMessage(msgIds: [String], done: @escaping ((_ success: Bool, _ data: MessageList?) -> Void)) {
+        let task = ChatApi.queryMessage(chatId: chatId, msgIds: msgIds)
+        print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
+        print("请求header: \(String(describing: task.headers))")
+        ChatProvider.request(task) { result in
+            switch result {
+                case .success(let response):
+
+                let dic = try? response.mapJSON() as? [String: Any]
+
+                let result = BaseRequestResult<MessageList>.deserialize(from: dic)
+
+                if result?.code == 0 {
+                    done(true, result?.data)
+                } else {
+                    done(false, nil)
+                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                }
+            case .failure(let error):
+                print(error)
+            logError(request: "", header: String(describing: task.headers), resp: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
+                done(false, nil)
+            }
+        }
+    }
 
     static func assignWorker(consultId: Int32, done: @escaping ((_ success: Bool, _ data: AssignWorker?) -> Void)) {
         let task = ChatApi.assignWorker(consultId: consultId)

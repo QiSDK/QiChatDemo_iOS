@@ -4,6 +4,7 @@ let ChatProvider = MoyaProvider<ChatApi>()
 
 enum ChatApi {
     case queryHistory(consultId: Int32 = 1, userId: Int32 = 0, chatId: Int32 = 0, count: Int32 = 50)
+    case queryMessage(chatId: String, msgIds: [String])
     case queryAutoReplay(consultId: Int32 = 0, workerId: Int32 = 0)
     case queryEntrance
     case assignWorker(consultId: Int32 = 0)
@@ -23,6 +24,8 @@ extension ChatApi: TargetType {
         switch self {
         case .queryHistory:
             return "/v1/api/message/sync"
+        case .queryMessage:
+            return "/v1/api/message/reply-message/sync"
         case .queryAutoReplay:
             return "/v1/api/query-auto-reply"
         case .queryEntrance:
@@ -62,6 +65,8 @@ extension ChatApi: TargetType {
             return .requestParameters(parameters: ["consultId": consultId, "workerId": workerId], encoding: JSONEncoding.default)
         case .assignWorker(let id):
             return .requestParameters(parameters: ["consultId": id], encoding: JSONEncoding.default)
+        case .queryMessage(let chatId, let msgIds):
+            return .requestParameters(parameters: ["chatId": chatId, "msgIds": msgIds], encoding: JSONEncoding.default)
         case .markRead(let id):
             return .requestParameters(parameters: ["consultId": id], encoding: JSONEncoding.default)
         case .reportError(let reportRequest):
