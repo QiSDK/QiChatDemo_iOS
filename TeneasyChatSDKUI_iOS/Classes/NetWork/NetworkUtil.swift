@@ -44,7 +44,7 @@ enum NetworkUtil {
 
     // 获取聊天记录
     static func getHistory(consultId: Int32, done: @escaping ((_ success: Bool, _ data: HistoryModel?) -> Void)) {
-        let task = ChatApi.queryHistory(consultId: consultId, userId: userId, chatId: 0, count: 50)
+        let task = ChatApi.queryHistory(consultId: consultId, userId: userId, chatId: 0, count: 2)
         print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
         print("请求header: \(String(describing: task.headers))")
         ChatProvider.request(task) { result in
@@ -98,7 +98,7 @@ enum NetworkUtil {
     }
     
     // 根据消息ID获取消息体
-    static func queryMessage(msgIds: [String], done: @escaping ((_ success: Bool, _ data: MessageList?) -> Void)) {
+    static func queryMessage(msgIds: [String], done: @escaping ((_ success: Bool, _ data: ReplyList?) -> Void)) {
         let task = ChatApi.queryMessage(chatId: chatId, msgIds: msgIds)
         print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
         print("请求header: \(String(describing: task.headers))")
@@ -108,7 +108,7 @@ enum NetworkUtil {
 
                 let dic = try? response.mapJSON() as? [String: Any]
 
-                let result = BaseRequestResult<MessageList>.deserialize(from: dic)
+                let result = BaseRequestResult<ReplyList>.deserialize(from: dic)
 
                 if result?.code == 0 {
                     done(true, result?.data)

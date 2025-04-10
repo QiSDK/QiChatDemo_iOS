@@ -74,7 +74,7 @@ extension KeFuViewController: teneasySDKDelegate {
                 }){
                     appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: getReplyItem(oriMsg: model.message))
                 }else{
-                    var list = [String(msg.replyMsgID)]
+                    let list = [String(msg.replyMsgID)]
                     NetworkUtil.queryMessage(msgIds: list) { success, data in
                         if ((data?.replyList?.count ?? 0) > 0){
                             self.appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: self.getReplyItem(oriMsg: data?.replyList?[0]))

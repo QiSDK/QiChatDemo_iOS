@@ -160,9 +160,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.displayIconImg(path: self.avatarPath)
                 cell.showOriginalBack = {
-                    //print(model.replayQuote)
-                    // WWProgressHUD.showLoading()
-                    self.showOriginal(model: model)
+                    if (model.replyItem != nil){
+                        self.showOriginal(model: model.replyItem!)
+                    }
                 }
                 return cell
             } else {
@@ -178,12 +178,30 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 cell.showOriginalBack = {
-                    //print(model.replayQuote)
-                    // WWProgressHUD.showLoading()
-                    self.showOriginal(model: model)
+                    if (model.replyItem != nil){
+                        self.showOriginal(model: model.replyItem!)
+                    }
                 }
                 return cell
             }
+        }
+    }
+    
+    func showOriginal(model: ReplyMessageItem) {
+        let ext = model.fileName.split(separator: ".").last?.lowercased() ?? "$"
+       
+        var urlcomps = URLComponents(string: baseUrlImage)
+        urlcomps?.path = model.fileName
+        
+        guard let url = urlcomps?.url else {
+            WWProgressHUD.showFailure("无效的图片链接")
+            return
+        }
+            
+        if (videoTypes.contains(ext)){
+            self.playVideoFullScreen(url: url)
+        }else{
+            self.playImageFullScreen(url: url)
         }
     }
     

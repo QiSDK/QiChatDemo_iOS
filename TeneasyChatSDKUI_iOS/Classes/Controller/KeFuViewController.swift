@@ -309,33 +309,20 @@ open class KeFuViewController: UIViewController, UploadListener{
                
                
                 let replyMsgId = Int64(item.replyMsgId ?? "0") ?? 0
+                let oriMsg = replyList?.first(where: { Message in
+                    Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
+                   
+                })
                 
-                if replyMsgId > 0{
-                    let replyText = item.content?.data ?? "no txt"
-                    var replayQuote = ""
-                    let oriMsg = replyList?.first(where: { Message in
-                        Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
-                       
-                    })
-                    
-//                    let replyItem = ReplyMessageItem()
-//                    if (oriMsg?.msgFmt == "MSG_TEXT"){
-//                        replyItem.content = oriMsg?.content?.data ?? ""
-//                    }
-//                    else if (oriMsg?.msgFmt == "MSG_IMG"){
-//                        replyItem.fileName = oriMsg?.image?.uri ?? ""
-//                    }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
-//                        replyItem.fileName =  oriMsg?.video?.uri ?? ""
-//                    }else if (oriMsg?.msgFmt == "MSG_FILE"){
-//                        replyItem.size = oriMsg?.file?.size ?? 0
-//                        replyItem.fileName = oriMsg?.file?.fileName ?? ""
-//                    }
-                 
-                    chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
-                    chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
-                    datasouceArray.append(chatModel)
-                }
-                else if item.workerChanged != nil{
+//                if replyMsgId > 0{
+//                    let replyText = item.content?.data ?? "no txt"
+//                    chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
+//                    chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
+//                    datasouceArray.append(chatModel)
+//                }
+//                else
+                
+                if item.workerChanged != nil{
                     chatModel.cellType = .TYPE_Tip
                     chatModel.message = composeALocalTxtMessage(textMsg: item.workerChanged?.greeting ?? "no greeting", timeInS: item.msgTime, msgId: msgId)
                     datasouceArray.append(chatModel)
@@ -344,20 +331,36 @@ open class KeFuViewController: UIViewController, UploadListener{
                     chatModel.cellType = .TYPE_File
                     chatModel.message = composeALocalFileMessage(url: item.file?.uri ?? "unknown_default", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId, fileSize: item.file?.size ?? 0, fileName: item.file?.fileName ?? "")
                     datasouceArray.append(chatModel)
+                    
+                    if replyMsgId > 0{
+                        chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
+                    }
                 }
                 else if item.msgFmt == "MSG_TEXT"{
                     chatModel.cellType = .TYPE_Text
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
+                    
+                    if replyMsgId > 0{
+                        chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
+                    }
                 }else if item.msgFmt == "MSG_IMG"{
                     chatModel.cellType = .TYPE_Image
                     //print(item.image?.uri ?? "")
                     chatModel.message = composeALocalImgMessage(url: item.image?.uri ?? "", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
+                    
+                    if replyMsgId > 0{
+                        chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
+                    }
                 }else if item.msgFmt == "MSG_VIDEO"{
                     chatModel.cellType = .TYPE_VIDEO
                     chatModel.message = composeALocalVideoMessage(url:  item.video?.uri ?? "", thumb: item.video?.thumbnailUri ?? "", hls: item.video?.hlsUri ?? "", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
                     datasouceArray.append(chatModel)
+                    
+                    if replyMsgId > 0{
+                        chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
+                    }
                 }
             }
         }
@@ -398,9 +401,13 @@ open class KeFuViewController: UIViewController, UploadListener{
             replyItem.fileName = oriMsg?.image?.uri ?? ""
         }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
             replyItem.fileName =  oriMsg?.video?.uri ?? ""
+            
+            if (oriMsg?.video?.hlsUri != nil){
+                replyItem.fileName =  oriMsg?.video?.hlsUri ?? ""
+            }
         }else if (oriMsg?.msgFmt == "MSG_FILE"){
             replyItem.size = oriMsg?.file?.size ?? 0
-            replyItem.fileName = oriMsg?.file?.fileName ?? ""
+            replyItem.fileName = oriMsg?.file?.uri ?? ""
         }
         return replyItem
     }
@@ -414,9 +421,13 @@ open class KeFuViewController: UIViewController, UploadListener{
            replyItem.fileName = oriMsg?.image.uri ?? ""
        }else if (oriMsg?.msgFmt == CommonMessageFormat.msgVideo){
            replyItem.fileName =  oriMsg?.video.uri ?? ""
+           
+           if (oriMsg?.video.hlsUri != nil){
+               replyItem.fileName =  oriMsg?.video.hlsUri ?? ""
+           }
        }else if (oriMsg?.msgFmt == CommonMessageFormat.msgFile){
            replyItem.size = oriMsg?.file.size ?? 0
-           replyItem.fileName = oriMsg?.file.fileName ?? ""
+           replyItem.fileName = oriMsg?.file.uri ?? ""
        }
        return replyItem
    }

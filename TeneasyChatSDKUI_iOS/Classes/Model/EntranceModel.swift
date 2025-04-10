@@ -21,7 +21,7 @@ class EntranceModel: HandyJSON {
     required init(){}
 }
 
-class MessageList: HandyJSON {
+class ReplyList: HandyJSON {
 
     var replyList: [Message]?
 
