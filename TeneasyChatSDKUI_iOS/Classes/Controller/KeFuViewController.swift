@@ -402,7 +402,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
             replyItem.fileName =  oriMsg?.video?.uri ?? ""
             
-            if (oriMsg?.video?.hlsUri != nil){
+            if (!(oriMsg?.video?.hlsUri ?? "").isEmpty){
                 replyItem.fileName =  oriMsg?.video?.hlsUri ?? ""
             }
         }else if (oriMsg?.msgFmt == "MSG_FILE"){
@@ -422,7 +422,7 @@ open class KeFuViewController: UIViewController, UploadListener{
        }else if (oriMsg?.msgFmt == CommonMessageFormat.msgVideo){
            replyItem.fileName =  oriMsg?.video.uri ?? ""
            
-           if (oriMsg?.video.hlsUri != nil){
+           if (!(oriMsg?.video.hlsUri ?? "").isEmpty){
                replyItem.fileName =  oriMsg?.video.hlsUri ?? ""
            }
        }else if (oriMsg?.msgFmt == CommonMessageFormat.msgFile){
