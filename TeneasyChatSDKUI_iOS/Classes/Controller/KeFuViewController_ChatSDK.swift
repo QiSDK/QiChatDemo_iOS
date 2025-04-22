@@ -31,12 +31,6 @@ extension KeFuViewController: teneasySDKDelegate {
     public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
         print("receivedMsg\(msg)")
         if msg.consultID != consultId{
-            //以消息的形式提示：
-           // let msg = composeALocalTxtMessage(textMsg: "其他客服有新消息！")
-           // appendDataSource(msg: msg, isLeft: false, cellType: .TYPE_Tip)
-            
-            //以Toast的形式提示
-            //self.view.makeToast("其他客服有新消息！")
             let tempStr = self.systemMsgLabel.text
             self.systemMsgLabel.text = "其他客服有新消息！"
             delayExecution(seconds: 3, completion: {
@@ -46,15 +40,8 @@ extension KeFuViewController: teneasySDKDelegate {
             
             if msg.msgOp == .msgOpEdit{
                 if let index = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.msgID }) {
-                       // Update the content of the found ChatModel
-                    //datasouceArray[index].message?.content.data = msg.content.data
                     datasouceArray[index].message = msg
-                       // Print a confirmation message
                        print("消息内容更新了")
-                       
-                       // Reload the table view to reflect the changes
-                       //tableView.reloadData()
-                    
                     UIView.performWithoutAnimation {
                         let loc = tableView.contentOffset
                         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableView.RowAnimation.none)

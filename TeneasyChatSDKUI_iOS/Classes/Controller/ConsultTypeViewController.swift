@@ -1,201 +1,237 @@
 //
-//  QuestionViewController.swift
+//  ConsultTypeViewController.swift
 //  TeneasyChatSDKUI_iOS-TeneasyChatSDKUI_iOS
 //
 //  Created by Xiao Fu on 2024/5/10.
 //
 
-import Foundation
 import UIKit
 import TeneasyChatSDK_iOS
 import SwiftProtobuf
 
-//线路检测和选择咨询类型页面
-open class ConsultTypeViewController: UIViewController, LineDetectDelegate {
-    var retryTimes = 0
-    //咨询类型页面
-    lazy var entranceView: BWEntranceView = {
+/// 咨询类型视图控制器 - 用于展示不同类型的客服咨询入口
+open class ConsultTypeViewController: UIViewController {
+    // MARK: - Properties (属性)
+    /// 最大重试次数
+    private let maxRetryAttempts = 3
+    /// 当前重试次数
+    private var retryTimes = 0
+    
+    // MARK: - UI Components (UI组件)
+    /// 入口视图 - 展示各种咨询类型的主视图
+    private lazy var entranceView: BWEntranceView = {
         let view = BWEntranceView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         return view
     }()
     
-    lazy var headerView: UIView = {
-        let v = UIView(frame: CGRect.zero)
-        if #available(iOS 13.0, *) {
-            v.backgroundColor = UIColor.tertiarySystemBackground
-        } else {
-            v.backgroundColor = UIColor.white
-        }
-        return v
+    /// 头部视图容器
+    private lazy var headerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor.makeBackgroundColor()
+        return view
     }()
     
-    lazy var headerImg: UIImageView = {
-        let img = UIImageView(frame: CGRect.zero)
-        img.layer.cornerRadius = 25
-        img.layer.masksToBounds = true
-        img.image = UIImage.svgInit("com_moren")
-        return img
+    /// 头部标题标签
+    private lazy var headerTitle: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.text = "客服"
+        label.textColor = UIColor.makeLabelColor()
+        label.textAlignment = .center
+        return label
     }()
     
-    lazy var headerTitle: UILabel = {
-        let v = UILabel(frame: CGRect.zero)
-        v.text = "--"
-        if #available(iOS 13.0, *) {
-            v.textColor = UIColor.label
-        } else {
-            // Fallback on earlier versions
-        }
-        return v
-    }()
-
-    lazy var headerClose: UIButton = {
-        let btn = UIButton(frame: CGRect.zero)
-        btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
-        btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
-        if #available(iOS 13.0, *) {
-            btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))?.withTintColor(UIColor.systemGray), for: UIControl.State.normal)
-        }
-        return btn
+    /// 关闭按钮
+    private lazy var headerClose: UIButton = {
+        let button = UIButton(frame: .zero)
+        let image = UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))
+        button.setImage(makeButtonImage(image), for: .normal)
+        button.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
+        return button
     }()
     
-//    lazy var curLineLB: UILabel = {
-//        let lineLB = UILabel()
-//        lineLB.text = "正在检测线路。。。。"
-//        lineLB.textColor = .gray
-//        lineLB.font = UIFont.systemFont(ofSize: 15)
-//        lineLB.alpha = 0.5
-//        return lineLB
-//    }()
-//    
-//    lazy var settingBtn: UIButton = {
-//        let btn = UIButton()
-//        btn.setTitle("Settings", for: UIControl.State.normal)
-//        btn.setTitleColor(.lightGray, for: UIControl.State.normal)
-//        btn.addTarget(self, action: #selector(settingClick), for: UIControl.Event.touchUpInside)
-//        return btn
-//    }()
-    
+    // MARK: - Lifecycle Methods (生命周期方法)
+    /// 视图加载完成
     open override func viewDidLoad() {
         super.viewDidLoad()
-//        if #available(iOS 13.0, *) {
-//            self.view.backgroundColor = UIColor.systemBackground
-//        } else {
-//            // Fallback on earlier versions
-//        }
-        self.view.addSubview(entranceView)
-        
+        setupUI()
+        configureEntranceView()
+        initializeToken()
+        entranceView.getEntrance()
+    }
+    
+    // MARK: - Private Methods (私有方法)
+    /// 设置UI界面
+    private func setupUI() {
+        setupBackgroundColors()
+        setupViewHierarchy()
+        setupConstraints()
+        setStatusBar(backgroundColor: UIColor.makeStatusBarColor())
+    }
+    
+    /// 设置背景颜色
+    private func setupBackgroundColors() {
+        if #available(iOS 13.0, *) {
+            entranceView.backgroundColor = .secondarySystemBackground
+            view.backgroundColor = .secondarySystemBackground
+        } else {
+            entranceView.backgroundColor = .white
+        }
+    }
+    
+    /// 设置视图层级
+    private func setupViewHierarchy() {
         view.addSubview(headerView)
+        view.addSubview(entranceView)
+        headerView.addSubview(headerTitle)
+        headerView.addSubview(headerClose)
+    }
+    
+    /// 设置约束
+    private func setupConstraints() {
         headerView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(50)
             make.top.equalToSuperview().offset(kDeviceTop)
         }
-        //
-//        headerView.addSubview(headerImg)
-//        headerImg.snp.makeConstraints { make in
-//            make.width.height.equalTo(50)
-//            make.left.equalToSuperview().offset(12)
-//            make.top.equalToSuperview().offset(5)
-//        }
-
-        headerView.addSubview(headerTitle)
+        
         headerTitle.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
             make.width.equalTo(150)
         }
-        headerTitle.textAlignment = .center
-        headerTitle.text = "客服"
         
-        headerView.addSubview(headerClose)
         headerClose.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
         }
         
-        if #available(iOS 13.0, *) {
-            entranceView.backgroundColor = UIColor.secondarySystemBackground
-            view.backgroundColor = UIColor.secondarySystemBackground
-            setStatusBar(backgroundColor: UIColor.tertiarySystemBackground)
-        } else {
-            entranceView.backgroundColor = UIColor.white
-        }
         entranceView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom).offset(12)
-            make.bottom.equalToSuperview()//.offset(-82 - kDeviceBottom)
+            make.bottom.equalToSuperview()
         }
-        
-        entranceView.callBack = { [weak self] (dataCount: Int) in
-            if dataCount < 1 && (self?.retryTimes ?? 0) < 3{
-                //如果失败，再做一次线路检测
-                self?.lineCheck()
-                self?.retryTimes += 1
-            }
-        }
-        //咨询类型选择之后，把咨询ID作为全局变量
-        entranceView.cellClick = {[weak self] (consultID: Int32) in
-            let vc = KeFuViewController()
-            vc.consultId = Int64(consultID)
-            vc.modalPresentationStyle = .fullScreen
-            self?.present(vc, animated: true)
-        }
-        
-        //从配置读取用户ID
-        xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
-        
-        //线路检测成功之后，获取咨询类型列表
-        entranceView.getEntrance()
     }
     
-    @objc func closeClick() {
+    /// 配置入口视图
+    private func configureEntranceView() {
+        // 处理数据回调
+        entranceView.callBack = { [weak self] dataCount in
+            self?.handleEntranceCallback(dataCount: dataCount)
+        }
+        
+        // 处理单元格点击
+        entranceView.cellClick = { [weak self] consultID in
+            self?.handleConsultSelection(consultID: consultID)
+        }
+    }
+    
+    /// 处理入口回调
+    private func handleEntranceCallback(dataCount: Int) {
+        guard dataCount < 1, retryTimes < maxRetryAttempts else { return }
+        lineCheck()
+        retryTimes += 1
+    }
+    
+    /// 处理咨询类型选择
+    private func handleConsultSelection(consultID: Int32) {
+        let viewController = KeFuViewController()
+        viewController.consultId = Int64(consultID)
+        viewController.modalPresentationStyle = .fullScreen
+        present(viewController, animated: true)
+    }
+    
+    /// 初始化Token
+    private func initializeToken() {
+        xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
+    }
+    
+    /// 关闭按钮点击事件
+    @objc private func closeClick() {
         dismiss(animated: true)
     }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
-    
-    open override func viewWillDisappear(_ animated: Bool) {
+}
 
-    }
-    
-    //做线路检测
-    func lineCheck(){
-        //初始化线路库
+// MARK: - LineDetectDelegate (线路检测代理)
+extension ConsultTypeViewController: LineDetectDelegate {
+    /// 检查线路
+    func lineCheck() {
         let lineLB = LineDetectLib(lines, delegate: self, tenantId: merchantId)
-        //获取线路
         lineLB.getLine()
     }
     
+    /// 使用检测到的线路
     public func useTheLine(line: String) {
-        domain = line;
+        domain = line
         entranceView.getEntrance()
     }
     
+    /// 处理线路错误
     public func lineError(error: TeneasyChatSDK_iOS.Result) {
-        if error.Code == 1008{
-            //无可用线路
-            self.view.makeToast(error.Message)
-            NetworkUtil.logError(request: lines, header: "", resp: error.Message, code: error.Code, url: "v1/api/verify")
-        }
+        guard error.Code == 1008 else { return }
+        view.makeToast(error.Message)
+        NetworkUtil.logError(
+            request: lines,
+            header: "",
+            resp: error.Message,
+            code: error.Code,
+            url: "v1/api/verify"
+        )
     }
-    
+}
+
+// MARK: - UI Helpers (UI辅助方法)
+private extension ConsultTypeViewController {
+    /// 设置状态栏
     func setStatusBar(backgroundColor: UIColor) {
-        let statusBarFrame: CGRect
-        if #available(iOS 13.0, *) {
-            //statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero
-            statusBarFrame = CGRectMake(0, 0, kScreenWidth, kDeviceTop)
-        } else {
-            statusBarFrame = UIApplication.shared.statusBarFrame
-        }
+        let statusBarFrame = makeStatusBarFrame()
         let statusBarView = UIView(frame: statusBarFrame)
         statusBarView.backgroundColor = backgroundColor
         view.addSubview(statusBarView)
+    }
+    
+    /// 创建状态栏框架
+    func makeStatusBarFrame() -> CGRect {
+        if #available(iOS 13.0, *) {
+            return CGRect(x: 0, y: 0, width: kScreenWidth, height: kDeviceTop)
+        } else {
+            return UIApplication.shared.statusBarFrame
+        }
+    }
+    
+    /// 创建按钮图片
+    func makeButtonImage(_ image: UIImage?) -> UIImage? {
+        if #available(iOS 13.0, *) {
+            return image?.withTintColor(.systemGray)
+        }
+        return image
+    }
+}
+
+// MARK: - UIColor Extensions (UIColor扩展)
+private extension UIColor {
+    /// 创建背景颜色
+    static func makeBackgroundColor() -> UIColor {
+        if #available(iOS 13.0, *) {
+            return .tertiarySystemBackground
+        }
+        return .white
+    }
+    
+    /// 创建标签颜色
+    static func makeLabelColor() -> UIColor {
+        if #available(iOS 13.0, *) {
+            return .label
+        }
+        return .black
+    }
+    
+    /// 创建状态栏颜色
+    static func makeStatusBarColor() -> UIColor {
+        if #available(iOS 13.0, *) {
+            return .tertiarySystemBackground
+        }
+        return .white
     }
 }
