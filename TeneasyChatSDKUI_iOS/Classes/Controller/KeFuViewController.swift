@@ -16,26 +16,32 @@ import MobileCoreServices
 //客服聊天页面
 open class KeFuViewController: UIViewController, UploadListener{
     
-    //消息列表的数据源
+    // MARK: - 属性
+    
+    /// 消息数据源
     var datasouceArray: [ChatModel] = []
-    //所选择的咨询类型Id
+    
+    /// 咨询类型ID
     var consultId: Int64 = 0
-    //聊天SDK库
-    var lib = ChatLib.shared
-    //是否第一次加载页面，历史记录和自动回复列表只是在第一次加载页面的时候调用
-    internal var isFirstLoad = true
-    //是否在已经连接状态的标记
-    var isConnected: Bool = false
+    
+    /// 聊天SDK实例
+    private(set) var lib: ChatLib = ChatLib.shared
+    
+    /// 连接状态标记
+   var isConnected: Bool = false
+    
+    /// 首次加载标记
+   var isFirstLoad: Bool = true
+    
+    /// 客服信息
+   var workerName: String = ""
+   var avatarPath: String = ""
    
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
-    var workerName: String = ""
-     var avatarPath: String = ""
     
     //一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
-    //private var myTimer: Timer?
-    //static let shared = KeFuViewController()
-       var myTimer: Timer?
+    var myTimer: Timer?
     
     var withAutoReply: CommonWithAutoReply? = nil
     var downloadFile: String? = nil
