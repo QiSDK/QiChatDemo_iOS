@@ -9,80 +9,137 @@ import Foundation
 import TeneasyChatSDK_iOS
 import Toast_Swift
 
+// MARK: - SDK代理实现
 extension KeFuViewController: teneasySDKDelegate {
     
-    //初始化聊天SDK
+    /// 初始化聊天SDK
+    /// - Parameter baseUrl: 服务器基础URL
     func initSDK(baseUrl: String) {
         let wssUrl = "wss://" + baseUrl + "/v1/gateway/h5?"
-        if lib.payloadId == 0{
-            print("initSDK 初始化SDK")
-            lib.myinit(userId: userId, cert: cert, token: xToken, baseUrl: wssUrl, sign: "9zgd9YUc", custom: getCustomParam(), maxSessionMinutes: maxSessionMinus)
+        
+        // SDK是否已初始化的判断
+        if lib.payloadId == 0 {
+            print("initSDK: 初始化SDK")
+            lib.myinit(
+                userId: userId,
+                cert: cert,
+                token: xToken,
+                baseUrl: wssUrl,
+                sign: "9zgd9YUc",
+                custom: getCustomParam(),
+                maxSessionMinutes: maxSessionMinus
+            )
             
             lib.callWebsocket()
-            lib.delegate = self
-        }else{
-            print("initSDK 重新连接")
+        } else {
+            print("initSDK: 重新连接")
             lib.reConnect()
-            lib.delegate = self
+        }
+        
+        lib.delegate = self
+    }
+    
+    /// 处理收到的客服消息
+    /// - Parameter msg: 消息对象
+    public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
+        print("收到消息: \(msg)")
+        
+        // 判断消息是否来自当前会话
+        if msg.consultID != consultId {
+            handleOtherConsultMessage()
+            return
+        }
+        
+        // 根据消息类型分别处理
+        switch msg.msgOp {
+        case .msgOpEdit:
+            handleEditMessage(msg)
+        case _ where msg.replyMsgID > 0:
+            handleReplyMessage(msg)
+        default:
+            handleNormalMessage(msg)
         }
     }
     
-    //收到客服发来的消息
-    public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
-        print("receivedMsg\(msg)")
-        if msg.consultID != consultId{
-            let tempStr = self.systemMsgLabel.text
-            self.systemMsgLabel.text = "其他客服有新消息！"
-            delayExecution(seconds: 3, completion: {
-                self.systemMsgLabel.text = tempStr
-            })
-        }else{
+    /// 处理消息编辑
+    private func handleEditMessage(_ msg: CommonMessage) {
+        guard let index = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.msgID }) else {
+            print("未找到匹配的消息ID")
+            return
+        }
+        
+        datasouceArray[index].message = msg
+        print("消息内容已更新")
+        
+        // 更新UI时保持滚动位置
+        UIView.performWithoutAnimation {
+            let currentOffset = tableView.contentOffset
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            tableView.contentOffset = currentOffset
+        }
+    }
+    
+    /// 处理回复消息
+    private func handleReplyMessage(_ msg: CommonMessage) {
+        let newText = msg.content.data.trimmingCharacters(in: .whitespacesAndNewlines)
+        let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
+        
+        // 查找原始消息
+        if let model = datasouceArray.first(where: { $0.message?.msgID == msg.replyMsgID }) {
+            appendDataSource(
+                msg: newMsg,
+                isLeft: true,
+                cellType: .TYPE_Text,
+                replayQuote: getReplyItem(oriMsg: model.message)
+            )
+        } else {
+            // 如果本地找不到原始消息，从服务器查询
+            queryReplyMessage(msg, newMsg)
+        }
+    }
+    
+    /// 从服务器查询回复消息
+    private func queryReplyMessage(_ msg: CommonMessage, _ newMsg: CommonMessage) {
+        NetworkUtil.queryMessage(msgIds: [String(msg.replyMsgID)]) { [weak self] success, data in
+            guard let self = self,
+                  let replyList = data?.replyList,
+                  replyList.count > 0 else { return }
             
-            if msg.msgOp == .msgOpEdit{
-                if let index = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.msgID }) {
-                    datasouceArray[index].message = msg
-                       print("消息内容更新了")
-                    UIView.performWithoutAnimation {
-                        let loc = tableView.contentOffset
-                        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableView.RowAnimation.none)
-                        tableView.contentOffset = loc
-                    }
-                    
-                   } else {
-                       // Print an error message if no matching ChatModel is found
-                       print("未找到匹配的消息ID")
-                   }
-            }
-            else if msg.replyMsgID > 0{
-                let newText = "\(msg.content.data)".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                let newMsg = composeALocalTxtMessage(textMsg: newText, msgId: msg.msgID)
-                if let model = datasouceArray.first(where: { ChatModel in
-                    ChatModel.message?.msgID == msg.replyMsgID
-                }){
-                    appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: getReplyItem(oriMsg: model.message))
-                }else{
-                    let list = [String(msg.replyMsgID)]
-                    NetworkUtil.queryMessage(msgIds: list) { success, data in
-                        if ((data?.replyList?.count ?? 0) > 0){
-                            self.appendDataSource(msg: newMsg, isLeft: true, cellType: .TYPE_Text, replayQuote: self.getReplyItem(oriMsg: data?.replyList?[0]))
-                        }
-                    }
-                }
-            }else{
-                
-                //如果是视频消息，cellType是TYPE_VIDEO
-                if !msg.file.uri.isEmpty {
-                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_File)
-                }
-                else if !msg.video.uri.isEmpty {
-                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_VIDEO)
-                }else  if !msg.image.uri.isEmpty {
-                    appendDataSource(msg: msg, isLeft: true, cellType: .TYPE_Image)
-                }else{
-                    //其余当作普通消息
-                    appendDataSource(msg: msg, isLeft: true)
-                }
-            }
+            self.appendDataSource(
+                msg: newMsg,
+                isLeft: true,
+                cellType: .TYPE_Text,
+                replayQuote: self.getReplyItem(oriMsg: replyList[0])
+            )
+        }
+    }
+    
+    /// 处理普通消息
+    private func handleNormalMessage(_ msg: CommonMessage) {
+        let cellType: CellType
+        
+        // 根据消息内容类型设置对应的单元格类型
+        if !msg.file.uri.isEmpty {
+            cellType = .TYPE_File
+        } else if !msg.video.uri.isEmpty {
+            cellType = .TYPE_VIDEO
+        } else if !msg.image.uri.isEmpty {
+            cellType = .TYPE_Image
+        } else {
+            cellType = .TYPE_Text
+        }
+        
+        appendDataSource(msg: msg, isLeft: true, cellType: cellType)
+    }
+    
+    /// 处理其他会话的消息提醒
+    private func handleOtherConsultMessage() {
+        let tempStr = self.systemMsgLabel.text
+        self.systemMsgLabel.text = "其他客服有新消息！"
+        
+        // 3秒后恢复原来的文本
+        delayExecution(seconds: 3) { [weak self] in
+            self?.systemMsgLabel.text = tempStr
         }
     }
     
