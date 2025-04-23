@@ -40,11 +40,20 @@ open class KeFuViewController: UIViewController, UploadListener{
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
     
-    //一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
-    var myTimer: Timer?
+   
+    //var myTimer: Timer?
     
     var withAutoReply: CommonWithAutoReply? = nil
     var downloadFile: String? = nil
+    
+    /// 弱引用持有的定时器
+    /// 一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
+      private weak var myTimer: Timer?
+      
+      /// 消息处理队列
+      private lazy var messageQueue: DispatchQueue = {
+          return DispatchQueue(label: "com.teneasy.chat.messageQueue")
+      }()
 
     //当前选择的图片
     var chooseImg: UIImage?
@@ -177,8 +186,8 @@ open class KeFuViewController: UIViewController, UploadListener{
         navigationItem.rightBarButtonItem = rightBarItem
         
         //delayExecution(seconds: 5) { //会导致退出页面后仍然开启chatSDK!
-            print("开始定时检查")
-            self.startTimer()
+        print("开始定时监视sdk的状态\(Date())")
+            self.startSDKMonitoring()
         //}
     }
 
@@ -271,21 +280,35 @@ open class KeFuViewController: UIViewController, UploadListener{
     }
 
     func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text, replayQuote: ReplyMessageItem? = nil) {
-        let model = ChatModel()
-        model.isLeft = isLeft
-        model.cellType = cellType
-        model.message = msg
-        model.payLoadId = payLoadId
-        if !isLeft {
-            model.sendStatus = status
-        }
-        if let replayQuote = replayQuote{
-            model.replyItem = replayQuote
-        }
-        datasouceArray.append(model)
-        tableView.reloadData()
-        print("tableView.reloadData()")
-        scrollToBottom()
+     
+        
+        // 使用消息队列确保线程安全
+               messageQueue.async { [weak self] in
+                   guard let self = self else { return }
+                   
+                   let model = ChatModel()
+                   model.isLeft = isLeft
+                   model.cellType = cellType
+                   model.message = msg
+                   model.payLoadId = payLoadId
+                   if !isLeft {
+                       model.sendStatus = status
+                   }
+                   if let replayQuote = replayQuote{
+                       model.replyItem = replayQuote
+                   }
+                   
+                   self.datasouceArray.append(model)
+                   
+                   // 在主线程更新UI
+                   DispatchQueue.main.async {
+                       self.tableView.reloadData()
+                       print("tableView.reloadData()")
+                       self.scrollToBottom()
+                   }
+               }
+        
+
     }
     
     func buildHistory(history: HistoryModel){
@@ -319,14 +342,6 @@ open class KeFuViewController: UIViewController, UploadListener{
                     Int64(Message.msgId ?? "0") ?? 0 == replyMsgId
                    
                 })
-                
-//                if replyMsgId > 0{
-//                    let replyText = item.content?.data ?? "no txt"
-//                    chatModel.message = composeALocalTxtMessage(textMsg: replyText, timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
-//                    chatModel.replyItem = getReplyItem(oriMsg: oriMsg)
-//                    datasouceArray.append(chatModel)
-//                }
-//                else
                 
                 if item.workerChanged != nil{
                     chatModel.cellType = .TYPE_Tip
@@ -509,22 +524,8 @@ open class KeFuViewController: UIViewController, UploadListener{
        }
     }
 
-    //定时检查SDK连接状态
-    @objc func startTimer() {
-        if myTimer != nil{
-            return
-        }
-        
-        self.myTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.checkSDK), userInfo: nil, repeats: true)
-        //注意：至少延迟3秒以上才执行检查sdk的任务
-        delayExecution(seconds: 10) {
-            print("KeFu计时器开始")
-            self.myTimer?.fire()
-        }
-    }
-
     //停止定时检查
-    func stopTimer() {
+    func stopSDKMonitoring() {
         //if myTimer != nil {
         myTimer?.invalidate() // 销毁timer
         myTimer = nil
@@ -546,14 +547,37 @@ open class KeFuViewController: UIViewController, UploadListener{
         NetworkUtil.doReportError()
     }
     
-    //关闭聊天页面之前，与SDK断开聊天
-    func quitChat(){
-        stopTimer()
+    // MARK: - 聊天SDK管理
+    
+    /// 退出聊天（清理资源）
+    func quitChat() {
+        stopSDKMonitoring()
         workerId = 0
         isConnected = false
         lib.disConnect()
         lib.delegate = nil
-        print("已退出聊天")
+        print("已退出聊天并清理资源")
+    }
+    
+    deinit {
+        quitChat()
+        print("deinit")
+    }
+    
+    
+    // MARK: - 定时器管理
+        
+    /// 开启连接状态监控（防止循环引用）
+    @objc private func startSDKMonitoring() {
+        guard myTimer == nil else { return }
+        let timer = Timer.scheduledTimer(
+            timeInterval: 5,
+            target: self,
+            selector: #selector(self.checkSDK),
+            userInfo: nil,
+            repeats: true
+        )
+        myTimer = timer
     }
     
     /**

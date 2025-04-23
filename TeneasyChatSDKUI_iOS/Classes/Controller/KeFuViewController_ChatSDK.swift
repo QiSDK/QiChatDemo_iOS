@@ -20,7 +20,7 @@ extension KeFuViewController: teneasySDKDelegate {
         
         // SDK是否已初始化的判断
         if lib.payloadId == 0 {
-            print("initSDK: 初始化SDK")
+            print("initSDK: 初始化SDK \(Date())")
             // 首次初始化SDK
             lib.myinit(
                 userId: userId,
@@ -248,15 +248,15 @@ extension KeFuViewController: teneasySDKDelegate {
     
     /// 处理系统错误
     private func handleSystemError(_ result: Result) {
-        // 处理特殊错误码
+        // 处理特殊错误码, 1002无效Token, 1010在别处登录了，1005超过会话时间
         if [1002, 1010, 1005].contains(result.Code) {
             WWProgressHUD.showInfoMsg(result.Message)
-            stopTimer()
+            stopSDKMonitoring()
             
             // 处理会话超时
-            if result.Code == 1005 {
+            //if result.Code == 1005 {
                 handleSessionTimeout()
-            }
+            //}
         } else {
             getUnSendMsg()
         }
