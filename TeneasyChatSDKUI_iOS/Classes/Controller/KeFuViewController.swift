@@ -265,7 +265,6 @@ open class KeFuViewController: UIViewController, UploadListener{
             make.centerY.equalToSuperview()
         }
 
-        
         toolBar.textView.placeholder = "请输入想咨询的问题"
         headerTitle.text = "连接客服中..."
         
@@ -307,8 +306,6 @@ open class KeFuViewController: UIViewController, UploadListener{
                        self.scrollToBottom()
                    }
                }
-        
-
     }
     
     func buildHistory(history: HistoryModel){

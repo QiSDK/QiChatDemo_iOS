@@ -82,14 +82,11 @@ class BWImageCell: UITableViewCell {
     }
     
     func displayThumbnail(path: String) {
-        //let imgUrl = URL(string: "\(baseUrlImage)\(path.urlEncoded ?? "abxxx")")
-        
         var urlcomps = URLComponents(string: baseUrlImage)
         urlcomps?.path = path
-        
-        //self.thumbnail.kf.setImage(with: imgUrl)
+
         self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        print(urlcomps?.url?.absoluteString ?? "xxxx")
+        //print(urlcomps?.url?.absoluteString ?? "xxxx")
         if let imgUrl = urlcomps?.url{
             initImg(imgUrl: imgUrl)
         }
@@ -108,7 +105,7 @@ class BWImageCell: UITableViewCell {
         
         //let path = path.replacingOccurrences(of: "index.mp4", with: "thumb.jpg")
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
-        print("视频缩略图地址：\(baseUrlImage)\(path)")
+        //print("视频缩略图地址：\(baseUrlImage)\(path)")
         if (imgUrl != nil){
             initImg(imgUrl: imgUrl!)
         }
@@ -130,31 +127,17 @@ class BWImageCell: UITableViewCell {
     }
     
     func initImg(imgUrl: URL) {
-       // let processor = DownsamplingImageProcessor(size: thumbnail.bounds.size)
-         //            |> RoundCornerImageProcessor(cornerRadius: 3)
-        
         self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
                                    options: [
-                                       //.processor(processor),
-                                       //.scaleFactor(UIScreen.main.scale),
                                        .transition(.fade(1)),
-                                       //.cacheOriginalImage
                                    ]) { result in
             switch result {
             case .success(let value):
                 // 获取图片尺寸
                 let imageSize = value.image.size
-                print("Image width: \(imageSize.width), height: \(imageSize.height)")
+                //print("Image width: \(imageSize.width), height: \(imageSize.height)")
                 let imageAspectRatio = imageSize.width / imageSize.height
-                // 图片最大高度是160，按比例算宽度
-                //let width =  imgHeight * imageAspectRatio
-                //print(width)
-                
-//                self.contentBgView.snp.updateConstraints { make in
-//                    make.width.equalTo(width + 12)
-//                    make.height.equalTo(imgHeight + 14)
-//                }
-                
+
                 if imageAspectRatio < 1{
                     self.contentBgView.snp.updateConstraints { make in
                         make.width.equalTo(114)
@@ -166,10 +149,8 @@ class BWImageCell: UITableViewCell {
                         make.height.equalTo(114)
                     }
                 }
-                
-                
-            case .failure(_):
-                 print("图片可能显示失败")
+            case .failure(_): break
+                 //print("图片可能显示失败")
             }
         }
     }
@@ -226,7 +207,7 @@ class BWImageCell: UITableViewCell {
            
             if !msg.video.uri.isEmpty  {
                 let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
-                print(videoUrl?.absoluteString ?? "")
+                //print(videoUrl?.absoluteString ?? "")
                 self.initVideo(videoUrl: videoUrl!)
             } else {}
         }
