@@ -2,257 +2,243 @@ import TeneasyChatSDK_iOS
 import XMMenuPopover
 
 extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
+    // MARK: - UITableViewDataSource
+    
+    // tableView(_:cellForRowAt:) -  用于创建和配置表格视图的单元格
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // 获取当前行的聊天模型
         let model = datasouceArray[indexPath.row]
-        if model.cellType == .TYPE_Tip {
+        
+        // 根据模型确定单元格类型
+        switch model.cellType {
+        case .TYPE_Tip:
+            // 创建提示单元格
             let cell = BWTipCell()
             cell.model = model
             return cell
-        } else if model.cellType == .TYPE_File {
-            if model.isLeft {
-                let cell = BWFileLeftCell.cell(tableView: tableView)
-                cell.model = model
-                cell.cellTapedGesture = {
-                    self.cellTaped(model: model)
-                }
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
-                }
-                cell.displayIconImg(path: self.avatarPath)
-                return cell
-            } else {
-                let cell = BWFileRightCell.cell(tableView: tableView)
-                cell.cellTapedGesture = {
-                    self.cellTaped(model: model)
-                }
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
-                }
-                cell.model = model
-              
-                return cell
-            }
-        } else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image {
             
-            if model.isLeft {
-                let cell = BWImageLeftCell.cell(tableView: tableView)
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
-                }
-                cell.model = model
-                cell.playBlock = { [weak self] in
-                    self?.cellTaped(model: model)
-                }
-                if model.cellType == .TYPE_Image {
-                    cell.playBtn.isHidden = true
-                    cell.displayThumbnail(path: model.message?.image.uri ?? "")
-                } else if model.cellType == .TYPE_File {
-                    cell.playBtn.isHidden = true
-                    cell.displayFileThumbnail(path: model.message?.file.uri ?? "")
-                } else {
-                    cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
-                }
-                cell.displayIconImg(path: self.avatarPath)
-                return cell
-            } else {
-                let cell = BWImageRightCell.cell(tableView: tableView)
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
-                }
-                cell.model = model
-                cell.playBlock = { [weak self] in
-                    self?.cellTaped(model: model)
-                }
-                
-                if model.cellType == .TYPE_Image {
-                    cell.playBtn.isHidden = true
-                    cell.displayThumbnail(path: model.message?.image.uri ?? "")
-                } else if model.cellType == .TYPE_File {
-                    cell.playBtn.isHidden = true
-                    cell.displayFileThumbnail(path: model.message?.file.uri ?? "")
-                } else {
-                    // cell.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-                    cell.displayVideoThumbnail(path: model.message?.video.thumbnailUri ?? "")
-                }
-                return cell
+        case .TYPE_File:
+            // 创建文件单元格（根据消息方向显示在左侧或右侧）
+            let cell: BWFileCell = model.isLeft ? BWFileLeftCell.cell(tableView: tableView) : BWFileRightCell.cell(tableView: tableView)
+            cell.model = model
+            cell.cellTapedGesture = { [weak self] in
+                self?.cellTaped(model: model)
             }
-        } else if model.cellType == CellType.TYPE_QA {
+            cell.longGestCallBack = { [weak self] gesure in
+                if gesure.state == .began {
+                    self?.showMenu(gesure, model: model, indexPath: indexPath)
+                }
+            }
+            if let leftCell = cell as? BWFileLeftCell {
+                leftCell.displayIconImg(path: self.avatarPath)
+            }
+            return cell
+            
+        case .TYPE_VIDEO, .TYPE_Image:
+            // 创建图片/视频单元格（根据消息方向显示在左侧或右侧）
+            let cell: BWImageCell = model.isLeft ? BWImageLeftCell.cell(tableView: tableView) : BWImageRightCell.cell(tableView: tableView)
+            cell.model = model
+            cell.longGestCallBack = { [weak self] gesure in
+                if gesure.state == .began {
+                    self?.showMenu(gesure, model: model, indexPath: indexPath)
+                }
+            }
+            cell.playBlock = { [weak self] in
+                self?.cellTaped(model: model)
+            }
+            
+            if let imageCell = cell as? BWImageLeftCell {
+                imageCell.displayIconImg(path: self.avatarPath)
+            }
+            
+            let uri: String?
+            if model.cellType == .TYPE_Image {
+                cell.playBtn.isHidden = true
+                uri = model.message?.image.uri
+                cell.displayThumbnail(path: uri ?? "")
+            } else if model.cellType == .TYPE_File {
+                cell.playBtn.isHidden = true
+                uri = model.message?.file.uri
+                cell.displayFileThumbnail(path: uri ?? "")
+            } else {
+                uri = model.message?.video.thumbnailUri
+                cell.displayVideoThumbnail(path: uri ?? "")
+            }
+            return cell
+            
+        case .TYPE_QA:
+            // 创建QA单元格
             let cell = BWChatQACell.cell(tableView: tableView)
             cell.consultId = Int32(self.consultId)
             cell.heightBlock = { [weak self] (height: Double) in
                 self?.questionViewHeight = height + 20
                 print("questionViewHeight:\(height + 20)")
+                //                if let indexPath = self?.currentQAIndexPath {
+                //                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+                //                }
                 self?.tableView.reloadData()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self?.scrollToBottom()
                 }
             }
+            self.currentQAIndexPath = indexPath
             cell.model = model
-      
+            
             cell.qaClickBlock = { [weak self] (model: QA) in
-
-                let questionTxt = model.question?.content?.data ?? ""
+                guard let questionTxt = model.question?.content?.data else { return }
                 let txtAnswer = model.content ?? ""
-                let multipAnswer = model.answer ?? []
-                let q = self?.composeALocalTxtMessage(textMsg: questionTxt)
-                self?.appendDataSource(msg: q!, isLeft: false, status: .发送成功)
+                guard let `self` = self else { return }
+                
+                let q = self.composeALocalTxtMessage(textMsg: questionTxt)
+                self.appendDataSource(msg: q, isLeft: false, status: .发送成功)
                 
                 // 收集用户点击自动回复的记录
+                self.withAutoReply = CommonWithAutoReply()
+                self.withAutoReply?.id = Int64(model.id ?? 0)
+                self.withAutoReply?.title = questionTxt
+                self.withAutoReply?.createdTime.seconds = Int64(Date().timeIntervalSince1970)
                 
-                self?.withAutoReply = CommonWithAutoReply()
-                self?.withAutoReply?.id = Int64(model.id ?? 0)
-                self?.withAutoReply?.title = questionTxt
-                self?.withAutoReply?.createdTime.seconds = Int64(Date().timeIntervalSince1970)
-
                 if !txtAnswer.isEmpty {
-                    let a = self?.composeALocalTxtMessage(textMsg: txtAnswer)
-                    self?.appendDataSource(msg: a!, isLeft: true, status: .发送成功)
-
+                    let a = self.composeALocalTxtMessage(textMsg: txtAnswer)
+                    self.appendDataSource(msg: a, isLeft: true, status: .发送成功)
+                    
                     var userA = CommonMessageUnion()
                     var uA = CommonMessageContent()
                     uA.data = txtAnswer
                     userA.content = uA
-                    self?.withAutoReply?.answers.append(userA)
+                    self.withAutoReply?.answers.append(userA)
                 }
-
-                for answer in multipAnswer {
-                    if answer.image != nil {
-                        let a = self?.composeALocalImgMessage(url: answer.image?.uri ?? "")
-                        self?.appendDataSource(msg: a!, isLeft: true, status: .发送成功, cellType: .TYPE_Image)
-                        var userA = CommonMessageUnion()
-                        var uA = CommonMessageImage()
-                        uA.uri = answer.image?.uri ?? ""
-                        userA.image = uA
-             
-                        self?.withAutoReply?.answers.append(userA)
-                    } else if answer.content != nil {
-                        let a = self?.composeALocalTxtMessage(textMsg: answer.content?.data ?? "empty")
-                        self?.appendDataSource(msg: a!, isLeft: true, status: .发送成功)
-                        
-                        var userA = CommonMessageUnion()
-                        var uA = CommonMessageContent()
-                        uA.data = txtAnswer
-                        userA.content = uA
-
-                        self?.withAutoReply?.answers.append(userA)
+                
+                if let multipAnswer = model.answer {
+                    for answer in multipAnswer {
+                        if let image = answer.image {
+                            let a = self.composeALocalImgMessage(url: image.uri ?? "")
+                            self.appendDataSource(msg: a, isLeft: true, status: .发送成功, cellType: .TYPE_Image)
+                            var userA = CommonMessageUnion()
+                            var uA = CommonMessageImage()
+                            uA.uri = image.uri ?? ""
+                            userA.image = uA
+                            self.withAutoReply?.answers.append(userA)
+                        } else if let content = answer.content {
+                            let a = self.composeALocalTxtMessage(textMsg: content.data ?? "empty")
+                            self.appendDataSource(msg: a, isLeft: true, status: .发送成功)
+                            
+                            var userA = CommonMessageUnion()
+                            var uA = CommonMessageContent()
+                            uA.data = txtAnswer
+                            userA.content = uA
+                            self.withAutoReply?.answers.append(userA)
+                        }
                     }
                 }
                 tableView.reloadData()
             }
             cell.displayIconImg(path: self.avatarPath)
             return cell
-        } else {
-            if model.isLeft {
-                let cell = BWChatLeftCell.cell(tableView: tableView)
-                cell.model = model
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
+            
+        default:
+            // 创建默认聊天单元格（根据消息方向显示在左侧或右侧）
+            let cell: BWChatCell = model.isLeft ? BWChatLeftCell.cell(tableView: tableView) : BWChatRightCell.cell(tableView: tableView)
+            cell.model = model
+            cell.longGestCallBack = { [weak self] gesure in
+                if gesure.state == .began {
+                    self?.showMenu(gesure, model: model, indexPath: indexPath)
                 }
-                cell.displayIconImg(path: self.avatarPath)
-                cell.showOriginalBack = {
-                    if (model.replyItem != nil){
-                        self.showOriginal(model: model.replyItem!)
-                    }
-                }
-                return cell
-            } else {
-                let cell = BWChatRightCell.cell(tableView: tableView)
-                cell.model = model
-                cell.resendBlock = { [weak self] _ in
-                    self?.datasouceArray[indexPath.row].sendStatus = .发送中
-                    self?.lib.resendMsg(msg: model.message!, payloadId: model.payLoadId)
-                }
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
-                }
-                cell.showOriginalBack = {
-                    if (model.replyItem != nil){
-                        self.showOriginal(model: model.replyItem!)
-                    }
-                }
-                return cell
             }
+            if let leftCell = cell as? BWChatLeftCell {
+                leftCell.displayIconImg(path: self.avatarPath)
+            }
+            cell.showOriginalBack = { [weak self] in
+                guard let replyItem = model.replyItem else { return }
+                self?.showOriginal(model: replyItem)
+            }
+            
+            if let rightCell = cell as? BWChatRightCell {
+                rightCell.resendBlock = { [weak self] _ in
+                    self?.datasouceArray[indexPath.row].sendStatus = .发送中
+                    if let message = model.message {
+                        self?.lib.resendMsg(msg: message, payloadId: model.payLoadId)
+                    }
+                }
+            }
+            return cell
         }
     }
     
+    // MARK: - showOriginal
+    // showOriginal(model: ReplyMessageItem) -  显示原始消息
     func showOriginal(model: ReplyMessageItem) {
-        let ext = model.fileName.split(separator: ".").last?.lowercased() ?? "$"
-       
+        guard let fileName = model.fileName else {
+            WWProgressHUD.showFailure("无效的文件名")
+            return
+        }
+        let ext = fileName.split(separator: ".").last?.lowercased() ?? "$"
+
         var urlcomps = URLComponents(string: baseUrlImage)
-        urlcomps?.path = model.fileName
-        
+        urlcomps?.path = fileName
+
         guard let url = urlcomps?.url else {
             WWProgressHUD.showFailure("无效的图片链接")
             return
         }
-            
+
         if (videoTypes.contains(ext)){
             self.playVideoFullScreen(url: url)
         }else{
             self.playImageFullScreen(url: url)
         }
     }
-    
+
     func showOriginal(model: ChatModel) {
         let myModel = self.datasouceArray.filter { p in
             p.message?.msgID == model.message?.replyMsgID
         }
         cellTaped(model: myModel.first ?? ChatModel())
     }
-    
+
+    // MARK: - cellTaped
+    // cellTaped(model: ChatModel) -  点击单元格时执行的操作
     func cellTaped(model: ChatModel) {
         guard let msg = model.message else {
             return
         }
-        
-        if model.cellType == .TYPE_Text{
-            //
-        }
-        else if model.cellType == .TYPE_Image || model.cellType == .TYPE_File {
-            // let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
+
+        switch model.cellType {
+        case .TYPE_Text:
+            break
+
+        case .TYPE_Image, .TYPE_File:
             var urlcomps = URLComponents(string: baseUrlImage)
-            urlcomps?.path = msg.image.uri
-            
-            if model.cellType == .TYPE_File {
-                urlcomps?.path = msg.file.uri
-            }
-            
+            let uri = model.cellType == .TYPE_File ? msg.file.uri : msg.image.uri
+            urlcomps?.path = uri
+
             guard let imgUrl = urlcomps?.url else {
                 WWProgressHUD.showFailure("无效的图片链接")
                 return
             }
             self.playImageFullScreen(url: imgUrl)
             print("图片地址:\(imgUrl.absoluteString)")
-            
-        } else {
-            var m3u8 = msg.video.uri
+
+        default: // .TYPE_VIDEO
+            var videoUri = msg.video.uri
             if !msg.video.hlsUri.isEmpty {
-                m3u8 = msg.video.hlsUri
+                videoUri = msg.video.hlsUri
             }
-            let videoUrl = URL(string: "\(baseUrlImage)\(m3u8)")
-            print("视频地址:\(videoUrl?.absoluteString ?? "")")
-            if videoUrl == nil {
+
+            var urlcomps = URLComponents(string: baseUrlImage)
+            urlcomps?.path = videoUri
+
+            guard let videoUrl = urlcomps?.url else {
                 WWProgressHUD.showFailure("无效的播放链接")
-            } else {
-                // 写死一个，仅测试
-                // videoUrl =  URL(string:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
-                self.playVideoFullScreen(url: videoUrl!)
+                return
             }
+            self.playVideoFullScreen(url: videoUrl)
+            print("视频地址:\(videoUrl.absoluteString)")
         }
     }
 
+    // MARK: - playVideoFullScreen
+    // playVideoFullScreen(url: URL) -  全屏播放视频
     func playVideoFullScreen(url: URL) {
         print(url.absoluteString)
         let vc = KeFuVideoViewController()
@@ -261,6 +247,8 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         present(vc, animated: false, completion: nil)
     }
     
+    // MARK: - playImageFullScreen
+    // playImageFullScreen(url: URL) -  全屏显示图片
     func playImageFullScreen(url: URL) {
         let vc = KeFuWebViewController()
         vc.configure(with: url, workerName: workerName)
@@ -268,10 +256,14 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         present(vc, animated: false, completion: nil)
     }
     
+    // MARK: - UITableViewDelegate
+    
+    // tableView(_:numberOfRowsInSection:) -  返回表格视图中section的行数
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datasouceArray.count
     }
 
+    // tableView(_:heightForRowAt:) -  返回指定行的高度
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = datasouceArray[indexPath.row]
         if model.cellType == CellType.TYPE_QA {
@@ -279,35 +271,23 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
         } else if model.cellType == .TYPE_Tip {
             return 80.0
         }
-//        else if model.replyItem != nil{
-//            return 135
-//        } else if model.cellType == .TYPE_Text{
-//            return 80
-//        }
-//        else if model.cellType == .TYPE_VIDEO || model.cellType == .TYPE_Image{
-//            return 114 + 10 + 20
-//        }
-        
-        /*
-         else if model.message?.image.uri.isEmpty == false {
-             return 170
-         }
-         */
         return UITableView.automaticDimension
     }
 
+    // MARK: - scrollToBottom
+    // scrollToBottom() -  滚动到底部
     func scrollToBottom() {
         if datasouceArray.count > 1 {
-            // tableView.scrollToRow(at: IndexPath(row: datasouceArray.count - 1, section: 0), at: UITableView.ScrollPosition.none, animated: true)
-
             self.tableView.scrollToRow(at: IndexPath(row: datasouceArray.count - 1, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
         }
     }
 }
 
+// MARK: - Extension
 extension KeFuViewController {
+    // MARK: - showMenu
+    // showMenu(_:model:indexPath:) -  显示菜单
     func showMenu(_ guesture: UILongPressGestureRecognizer, model: ChatModel?, indexPath: IndexPath) {
-//        toolBar.resetStatus()
         let menu = XMMenuPopover.shared
         menu.style = .system
         let item1 = XMMenuItem(title: "回复") {
@@ -323,7 +303,6 @@ extension KeFuViewController {
             }
             self.toolBar.setTextInputModel()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                // 此处写要延迟的东西
                 self.replyBar.snp.updateConstraints { make in
                     make.top.equalTo(self.toolBar.snp.top).offset(-37)
                 }
@@ -360,6 +339,8 @@ extension KeFuViewController {
         menu.show(from: targetView, rect: CGRect(x: 0, y: 20, width: targetView.bounds.width, height: targetView.bounds.height), animated: true)
     }
     
+    // MARK: - startToDownload
+    // startToDownload(imgUrl:toDirectory:) -  开始下载
     func startToDownload(imgUrl: String, toDirectory: URL? = nil){
         NetRequest.standard.downloadAndSaveVideoToPhotoLibrary(from: baseUrlImage + imgUrl, toDirectory: toDirectory) { result in
             switch result {
@@ -373,28 +354,13 @@ extension KeFuViewController {
         }
     }
 
+    // MARK: - copyData
+    // copyData(model:indexPath:) -  复制数据
     func copyData(model: ChatModel?, indexPath: IndexPath) {
         let msgText = model?.message?.content.data ?? ""
         if model?.cellType == .TYPE_Image {
-            /* guard let msg = model?.message else {
-                 return
-             }*/
-
             let cell = self.tableView.cellForRow(at: indexPath) as! BWImageCell as BWImageCell
             UIPasteboard.general.image = cell.thumbnail.image
-
-            /*  let imgUrl = URL(string: "\(baseUrlImage)\(msg.image.uri)")
-             print(imgUrl?.absoluteString ?? "")
-             let imageView = UIImageView()
-                imageView.kf.setImage(with: imgUrl, placeholder: nil, options: nil, progressBlock: nil) { result in
-                    switch result {
-                    case .success(let value):
-                        print("Image successfully loaded: \(value.image)")
-                        UIPasteboard.general.image = value.image
-                    case .failure(let error):
-                        print("Error loading image: \(error)")
-                    }
-                }*/
         } else {
             let pastboard = UIPasteboard.general
             pastboard.string = msgText

@@ -38,7 +38,7 @@ class Custom: HandyJSON {
 
 class ReplyMessageItem: HandyJSON {
     var id: String = ""
-    var fileName: String = ""
+    var fileName: String? = ""
     var size: Int32 = 0
     var content: String = ""
     required init(){}

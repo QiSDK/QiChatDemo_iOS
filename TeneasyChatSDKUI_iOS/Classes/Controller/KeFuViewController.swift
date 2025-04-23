@@ -12,6 +12,8 @@ import PhotosUI
 import TeneasyChatSDK_iOS
 import UIKit
 import MobileCoreServices
+    
+
 
 //客服聊天页面
 open class KeFuViewController: UIViewController, UploadListener{
@@ -40,6 +42,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     //自动回复消息区域的高度，根据自动回复列表的高度动态调整
     var questionViewHeight: Double = 0
     
+    var currentQAIndexPath: IndexPath?
    
     //var myTimer: Timer?
     

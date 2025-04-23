@@ -103,7 +103,7 @@ class BWReplyView: UIView {
 
     var model: ChatModel? {
         didSet {
-            let ext = (model?.replyItem?.fileName.split(separator: ".").last ?? "").lowercased()
+            let ext = (model?.replyItem?.fileName?.split(separator: ".").last ?? "").lowercased()
             self.fileSizeLab.isHidden = true
             self.fileIcon.isHidden = true
             if fileTypes.contains(ext){
