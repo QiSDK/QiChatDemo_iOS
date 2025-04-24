@@ -1,9 +1,3 @@
-//
-//  UploadUtil.swift
-//  Pods
-//
-//  Created by Xuefeng on 2/12/24.
-//
 import Foundation
 import Alamofire
 import Network
@@ -42,6 +36,7 @@ struct UploadUtil {
         //WWProgressHUD.showLoading("正在上传...")
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
+            listener?.uploadFailed(msg: "API URL is invalid")
             return
         }
         
@@ -55,28 +50,31 @@ struct UploadUtil {
         // Set Your Parameter
         let parameterDict = NSMutableDictionary()
         parameterDict.setValue(4, forKey: "type")
- 
-        listener?.updateProgress(progress: uploadProgress);
-        let ext = filePath?.split(separator: ".").last?.lowercased() ?? "$"
+        
+        //listener?.updateProgress(progress: uploadProgress); // uploadProgress is not defined
+        let ext = (filePath ?? "").split(separator: ".").last?.lowercased() ?? "$"
         
         //目前只有pdf, word, excel等文件，filePath才不为空
-        if (filePath != nil && !fileTypes.contains(ext)){
-            self.listener?.uploadFailed(msg: "不支持的文件格式")
-            return
-        }
+//        if (!fileTypes.contains(ext)){
+//            self.listener?.uploadFailed(msg: "不支持的文件格式")
+//            return
+//        }
         
         // Now Execute
         AF.upload(multipartFormData: { multiPart in
             for (key, value) in parameterDict {
-                if let temp = value as? String {
-                    multiPart.append(temp.data(using: .utf8)!, withName: key as! String)
-                }
-                if let temp = value as? Int {
-                    multiPart.append("\(temp)".data(using: .utf8)!, withName: key as! String)
+                if let keyStr = key as? String {
+                    if let temp = value as? String {
+                        multiPart.append(temp.data(using: .utf8) ?? Data(), withName: keyStr)
+                    }
+                    if let temp = value as? Int {
+                        multiPart.append("\(temp)".data(using: .utf8) ?? Data(), withName: keyStr)
+                    }
                 }
             }
             
-
+            let fileName = "\(Date().milliStamp)file.\(ext)"
+            let mimeType = self.getMimeType(for: ext)
             if (fileTypes.contains(ext)){
                 multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: getMimeType(for: ext))
             }
@@ -87,17 +85,16 @@ struct UploadUtil {
             }
         }, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
-
+            listener?.updateProgress(progress: Int(progress.fractionCompleted * 100))
         })
         .response(completionHandler: { data in
             switch data.result {
             case .success:
-                if let resData = data.data {
-                    guard let strData = String(data: resData, encoding: String.Encoding.utf8) else {   listener?.uploadFailed(msg: "上传失败"); return}
+                if let resData = data.data,
+                   let strData = String(data: resData, encoding: String.Encoding.utf8),
+                   let dic = strData.convertToDictionary() {
                     print(strData)
-                 
-                    let dic = strData.convertToDictionary()
-
+                    
                     if data.response?.statusCode == 200{
                         let myResult = BaseRequestResult<FilePath>.deserialize(from: dic)
                         
@@ -107,18 +104,12 @@ struct UploadUtil {
                             listener?.uploadSuccess(paths: urls, isVideo: false, filePath: filePath, size: fileSize)
                             return
                         }
-          
+                        
                     }else if data.response?.statusCode == 202{
-                        if uploadProgress < 70{
-                            uploadProgress = 70
-                        }else{
-                            uploadProgress += 10
-                        }
-                        listener?.updateProgress(progress: uploadProgress)
                         let myResult = BaseRequestResult<String>.deserialize(from: dic)
-                        if !(myResult?.data ?? "").isEmpty{
+                        if let uploadId = myResult?.data, !uploadId.isEmpty{
                             //开始订阅视频上传
-                           self.subscribeToSSE(uploadId: myResult?.data ?? "", isVideo: true)
+                            self.subscribeToSSE(uploadId: uploadId, isVideo: true)
                             return
                         }
                     }
@@ -132,79 +123,94 @@ struct UploadUtil {
             }
         })
     }
-
+    
     private func subscribeToSSE(uploadId: String, isVideo: Bool){
+
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4?uploadId=" + uploadId
         print("SSE 视频 url \(api_url) ---#")
         guard let url = URL(string: api_url) else {
+            listener?.uploadFailed(msg: "API URL is invalid")
             return
         }
         let uuid = UUID().uuidString
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60.0 * 1000 * 10)
         urlRequest.httpMethod = "GET"
         urlRequest.addValue("text/event-stream", forHTTPHeaderField: "Accept")
+        
+
         urlRequest.addValue(xToken, forHTTPHeaderField: "X-Token")
         urlRequest.addValue(uuid, forHTTPHeaderField: "x-trace-id")
-
-        AF.upload(url, with: urlRequest)
+        
+        AF.streamRequest(urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
             // Current upload progress of file
             print("Upload Progress: \(progress.fractionCompleted)")
         })
-        .response(completionHandler: { data in
-            print(data)
-            switch data.result {
+        .responseStream { stream in
+            print(stream)
+            switch stream.result {
                 
-            case .success:
-                if let resData = data.data {
-                    let strData = String(data: resData, encoding: String.Encoding.utf8)
+            case .success(let response):
+                
+                let data = try! response.toData()
+                
+//                do {
+//                    let data = try response.toData()
+//                    if let strData = String(data: data, encoding: .utf8) {
+//                        print(strData)
+//                    }
+//                } catch {
+//                    print("Failed to convert response to data: \(error)")
+//                }
+
+                
+                print("Raw bytes: \(data)")
+                
+                if let strData = String(data: data, encoding: .utf8) {
 #if DEBUG
-                    print(strData ?? "")
+                    print(strData)
 #endif
-                    if (strData?.contains("无效UploadID") ?? false){
+                    if (strData.contains("无效UploadID")){
                         listener?.uploadFailed(msg: "无效UploadID");
                         return
                     }
-                    let lines = (strData ?? "").split(separator: "\n")
-                           var event = ""
-                           var data = ""
-                           
-                           for line in lines {
-                               if line.starts(with: "event:") {
-                                   event = line.replacingOccurrences(of: "event: ", with: "")
-                               } else if line.starts(with: "data:") {
-                                   data = line.replacingOccurrences(of: "data: ", with: "")
-                                   
-                                   
-                                   let dic = data.convertToDictionary()
-                                    let myResult = UploadPercent.deserialize(from: dic)
-                                   print("视频SSE:\(String(describing: myResult))")
-                                    
-                                    if myResult == nil {
-                                        listener?.uploadFailed(msg: "数据返回不对，视频解析失败！");
-                                        return
-                                    }
-                                    
-                                   if (myResult?.percentage == 100){
-                                       //let urls = myResult?.data
-                                       if let urls = myResult?.data{
-                                           //上传成功
-                                           listener?.uploadSuccess(paths:urls , isVideo: true, filePath: nil, size: 0)
-                                       }else{
-                                           listener?.uploadFailed(msg: "上传100%，但没返回路径");
-                                       }
-                                    }else{
-                                        //正常上传
-                                        listener?.updateProgress(progress: myResult?.percentage ?? 0);
-                                    }
-                               }
-                           }
-                           
-                           if !event.isEmpty || !data.isEmpty {
-                               print("Event: \(event), Data: \(data)")
-                           }
+                    let lines = strData.components(separatedBy: "\n")
+                    var event: String?
+                    var data: String?
                     
-                 
+                    for line in lines {
+                        if line.starts(with: "event:") {
+                            event = String(line.dropFirst("event: ".count))
+                        } else if line.starts(with: "data:") {
+                            data = String(line.dropFirst("data: ".count))
+                            
+                            guard let dic = data?.convertToDictionary(),
+                                  let myResult = UploadPercent.deserialize(from: dic) else {
+                                listener?.uploadFailed(msg: "Failed to deserialize SSE data")
+                                return
+                            }
+                            
+                            if (myResult.percentage == 100) {
+                                if let urls = myResult.data {
+                                    // 上传成功
+                                    listener?.uploadSuccess(paths: urls, isVideo: true, filePath: nil, size: 0)
+                                    return
+                                } else {
+                                    listener?.uploadFailed(msg: "上传100%，但没返回路径");
+                                }
+                            } else {
+                                // 正常上传
+                                listener?.updateProgress(progress: myResult.percentage);
+                                print("UploadUtil 上传进度：\(myResult.percentage)")
+                            }
+                        }
+                    }
+                    
+                    if let event = event, let data = data {
+                        print("Event: \(event), Data: \(data)")
+                    }
+                    
+                    
                 } else {
                     print("视频上传失败：")
                     listener?.uploadFailed(msg: "视频上传失败！");
@@ -212,8 +218,11 @@ struct UploadUtil {
             case .failure(let error):
                 listener?.uploadFailed(msg: "视频上传失败！");
                 print("视频上传失败：" + error.localizedDescription)
+            case .none:
+                print("none")
             }
-        })
+            
+        }
     }
     
     private func getMimeType(for ext: String) -> String {

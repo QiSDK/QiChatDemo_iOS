@@ -91,6 +91,7 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
             picker.present(alertVC, animated: true, completion: nil)
             return
         }
+        
         upload(imgData: imgData, isVideo: false)
         picker.dismiss(animated: true)
     }
