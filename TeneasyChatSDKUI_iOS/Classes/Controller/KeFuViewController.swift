@@ -604,6 +604,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     }
     
     func uploadSuccess(paths: Urls, isVideo: Bool, filePath: String? = "", size: Int32) {
+        uploadProgress = 0
         let ext = paths.uri?.split(separator: ".").last?.lowercased() ?? "#"
         if imageTypes.contains(ext){
             self.sendImage(url: paths.uri ?? "")
@@ -617,7 +618,6 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
         print("上传进度：100% \(Date())")
         WWProgressHUD.dismiss()
-        uploadProgress = 0
     }
     
     func updateProgress(progress: Int) {
