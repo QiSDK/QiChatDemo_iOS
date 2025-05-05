@@ -1,0 +1,15 @@
+//
+//  TextBody.swift
+//  Pods
+//
+//  Created by XiaoFu on 5/5/25.
+//
+import Foundation
+import HandyJSON
+
+class TextBody: HandyJSON {
+    var content: String?
+    var image: String?
+    var color: String?
+    required init(){}
+}

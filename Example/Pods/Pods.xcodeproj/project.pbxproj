@@ -885,6 +885,8 @@
 		DBED967F20685FD958475ACF198258DB /* Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DDBFFEF4B831EC56D42460714DCD96 /* Compression.swift */; };
 		DBEE79746BD26E13D7203D0AA3627423 /* emoticon_9.png in Resources */ = {isa = PBXBuildFile; fileRef = 5179D6CCC8A0CD3EEA463E57702B7C2A /* emoticon_9.png */; };
 		DBEFEB54F6292B6AF650A035103327BA /* XMMenuPopoverOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F5FB9D09E17F7B2ECB5619265CFBB53 /* XMMenuPopoverOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC366E872DC907B90015CDCC /* TextBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC366E862DC907AC0015CDCC /* TextBody.swift */; };
+		DC366E892DC90DBB0015CDCC /* BWTextMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC366E882DC90DBB0015CDCC /* BWTextMedia.swift */; };
 		DC6264869084B3499E06650F37111D54 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1139C5BE3C90E010FDD169D6C7422FC8 /* ConstraintPriorityTarget.swift */; };
 		DC92A2498EAC90F6131BCA1D292AE292 /* SVGClipPathElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 32B6AFD8F2637FE265167ED1061F7BEC /* SVGClipPathElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DCC31EDA96E49D3E90EB35EDBB94D5BD /* Deserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4078ADEEC300F4282A95C4A05AB7969C /* Deserializer.swift */; };
@@ -2261,6 +2263,8 @@
 		DC04547D1D2C2F79383E18A3D89A31F8 /* SVGKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SVGKit-dummy.m"; sourceTree = "<group>"; };
 		DC26D4A82017C7D6FAA5601549E49223 /* ExtendCustomModelType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExtendCustomModelType.swift; path = Source/ExtendCustomModelType.swift; sourceTree = "<group>"; };
 		DC33FCDC5C14447A0F72EB9D7C3E78BB /* SizeExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SizeExtensions.swift; path = Sources/Utility/SizeExtensions.swift; sourceTree = "<group>"; };
+		DC366E862DC907AC0015CDCC /* TextBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBody.swift; sourceTree = "<group>"; };
+		DC366E882DC90DBB0015CDCC /* BWTextMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BWTextMedia.swift; sourceTree = "<group>"; };
 		DC4D769BFD4EE8559FED27D4A4188290 /* TextFormatScanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextFormatScanner.swift; path = Sources/SwiftProtobuf/TextFormatScanner.swift; sourceTree = "<group>"; };
 		DC62CE408E508C2C16668D6966A12C29 /* DDMultiFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DDMultiFormatter.m; path = Sources/CocoaLumberjack/Extensions/DDMultiFormatter.m; sourceTree = "<group>"; };
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2677,6 +2681,7 @@
 				413EFBB2D90D3460D83D3CAA0E9BED6D /* WButton.swift */,
 				ABC7C6ADE89185107BCC60A53465AF19 /* WChatPasteToastView.swift */,
 				0C5C82D22499A990EA4A7E68FFB24183 /* WChatReplyBar.swift */,
+				DC366E882DC90DBB0015CDCC /* BWTextMedia.swift */,
 			);
 			name = Views;
 			path = TeneasyChatSDKUI_iOS/Classes/Views;
@@ -4127,6 +4132,7 @@
 		EFAD786502500BEAA52FD86CCC7DE404 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC366E862DC907AC0015CDCC /* TextBody.swift */,
 				02B49407E14295900434A21AF7FC6390 /* AssignWorker.swift */,
 				01AA63C9BE990CC13E031877A9D665B2 /* BaseRequestResult.swift */,
 				11EFC91A5B1D1E3B03750E4E279C3D3A /* BEmotion.swift */,
@@ -5634,6 +5640,7 @@
 				8EC8927AD63E51AEB45EED24ED28C15E /* BWLabel.swift in Sources */,
 				7D154244E1B39450567722C66C79E0F7 /* BWQAView.swift in Sources */,
 				57C92BD6FDE5D4FEC656D983B71068F6 /* BWQuestionCell.swift in Sources */,
+				DC366E872DC907B90015CDCC /* TextBody.swift in Sources */,
 				42C22B9B31CA9BB4C529C752B76B0362 /* BWQuestionDialog.swift in Sources */,
 				F667AA411D608AF6D202981ACFF7CA4E /* BWQuestionSectionHeader.swift in Sources */,
 				064BE5338D112E6DB87DC8AF1C0C93E6 /* BWReplyView.swift in Sources */,
@@ -5673,6 +5680,7 @@
 				6F6D112F957670095BA62F5E8EE332C3 /* WWApi.swift in Sources */,
 				22B9271FFBC859BA7AF25BA288D575C3 /* WWNoAuthorizeVC.swift in Sources */,
 				1CF830FEB06216AD1C27BF299ABCBD74 /* WWProgressHUD.swift in Sources */,
+				DC366E892DC90DBB0015CDCC /* BWTextMedia.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

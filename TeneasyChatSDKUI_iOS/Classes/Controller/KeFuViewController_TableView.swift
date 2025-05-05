@@ -137,31 +137,47 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         default:
-            // 创建默认聊天单元格（根据消息方向显示在左侧或右侧）
-            let cell: BWChatCell = model.isLeft ? BWChatLeftCell.cell(tableView: tableView) : BWChatRightCell.cell(tableView: tableView)
-            cell.model = model
-            cell.longGestCallBack = { [weak self] gesure in
-                if gesure.state == .began {
-                    self?.showMenu(gesure, model: model, indexPath: indexPath)
-                }
-            }
-            if let leftCell = cell as? BWChatLeftCell {
-                leftCell.displayIconImg(path: self.avatarPath)
-            }
-            cell.showOriginalBack = { [weak self] in
-                guard let replyItem = model.replyItem else { return }
-                self?.showOriginal(model: replyItem)
-            }
             
-            if let rightCell = cell as? BWChatRightCell {
-                rightCell.resendBlock = { [weak self] _ in
-                    self?.datasouceArray[indexPath.row].sendStatus = .发送中
-                    if let message = model.message {
-                        self?.lib.resendMsg(msg: message, payloadId: model.payLoadId)
+            //文字和图片混合的消息
+            if ((model.message?.content.data ?? "").contains("\"color\"")){
+                let cell: BWTextMediaCell = model.isLeft ? LeftBWTextMediaCell.cell(tableView: tableView) : RightBWTextMediaCell.cell(tableView: tableView)
+                cell.model = model
+                var text = model.message?.content.data
+                
+                //let dic = try? response.mapJSON() as? [String: Any]
+                // print(dic)
+                let result = BaseRequestResult<TextBody>.deserialize(from: text)
+                
+                return cell
+            }else{
+                
+                
+                // 创建默认聊天单元格（根据消息方向显示在左侧或右侧）
+                let cell: BWChatCell = model.isLeft ? BWChatLeftCell.cell(tableView: tableView) : BWChatRightCell.cell(tableView: tableView)
+                cell.model = model
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
                     }
                 }
+                if let leftCell = cell as? BWChatLeftCell {
+                    leftCell.displayIconImg(path: self.avatarPath)
+                }
+                cell.showOriginalBack = { [weak self] in
+                    guard let replyItem = model.replyItem else { return }
+                    self?.showOriginal(model: replyItem)
+                }
+                
+                if let rightCell = cell as? BWChatRightCell {
+                    rightCell.resendBlock = { [weak self] _ in
+                        self?.datasouceArray[indexPath.row].sendStatus = .发送中
+                        if let message = model.message {
+                            self?.lib.resendMsg(msg: message, payloadId: model.payLoadId)
+                        }
+                    }
+                }
+                return cell
             }
-            return cell
         }
     }
     
