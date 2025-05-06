@@ -26,7 +26,7 @@ public let PARAM_USERLEVEL = "USERLEVEL"
 
 //这几个是需要在设置里面配置
 public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
-//public var  cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
+public var  cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
 public var  merchantId: Int = 230
 public var userId: Int32 = 666665//1125324
 public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地址
@@ -35,7 +35,7 @@ public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地�
 //public var cert = "COEBEAUYASDjASiewpj-8TE.-1R9Mw9xzDNrSxoQ5owopxciklACjBUe43NANibVuy-XPlhqnhAOEaZpxjvTyJ6n79P5bUBCGxO7PcEFQ9p9Cg"
 
 //public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
-public var cert = "COgBEAUYASDzASitlJSF9zE.5uKWeVH-7G8FIgkaLIhvzCROkWr4D3pMU0-tqk58EAQcLftyD2KBMIdYetjTYQEyQwWLy7Lfkm8cs3aogaThAw"
+//public var cert = "COgBEAUYASDzASitlJSF9zE.5uKWeVH-7G8FIgkaLIhvzCROkWr4D3pMU0-tqk58EAQcLftyD2KBMIdYetjTYQEyQwWLy7Lfkm8cs3aogaThAw"
 //public var merchantId = 232
 //public var userId: Int32 = 364312 //364310
 

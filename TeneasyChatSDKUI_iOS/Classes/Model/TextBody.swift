@@ -10,6 +10,7 @@ import HandyJSON
 class TextBody: HandyJSON {
     var content: String?
     var image: String?
+    var video: String?
     var color: String?
     required init(){}
 }

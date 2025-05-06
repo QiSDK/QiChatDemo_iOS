@@ -142,12 +142,13 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             if ((model.message?.content.data ?? "").contains("\"color\"")){
                 let cell: BWTextMediaCell = model.isLeft ? LeftBWTextMediaCell.cell(tableView: tableView) : RightBWTextMediaCell.cell(tableView: tableView)
                 cell.model = model
-                var text = model.message?.content.data
+                //var text = model.message?.content.data
                 
                 //let dic = try? response.mapJSON() as? [String: Any]
                 // print(dic)
-                let result = BaseRequestResult<TextBody>.deserialize(from: text)
+               
                 
+                cell.displayIconImg(path: self.avatarPath)
                 return cell
             }else{
                 

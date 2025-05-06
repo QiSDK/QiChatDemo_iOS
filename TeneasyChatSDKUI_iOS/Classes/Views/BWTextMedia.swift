@@ -10,13 +10,26 @@ import Kingfisher
 import UIKit
 import TeneasyChatSDK_iOS
 
+//let iconWidth = 30.0
 class BWTextMediaCell: UITableViewCell {
     var playBlock: BWVideoCellClickBlock?
 
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
-    var boarder = 3
-    var msgMaxWidth = 188.0
+    let boarder = 3
+    let msgMaxWidth = 188.0
+    let thumbnailWidthSmall = 114
+    let thumbnailHeightSmall = 178
+    let thumbnailWidthLarge = 178
+    let thumbnailHeightLarge = 114
+    let playButtonSize = 60
+    let timeLabTopOffset = 5
+    let iconOffset = 12
+    let timeLabLeftOffset = 16
+    let timeLabRightOffset = -12
+    let timeLabHeight = 20
+    let thumbnailTopOffset = 10
+    let arrowOffset = 4
     lazy var contentBgView: UIView = {
         let img = UIImageView()
         return img
@@ -28,7 +41,7 @@ class BWTextMediaCell: UITableViewCell {
         if #available(iOS 13.0, *) {
             lab.textColor = UIColor.systemGray2
         } else {
-            // Fallback on earlier versions
+            lab.textColor = UIColor.gray
         }
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -47,7 +60,7 @@ class BWTextMediaCell: UITableViewCell {
         lab.textColor = .white
         
         lab.numberOfLines = 1000
-        lab.layer.cornerRadius = 8
+        //lab.layer.cornerRadius = 8
         lab.layer.masksToBounds = true
         //lab.numberOfLines = 0 // Allow unlimited lines
         lab.lineBreakMode = .byWordWrapping
@@ -90,9 +103,7 @@ class BWTextMediaCell: UITableViewCell {
     }
     
     @objc private func playButtonTapped() {
-//        self.playBtn.isHidden = true
-//        self.player?.play()
-        playBlock!()
+        playBlock?()
     }
     
     func displayIconImg(path: String) {
@@ -101,17 +112,14 @@ class BWTextMediaCell: UITableViewCell {
     }
     
     func displayThumbnail(path: String) {
-        var urlcomps = URLComponents(string: baseUrlImage)
-        urlcomps?.path = path
-
         self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        //print(urlcomps?.url?.absoluteString ?? "xxxx")
-        if let imgUrl = urlcomps?.url{
-            initImg(imgUrl: imgUrl)
+        let imgUrl = URL(string: path)
+        if let url = imgUrl{
+            initImg(imgUrl: url)
         }
     }
     
-    func displayVideoThumbnail(path: String) {
+    func displayVideoThumbnail2(path: String) {
 //        var ext = path.split(separator: ".").last ?? "mp4"
 //        var thumbnailFileName = path.replacingOccurrences(of: "." + ext, with: ".jpg");
 //        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
@@ -125,36 +133,36 @@ class BWTextMediaCell: UITableViewCell {
         //let path = path.replacingOccurrences(of: "index.mp4", with: "thumb.jpg")
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
         //print("视频缩略图地址：\(baseUrlImage)\(path)")
-        if (imgUrl != nil){
-            initImg(imgUrl: imgUrl!)
+        if let imgUrl = imgUrl {
+            initImg(imgUrl: imgUrl)
         }
     }
 
     
     func initImg(imgUrl: URL) {
         self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
-                                   options: [
-                                       .transition(.fade(1)),
-                                   ]) { result in
+                                    options: [.transition(.fade(1))]) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let value):
+                //print("Image width: \(imageSize.width), height: \(imageSize.height)")
                 // 获取图片尺寸
                 let imageSize = value.image.size
-                //print("Image width: \(imageSize.width), height: \(imageSize.height)")
                 let imageAspectRatio = imageSize.width / imageSize.height
-
-                if imageAspectRatio < 1{
-                    self.contentBgView.snp.updateConstraints { make in
-                        make.width.equalTo(114)
-                        make.height.equalTo(178)
-                    }
-                }else{
-                    self.contentBgView.snp.updateConstraints { make in
-                        make.width.equalTo(178)
-                        make.height.equalTo(114)
-                    }
-                }
-            case .failure(_): break
+                
+                                if imageAspectRatio < 1 {
+                                    self.contentBgView.snp.updateConstraints { make in
+                                        make.width.equalTo(self.thumbnailWidthSmall)
+                                        make.height.equalTo(self.thumbnailHeightSmall)
+                                    }
+                                } else {
+                                    self.contentBgView.snp.updateConstraints { make in
+                                        make.width.equalTo(self.thumbnailWidthLarge)
+                                        make.height.equalTo(self.thumbnailHeightLarge)
+                                    }
+                                }
+            case .failure(_):
+                break
                  //print("图片可能显示失败")
             }
         }
@@ -168,29 +176,16 @@ class BWTextMediaCell: UITableViewCell {
         self.contentView.addSubview(self.arrowView)
         self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.timeLab)
-        self.contentView.addSubview(self.titleLab)
 
         self.contentView.addSubview(self.contentBgView)
         self.contentView.addSubview(self.thumbnail)
         self.thumbnail.addSubview(self.playBtn)
+        self.contentView.addSubview(self.titleLab)
         
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
         self.titleLab.addGestureRecognizer(self.gesture!)
-        
-        self.titleLab.snp.makeConstraints { make in
-            make.top.equalTo(self.timeLab.snp.bottom)
-            make.left.equalTo(self.contentBgView)//.offset(4)
-            make.width.lessThanOrEqualTo(msgMaxWidth)
-            //make.bottom.lessThanOrEqualTo(self.contentBgView).offset(-4) // Allow vertical growth
-        }
-
-        self.thumbnail.snp.makeConstraints { make in
-            make.right.equalTo(self.contentBgView).offset(-boarder)
-            make.left.equalTo(self.contentBgView).offset(boarder)
-            make.top.equalTo(self.titleLab.snp.bottom).offset(10)
-            make.bottom.equalTo(self.contentBgView).offset(-boarder)
-        }
+        //self.titleLab.backgroundColor = UIColor.red
         
         playBtn.isUserInteractionEnabled = true
         self.playBtn.snp.makeConstraints { make in
@@ -198,7 +193,15 @@ class BWTextMediaCell: UITableViewCell {
             make.width.equalTo(60)
             make.height.equalTo(60)
         }
+        
+        thumbnail.isUserInteractionEnabled = true
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
+        self.thumbnail.addGestureRecognizer(longTap)
 
+        // Create and add the gesture recognizer
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped))
+        self.thumbnail.addGestureRecognizer(tapGestureRecognizer)
+        
         contentBgView.layer.cornerRadius = 5;
         contentBgView.layer.masksToBounds = true;
     }
@@ -209,23 +212,39 @@ class BWTextMediaCell: UITableViewCell {
                 return
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
+            
+            var text = msg.content.data
+            
+            if (text.contains("\"color\"")){
+                let result = TextBody.deserialize(from: text)
+                text = result?.content ?? ""
+                //let mediaUrl = result?.image ?? result?.video ?? ""
+                var mediaUrl = result?.image ?? ""
+                if !(result?.video ?? "").isEmpty {
+                    mediaUrl = result?.video ?? ""
+                    self.playBtn.isHidden = false
+                }else{
+                    self.playBtn.isHidden = true
+                }
+                
+                if mediaUrl.isEmpty {
+                    self.thumbnail.isHidden = true
+                }else{
+                    displayThumbnail(path: mediaUrl)
+                }
+            }
            
-            if !msg.video.uri.isEmpty  {
-                let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
-                //print(videoUrl?.absoluteString ?? "")
-                self.initVideo(videoUrl: videoUrl!)
-            } else {}
+            initTitle(msg: text)
         }
     }
     
-    func initTitle(msg: CommonMessage) {
-        self.titleLab.isHidden = false
-        if msg.content.data.contains("[emoticon_") == true {
-            let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
+    func initTitle(msg: String) {
+        if msg.contains("[emoticon_") == true {
+            let atttext = BEmotionHelper.shared.attributedStringByText(text: msg, font: self.titleLab.font)
             self.titleLab.attributedText = atttext
             //self.updateBgConstraints()
         } else {
-            self.titleLab.text = msg.content.data
+            self.titleLab.text = msg
             //self.updateBgConstraints()
         }
     }
@@ -243,11 +262,6 @@ class BWTextMediaCell: UITableViewCell {
         super.prepareForReuse()
     }
     
-    func initVideo(videoUrl: URL) {
-        self.playBtn.isHidden = false
-
-    }
-    
     deinit {
          NotificationCenter.default.removeObserver(self)
      }
@@ -260,36 +274,51 @@ class BWTextMediaCell: UITableViewCell {
 class LeftBWTextMediaCell: BWTextMediaCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        self.iconView.image = UIImage.svgInit("icon_server_def2")
-        
         self.iconView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
-            make.top.equalToSuperview().offset(12)
+            make.left.equalToSuperview().offset(iconOffset)
+            make.top.equalToSuperview().offset(iconOffset)
             make.width.height.equalTo(iconWidth)
         }
         self.timeLab.snp.makeConstraints { make in
-            make.left.equalTo(self.iconView.snp.right).offset(16)
-            make.top.equalToSuperview().offset(5)
-            make.right.equalToSuperview().offset(-12)
-            make.height.equalTo(20)
+            make.left.equalTo(self.iconView.snp.right).offset(timeLabLeftOffset)
+            make.top.equalToSuperview().offset(timeLabTopOffset)
+            make.right.equalToSuperview().offset(timeLabRightOffset)
+            make.height.equalTo(timeLabHeight)
         }
         
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
-            make.height.equalTo(178)
-            make.width.equalTo(114)
+            make.height.equalTo(thumbnailHeightSmall)
+            make.width.equalTo(thumbnailWidthSmall)
             make.bottom.equalToSuperview().priority(.low)
         }
         
-        arrowView.image = UIImage.svgInit("ic_left_point")
-        self.arrowView.snp.makeConstraints { make in
-            make.right.equalTo(self.contentBgView.snp.left).offset(1)
-            make.top.equalTo(self.contentBgView).offset(4)
+        self.titleLab.snp.makeConstraints { make in
+                    make.top.equalTo(self.contentBgView).offset(4)
+                    make.left.equalTo(self.contentBgView)//.offset(4)
+                    make.right.equalTo(self.contentBgView)
+                    make.height.greaterThanOrEqualTo(50)
+                    make.width.lessThanOrEqualTo(msgMaxWidth)
+                    make.bottom.lessThanOrEqualTo(self.thumbnail.snp.top).offset(-4)
+                    
+                }
+        
+        self.thumbnail.snp.makeConstraints { make in
+            make.right.equalTo(self.contentBgView).offset(-boarder)
+            make.left.equalTo(self.contentBgView).offset(boarder)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+            make.bottom.equalTo(self.contentBgView).offset(-boarder)
         }
         
+        arrowView.image = UIImage.svgInit("ic_left_point")
+                self.arrowView.snp.makeConstraints { make in
+                    make.right.equalTo(self.contentBgView.snp.left).offset(1)
+                    make.top.equalTo(self.contentBgView).offset(arrowOffset)
+                }
+        
         self.contentBgView.backgroundColor = UIColor.white
+        self.titleLab.textColor = UIColor.black
     }
     
     required init?(coder: NSCoder) {
@@ -304,31 +333,48 @@ class RightBWTextMediaCell: BWTextMediaCell {
         self.iconView.image = UIImage.svgInit("icon_server_def2")
 
         self.iconView.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-12)
-            make.top.equalToSuperview().offset(12)
+            make.right.equalToSuperview().offset(-iconOffset)
+            make.top.equalToSuperview().offset(iconOffset)
             make.width.height.equalTo(iconWidth)
         }
         self.timeLab.snp.makeConstraints { make in
-            make.right.equalTo(self.iconView.snp.left).offset(-16)
-            make.top.equalToSuperview().offset(5)
-            make.height.equalTo(20)
+            make.right.equalTo(self.iconView.snp.left).offset(-timeLabLeftOffset)
+            make.top.equalToSuperview().offset(timeLabTopOffset)
+            make.height.equalTo(timeLabHeight)
         }
         self.contentBgView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
             make.right.equalTo(self.timeLab.snp.right)
-            make.width.equalTo(114)
-            make.height.equalTo(178)
+            make.width.equalTo(thumbnailWidthSmall)
+            make.height.equalTo(thumbnailHeightSmall)
             make.bottom.equalToSuperview().priority(.low)
         }
+        
+        self.titleLab.snp.makeConstraints { make in
+                    make.top.equalTo(self.contentBgView).offset(4)
+                    make.left.equalTo(self.contentBgView)//.offset(4)
+                    make.right.equalTo(self.contentBgView)
+                    make.width.lessThanOrEqualTo(msgMaxWidth)
+            make.height.greaterThanOrEqualTo(50)
+                    make.bottom.lessThanOrEqualTo(self.thumbnail.snp.top).offset(-4)
+                    
+                }
+
+        self.thumbnail.snp.makeConstraints { make in
+                    make.right.equalTo(self.contentBgView).offset(-boarder)
+                    make.left.equalTo(self.contentBgView).offset(boarder)
+                    make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+                    make.bottom.equalTo(self.contentBgView).offset(-boarder).priority(.high)
+                }
         
         //self.contentBgView.image = UIImage.svgInit("right_chat_bg")
         self.contentBgView.backgroundColor = kHexColor(0x228AFE);
         
         arrowView.image = UIImage.svgInit("ic_right_point")
-        self.arrowView.snp.makeConstraints { make in
-            make.left.equalTo(self.contentBgView.snp.right).offset(-1)
-            make.top.equalTo(self.contentBgView).offset(4)
-        }
+                self.arrowView.snp.makeConstraints { make in
+                    make.left.equalTo(self.contentBgView.snp.right).offset(-1)
+                    make.top.equalTo(self.contentBgView).offset(arrowOffset)
+                }
     }
     
     required init?(coder: NSCoder) {
