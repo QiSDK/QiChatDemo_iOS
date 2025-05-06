@@ -62,6 +62,35 @@ extension Date {
     
 }
 
+extension UIColor {
+    /**
+     Converts a hex string to a UIColor object.
+     
+     - Parameter hex: The hex string to convert. It can be in the format "#RRGGBB" or "RRGGBB".
+     - Returns: A UIColor object corresponding to the hex string, or nil if the string is invalid.
+     */
+    static func fromHex(_ hex: String) -> UIColor? {
+        var cleanedHex = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if cleanedHex.hasPrefix("#") {
+            cleanedHex.remove(at: cleanedHex.startIndex)
+        }
+        
+        guard cleanedHex.count == 6 else {
+            return nil
+        }
+        
+        var rgbValue: UInt64 = 0
+        Scanner(string: cleanedHex).scanHexInt64(&rgbValue)
+        
+        let red = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0
+        let blue = CGFloat(rgbValue & 0x0000FF) / 255.0
+        
+        return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+}
+
 
 extension UIImage{
     ///svg初始化

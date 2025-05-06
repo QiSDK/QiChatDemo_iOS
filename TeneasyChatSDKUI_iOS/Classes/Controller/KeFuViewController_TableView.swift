@@ -146,7 +146,15 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 //let dic = try? response.mapJSON() as? [String: Any]
                 // print(dic)
-               
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+                    }
+                }
+                
+                cell.playBlock = { [weak self] t in
+                    self?.cellTaped(textBody: t)
+                }
                 
                 cell.displayIconImg(path: self.avatarPath)
                 return cell
@@ -211,6 +219,18 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             p.message?.msgID == model.message?.replyMsgID
         }
         cellTaped(model: myModel.first ?? ChatModel())
+    }
+    
+    func cellTaped(textBody: TextBody) {
+        print(textBody)
+        if let videoURLString = textBody.video, let videoURL = URL(string: videoURLString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)), !videoURLString.isEmpty {
+            print(videoURL)
+            self.playVideoFullScreen(url: videoURL)
+        } else if let imageURLString = textBody.image, let imageURL = URL(string: imageURLString), !imageURLString.isEmpty {
+            self.playImageFullScreen(url: imageURL)
+        } else {
+            print("无效的媒体 URL")
+        }
     }
 
     // MARK: - cellTaped

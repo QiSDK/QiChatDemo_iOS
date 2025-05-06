@@ -9,6 +9,7 @@
 import UIKit
 open class BWLabel: UILabel {
    open var textInsets: UIEdgeInsets = .zero
+    open var alignment: NSTextAlignment = .center
     open override func drawText(in rect: CGRect) {
            super.drawText(in: rect.insetBy(dx: textInsets.left, dy: textInsets.bottom))
        }

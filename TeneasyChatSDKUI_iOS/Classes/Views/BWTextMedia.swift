@@ -10,9 +10,10 @@ import Kingfisher
 import UIKit
 import TeneasyChatSDK_iOS
 
+typealias BWMediaTapBlock = (TextBody) -> ()
 //let iconWidth = 30.0
 class BWTextMediaCell: UITableViewCell {
-    var playBlock: BWVideoCellClickBlock?
+    var playBlock: BWMediaTapBlock?
 
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
@@ -28,8 +29,9 @@ class BWTextMediaCell: UITableViewCell {
     let timeLabLeftOffset = 16
     let timeLabRightOffset = -12
     let timeLabHeight = 20
-    let thumbnailTopOffset = 10
+    let thumbnailTopOffset = 5
     let arrowOffset = 4
+    var textBody: TextBody?
     lazy var contentBgView: UIView = {
         let img = UIImageView()
         return img
@@ -58,7 +60,7 @@ class BWTextMediaCell: UITableViewCell {
         let lab = BWLabel()
         lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = .white
-        
+        lab.textAlignment = .center
         lab.numberOfLines = 1000
         //lab.layer.cornerRadius = 8
         lab.layer.masksToBounds = true
@@ -103,7 +105,9 @@ class BWTextMediaCell: UITableViewCell {
     }
     
     @objc private func playButtonTapped() {
-        playBlock?()
+        if let textBody = self.textBody {
+            playBlock?(textBody)
+        }
     }
     
     func displayIconImg(path: String) {
@@ -116,55 +120,6 @@ class BWTextMediaCell: UITableViewCell {
         let imgUrl = URL(string: path)
         if let url = imgUrl{
             initImg(imgUrl: url)
-        }
-    }
-    
-    func displayVideoThumbnail2(path: String) {
-//        var ext = path.split(separator: ".").last ?? "mp4"
-//        var thumbnailFileName = path.replacingOccurrences(of: "." + ext, with: ".jpg");
-//        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-//        var urlcomps = URLComponents(string: baseUrlImage)
-//        urlcomps?.path = thumbnailFileName
-//        
-//        if let imgUrl = urlcomps?.url{
-//            initImg(imgUrl: imgUrl)
-//        }
-        
-        //let path = path.replacingOccurrences(of: "index.mp4", with: "thumb.jpg")
-        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
-        //print("视频缩略图地址：\(baseUrlImage)\(path)")
-        if let imgUrl = imgUrl {
-            initImg(imgUrl: imgUrl)
-        }
-    }
-
-    
-    func initImg(imgUrl: URL) {
-        self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
-                                    options: [.transition(.fade(1))]) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let value):
-                //print("Image width: \(imageSize.width), height: \(imageSize.height)")
-                // 获取图片尺寸
-                let imageSize = value.image.size
-                let imageAspectRatio = imageSize.width / imageSize.height
-                
-                                if imageAspectRatio < 1 {
-                                    self.contentBgView.snp.updateConstraints { make in
-                                        make.width.equalTo(self.thumbnailWidthSmall)
-                                        make.height.equalTo(self.thumbnailHeightSmall)
-                                    }
-                                } else {
-                                    self.contentBgView.snp.updateConstraints { make in
-                                        make.width.equalTo(self.thumbnailWidthLarge)
-                                        make.height.equalTo(self.thumbnailHeightLarge)
-                                    }
-                                }
-            case .failure(_):
-                break
-                 //print("图片可能显示失败")
-            }
         }
     }
     
@@ -217,11 +172,12 @@ class BWTextMediaCell: UITableViewCell {
             
             if (text.contains("\"color\"")){
                 let result = TextBody.deserialize(from: text)
+                textBody = result
                 text = result?.content ?? ""
                 //let mediaUrl = result?.image ?? result?.video ?? ""
                 var mediaUrl = result?.image ?? ""
                 if !(result?.video ?? "").isEmpty {
-                    mediaUrl = result?.video ?? ""
+                    mediaUrl = result?.video?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? ""
                     self.playBtn.isHidden = false
                 }else{
                     self.playBtn.isHidden = true
@@ -232,6 +188,8 @@ class BWTextMediaCell: UITableViewCell {
                 }else{
                     displayThumbnail(path: mediaUrl)
                 }
+                
+                self.titleLab.textColor =  UIColor.fromHex(textBody?.color ?? "#000000")
             }
            
             initTitle(msg: text)
@@ -242,14 +200,17 @@ class BWTextMediaCell: UITableViewCell {
         if msg.contains("[emoticon_") == true {
             let atttext = BEmotionHelper.shared.attributedStringByText(text: msg, font: self.titleLab.font)
             self.titleLab.attributedText = atttext
-            //self.updateBgConstraints()
+            
+            //delayExecution(seconds: 0.5) {
+             //   self.updateBgConstraints()
+            //}
+           
         } else {
             self.titleLab.text = msg
             //self.updateBgConstraints()
         }
     }
 
-    
     override func layoutSubviews() {
         super.layoutSubviews()
     }
@@ -268,6 +229,65 @@ class BWTextMediaCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    func updateBgConstraints() {
+        let maxSize = CGSize(width: msgMaxWidth, height: CGFloat.greatestFiniteMagnitude)
+        let size = self.titleLab.sizeThatFits(maxSize)
+      
+        let margin = 4.0
+       
+       
+        
+        var newWidth = size.width + 12
+        if (CGFloat(self.thumbnailWidthLarge) > newWidth){
+            newWidth = CGFloat(self.thumbnailWidthLarge)
+        }
+        
+        let newHeight = size.height + self.thumbnail.frame.height + margin
+       
+        
+        self.contentBgView.snp.updateConstraints { make in
+            make.width.equalTo(newWidth)
+            //make.height.greaterThanOrEqualTo(size.height + margin) // 8 is margin
+            make.height.equalTo(newHeight)
+        }
+        
+        //self.titleLab.backgroundColor = UIColor.green
+        //self.contentBgView.backgroundColor = UIColor.red
+    }
+    
+    func initImg(imgUrl: URL) {
+        self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
+                                    options: [.transition(.fade(1))]) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let value):
+                //print("Image width: \(imageSize.width), height: \(imageSize.height)")
+                // 获取图片尺寸
+                let imageSize = value.image.size
+                let imageAspectRatio = imageSize.width / imageSize.height
+
+                if imageAspectRatio < 1 {
+                    self.thumbnail.snp.updateConstraints { make in
+                        make.width.equalTo(self.thumbnailWidthSmall)
+                        make.height.equalTo(self.thumbnailHeightSmall)
+                        //make.bottom.equalToSuperview().priority(.low)
+                    }
+                } else {
+                    self.thumbnail.snp.updateConstraints { make in
+                        make.width.equalTo(self.thumbnailWidthLarge)
+                        make.height.equalTo(self.thumbnailHeightLarge)
+                        //make.bottom.equalToSuperview().priority(.low)
+                    }
+                }
+                
+                
+            case .failure(_):
+                break
+                 //print("图片可能显示失败")
+            }
+        }
     }
 }
 
@@ -289,8 +309,8 @@ class LeftBWTextMediaCell: BWTextMediaCell {
         self.contentBgView.snp.makeConstraints { make in
             make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
-            make.height.equalTo(thumbnailHeightSmall)
-            make.width.equalTo(thumbnailWidthSmall)
+            //make.height.equalTo(thumbnailHeightSmall + 20)
+            //make.width.equalTo(thumbnailWidthSmall + 30)
             make.bottom.equalToSuperview().priority(.low)
         }
         
@@ -298,15 +318,18 @@ class LeftBWTextMediaCell: BWTextMediaCell {
                     make.top.equalTo(self.contentBgView).offset(4)
                     make.left.equalTo(self.contentBgView)//.offset(4)
                     make.right.equalTo(self.contentBgView)
-                    make.height.greaterThanOrEqualTo(50)
+                    //make.height.greaterThanOrEqualTo(50)
                     make.width.lessThanOrEqualTo(msgMaxWidth)
                     make.bottom.lessThanOrEqualTo(self.thumbnail.snp.top).offset(-4)
                     
                 }
         
         self.thumbnail.snp.makeConstraints { make in
-            make.right.equalTo(self.contentBgView).offset(-boarder)
-            make.left.equalTo(self.contentBgView).offset(boarder)
+            //make.right.equalTo(self.contentBgView).offset(-boarder)
+            //make.left.equalTo(self.contentBgView).offset(boarder)
+            make.width.equalTo(thumbnailWidthSmall)
+            make.height.equalTo(thumbnailHeightSmall)
+            make.centerX.equalTo(self.contentBgView)
             make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
             make.bottom.equalTo(self.contentBgView).offset(-boarder)
         }
@@ -316,11 +339,11 @@ class LeftBWTextMediaCell: BWTextMediaCell {
                     make.right.equalTo(self.contentBgView.snp.left).offset(1)
                     make.top.equalTo(self.contentBgView).offset(arrowOffset)
                 }
-        
+
         self.contentBgView.backgroundColor = UIColor.white
-        self.titleLab.textColor = UIColor.black
+        //self.titleLab.textColor = UIColor.black
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -329,6 +352,7 @@ class LeftBWTextMediaCell: BWTextMediaCell {
 class RightBWTextMediaCell: BWTextMediaCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.titleLab.textColor = UIColor.white
 
         self.iconView.image = UIImage.svgInit("icon_server_def2")
 
@@ -345,8 +369,8 @@ class RightBWTextMediaCell: BWTextMediaCell {
         self.contentBgView.snp.makeConstraints { make in
             make.top.equalTo(self.timeLab.snp.bottom)
             make.right.equalTo(self.timeLab.snp.right)
-            make.width.equalTo(thumbnailWidthSmall)
-            make.height.equalTo(thumbnailHeightSmall)
+           // make.height.equalTo(thumbnailHeightSmall + 20)
+            //make.width.equalTo(thumbnailWidthSmall + 30)
             make.bottom.equalToSuperview().priority(.low)
         }
         
@@ -355,14 +379,17 @@ class RightBWTextMediaCell: BWTextMediaCell {
                     make.left.equalTo(self.contentBgView)//.offset(4)
                     make.right.equalTo(self.contentBgView)
                     make.width.lessThanOrEqualTo(msgMaxWidth)
-            make.height.greaterThanOrEqualTo(50)
+            //make.height.greaterThanOrEqualTo(50)
                     make.bottom.lessThanOrEqualTo(self.thumbnail.snp.top).offset(-4)
                     
                 }
 
         self.thumbnail.snp.makeConstraints { make in
-                    make.right.equalTo(self.contentBgView).offset(-boarder)
-                    make.left.equalTo(self.contentBgView).offset(boarder)
+                    //make.right.equalTo(self.contentBgView).offset(-boarder)
+                    //make.left.equalTo(self.contentBgView).offset(boarder)
+            make.centerX.equalTo(self.contentBgView)
+            make.width.equalTo(thumbnailWidthSmall)
+            make.height.equalTo(thumbnailHeightSmall)
                     make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
                     make.bottom.equalTo(self.contentBgView).offset(-boarder).priority(.high)
                 }
