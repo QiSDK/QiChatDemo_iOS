@@ -44,7 +44,7 @@ enum NetworkUtil {
 
     // 获取聊天记录
     static func getHistory(consultId: Int32, done: @escaping ((_ success: Bool, _ data: HistoryModel?) -> Void)) {
-        let task = ChatApi.queryHistory(consultId: consultId, userId: userId, chatId: 0, count: 3)
+        let task = ChatApi.queryHistory(consultId: consultId, userId: userId, chatId: 0, count: 50)
         print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
         print("请求header: \(String(describing: task.headers))")
         ChatProvider.request(task) { result in

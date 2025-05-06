@@ -5,6 +5,7 @@
 
 import Foundation
 import HandyJSON
+import TeneasyChatSDK_iOS
 
 
 struct HistoryModel: HandyJSON {
@@ -40,6 +41,7 @@ struct Message: HandyJSON {
     var image: imgUri?
     var video: Urls?
     var file: myFile?
+    var msgSourceType: String?
     var workerChanged: AssignWorker?
 }
 

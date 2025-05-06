@@ -122,7 +122,12 @@ extension KeFuViewController: teneasySDKDelegate {
     private func handleNormalMessage(_ msg: CommonMessage) {
         // 根据消息内容类型确定展示样式
         let cellType = determineCellType(for: msg)
-        appendDataSource(msg: msg, isLeft: true, cellType: cellType)
+        
+        var left = true;
+        if (msg.msgSourceType == CommonMsgSourceType.mstSystemWorker){
+            left = false;
+        }
+        appendDataSource(msg: msg, isLeft: left, cellType: cellType)
     }
     
     /// 确定消息单元格类型
