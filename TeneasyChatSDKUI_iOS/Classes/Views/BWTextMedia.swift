@@ -174,7 +174,6 @@ class BWTextMediaCell: UITableViewCell {
                 let result = TextBody.deserialize(from: text)
                 textBody = result
                 text = result?.content ?? ""
-                //let mediaUrl = result?.image ?? result?.video ?? ""
                 var mediaUrl = result?.image ?? ""
                 if !(result?.video ?? "").isEmpty {
                     mediaUrl = result?.video?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? ""
@@ -200,14 +199,8 @@ class BWTextMediaCell: UITableViewCell {
         if msg.contains("[emoticon_") == true {
             let atttext = BEmotionHelper.shared.attributedStringByText(text: msg, font: self.titleLab.font)
             self.titleLab.attributedText = atttext
-            
-            //delayExecution(seconds: 0.5) {
-             //   self.updateBgConstraints()
-            //}
-           
         } else {
             self.titleLab.text = msg
-            //self.updateBgConstraints()
         }
     }
 
@@ -236,9 +229,6 @@ class BWTextMediaCell: UITableViewCell {
         let size = self.titleLab.sizeThatFits(maxSize)
       
         let margin = 4.0
-       
-       
-        
         var newWidth = size.width + 12
         if (CGFloat(self.thumbnailWidthLarge) > newWidth){
             newWidth = CGFloat(self.thumbnailWidthLarge)
@@ -252,9 +242,6 @@ class BWTextMediaCell: UITableViewCell {
             //make.height.greaterThanOrEqualTo(size.height + margin) // 8 is margin
             make.height.equalTo(newHeight)
         }
-        
-        //self.titleLab.backgroundColor = UIColor.green
-        //self.contentBgView.backgroundColor = UIColor.red
     }
     
     func initImg(imgUrl: URL) {
@@ -263,8 +250,6 @@ class BWTextMediaCell: UITableViewCell {
             guard let self = self else { return }
             switch result {
             case .success(let value):
-                //print("Image width: \(imageSize.width), height: \(imageSize.height)")
-                // 获取图片尺寸
                 let imageSize = value.image.size
                 let imageAspectRatio = imageSize.width / imageSize.height
 
@@ -272,13 +257,11 @@ class BWTextMediaCell: UITableViewCell {
                     self.thumbnail.snp.updateConstraints { make in
                         make.width.equalTo(self.thumbnailWidthSmall)
                         make.height.equalTo(self.thumbnailHeightSmall)
-                        //make.bottom.equalToSuperview().priority(.low)
                     }
                 } else {
                     self.thumbnail.snp.updateConstraints { make in
                         make.width.equalTo(self.thumbnailWidthLarge)
                         make.height.equalTo(self.thumbnailHeightLarge)
-                        //make.bottom.equalToSuperview().priority(.low)
                     }
                 }
                 

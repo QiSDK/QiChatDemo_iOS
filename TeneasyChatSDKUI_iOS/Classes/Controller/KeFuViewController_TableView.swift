@@ -349,7 +349,10 @@ extension KeFuViewController {
             self.copyData(model: model, indexPath: indexPath)
         }
        
-        if model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO || model?.cellType == .TYPE_File {
+        if (model?.message?.content.data ?? "").contains("\"color\""){
+            menu.menuItems = [item2]
+        }
+        else if model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO || model?.cellType == .TYPE_File {
             var imgUrl = ""
             if model?.cellType == .TYPE_File {
                 imgUrl = model?.message?.file.uri ?? ""
@@ -394,11 +397,15 @@ extension KeFuViewController {
     // MARK: - copyData
     // copyData(model:indexPath:) -  复制数据
     func copyData(model: ChatModel?, indexPath: IndexPath) {
-        let msgText = model?.message?.content.data ?? ""
+        var msgText = model?.message?.content.data ?? ""
         if model?.cellType == .TYPE_Image {
             let cell = self.tableView.cellForRow(at: indexPath) as! BWImageCell as BWImageCell
             UIPasteboard.general.image = cell.thumbnail.image
         } else {
+            if (msgText.contains("\"color\"")){
+                let result = TextBody.deserialize(from: msgText)
+                msgText = result?.content ?? ""
+            }
             let pastboard = UIPasteboard.general
             pastboard.string = msgText
         }
