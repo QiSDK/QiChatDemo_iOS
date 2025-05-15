@@ -12,11 +12,8 @@ import TeneasyChatSDK_iOS
 import UIKit
 
 protocol UploadListener {
-    /// Called when the upload is successful.
-    /// - Parameters:
-    ///   - path: The path of the uploaded file.
-    ///   - isVideo: A Boolean indicating whether the uploaded file is a video.
-    func uploadSuccess(paths: Urls, isVideo: Bool, filePath: String?, size: Int32)
+   
+    func uploadSuccess(paths: Urls, filePath: String, size: Int)
     
     /// Called to indicate the upload progress.
     /// - Parameter progress: The progress of the upload as an integer percentage (0-100).
@@ -33,13 +30,26 @@ protocol UploadListener {
  ".docx", ".doc", ".pdf", ".xls", ".xlsx", ".csv": // 文件
  */
 
+var uploadProgress = 0;
+
 struct UploadUtil {
     
-    var  listener : UploadListener?;
+    var listener : UploadListener?
+    var filePath: String
+    var fileData: Data
     
-    //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool, filePath: String?, fileSize: Int32 = 0) {
-        //WWProgressHUD.showLoading("正在上传...")
+   //上传媒体文件
+    func upload() {
+        uploadProgress = 1
+        let ext = filePath.split(separator: ".").last?.lowercased() ?? "$"
+        
+        if !fileTypes.contains(ext) && !imageTypes.contains(ext) && !videoTypes.contains(ext){
+            self.listener?.uploadFailed(msg: "不支持的文件格式")
+            return
+        }
+       
+       //WWProgressHUD.showLoading("正在上传...")
+       print("upload imgData: \(fileData.count)")
         let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
             return
@@ -48,7 +58,7 @@ struct UploadUtil {
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("multipart/form-data", forHTTPHeaderField: "Accept")
-        urlRequest.httpBody = imgData
+        //urlRequest.httpBody = fileData
         
         urlRequest.addValue(xToken, forHTTPHeaderField: "X-Token")
         
@@ -57,44 +67,37 @@ struct UploadUtil {
         parameterDict.setValue(4, forKey: "type")
  
         listener?.updateProgress(progress: uploadProgress);
-        let ext = filePath?.split(separator: ".").last?.lowercased() ?? "$"
-        
-        //目前只有pdf, word, excel等文件，filePath才不为空
-        if (filePath != nil && !fileTypes.contains(ext)){
-            self.listener?.uploadFailed(msg: "不支持的文件格式")
-            return
-        }
-        
-        // Now Execute
-        AF.upload(multipartFormData: { multiPart in
-            for (key, value) in parameterDict {
-                if let temp = value as? String {
-                    multiPart.append(temp.data(using: .utf8)!, withName: key as! String)
-                }
-                if let temp = value as? Int {
-                    multiPart.append("\(temp)".data(using: .utf8)!, withName: key as! String)
-                }
-            }
-            
+     
+       
+       AF.upload(multipartFormData: { multiPart in
+           for (key, value) in parameterDict {
+               if let temp = value as? String {
+                   multiPart.append(temp.data(using: .utf8)!, withName: key as! String)
+               }
+               if let temp = value as? Int {
+                   multiPart.append("\(temp)".data(using: .utf8)!, withName: key as! String)
+               }
+           }
+           
 
-            if (fileTypes.contains(ext)){
-                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: getMimeType(for: ext))
-            }
-            else if (isVideo) {
-                multiPart.append(imgData, withName: "myFile", fileName:  "\(Date().milliStamp)file.mp4", mimeType: "video/mp4")
-            } else {
-                multiPart.append(imgData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
-            }
-        }, with: urlRequest)
+           if (fileTypes.contains(ext)){
+               multiPart.append(fileData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: self.getMimeType(for: ext))
+           }
+           else if (videoTypes.contains(ext)) {
+               multiPart.append(fileData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: "video/mp4")
+           } else {
+               multiPart.append(fileData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
+           }
+       }, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
 
         })
         .response(completionHandler: { data in
             switch data.result {
             case .success:
-                if let resData = data.data {
-                    guard let strData = String(data: resData, encoding: String.Encoding.utf8) else {   listener?.uploadFailed(msg: "上传失败"); return}
-                    print(strData)
+               if let resData = data.data {
+                   guard let strData = String(data: resData, encoding: String.Encoding.utf8) else {   listener?.uploadFailed(msg: "上传失败，无法转换为UTF-8字符串"); return}
+                   print(strData)
                  
                     let dic = strData.convertToDictionary()
 
@@ -104,7 +107,7 @@ struct UploadUtil {
                         if let path = myResult?.data?.filepath{
                             let urls = Urls()
                             urls.uri = path
-                            listener?.uploadSuccess(paths: urls, isVideo: false, filePath: filePath, size: fileSize)
+                            listener?.uploadSuccess(paths: urls, filePath: filePath, size: fileData.count)
                             return
                         }
           
@@ -198,10 +201,10 @@ struct UploadUtil {
                               if (myResult.percentage == 100) {
                                   if let urls = myResult.data {
                                       // 正常上传
-                                      listener?.updateProgress(progress: 100);
-                                      // 上传成功
-                                      listener?.uploadSuccess(paths: urls, isVideo: true, filePath: nil, size: 0)
-                                      return
+                                     listener?.updateProgress(progress: 100);
+                                     // 上传成功
+                                      listener?.uploadSuccess(paths: urls,  filePath: filePath, size: fileData.count)
+                                     return
                                   } else {
                                       listener?.uploadFailed(msg: "上传100%，但没返回路径");
                                   }

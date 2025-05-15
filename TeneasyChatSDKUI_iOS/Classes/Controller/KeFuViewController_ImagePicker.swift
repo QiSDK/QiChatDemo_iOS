@@ -33,11 +33,11 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let mediaType = info[.mediaType] as? String {
             if mediaType == kUTTypeImage as String {
-                if let image = info[.originalImage] as? UIImage {
+                if let image = info[.originalImage] as? UIImage, let imgUrl = info[.imageURL] as? URL {
                     // 处理选中的图片
-                    print("Selected image: \(image)")
+                    print("Selected image: \(image) \(imgUrl)")
                     chooseImg = image
-                    self.dealPickImage(picker: picker)
+                    self.dealPickImage(picker: picker, filePath: imgUrl.absoluteString)
                 }
             } else if mediaType == kUTTypeMovie as String {
                 if let videoURL = info[.mediaURL] as? URL {
@@ -70,14 +70,14 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
                         return
                     }
                     
-                    self.upload(imgData: videoData, isVideo: true)
+                    self.upload(imgData: videoData, isVideo: true, filePath: videoURL.absoluteString)
                     picker.dismiss(animated: true)
                 }
             }
         }
     }
 
-    func dealPickImage(picker: UIImagePickerController) {
+    func dealPickImage(picker: UIImagePickerController, filePath: String) {
         guard let imgData = chooseImg?.jpegData(compressionQuality: 0.5) else { return }
         let tt = imgData.count
         print("图片大小：\(tt)")
@@ -92,7 +92,7 @@ extension KeFuViewController: UIImagePickerControllerDelegate, UINavigationContr
             return
         }
         
-        upload(imgData: imgData, isVideo: false)
+        upload(imgData: imgData, isVideo: false, filePath: filePath)
         picker.dismiss(animated: true)
     }
     

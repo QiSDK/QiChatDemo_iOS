@@ -82,7 +82,7 @@ let blueColor = UIColor(red: 69/255, green: 137/255, blue: 246/255, alpha: 1.0)
 
 let chatBackColor = UIColor.systemGray
 let panelBack = UIColor.lightGray
-var uploadProgress = 0;
+
 
 let serverDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 

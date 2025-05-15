@@ -604,11 +604,10 @@ open class KeFuViewController: UIViewController, UploadListener{
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool, filePath: String? = nil, size: Int32 = 0) {
         WWProgressHUD.showLoading("正在上传...")
-        uploadProgress = 1
-        UploadUtil(listener: self).upload(imgData: imgData, isVideo: isVideo, filePath: filePath, fileSize: size)
+        UploadUtil(listener: self,filePath: filePath ?? "",  fileData: imgData).upload()
     }
     
-    func uploadSuccess(paths: Urls, isVideo: Bool, filePath: String? = "", size: Int32) {
+    func uploadSuccess(paths: Urls, filePath: String, size: Int) {
         uploadProgress = 0
         let ext = paths.uri?.split(separator: ".").last?.lowercased() ?? "#"
         if imageTypes.contains(ext){
@@ -616,7 +615,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         }else if videoTypes.contains(ext){
             self.sendVideoMessage(url: paths.uri ?? "", thumb: paths.thumbnailUri, hls: paths.hlsUri ?? "")
         }else{
-            lib.sendMessage(msg: paths.uri ?? "", type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply, fileSize: size, fileName: filePath ?? "")
+            lib.sendMessage(msg: paths.uri ?? "", type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply, fileSize: Int32(size), fileName: filePath)
             if let cMsg = lib.sendingMsg {
                 appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_File)
             }
@@ -625,6 +624,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         WWProgressHUD.dismiss()
     }
     
+   
     func updateProgress(progress: Int) {
         //WWProgressHUD.dismiss()
         WWProgressHUD.showLoading("上传进度：\(progress)%")
