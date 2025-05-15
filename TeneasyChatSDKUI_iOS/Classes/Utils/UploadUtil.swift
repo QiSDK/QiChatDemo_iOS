@@ -58,17 +58,13 @@ struct UploadUtil {
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("multipart/form-data", forHTTPHeaderField: "Accept")
-        //urlRequest.httpBody = fileData
-        
+
         urlRequest.addValue(xToken, forHTTPHeaderField: "X-Token")
-        
-        // Set Your Parameter
         let parameterDict = NSMutableDictionary()
         parameterDict.setValue(4, forKey: "type")
  
         listener?.updateProgress(progress: uploadProgress);
      
-       
        AF.upload(multipartFormData: { multiPart in
            for (key, value) in parameterDict {
                if let temp = value as? String {
