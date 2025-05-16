@@ -8,12 +8,11 @@
  import Alamofire
  import Network
  import PhotosUI
- import TeneasyChatSDK_iOS
  import UIKit
-import HandyJSON
+ import HandyJSON
 
  /// 上传监听协议，定义上传成功、进度更新和失败的回调方法
- protocol UploadListener {
+ public protocol UploadListener {
     
      /// 上传成功回调
      /// - Parameters:
@@ -39,24 +38,34 @@ import HandyJSON
   */
  
  /// 全局上传进度变量，表示当前上传的百分比
- var uploadProgress = 0;
+public var uploadProgress = 0;
 
-var imageTypes = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "jfif", "heic"] // 图片
-var videoTypes = ["mp4", "avi", "mkv", "mov", "wmv", "flv", "webm"] // 视频
-var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
+public var imageTypes = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "jfif", "heic"] // 图片
+public var videoTypes = ["mp4", "avi", "mkv", "mov", "wmv", "flv", "webm"] // 视频
+public var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
  
  /// 上传工具结构体，封装上传相关功能
- struct UploadUtil {
+public struct UploadUtil {
+    public init(listener: UploadListener?, filePath: String, fileData: Data, xToken: String, baseUrl: String) {
+        self.listener = listener
+        self.filePath = filePath
+        self.fileData = fileData
+        self.xToken = xToken
+        self.baseUrl = baseUrl
+    }
      
      /// 上传监听器，接收上传状态回调
-     var listener : UploadListener?
+    var listener : UploadListener?
      /// 本地文件路径
      var filePath: String
      /// 文件数据
      var fileData: Data
      
+     var xToken: String = ""
+     var baseUrl: String = ""
+     
     /// 上传文件方法，支持图片、视频和文件类型
-    func upload() {
+   public func upload() {
         uploadProgress = 1
         // 获取文件扩展名，转为小写
         let ext = filePath.split(separator: ".").last?.lowercased() ?? "$"
@@ -68,7 +77,7 @@ var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
         }
        
        print("upload imgData: \(fileData.count)")
-        let api_url = getbaseApiUrl() + "/v1/assets/upload-v4"
+        let api_url = baseUrl + "/v1/assets/upload-v4"
         guard let url = URL(string: api_url) else {
             return
         }
@@ -99,12 +108,12 @@ var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
            
         // 根据文件类型设置上传文件的mimeType和文件名
         if (fileTypes.contains(ext)){
-            multiPart.append(fileData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: self.getMimeType(for: ext))
+            multiPart.append(fileData, withName: "myFile", fileName:  "\(Date().timeIntervalSince1970)file.\(ext)", mimeType: self.getMimeType(for: ext))
         }
         else if (videoTypes.contains(ext)) {
-            multiPart.append(fileData, withName: "myFile", fileName:  "\(Date().milliStamp)file.\(ext)", mimeType: "video/mp4")
+            multiPart.append(fileData, withName: "myFile", fileName:  "\(Date().timeIntervalSince1970)file.\(ext)", mimeType: "video/mp4")
         } else {
-            multiPart.append(fileData, withName: "myFile", fileName: "\(Date().milliStamp)file.png", mimeType: "image/png")
+            multiPart.append(fileData, withName: "myFile", fileName: "\(Date().timeIntervalSince1970)file.png", mimeType: "image/png")
         }
     }, with: urlRequest)
         .uploadProgress(queue: .main, closure: { progress in
@@ -163,7 +172,7 @@ var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
     ///   - isVideo: 是否为视频上传
     private func subscribeToSSE(uploadId: String, isVideo: Bool){
  
-          let api_url = getbaseApiUrl() + "/v1/assets/upload-v4?uploadId=" + uploadId
+          let api_url = baseUrl + "/v1/assets/upload-v4?uploadId=" + uploadId
           print("SSE 视频 url \(api_url) ---#")
           guard let url = URL(string: api_url) else {
               listener?.uploadFailed(msg: "API URL无效")
@@ -189,6 +198,9 @@ var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
               switch stream.result {
                   
               case .success(let response):
+                  
+                   
+                  
                   // 解析服务器推送的事件数据
                   if let strData = String(data: response, encoding: .utf8) {
     #if DEBUG
@@ -225,8 +237,10 @@ var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
                                   }
                               } else {
                                   // 上传中，更新进度
-                                  listener?.updateProgress(progress: myResult.percentage);
-                                  print("UploadUtil 上传进度：\(myResult.percentage)")
+                                  if (myResult.percentage > uploadProgress){
+                                      listener?.updateProgress(progress: myResult.percentage);
+                                      print("UploadUtil 上传进度：\(myResult.percentage)")
+                                  }
                               }
                           }
                       }
@@ -270,29 +284,35 @@ var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
      /// - Returns: 字典类型，如果转换失败返回nil
      func convertToDictionary() -> [String: Any]? {
          if let data = data(using: .utf8) {
-             return try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+             return try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
          }
          return nil
      }
  }
 
-
-class FilePath: HandyJSON {
-    var filepath: String?
-    required init() {}
+public class FilePath: HandyJSON {
+    public  var filepath: String?
+    required public init() {}
 }
 
-class UploadPercent : HandyJSON {
-    var percentage: Int = 0
+public class UploadPercent : HandyJSON {
+    public  var percentage: Int = 0
     //var path: String? = ""
     var data: Urls?
-    required init() {}
+    required public init() {}
 }
 
-class Urls: HandyJSON {
-    var uri: String? = ""
-    var hlsUri: String? = ""
-    var thumbnailUri = ""
-    required init() {}
+public class Urls: HandyJSON {
+    public var uri: String? = ""
+    public var hlsUri: String? = ""
+    public var thumbnailUri = ""
+    required public init() {}
 }
 
+
+public class BaseRequestResult<T>: HandyJSON {
+    public var code: Int?
+    public var msg: String?
+    public var data: T?
+    required public init() {}
+}

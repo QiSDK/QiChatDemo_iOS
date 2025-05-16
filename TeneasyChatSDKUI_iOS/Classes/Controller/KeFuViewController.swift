@@ -485,9 +485,6 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
         lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
         
-        //lib.sendMessage(msg: "/session/tenant_230/20250227/Documents/31373430363530373836333432d41d8cd98f00b204e9800998ecf8427e.xlsx", type: .msgFile, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
-        
-        
         if replyBar.superview != nil && replyBar.msg != nil{
             replyBar.snp.updateConstraints { make in
                 make.top.equalTo(self.toolBar.snp.top)
@@ -496,12 +493,10 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
-            //appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: CellType.TYPE_File)
         }
     }
 
     func sendImage(url: String) {
-        // lib.sendMessageImage(url: "https://www.bing.com/th?id=OHR.SunriseCastle_ROW9509100997_1920x1080.jpg&rf=LaDigue_1920x1080.jpg")
         lib.sendMessage(msg: url, type: .msgImg, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = lib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_Image)
@@ -523,7 +518,7 @@ open class KeFuViewController: UIViewController, UploadListener{
        }
        
        //上传视频的时候，在这里更新上传进度，对接开发人员可以有自己的办法，和聊天sdk无关。
-       if (uploadProgress > 0 && (uploadProgress < 67 || uploadProgress >= 70) && uploadProgress < 96){
+       if (uploadProgress > 0 && (uploadProgress < 67 || uploadProgress > 71) && uploadProgress < 96){
            uploadProgress += 5
            updateProgress(progress: uploadProgress)
        }
@@ -602,13 +597,20 @@ open class KeFuViewController: UIViewController, UploadListener{
      * }
      */
     //上传媒体文件
-    func upload(imgData: Data, isVideo: Bool, filePath: String? = nil, size: Int32 = 0) {
+    func upload(imgData: Data, isVideo: Bool, filePath: String, size: Int32 = 0) {
         WWProgressHUD.showLoading("正在上传...")
-        UploadUtil(listener: self,filePath: filePath ?? "",  fileData: imgData).upload()
+       // UploadUtil(listener: self, filePath: filePath, fileData: imgData).upload()
+        
+        
+        
+        UploadUtil(listener: self, filePath: filePath, fileData: imgData, xToken: xToken, baseUrl: getbaseApiUrl()).upload()
+        
+        
+      //  UploadUtil(listener: self,filePath: filePath,  fileData: imgData).upload()
     }
     
-    func uploadSuccess(paths: Urls, filePath: String, size: Int) {
-        uploadProgress = 0
+    public func uploadSuccess(paths: Urls, filePath: String, size: Int) {
+       uploadProgress = 0
         let ext = paths.uri?.split(separator: ".").last?.lowercased() ?? "#"
         if imageTypes.contains(ext){
             self.sendImage(url: paths.uri ?? "")
@@ -623,16 +625,15 @@ open class KeFuViewController: UIViewController, UploadListener{
         print("上传进度：100% \(Date())")
         WWProgressHUD.dismiss()
     }
-    
    
-    func updateProgress(progress: Int) {
+    public func updateProgress(progress: Int) {
         //WWProgressHUD.dismiss()
         WWProgressHUD.showLoading("上传进度：\(progress)%")
         print("上传进度：\(progress)% \(Date())")
 
     }
     
-    func uploadFailed(msg: String) {
+    public func uploadFailed(msg: String) {
         WWProgressHUD.showFailure(msg)
         uploadProgress = 0
     }

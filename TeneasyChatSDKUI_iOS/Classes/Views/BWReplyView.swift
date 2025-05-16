@@ -5,6 +5,8 @@
 //  Created by Xiao Fu on 2025/3/5.
 //
 
+import TeneasyChatSDK_iOS
+
 class BWReplyView: UIView {
     var cellTapedGesture: BWShowOriginalClickBlock?
     

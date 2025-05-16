@@ -192,7 +192,7 @@ class NetRequest: NSObject {
             // Copy file with correct extension
             try fileManager.copyItem(at: tempLocalUrl, to: correctedUrl)
 
-            if fileTypes.contains(ext){
+            if ["docx", "doc", "pdf", "xls", "xlsx", "csv"] .contains(ext){
                 completion(.success(()))
             }else{
                 // Save to Photo Library
