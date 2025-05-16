@@ -87,10 +87,6 @@ let panelBack = UIColor.lightGray
 let serverDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
 
-var imageTypes = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "jfif", "heic"] // 图片
-var videoTypes = ["mp4", "avi", "mkv", "mov", "wmv", "flv", "webm"] // 视频
-var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
-
 func getCustomParam() -> String{
     let custom = Custom()
     custom.username = "李四"

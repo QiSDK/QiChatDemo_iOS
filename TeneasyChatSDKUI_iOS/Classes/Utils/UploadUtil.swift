@@ -2,7 +2,7 @@
  //  UploadUtil.swift
  //  Pods
  //
- //  Created by Xuefeng on 2/12/24.
+ //  Created by Xiao Fu on 2/12/24.
  //
  import Foundation
  import Alamofire
@@ -10,7 +10,8 @@
  import PhotosUI
  import TeneasyChatSDK_iOS
  import UIKit
- 
+import HandyJSON
+
  /// 上传监听协议，定义上传成功、进度更新和失败的回调方法
  protocol UploadListener {
     
@@ -39,6 +40,10 @@
  
  /// 全局上传进度变量，表示当前上传的百分比
  var uploadProgress = 0;
+
+var imageTypes = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "jfif", "heic"] // 图片
+var videoTypes = ["mp4", "avi", "mkv", "mov", "wmv", "flv", "webm"] // 视频
+var fileTypes = ["docx", "doc", "pdf", "xls", "xlsx", "csv"] // 文件
  
  /// 上传工具结构体，封装上传相关功能
  struct UploadUtil {
@@ -184,18 +189,8 @@
               switch stream.result {
                   
               case .success(let response):
-                  var data: Data
-                  do {
-                      data = try response.toData()
-                      if let strData = String(data: data, encoding: .utf8) {
-                          print(strData)
-                      }
-                  } catch {
-                      listener?.uploadFailed(msg: "转换数据失败");
-                      return
-                  }
                   // 解析服务器推送的事件数据
-                  if let strData = String(data: data, encoding: .utf8) {
+                  if let strData = String(data: response, encoding: .utf8) {
     #if DEBUG
                       print(strData)
     #endif
@@ -280,3 +275,24 @@
          return nil
      }
  }
+
+
+class FilePath: HandyJSON {
+    var filepath: String?
+    required init() {}
+}
+
+class UploadPercent : HandyJSON {
+    var percentage: Int = 0
+    //var path: String? = ""
+    var data: Urls?
+    required init() {}
+}
+
+class Urls: HandyJSON {
+    var uri: String? = ""
+    var hlsUri: String? = ""
+    var thumbnailUri = ""
+    required init() {}
+}
+
