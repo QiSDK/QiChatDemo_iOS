@@ -580,57 +580,32 @@ open class KeFuViewController: UIViewController, UploadListener{
         myTimer = timer
     }
     
-    /**
-     * 上传图片。上传成功后，会直接调用socket进行消息发送。
-     *  @param filePath
-     *  // 文件类型类型 0 ～ 4
-     * enum AssetKind {
-     *   ASSET_KIND_NONE = 0;
-     *   // 商户公共文件
-     *   ASSET_KIND_PUBLIC = 1;
-     *   // 商户私有文件
-     *   ASSET_KIND_PRIVATE = 2;
-     *   // 头像
-     *   ASSET_KIND_AVATAR = 3;
-     *   // 会话私有文件
-     *   ASSET_KIND_SESSION = 4;
-     * }
-     */
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool, filePath: String, size: Int32 = 0) {
         WWProgressHUD.showLoading("正在上传...")
-       // UploadUtil(listener: self, filePath: filePath, fileData: imgData).upload()
-        
-        
-        
         UploadUtil(listener: self, filePath: filePath, fileData: imgData, xToken: xToken, baseUrl: getbaseApiUrl()).upload()
-        
-        
-      //  UploadUtil(listener: self,filePath: filePath,  fileData: imgData).upload()
     }
     
     public func uploadSuccess(paths: Urls, filePath: String, size: Int) {
-       uploadProgress = 0
-        let ext = paths.uri?.split(separator: ".").last?.lowercased() ?? "#"
-        if imageTypes.contains(ext){
-            self.sendImage(url: paths.uri ?? "")
-        }else if videoTypes.contains(ext){
-            self.sendVideoMessage(url: paths.uri ?? "", thumb: paths.thumbnailUri, hls: paths.hlsUri ?? "")
-        }else{
-            lib.sendMessage(msg: paths.uri ?? "", type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply, fileSize: Int32(size), fileName: filePath)
-            if let cMsg = lib.sendingMsg {
-                appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_File)
-            }
-        }
-        print("上传进度：100% \(Date())")
-        WWProgressHUD.dismiss()
+        uploadProgress = 0
+         let ext = paths.uri?.split(separator: ".").last?.lowercased() ?? "#"
+         if imageTypes.contains(ext){
+             self.sendImage(url: paths.uri ?? "")
+         }else if videoTypes.contains(ext){
+             self.sendVideoMessage(url: paths.uri ?? "", thumb: paths.thumbnailUri, hls: paths.hlsUri ?? "")
+         }else{
+             lib.sendMessage(msg: paths.uri ?? "", type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply, fileSize: Int32(size), fileName: filePath)
+             if let cMsg = lib.sendingMsg {
+                 appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_File)
+             }
+         }
+         print("上传进度：100% \(Date())")
+         WWProgressHUD.dismiss()
     }
    
     public func updateProgress(progress: Int) {
-        //WWProgressHUD.dismiss()
         WWProgressHUD.showLoading("上传进度：\(progress)%")
         print("上传进度：\(progress)% \(Date())")
-
     }
     
     public func uploadFailed(msg: String) {
