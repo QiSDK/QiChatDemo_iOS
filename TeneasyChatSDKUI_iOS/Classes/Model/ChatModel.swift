@@ -19,7 +19,7 @@ enum MessageSendState: String { case 发送中="0", 发送成功="1", 发送失�
  val TYPE_QA : Int = 4
  val TYPE_LastLine : Int = 5
  */
-enum CellType: String { case TYPE_Text="0", TYPE_Image="1", TYPE_Tip="2", TYPE_QA="3", TYPE_VIDEO="4", TYPE_LastLine="5" , TYPE_File="6"}
+enum CellType: String { case TYPE_Text="0", TYPE_Image="1", TYPE_Tip="2", TYPE_QA="3", TYPE_VIDEO="4", TYPE_LastLine="5" , TYPE_File="6", TYPE_TEXT_IMAGES="7"}
 class ChatModel {
     var message: CommonMessage?
     var isLeft: Bool=false

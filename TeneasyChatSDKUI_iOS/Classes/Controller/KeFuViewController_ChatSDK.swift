@@ -140,6 +140,9 @@ extension KeFuViewController: teneasySDKDelegate {
         case !msg.image.uri.isEmpty:
             return .TYPE_Image
         default:
+            if (msg.content.data.contains("\"imgs\"")){
+                return .TYPE_TEXT_IMAGES
+            }
             return .TYPE_Text
         }
     }

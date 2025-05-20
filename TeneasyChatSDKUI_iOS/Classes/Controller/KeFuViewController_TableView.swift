@@ -137,15 +137,27 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         default:
-            
-            //文字和图片混合的消息
-            if ((model.message?.content.data ?? "").contains("\"color\"")){
+            //文字和一个图片、视频混合的消息
+            if (model.cellType == .TYPE_TEXT_IMAGES){
+                let cell: BWTextImagesCell = LeftBWTextImagesCell.cell(tableView: tableView)
+                cell.model = model
+                cell.longGestCallBack = { [weak self] gesure in
+                    if gesure.state == .began {
+                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+                    }
+                }
+                
+                cell.playBlock = { [weak self] t in
+                    self?.cellTaped(textBody: t)
+                }
+                
+                cell.displayIconImg(path: self.avatarPath)
+                return cell
+            }
+            //文字和一个图片、视频混合的消息
+            else if ((model.message?.content.data ?? "").contains("\"color\"")){
                 let cell: BWTextMediaCell = model.isLeft ? LeftBWTextMediaCell.cell(tableView: tableView) : RightBWTextMediaCell.cell(tableView: tableView)
                 cell.model = model
-                //var text = model.message?.content.data
-                
-                //let dic = try? response.mapJSON() as? [String: Any]
-                // print(dic)
                 cell.longGestCallBack = { [weak self] gesure in
                     if gesure.state == .began {
                         self?.showMenu(gesure, model: model, indexPath: indexPath)

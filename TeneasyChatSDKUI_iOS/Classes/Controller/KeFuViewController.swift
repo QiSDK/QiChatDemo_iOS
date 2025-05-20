@@ -364,7 +364,13 @@ open class KeFuViewController: UIViewController, UploadListener{
                 }
                 else if item.msgFmt == "MSG_TEXT"{
                     chatModel.cellType = .TYPE_Text
+                    
                     chatModel.message = composeALocalTxtMessage(textMsg: item.content?.data ?? "no txt", timeInS: item.msgTime, msgId: msgId, replyMsgId: replyMsgId)
+                    
+                    if ((item.content?.data ?? "").contains("\"imgs\"")){
+                        chatModel.cellType = .TYPE_TEXT_IMAGES
+                    }
+                                                     
                     datasouceArray.append(chatModel)
                     
                     if replyMsgId > 0{

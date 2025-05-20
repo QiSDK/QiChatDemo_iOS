@@ -14,3 +14,12 @@ class TextBody: HandyJSON {
     var color: String?
     required init(){}
 }
+
+
+
+
+class TextImages: HandyJSON {
+    required init(){}
+    var message: String = ""
+    var imgs: [String] = []
+}
