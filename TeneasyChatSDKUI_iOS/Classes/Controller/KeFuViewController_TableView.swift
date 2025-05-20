@@ -148,7 +148,15 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 cell.playBlock = { [weak self] t in
-                    self?.cellTaped(textBody: t)
+                    var urlcomps = URLComponents(string: baseUrlImage)
+                    urlcomps?.path = t
+
+                    guard let imgUrl = urlcomps?.url else {
+                        WWProgressHUD.showFailure("无效的图片链接")
+                        return
+                    }
+                    
+                    self?.playImageFullScreen(url: imgUrl)
                 }
                 
                 cell.displayIconImg(path: self.avatarPath)

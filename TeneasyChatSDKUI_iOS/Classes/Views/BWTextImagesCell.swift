@@ -12,8 +12,10 @@ import TeneasyChatSDK_iOS
 
 //typealias BWMediaTapBlock = (TextBody) -> ()
 //let iconWidth = 30.0
-class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
-     var playBlock: BWMediaTapBlock?
+typealias BWTextImagesBlock = (String) -> ()
+
+class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+     var playBlock: BWTextImagesBlock?
 
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
@@ -73,9 +75,15 @@ class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDeleg
         return lab
     }()
 
-    lazy var thumbnailTV: UITableView = {
-        let thumbnails = UITableView()
-        return thumbnails
+    lazy var thumbnailTV: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.backgroundColor = .clear
+        return collectionView
     }()
 
     lazy var playBtn: UIButton = {
@@ -83,7 +91,7 @@ class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDeleg
         //btn.setImage(UIImage(named: "playvideo", in: BundleUtil.getCurrentBundle(), compatibleWith: nil), for: .normal)
         btn.setBackgroundImage(UIImage(named: "playvideo", in: BundleUtil.getCurrentBundle(), compatibleWith: nil), for: .normal)
         //btn.setTitle("play", for: UIControl.State.normal)
-        btn.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        //btn.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         btn.isHidden = true
         return btn
     }()
@@ -106,11 +114,21 @@ class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDeleg
         return cell as! Self
     }
     
-    @objc private func playButtonTapped() {
-        if let textBody = self.textBody {
-          //  playBlock?(textBody)
+    
+    @objc func playButtonTapped(_ sender: UITapGestureRecognizer) {
+            guard let imageView = sender.view as? UIImageView else { return }
+            // You can get the index or other info from imageView.tag or other means
+            // For example, if you set imageView.tag = indexPath.item, you can get it here:
+            let index = imageView.tag - 1001
+            if let imgs = textBody?.imgs, index < imgs.count {
+                let selectedImagePath = imgs[index]
+                // Handle the tap on the image at selectedImagePath
+                print("Tapped image at index: \(index), path: \(selectedImagePath)")
+                // Call playBlock or other action here if needed
+                
+                playBlock!(imgs[index])
+            }
         }
-    }
     
     func displayIconImg(path: String) {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
@@ -133,9 +151,8 @@ class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDeleg
         
         self.thumbnailTV.dataSource = self
         self.thumbnailTV.delegate = self
-        self.thumbnailTV.register(UITableViewCell.self, forCellReuseIdentifier: "ThumbnailCell")
-        self.thumbnailTV.separatorStyle = .none
-        self.thumbnailTV.isScrollEnabled = false
+        self.thumbnailTV.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "ThumbnailCell")
+        self.thumbnailTV.isScrollEnabled = true
         
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
@@ -161,9 +178,9 @@ class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDeleg
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             
             var text = msg.content.data
-            text = """
-{"message":"您要看什么图片，不会是瑟瑟的图吧！这我不会发给你的。","imgs":["/public/tenant_298/20250517/Images/9e3b8aa1-f612-4fb2-b6a4-66cf9e25341c/小鱼儿和花无缺.jpeg","/public/tenant_298/20250517/Images/c4ceb97d-d0cd-4c6f-8ce4-a2c11c784e40/客服1.jpg","/public/tenant_298/20250517/Images/615c605d-e9fd-49b3-9fd2-3d8f005dfd07/客服2.jpeg","/public/tenant_298/20250517/Images/4597dfae-57c2-4289-a8da-d89dfa5dd7fe/客服3.jpeg","/public/tenant_298/20250517/Images/098871a8-75f2-48af-a1e6-ea85cbcb720b/客服4.jpeg","/public/tenant_298/20250517/Images/e5e6508b-f3d5-4b31-afc5-100505ab207e/客服5.jpeg","/public/tenant_298/20250517/Images/452b2b36-ad7f-4ed6-99ce-b0ea052292d9/客服6.jpeg","/public/tenant_298/20250517/Images/f47ca62d-1a6a-4cc4-8b30-33e6998b2731/老板1.png","/public/tenant_298/20250517/Images/7ffc3d11-49d0-4ed6-ae12-239363f1d559/老板2.jpeg"]}
-"""
+//            text = """
+//{"message":"您要看什么图片，不会是瑟瑟的图吧！这我不会发给你的。","imgs":["/public/tenant_298/20250517/Images/9e3b8aa1-f612-4fb2-b6a4-66cf9e25341c/小鱼儿和花无缺.jpeg","/public/tenant_298/20250517/Images/c4ceb97d-d0cd-4c6f-8ce4-a2c11c784e40/客服1.jpg","/public/tenant_298/20250517/Images/615c605d-e9fd-49b3-9fd2-3d8f005dfd07/客服2.jpeg","/public/tenant_298/20250517/Images/4597dfae-57c2-4289-a8da-d89dfa5dd7fe/客服3.jpeg","/public/tenant_298/20250517/Images/098871a8-75f2-48af-a1e6-ea85cbcb720b/客服4.jpeg","/public/tenant_298/20250517/Images/e5e6508b-f3d5-4b31-afc5-100505ab207e/客服5.jpeg","/public/tenant_298/20250517/Images/452b2b36-ad7f-4ed6-99ce-b0ea052292d9/客服6.jpeg","/public/tenant_298/20250517/Images/f47ca62d-1a6a-4cc4-8b30-33e6998b2731/老板1.png","/public/tenant_298/20250517/Images/7ffc3d11-49d0-4ed6-ae12-239363f1d559/老板2.jpeg"]}
+//"""
             
             //if (text.contains("\\public\\")){
                 let result = TextImages.deserialize(from: text)
@@ -206,57 +223,44 @@ class BWTextImagesCell: UITableViewCell, UITableViewDataSource, UITableViewDeleg
         super.init(coder: coder)
     }
     
-    func updateBgConstraints() {
-        let maxSize = CGSize(width: msgMaxWidth, height: CGFloat.greatestFiniteMagnitude)
-        let size = self.titleLab.sizeThatFits(maxSize)
-      
-        let margin = 4.0
-        var newWidth = size.width + 12
-        if (CGFloat(self.thumbnailWidthLarge) > newWidth){
-            newWidth = CGFloat(self.thumbnailWidthLarge)
-        }
-        
-        let newHeight = size.height + self.thumbnailTV.frame.height + margin
-       
-        
-        self.contentBgView.snp.updateConstraints { make in
-            make.width.equalTo(newWidth)
-            //make.height.greaterThanOrEqualTo(size.height + margin) // 8 is margin
-            make.height.equalTo(newHeight)
-        }
-    }
 
     // MARK: - UITableViewDataSource and Delegate
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return textBody?.imgs.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(thumbnailHeightSmall)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: CGFloat(thumbnailWidthSmall), height: CGFloat(thumbnailHeightSmall))
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ThumbnailCell", for: indexPath)
-        cell.selectionStyle = .none
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCell", for: indexPath)
         
-        if let imgPath = textBody?.imgs[indexPath.row] {
+        if cell.contentView.subviews.isEmpty {
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            imageView.tag = 1001 + indexPath.row
+            cell.contentView.addSubview(imageView)
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped(_:)))
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(tapGestureRecognizer)
+        }
+        
+        if let imgPath = textBody?.imgs[indexPath.item] {
             let imgUrl = URL(string: "\(baseUrlImage)\(imgPath)")
-            if cell.contentView.subviews.isEmpty {
-                let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
-                imageView.contentMode = .scaleAspectFill
-                imageView.clipsToBounds = true
-                imageView.tag = 1001
-                cell.contentView.addSubview(imageView)
-            }
-            if let imageView = cell.contentView.viewWithTag(1001) as? UIImageView {
+            if let imageView = cell.contentView.viewWithTag(1001 + indexPath.row) as? UIImageView {
                 imageView.kf.setImage(with: imgUrl, placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
             }
         }
         
         return cell
     }
+    
+
 }
 
 class LeftBWTextImagesCell: BWTextImagesCell {
@@ -275,6 +279,7 @@ class LeftBWTextImagesCell: BWTextImagesCell {
         }
         
         self.contentBgView.snp.makeConstraints { make in
+            make.width.equalTo(250)
             make.left.equalTo(self.timeLab.snp.left)
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.bottom.equalToSuperview().priority(.low)
@@ -290,9 +295,9 @@ class LeftBWTextImagesCell: BWTextImagesCell {
                 }
         
         self.thumbnailTV.snp.makeConstraints { make in
-            make.width.equalTo(300)
-            make.height.equalTo(400)
             make.left.equalTo(self.contentBgView)
+            make.right.equalTo(self.contentBgView)
+            make.height.equalTo(178)
             make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
             make.bottom.equalTo(self.contentBgView).offset(-boarder)
         }
