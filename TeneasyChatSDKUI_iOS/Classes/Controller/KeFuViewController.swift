@@ -427,7 +427,10 @@ open class KeFuViewController: UIViewController, UploadListener{
     func getReplyItem(oriMsg: Message?) -> ReplyMessageItem{
         let replyItem = ReplyMessageItem()
         if (oriMsg?.msgFmt == "MSG_TEXT"){
-            replyItem.content = oriMsg?.content?.data ?? ""
+            var text = oriMsg?.content?.data ?? ""
+            let result = TextImages.deserialize(from: text)
+            text = result?.message ?? ""
+            replyItem.content = text
         }
         else if (oriMsg?.msgFmt == "MSG_IMG"){
             replyItem.fileName = oriMsg?.image?.uri ?? ""
@@ -447,7 +450,10 @@ open class KeFuViewController: UIViewController, UploadListener{
     func getReplyItem(oriMsg: CommonMessage?) -> ReplyMessageItem{
        let replyItem = ReplyMessageItem()
        if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
-           replyItem.content = oriMsg?.content.data ?? ""
+           var text = oriMsg?.content.data ?? ""
+           let result = TextImages.deserialize(from: text)
+           text = result?.message ?? ""
+           replyItem.content = text
        }
        else if (oriMsg?.msgFmt == CommonMessageFormat.msgImg){
            replyItem.fileName = oriMsg?.image.uri ?? ""

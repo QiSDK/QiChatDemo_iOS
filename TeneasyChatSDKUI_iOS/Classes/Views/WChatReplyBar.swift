@@ -2,7 +2,7 @@
 //  WChatReplyBar.swift
 //  qixin
 //
-//  Created by evanchan on 2022/10/17.
+//  Created by Xiao Fu on 2022/10/17.
 //
 
 import UIKit
@@ -10,13 +10,6 @@ import SnapKit
 import TeneasyChatSDK_iOS
 
 class WChatReplyBar: WBaseView {
-//    var replyType:MessageType = .text
-//    lazy var iconImageView:UIImageView = {
-//        let icon = UIImageView()
-//        icon.image = SVGKImage(named: "lt_xiaoxidingwei").uiImage
-//        return icon
-//    }()
-    
     var msg: CommonMessage? = nil
     
     lazy var vline:UIView = {
@@ -54,22 +47,6 @@ class WChatReplyBar: WBaseView {
     }
     
     override func initSubViews() {
-//        addSubview(iconImageView) //lt_guanbihuifu
-//        iconImageView.snp.makeConstraints { make in
-//            make.left.equalTo(kScaleWidth(8))
-//            make.top.equalToSuperview().offset(6)
-//            make.bottom.equalToSuperview().offset(-5)
-//            make.width.height.equalTo(26)
-//        }
-        
-//        addSubview(vline)
-//        vline.snp.makeConstraints { make in
-//            make.top.equalTo(9)
-//            make.left.equalTo(iconImageView.snp.right).offset(kScaleWidth(17))
-//            make.width.equalTo(2)
-//            make.height.equalTo(20)
-//        }
-        
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(9)
@@ -108,7 +85,10 @@ class WChatReplyBar: WBaseView {
         }else if !(msg?.video.uri ?? "").isEmpty{
             contentLabel.text = "[视频]"
         }else{
-            contentLabel.text = msg?.content.data ?? ""
+            var text = msg?.content.data ?? ""
+            let result = TextImages.deserialize(from: text)
+            text = result?.message ?? ""
+            contentLabel.text = text
         }
         
         titleLabel.textColor = UIColor.purple

@@ -177,12 +177,13 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             
-            var text = msg.content.data
+          
 //            text = """
 //{"message":"您要看什么图片，不会是瑟瑟的图吧！这我不会发给你的。","imgs":["/public/tenant_298/20250517/Images/9e3b8aa1-f612-4fb2-b6a4-66cf9e25341c/小鱼儿和花无缺.jpeg","/public/tenant_298/20250517/Images/c4ceb97d-d0cd-4c6f-8ce4-a2c11c784e40/客服1.jpg","/public/tenant_298/20250517/Images/615c605d-e9fd-49b3-9fd2-3d8f005dfd07/客服2.jpeg","/public/tenant_298/20250517/Images/4597dfae-57c2-4289-a8da-d89dfa5dd7fe/客服3.jpeg","/public/tenant_298/20250517/Images/098871a8-75f2-48af-a1e6-ea85cbcb720b/客服4.jpeg","/public/tenant_298/20250517/Images/e5e6508b-f3d5-4b31-afc5-100505ab207e/客服5.jpeg","/public/tenant_298/20250517/Images/452b2b36-ad7f-4ed6-99ce-b0ea052292d9/客服6.jpeg","/public/tenant_298/20250517/Images/f47ca62d-1a6a-4cc4-8b30-33e6998b2731/老板1.png","/public/tenant_298/20250517/Images/7ffc3d11-49d0-4ed6-ae12-239363f1d559/老板2.jpeg"]}
 //"""
             
             //if (text.contains("\\public\\")){
+                var text = msg.content.data
                 let result = TextImages.deserialize(from: text)
                 textBody = result
                 text = result?.message ?? ""
@@ -238,23 +239,22 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCell", for: indexPath)
         
-        if cell.contentView.subviews.isEmpty {
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.tag = 1001 + indexPath.row
-            cell.contentView.addSubview(imageView)
-            
-            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped(_:)))
-            imageView.isUserInteractionEnabled = true
-            imageView.addGestureRecognizer(tapGestureRecognizer)
-        }
+        // Remove all subviews to avoid reuse issues and random order
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.tag = 1001 + indexPath.item
+        cell.contentView.addSubview(imageView)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped(_:)))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGestureRecognizer)
         
         if let imgPath = textBody?.imgs[indexPath.item] {
             let imgUrl = URL(string: "\(baseUrlImage)\(imgPath)")
-            if let imageView = cell.contentView.viewWithTag(1001 + indexPath.row) as? UIImageView {
-                imageView.kf.setImage(with: imgUrl, placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
-            }
+            imageView.kf.setImage(with: imgUrl, placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
         }
         
         return cell
