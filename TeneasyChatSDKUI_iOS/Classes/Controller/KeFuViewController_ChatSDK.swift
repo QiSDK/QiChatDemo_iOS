@@ -55,6 +55,10 @@ extension KeFuViewController: teneasySDKDelegate {
             return
         }
         
+        if (msg.msgSourceType == CommonMsgSourceType.mstAi){
+            
+        }
+        
         // 根据消息类型分别处理
         switch msg.msgOp {
         case .msgOpEdit:

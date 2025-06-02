@@ -185,6 +185,7 @@ class BWTextMediaCell: UITableViewCell {
                 if mediaUrl.isEmpty {
                     self.thumbnail.isHidden = true
                 }else{
+                    self.thumbnail.isHidden = false
                     displayThumbnail(path: mediaUrl)
                 }
                 
