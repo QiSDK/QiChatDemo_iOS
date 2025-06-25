@@ -47,7 +47,9 @@ class BWQuestionCell: UITableViewCell {
     }
     
     func displayThumbnail(path: String) {
-        let imgUrl = URL(string: "\(baseUrlImage)\(path)")
+        let thumbnail = "\(baseUrlImage)\(path)"
+        print(thumbnail)
+        let imgUrl = URL(string: thumbnail)
         self.iconView.kf.setImage(with: imgUrl)
     }
     
