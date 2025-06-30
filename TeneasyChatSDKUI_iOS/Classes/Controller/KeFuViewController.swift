@@ -27,7 +27,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     var consultId: Int64 = 0
     
     /// 聊天SDK实例
-    private(set) var lib: ChatLib = ChatLib.shared
+    //private(set) var lib: ChatLib = ChatLib.shared
     
     /// 连接状态标记
    var isConnected: Bool = false

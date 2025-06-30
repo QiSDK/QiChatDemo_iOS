@@ -201,7 +201,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     rightCell.resendBlock = { [weak self] _ in
                         self?.datasouceArray[indexPath.row].sendStatus = .发送中
                         if let message = model.message {
-                            self?.lib.resendMsg(msg: message, payloadId: model.payLoadId)
+                            lib.resendMsg(msg: message, payloadId: model.payLoadId)
                         }
                     }
                 }

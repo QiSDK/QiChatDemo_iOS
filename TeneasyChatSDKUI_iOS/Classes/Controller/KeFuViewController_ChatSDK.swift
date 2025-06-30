@@ -498,7 +498,7 @@ extension KeFuViewController {
                     print("resend payloadId: \(item.payLoadId)")
                     Thread.sleep(forTimeInterval: 0.3)
                     if let cMsg = item.message {
-                        self.lib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
+                       lib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
                     }
                     
                     //}

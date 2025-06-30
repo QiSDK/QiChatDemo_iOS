@@ -22,6 +22,13 @@ public protocol teneasySDKDelegate : AnyObject{
     func workChanged(msg: Gateway_SCWorkerChanged)
 }
 
+/*
+ extension teneasySDKDelegate {
+     func receivedMsg2(msg: EasyMessage) {
+         /* return a default value or just leave empty */
+     }
+ }*/
+
 open class ChatLib: NetworkManagerDelegate {
     func networkRechabilityStatus(status: NetworkManagerStatus) {
         switch status {
@@ -154,17 +161,13 @@ open class ChatLib: NetworkManagerDelegate {
         }
     }
 
-    private func stopTimer() {
+    func stopTimer() {
         beatTimes = 0
         sessionTime = 0
         if myTimer != nil {
             myTimer!.invalidate() // 销毁timer
             myTimer = nil
         }
-    }
-    
-    public func resetSessionTime(){
-        self.sessionTime = 0
     }
     
     ///此接口不支持发视频
@@ -489,16 +492,14 @@ extension ChatLib: WebSocketDelegate {
                         }
                     }
             } else {
-                guard let payLoad = try? Gateway_Payload(serializedBytes: data) else { return }
+                guard let payLoad = try? Gateway_Payload(serializedData: data) else { return }
                 let msgData = payLoad.data
 //                if sendingMsg?.msgOp != .msgOpDelete{
 //                    payloadId = payLoad.id
 //                }
                 print("ChatLib:new payloadID:" + String(payLoad.id))
-                //有收到消息，就重设超时时间。
-                resetSessionTime()
                 if payLoad.act == .screcvMsg {
-                    let scMsg = try? Gateway_SCRecvMessage(serializedBytes: msgData)
+                    let scMsg = try? Gateway_SCRecvMessage(serializedData: msgData)
                     let msg = scMsg?.msg
                     if msg != nil {
                         if (msg!.msgOp == .msgOpDelete){
@@ -510,14 +511,22 @@ extension ChatLib: WebSocketDelegate {
                         }
                     }
                 } else if payLoad.act == .schi { // 连接成功后收到的信息，会返回clientId, Token
-                    if let msg = try? Gateway_SCHi(serializedBytes: msgData) {
+                    if let msg = try? Gateway_SCHi(serializedData: msgData) {
                         //print("ChatLib:chatID:" + String(msg.id))
                         delegate?.connected(c: msg)
-                        payloadId = payLoad.id
+                        
+//                        if sendingMsg != nil{
+//                            print("ChatLib:自动重发未发出的最后一个消息\(self.payloadId)")
+//                            resendMsg(msg: sendingMsg!, payloadId: self.payloadId)
+//                        }else{
+//                            //不是重发，使用新id
+                            payloadId = payLoad.id
+                        //}
                         print("ChatLib:初始payloadId:" + String(payloadId))
+                        print(msg)
                     }
                 } else if payLoad.act == .scworkerChanged {
-                    if let msg = try? Gateway_SCWorkerChanged(serializedBytes: msgData) {
+                    if let msg = try? Gateway_SCWorkerChanged(serializedData: msgData) {
                         consultId = msg.consultID
                         delegate?.workChanged(msg: msg)
                         print(msg)
@@ -534,7 +543,7 @@ extension ChatLib: WebSocketDelegate {
                              }
                  */
                 else if payLoad.act == .scdeleteMsgAck {
-                    let cMsg = try? Gateway_SCReadMessage(serializedBytes: msgData)
+                    let cMsg = try? Gateway_SCReadMessage(serializedData: msgData)
                     print("ChatLib:删除消息回执A，payloadId:\(payLoad.id) msgId:\(cMsg?.msgID ?? 0)")
                     if let cMsg = cMsg{
                         //delegate?.msgReceipt(msg: msg, payloadId: payLoad.id)
@@ -549,7 +558,7 @@ extension ChatLib: WebSocketDelegate {
                     }
                 }
                 else if payLoad.act == .scdeleteMsg {
-                    let cMsg = try? Gateway_CSRecvMessage(serializedBytes: msgData)
+                    let cMsg = try? Gateway_CSRecvMessage(serializedData: msgData)
                     if let cMsg = cMsg{
                         //delegate?.msgReceipt(msg: msg, payloadId: payLoad.id)
                         // 第二层, 消息主题
@@ -563,12 +572,15 @@ extension ChatLib: WebSocketDelegate {
                     }
                 }
                 else if payLoad.act == .forward {
-                    let msg = try? Gateway_CSForward(serializedBytes: msgData)
+                    let msg = try? Gateway_CSForward(serializedData: msgData)
                     print(msg!)
                 } else if payLoad.act == .scsendMsgAck { // 服务器告诉此条信息是否发送成功
-                    if let scMsg = try? Gateway_SCSendMessage(serializedBytes: msgData) {
+                    if let scMsg = try? Gateway_SCSendMessage(serializedData: msgData) {
                         print("ChatLib:消息回执Step 1，payloadId:\(payLoad.id) msgId:\(scMsg.msgID)")
-
+                        //if sendingMsg != nil {
+                        // sendingMsg?.msgID = scMsg.msgID // 发送成功会得到消息ID
+                        // sendingMsg?.msgTime = scMsg.msgTime
+                        
                         if msgList[payLoad.id] != nil{
                             var cMsg = msgList[payLoad.id]
                             cMsg?.msgID = Int64(scMsg.msgID)
@@ -588,6 +600,7 @@ extension ChatLib: WebSocketDelegate {
                                 delegate?.msgReceipt(msg: cMsg!, payloadId: payLoad.id, errMsg: scMsg.errMsg)
                             }
                         }
+                        //}
                     }
                 } else {
                     print("ChatLib:received data: \(data)")
@@ -599,7 +612,11 @@ extension ChatLib: WebSocketDelegate {
         case .ping(let pingData):
             print("ChatLib:received ping: \(String(describing: pingData))")
         case .error(let error):
+            // self.delegate?.connected(c: false)
             print("ChatLib:socket error \(String(describing: error))")
+//            if self.websocket !== client {
+//                return
+//            }
             disConnected()
             failedToSend()
             isConnected = false
@@ -635,4 +652,11 @@ extension ChatLib: WebSocketDelegate {
         
         return msg
     }
+    /* public func toastHello(vc : UIViewController){
+         let alert = UIAlertController(title: "你好", message: "Message", preferredStyle: UIAlertController.Style.actionSheet)
+         alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: { _ in
+           
+         }))
+         vc.present(alert, animated: true, completion: nil)
+     } */
 }
