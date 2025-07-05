@@ -7,8 +7,7 @@ target 'QL-Demo_Example' do
   pod 'TeneasyChatSDKUI_iOS', :path => '../'
   pod 'SnapKit', '~> 5.0.1'
   pod 'IQKeyboardManagerSwift', '~> 6.5.9'
-  #pod 'TeneasyChatSDK_iOS', :git => 'https://github.com/QiSDK/QiChatSDK_iOS.git', :tag => '1.9.3'
-  pod 'TeneasyChatSDK_iOS', :git => 'https://github.com/QiSDK/QiChatSDK_iOS.git', :tag => '1.9.2'
+  pod 'TeneasyChatSDK_iOS', :git => 'https://github.com/QiSDK/QiChatSDK_iOS.git', :tag => '1.9.3'
   #pod 'IQKeyboardManagerSwift'
   pod 'XMMenuPopover'
   

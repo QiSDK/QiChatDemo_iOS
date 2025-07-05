@@ -71,15 +71,16 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = BWChatQACell.cell(tableView: tableView)
             cell.consultId = Int32(self.consultId)
             cell.heightBlock = { [weak self] (height: Double) in
-                self?.questionViewHeight = height + 20
+                //self?.questionViewHeight = height + 20
                 print("questionViewHeight:\(height + 20)")
                 //                if let indexPath = self?.currentQAIndexPath {
                 //                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
                 //                }
+                self?.questionViewHeight = height
                 self?.tableView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self?.scrollToBottom()
-                }
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                    self?.scrollToBottom()
+//                }
             }
             self.currentQAIndexPath = indexPath
             cell.model = model
@@ -107,6 +108,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     uA.data = txtAnswer
                     userA.content = uA
                     self.withAutoReply?.answers.append(userA)
+                    tableView.reloadData()
                 }
                 
                 if let multipAnswer = model.answer {
@@ -130,8 +132,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                             self.withAutoReply?.answers.append(userA)
                         }
                     }
+                    tableView.reloadData()
                 }
-                tableView.reloadData()
+
             }
             cell.displayIconImg(path: self.avatarPath)
             return cell

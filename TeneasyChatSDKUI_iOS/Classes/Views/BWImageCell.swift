@@ -143,6 +143,11 @@ class BWImageCell: UITableViewCell {
                         make.width.equalTo(114)
                         make.height.equalTo(178)
                     }
+                }else if imageAspectRatio == 1{
+                    self.contentBgView.snp.updateConstraints { make in
+                        make.width.equalTo(178)
+                        make.height.equalTo(178)
+                    }
                 }else{
                     self.contentBgView.snp.updateConstraints { make in
                         make.width.equalTo(178)
