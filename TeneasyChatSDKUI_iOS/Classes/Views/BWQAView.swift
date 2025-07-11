@@ -206,8 +206,8 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
 
-            print("QA Cell Height:\(sectionHeight + expandRowHeight)")
-            heightCallback!(sectionHeight + expandRowHeight)
+            print("QA Cell Height:\(25 + sectionHeight + expandRowHeight)")
+            heightCallback!(25 + sectionHeight + expandRowHeight)
             isHidden = false
         }
         tableView.reloadData()
