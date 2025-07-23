@@ -59,6 +59,10 @@ extension KeFuViewController: teneasySDKDelegate {
             
         }
         
+        if (msg.msgSourceType == CommonMsgSourceType.mstSystemAutoTransfer){
+            print("这种消息是自动分配客服的消息，不会计入未读消息")
+        }
+        
         // 根据消息类型分别处理
         switch msg.msgOp {
         case .msgOpEdit:
