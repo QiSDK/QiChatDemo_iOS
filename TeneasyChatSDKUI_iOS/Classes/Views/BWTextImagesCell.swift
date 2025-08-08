@@ -33,7 +33,8 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     let timeLabHeight = 20
     let thumbnailTopOffset = 5
     let arrowOffset = 4
-    var textBody: TextImages?
+    //var textBody: TextImages?
+    var imgs: [String]?
     lazy var contentBgView: UIView = {
         let img = UIImageView()
         return img
@@ -120,7 +121,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             // You can get the index or other info from imageView.tag or other means
             // For example, if you set imageView.tag = indexPath.item, you can get it here:
             let index = imageView.tag - 1001
-            if let imgs = textBody?.imgs, index < imgs.count {
+            if let imgs = self.imgs, index < imgs.count {
                 let selectedImagePath = imgs[index]
                 // Handle the tap on the image at selectedImagePath
                 print("Tapped image at index: \(index), path: \(selectedImagePath)")
@@ -178,8 +179,23 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             var text = msg.content.data
             let result = TextImages.deserialize(from: text)
-            textBody = result
+            self.imgs = result?.imgs
             text = result?.message ?? ""
+            //self.thumbnailTV.reloadData()
+            initTitle(msg: text)
+        }
+    }
+    
+    var model2: ChatModel? {
+        didSet {
+            guard let msg = model2?.message else {
+                return
+            }
+            self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
+            var text = msg.content.data
+            let result = TextBody.deserialize(from: text)
+            self.imgs = result?.image?.components(separatedBy: ";")
+            text = result?.content ?? ""
             //self.thumbnailTV.reloadData()
             initTitle(msg: text)
         }
@@ -218,7 +234,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     // MARK: - UITableViewDataSource and Delegate
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return textBody?.imgs.count ?? 0
+        return self.imgs?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -242,11 +258,14 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapGestureRecognizer)
         
-        if let imgPath = textBody?.imgs[indexPath.item] {
-            let imgUrl = URL(string: "\(baseUrlImage)\(imgPath)")
-            imageView.kf.setImage(with: imgUrl, placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
+        let imgPath = self.imgs?[indexPath.item] ?? ""
+                
+        var imgUrl = "\(baseUrlImage)\(imgPath)";
+        if imgPath.contains("htt"){
+            imgUrl = String(imgPath)
         }
         
+        imageView.kf.setImage(with: URL(string: imgUrl) , placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
         return cell
     }
     
