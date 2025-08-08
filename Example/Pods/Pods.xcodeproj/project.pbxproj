@@ -892,6 +892,7 @@
 		DBB251F6916E5FC52A62E67CE553BC45 /* DDDispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB7F39190F802217C165A2C1E0B5C33 /* DDDispatchQueueLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBBB24A756DF106DBC54FBB3D541A210 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7932C6D0562A3D771C2C061D5BF15FE /* Utils.swift */; };
 		DBED967F20685FD958475ACF198258DB /* Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = B421A1E5910D802F455AACE221E4690F /* Compression.swift */; };
+		DC4D3BA82E4641FF0083FC2F /* videothumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4D3BA72E4641FF0083FC2F /* videothumbnail.png */; };
 		DC6264869084B3499E06650F37111D54 /* ConstraintPriorityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E825D1018A6AF6C1C349E43FAAC205 /* ConstraintPriorityTarget.swift */; };
 		DC92A2498EAC90F6131BCA1D292AE292 /* SVGClipPathElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C380F8E758B557C7F2DC590A23F8AD2B /* SVGClipPathElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DCC31EDA96E49D3E90EB35EDBB94D5BD /* Deserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51A52CE9E8B0E75CDD01F2E9D58E90F /* Deserializer.swift */; };
@@ -2291,6 +2292,7 @@
 		DB6E73DC72690612471EE07C3A91C64B /* front.pb.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = front.pb.swift; path = TeneasyChatSDK_iOS/Classes/swiftOut/api/core/front.pb.swift; sourceTree = "<group>"; };
 		DBC15FE7872B85E502329869CB2E6AB3 /* emoticon_15.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = emoticon_15.png; sourceTree = "<group>"; };
 		DC28C93344C53E79BEC5F10DF4D98B75 /* BinaryEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryEncoder.swift; path = Sources/SwiftProtobuf/BinaryEncoder.swift; sourceTree = "<group>"; };
+		DC4D3BA72E4641FF0083FC2F /* videothumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = videothumbnail.png; sourceTree = "<group>"; };
 		DC632BDC6C2B9AD1FDC3E613DD74382D /* TeneasyChatSDKUI_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TeneasyChatSDKUI_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCA12F25842E0BE6BB1DAD280C75C267 /* SVGRectElement.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVGRectElement.h; path = "Source/DOM classes/Unported or Partial DOM/SVGRectElement.h"; sourceTree = "<group>"; };
 		DCBDFCE1AF0B1E161AC11F0BDBF0868A /* SwiftDate-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftDate-Info.plist"; sourceTree = "<group>"; };
@@ -3849,6 +3851,7 @@
 			isa = PBXGroup;
 			children = (
 				2024EA8672CFF80173AA5CFD74853851 /* audio_default.png */,
+				DC4D3BA72E4641FF0083FC2F /* videothumbnail.png */,
 				F3481EBE3F242658D689F5FE01250757 /* excel_default.png */,
 				C828A244778EBFEF2E625BA7F0AD73F1 /* file_icon.png */,
 				E32EB2BD6463165CE3C3A4267C98995F /* image_default.png */,
@@ -5282,6 +5285,7 @@
 				7F03738A54C2D8277AB8B2993B8A652B /* left_chat_bg.png in Resources */,
 				7BBA40852C370B6EA9BDFBEDCD648BB8 /* left_chat_bg.svg in Resources */,
 				9A7B8B7C249020DDCCC1FB43C32093F4 /* loading.gif in Resources */,
+				DC4D3BA82E4641FF0083FC2F /* videothumbnail.png in Resources */,
 				8474C4EB0798FC68318EE385F872D943 /* loading_animation.gif in Resources */,
 				B3949416119072D5CD0BEB12AB3BFE32 /* logo.svg in Resources */,
 				169F5B2E66D5E0E23B4582D6DD29368B /* lt_biaoqing.png in Resources */,

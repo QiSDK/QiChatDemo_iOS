@@ -167,7 +167,8 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             }
             //文字和一个图片、视频混合的消息
             else if ((model.message?.content.data ?? "").contains("\"color\"")){
-                let cell: BWTextImagesCell = LeftBWTextImagesCell.cell(tableView: tableView)
+                //let cell: BWTextImagesCell = LeftBWTextImagesCell.cell(tableView: tableView)
+                let cell: BWTextImagesCell = model.isLeft ? LeftBWTextImagesCell.cell(tableView: tableView) : RightBWTextImagesCell.cell(tableView: tableView)
                 cell.model2 = model
                 cell.longGestCallBack = { [weak self] gesure in
                     if gesure.state == .began {
@@ -176,19 +177,29 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 cell.playBlock = { [weak self] t in
-                    var urlcomps = URLComponents(string: baseUrlImage)
-                    urlcomps?.path = t
+                    
+                    var myUrl = URL(string: t)
+                    if !t.contains("http"){
+                        var urlcomps = URLComponents(string: baseUrlImage)
+                        urlcomps?.path = t
+                        myUrl = urlcomps?.url
+                    }
+                  
 
-                    guard let imgUrl = urlcomps?.url else {
+                    guard let imgUrl = myUrl else {
                         WWProgressHUD.showFailure("无效的图片链接")
                         return
                     }
                     
-                    self?.playImageFullScreen(url: imgUrl)
+                    let ext = t.components(separatedBy: ".").last ?? "#"
+                    if videoTypes.contains(ext){
+                        self?.playVideoFullScreen(url: imgUrl)
+                    }else{
+                        self?.playImageFullScreen(url: imgUrl)
+                    }
                 }
                 
                 cell.displayIconImg(path: self.avatarPath)
-                return cell
                 return cell
             } //文字和一个图片、视频混合的消息
             else if ((model.message?.content.data ?? "").contains("\"color\"")){

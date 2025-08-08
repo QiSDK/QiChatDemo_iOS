@@ -20,7 +20,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
     let boarder = 3
-    let msgMaxWidth = 188.0
+    let msgMaxWidth = 252
     let thumbnailWidthSmall = 114
     let thumbnailHeightSmall = 178
     let thumbnailWidthLarge = 178
@@ -55,7 +55,6 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     
     lazy var arrowView: UIImageView = {
         let img = UIImageView()
-        img.isHidden = true
         return img
     }()
     
@@ -181,7 +180,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             let result = TextImages.deserialize(from: text)
             self.imgs = result?.imgs
             text = result?.message ?? ""
-            //self.thumbnailTV.reloadData()
+            self.thumbnailTV.reloadData()
             initTitle(msg: text)
         }
     }
@@ -195,8 +194,11 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             var text = msg.content.data
             let result = TextBody.deserialize(from: text)
             self.imgs = result?.image?.components(separatedBy: ";")
+            if (result?.video != nil){
+                self.imgs = result?.video?.components(separatedBy: ";")
+            }
             text = result?.content ?? ""
-            //self.thumbnailTV.reloadData()
+            self.thumbnailTV.reloadData()
             initTitle(msg: text)
         }
     }
@@ -234,6 +236,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     // MARK: - UITableViewDataSource and Delegate
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("媒体数量：\(self.imgs?.count ?? 0)")
         return self.imgs?.count ?? 0
     }
     
@@ -251,6 +254,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "videothumbnail.png", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         imageView.tag = 1001 + indexPath.item
         cell.contentView.addSubview(imageView)
         
@@ -264,12 +268,14 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
         if imgPath.contains("htt"){
             imgUrl = String(imgPath)
         }
+        print("媒体地址：\(imgUrl)")
         
-        imageView.kf.setImage(with: URL(string: imgUrl) , placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
+        let ext = imgUrl.components(separatedBy: ".").last ?? "#"
+        if imageTypes.contains(ext){
+            imageView.kf.setImage(with: URL(string: imgUrl) , placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
+        }
         return cell
     }
-    
-
 }
 
 class LeftBWTextImagesCell: BWTextImagesCell {
@@ -311,13 +317,69 @@ class LeftBWTextImagesCell: BWTextImagesCell {
             make.bottom.equalTo(self.contentBgView).offset(-boarder)
         }
         
-        arrowView.image = UIImage.svgInit("ic_left_point")
+        self.arrowView.image = UIImage.svgInit("ic_left_point")
                 self.arrowView.snp.makeConstraints { make in
                     make.right.equalTo(self.contentBgView.snp.left).offset(1)
-                    make.top.equalTo(self.contentBgView).offset(arrowOffset)
+                    make.top.equalTo(self.contentBgView.snp.top).offset(4)
                 }
 
         self.contentBgView.backgroundColor = UIColor.white
+        self.titleLab.textColor = UIColor.black
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+}
+
+
+
+class RightBWTextImagesCell: BWTextImagesCell {
+    required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.iconView.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-iconOffset)
+            make.top.equalToSuperview().offset(iconOffset)
+            make.width.height.equalTo(iconWidth)
+        }
+        self.timeLab.snp.makeConstraints { make in
+            make.right.equalTo(self.iconView.snp.left).offset(-timeLabLeftOffset)
+            make.top.equalToSuperview().offset(timeLabTopOffset)
+            //make.right.equalToSuperview().offset(timeLabRightOffset)
+            make.height.equalTo(timeLabHeight)
+        }
+        
+        self.contentBgView.snp.makeConstraints { make in
+            make.width.equalTo(250)
+            make.right.equalTo(self.timeLab.snp.right)
+            make.top.equalTo(self.timeLab.snp.bottom).offset(0)
+            make.bottom.equalToSuperview().priority(.low)
+        }
+        
+        self.titleLab.snp.makeConstraints { make in
+                    make.top.equalTo(self.contentBgView).offset(4)
+                    make.left.equalTo(self.contentBgView)//.offset(4)
+                    make.right.equalTo(self.contentBgView)
+                    make.width.lessThanOrEqualTo(msgMaxWidth)
+                    make.bottom.lessThanOrEqualTo(self.thumbnailTV.snp.top).offset(-4)
+                    
+                }
+        
+        self.thumbnailTV.snp.makeConstraints { make in
+            make.left.equalTo(self.contentBgView).offset(10)
+            make.right.equalTo(self.contentBgView)
+            make.height.equalTo(178)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+            make.bottom.equalTo(self.contentBgView).offset(-boarder)
+        }
+        
+        arrowView.image = UIImage.svgInit("ic_right_point")
+                self.arrowView.snp.makeConstraints { make in
+                    make.left.equalTo(self.contentBgView.snp.right)
+                    make.top.equalTo(self.contentBgView).offset(arrowOffset)
+                }
+
+        self.contentBgView.backgroundColor = kHexColor(0x228AFE)
         self.titleLab.textColor = UIColor.black
     }
 
