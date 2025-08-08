@@ -176,7 +176,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 cell.playBlock = { [weak self] t in
-                    self?.cellTaped(textBody: t)
+                   // self?.cellTaped(model: <#T##ChatModel#>)
+                    var dd = t;
+                    print(dd);
                 }
                 
                 cell.displayIconImg(path: self.avatarPath)

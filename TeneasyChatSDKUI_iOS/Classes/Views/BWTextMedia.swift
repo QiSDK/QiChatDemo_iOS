@@ -10,10 +10,11 @@ import Kingfisher
 import UIKit
 import TeneasyChatSDK_iOS
 
-typealias BWMediaTapBlock = (TextBody) -> ()
+//typealias BWMediaTapBlock = (TextBody) -> ()
+//typealias BWTextImagesBlock = (String) -> ()
 //let iconWidth = 30.0
-class BWTextMediaCell: UITableViewCell {
-    var playBlock: BWMediaTapBlock?
+class BWTextMediaCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+    var playBlock: BWTextImagesBlock?
 
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
@@ -71,10 +72,27 @@ class BWTextMediaCell: UITableViewCell {
         //lab.preferredMaxLayoutWidth = kScreenWidth - 120 - iconWidth - 12
         return lab
     }()
+    
+    static func cell(tableView: UITableView) -> Self {
+        let cellId = "\(Self.self)"
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
+        if cell == nil {
+            cell = Self(style: .default, reuseIdentifier: cellId)
+        }
+        
+        return cell as! Self
+    }
 
-    lazy var thumbnail: UIImageView = {
-        let blackBackgroundView = UIImageView()
-        return blackBackgroundView
+ 
+    lazy var thumbnail: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.backgroundColor = .clear
+        return collectionView
     }()
 
     lazy var playBtn: UIButton = {
@@ -94,34 +112,17 @@ class BWTextMediaCell: UITableViewCell {
     }()
 
     
-    static func cell(tableView: UITableView) -> Self {
-        let cellId = "\(Self.self)"
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
-        if cell == nil {
-            cell = Self(style: .default, reuseIdentifier: cellId)
-        }
-        
-        return cell as! Self
-    }
-    
-    @objc private func playButtonTapped() {
-        if let textBody = self.textBody {
-            playBlock?(textBody)
-        }
-    }
+//    @objc private func playButtonTapped() {
+//        if let textBody = self.textBody {
+//            playBlock?(textBody)
+//        }
+//    }
     
     func displayIconImg(path: String) {
         let imgUrl = URL(string: "\(baseUrlImage)\(path)")
         self.iconView.kf.setImage(with: imgUrl)
     }
-    
-    func displayThumbnail(path: String) {
-        self.thumbnail.image = UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        let imgUrl = URL(string: path)
-        if let url = imgUrl{
-            initImg(imgUrl: url)
-        }
-    }
+
     
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -135,8 +136,13 @@ class BWTextMediaCell: UITableViewCell {
         self.contentView.addSubview(self.contentBgView)
         self.contentView.addSubview(self.thumbnail)
         self.thumbnail.addSubview(self.playBtn)
+        self.thumbnail.dataSource = self
+        self.thumbnail.delegate = self
+        self.thumbnail.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "ThumbnailCell")
+        self.thumbnail.isScrollEnabled = true
         self.contentView.addSubview(self.titleLab)
         
+
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
         self.titleLab.addGestureRecognizer(self.gesture!)
@@ -152,6 +158,14 @@ class BWTextMediaCell: UITableViewCell {
         thumbnail.isUserInteractionEnabled = true
         let longTap = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.thumbnail.addGestureRecognizer(longTap)
+        
+        self.thumbnail.snp.makeConstraints { make in
+            make.left.equalTo(self.contentBgView)
+            make.right.equalTo(self.contentBgView)
+            make.height.equalTo(178)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+            make.bottom.equalTo(self.contentBgView).offset(-boarder)
+        }
 
         // Create and add the gesture recognizer
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped))
@@ -159,6 +173,48 @@ class BWTextMediaCell: UITableViewCell {
         
         contentBgView.layer.cornerRadius = 5;
         contentBgView.layer.masksToBounds = true;
+    }
+    
+    
+    // MARK: - UITableViewDataSource and Delegate
+    
+    @objc func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return (textBody?.image ?? "").split(separator: ";").count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: CGFloat(thumbnailWidthSmall), height: CGFloat(thumbnailHeightSmall))
+    }
+    
+    @objc(collectionView:cellForItemAtIndexPath:) func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCell", for: indexPath)
+        
+        // Remove all subviews to avoid reuse issues and random order
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.tag = 1001 + indexPath.item
+        cell.contentView.addSubview(imageView)
+        
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped(_:)))
+//        imageView.isUserInteractionEnabled = true
+//        imageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        let imgs = (textBody?.image ?? "").split(separator: ";")
+        
+        let imgPath = imgs[indexPath.item]
+                
+        var imgUrl = "\(baseUrlImage)\(imgPath)";
+        if imgPath.contains("htt"){
+            imgUrl = String(imgPath)
+        }
+        print("imageUrl:\(imgUrl)")
+        
+        imageView.kf.setImage(with: URL(string: imgUrl), placeholder: UIImage(named: "image_default", in: BundleUtil.getCurrentBundle(), compatibleWith: nil))
+        return cell
     }
 
     var model: ChatModel? {
@@ -174,20 +230,21 @@ class BWTextMediaCell: UITableViewCell {
                 let result = TextBody.deserialize(from: text)
                 textBody = result
                 text = result?.content ?? ""
-                var mediaUrl = result?.image ?? ""
-                if !(result?.video ?? "").isEmpty {
-                    mediaUrl = result?.video?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? ""
-                    self.playBtn.isHidden = false
-                }else{
-                    self.playBtn.isHidden = true
-                }
+                self.playBtn.isHidden = true
+//                var mediaUrl = result?.image ?? ""
+//                if !(result?.video ?? "").isEmpty {
+//                    mediaUrl = result?.video?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? ""
+//                    self.playBtn.isHidden = false
+//                }else{
+//                    self.playBtn.isHidden = true
+//                }
                 
-                if mediaUrl.isEmpty {
-                    self.thumbnail.isHidden = true
-                }else{
-                    self.thumbnail.isHidden = false
-                    displayThumbnail(path: mediaUrl)
-                }
+//                if mediaUrl.isEmpty {
+//                    self.thumbnail.isHidden = true
+//                }else{
+//                    self.thumbnail.isHidden = false
+//                    displayThumbnail(path: mediaUrl)
+//                }
                 
                 self.titleLab.textColor =  UIColor.fromHex(textBody?.color ?? "#000000")
             }
@@ -245,33 +302,20 @@ class BWTextMediaCell: UITableViewCell {
         }
     }
     
-    func initImg(imgUrl: URL) {
-        self.thumbnail.kf.setImage(with: imgUrl, placeholder: UIImage(named: "imgloading", in: BundleUtil.getCurrentBundle(), compatibleWith: nil),
-                                    options: [.transition(.fade(1))]) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let value):
-                let imageSize = value.image.size
-                let imageAspectRatio = imageSize.width / imageSize.height
 
-                if imageAspectRatio < 1 {
-                    self.thumbnail.snp.updateConstraints { make in
-                        make.width.equalTo(self.thumbnailWidthSmall)
-                        make.height.equalTo(self.thumbnailHeightSmall)
-                    }
-                } else {
-                    self.thumbnail.snp.updateConstraints { make in
-                        make.width.equalTo(self.thumbnailWidthLarge)
-                        make.height.equalTo(self.thumbnailHeightLarge)
-                    }
-                }
-                
-                
-            case .failure(_):
-                break
-                 //print("图片可能显示失败")
-            }
-        }
+    
+    @objc func playButtonTapped(_ sender: UITapGestureRecognizer) {
+        guard let imageView = sender.view as? UIImageView else { return }
+        // You can get the index or other info from imageView.tag or other means
+        // For example, if you set imageView.tag = indexPath.item, you can get it here:
+        let index = imageView.tag - 1001
+        let imgs = (textBody?.image ?? "").split(separator: ";")
+        let selectedImagePath = imgs[index]
+        // Handle the tap on the image at selectedImagePath
+        print("Tapped image at index: \(index), path: \(selectedImagePath)")
+        // Call playBlock or other action here if needed
+        
+        playBlock!(String(imgs[index]))
     }
 }
 
@@ -308,15 +352,15 @@ class LeftBWTextMediaCell: BWTextMediaCell {
                     
                 }
         
-        self.thumbnail.snp.makeConstraints { make in
-            //make.right.equalTo(self.contentBgView).offset(-boarder)
-            //make.left.equalTo(self.contentBgView).offset(boarder)
-            make.width.equalTo(thumbnailWidthSmall)
-            make.height.equalTo(thumbnailHeightSmall)
-            make.centerX.equalTo(self.contentBgView)
-            make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
-            make.bottom.equalTo(self.contentBgView).offset(-boarder)
-        }
+//        self.thumbnail.snp.makeConstraints { make in
+//            //make.right.equalTo(self.contentBgView).offset(-boarder)
+//            //make.left.equalTo(self.contentBgView).offset(boarder)
+//            make.width.equalTo(thumbnailWidthSmall)
+//            make.height.equalTo(thumbnailHeightSmall)
+//            make.centerX.equalTo(self.contentBgView)
+//            make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+//            make.bottom.equalTo(self.contentBgView).offset(-boarder)
+//        }
         
         arrowView.image = UIImage.svgInit("ic_left_point")
                 self.arrowView.snp.makeConstraints { make in
@@ -368,15 +412,15 @@ class RightBWTextMediaCell: BWTextMediaCell {
                     
                 }
 
-        self.thumbnail.snp.makeConstraints { make in
-                    //make.right.equalTo(self.contentBgView).offset(-boarder)
-                    //make.left.equalTo(self.contentBgView).offset(boarder)
-            make.centerX.equalTo(self.contentBgView)
-            make.width.equalTo(thumbnailWidthSmall)
-            make.height.equalTo(thumbnailHeightSmall)
-                    make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
-                    make.bottom.equalTo(self.contentBgView).offset(-boarder).priority(.high)
-                }
+//        self.thumbnail.snp.makeConstraints { make in
+//                    //make.right.equalTo(self.contentBgView).offset(-boarder)
+//                    //make.left.equalTo(self.contentBgView).offset(boarder)
+//            make.centerX.equalTo(self.contentBgView)
+//            make.width.equalTo(thumbnailWidthSmall)
+//            make.height.equalTo(thumbnailHeightSmall)
+//                    make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+//                    make.bottom.equalTo(self.contentBgView).offset(-boarder).priority(.high)
+//                }
         
         //self.contentBgView.image = UIImage.svgInit("right_chat_bg")
         self.contentBgView.backgroundColor = kHexColor(0x228AFE);

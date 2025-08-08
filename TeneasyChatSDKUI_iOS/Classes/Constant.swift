@@ -34,13 +34,13 @@ private(set) var lib: ChatLib = ChatLib.shared
 //public var cert = "CKoCEAUYASDzAijxtOqVnDI.xU1eyoac8wM8LLOVmH2IOP3RaT2F92FfzzfeQE5kWbnvGHf5HK7ZouJY5ITuATewkH2_H4vUiuFzaBULd2j6Dw"
 //public var  merchantId: Int = 298
 //public var userId: Int32 = 666665//1125324
-//public var baseUrlImage = "https://images-3-test.qlbig05.xyz" //用于拼接图片地址
+public var baseUrlImage = "https://images-3-test.qlbig05.xyz" //用于拼接图片地址
 
 
 //这几个是需要在设置里面配置
 public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
-//public var cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
-public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地址
+public var cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
+//public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地址
 
 //public var cert = "CAEQBRgBIIcCKPHr3dPoMg.ed_euM3a4Ew7QTiJKg4XQskD5KTzvqXdFKRPnVyNmyZNF-Cyq7g9XMr3a41OvVtoovp15IBrfYveDZTJPEldBA"
 //public var lines = "https://d2jt4g8mgfvbcl.cloudfront.net"
@@ -50,7 +50,7 @@ public var userId: Int32 = 666665//1125324
 public var merchantId: Int = 230
 
 //阿福
-public var  cert = "CKoCEAUYASDzAijxtOqVnDI.xU1eyoac8wM8LLOVmH2IOP3RaT2F92FfzzfeQE5kWbnvGHf5HK7ZouJY5ITuATewkH2_H4vUiuFzaBULd2j6Dw"
+//public var  cert = "CKoCEAUYASDzAijxtOqVnDI.xU1eyoac8wM8LLOVmH2IOP3RaT2F92FfzzfeQE5kWbnvGHf5HK7ZouJY5ITuATewkH2_H4vUiuFzaBULd2j6Dw"
 //public var cert = "COEBEAUYASDjASiewpj-8TE.-1R9Mw9xzDNrSxoQ5owopxciklACjBUe43NANibVuy-XPlhqnhAOEaZpxjvTyJ6n79P5bUBCGxO7PcEFQ9p9Cg"
 
 //public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
