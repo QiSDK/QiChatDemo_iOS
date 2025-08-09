@@ -254,7 +254,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
         cell.contentView.subviews.forEach { $0.removeFromSuperview() }
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: thumbnailWidthSmall, height: thumbnailHeightSmall))
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "videothumbnail.png", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
         imageView.tag = 1001 + indexPath.item
@@ -308,14 +308,13 @@ class LeftBWTextImagesCell: BWTextImagesCell {
                     make.right.equalTo(self.contentBgView)
                     make.width.lessThanOrEqualTo(msgMaxWidth)
                     make.bottom.lessThanOrEqualTo(self.thumbnailTV.snp.top).offset(-4)
-                    
                 }
         
         self.thumbnailTV.snp.makeConstraints { make in
             make.left.equalTo(self.contentBgView)
             make.right.equalTo(self.contentBgView)
             make.height.equalTo(178)
-            make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
+            //make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
             make.bottom.equalTo(self.contentBgView).offset(-boarder)
         }
         
