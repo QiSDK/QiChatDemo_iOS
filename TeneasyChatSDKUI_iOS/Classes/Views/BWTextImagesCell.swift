@@ -182,6 +182,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             text = result?.message ?? ""
             self.thumbnailTV.reloadData()
             initTitle(msg: text)
+            self.titleLab.textColor = UIColor.black
         }
     }
     
@@ -200,6 +201,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             text = result?.content ?? ""
             self.thumbnailTV.reloadData()
             initTitle(msg: text)
+            self.titleLab.textColor =  UIColor.fromHex(result?.color ?? "#000000")
         }
     }
     
@@ -324,7 +326,7 @@ class LeftBWTextImagesCell: BWTextImagesCell {
                 }
 
         self.contentBgView.backgroundColor = UIColor.white
-        self.titleLab.textColor = UIColor.black
+        //self.titleLab.textColor = UIColor.black
     }
 
     required init?(coder: NSCoder) {
@@ -380,7 +382,7 @@ class RightBWTextImagesCell: BWTextImagesCell {
                 }
 
         self.contentBgView.backgroundColor = kHexColor(0x228AFE)
-        self.titleLab.textColor = UIColor.black
+        //self.titleLab.textColor = UIColor.black
     }
 
     required init?(coder: NSCoder) {
