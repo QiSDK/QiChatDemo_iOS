@@ -110,6 +110,7 @@ func getCustomParam() -> String{
     let custom = Custom()
     custom.username = "李四"
     custom.platform = 1
+    custom.usertype = 2
     custom.userlevel = userLevel
     let c = custom.toJSONString()?.urlEncoded
     return c ?? ""

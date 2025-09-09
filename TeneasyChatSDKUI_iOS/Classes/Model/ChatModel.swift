@@ -33,6 +33,7 @@ class Custom: HandyJSON {
     var username: String?
     var platform: Int = 1
     var userlevel: Int = 10
+    var usertype: Int = 2 //usertype: 用户类型 1-官方会员 2-邀请好友 3-合营会员
     required init(){}
 }
 
