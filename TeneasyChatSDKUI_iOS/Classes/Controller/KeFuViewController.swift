@@ -178,6 +178,7 @@ open class KeFuViewController: UIViewController, UploadListener{
 
         xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
 
+        // 使用全局ChatLib管理连接
         initSDK(baseUrl: domain)
         initView()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(node:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -188,10 +189,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         let rightBarItem = UIBarButtonItem(title: "退出", style: .done, target: self, action: #selector(goBack))
         navigationItem.rightBarButtonItem = rightBarItem
         
-        //delayExecution(seconds: 5) { //会导致退出页面后仍然开启chatSDK!
-        print("开始定时监视sdk的状态\(Date())")
-            self.startSDKMonitoring()
-        //}
+        // 全局ChatLib已经在GlobalChatManager中管理，不需要局部监控
     }
 
     @objc func closeClick() {
@@ -399,7 +397,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         
         if isFirstLoad{
             //打招呼
-            let greetingMsg = lib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
+            let greetingMsg = chatLib.composeALocalMessage(textMsg: "您好，\(workerName)为您服务！")
             appendDataSource(msg: greetingMsg, isLeft: true)
             print("第一次打招呼")
             
@@ -495,7 +493,7 @@ open class KeFuViewController: UIViewController, UploadListener{
             WWProgressHUD.showInfoMsg("消息不能为空")
             return
         }
-        lib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
+        chatLib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
         
         if replyBar.superview != nil && replyBar.msg != nil{
             replyBar.snp.updateConstraints { make in
@@ -503,32 +501,28 @@ open class KeFuViewController: UIViewController, UploadListener{
             }
             replyBar.msg = nil
         }
-        if let cMsg = lib.sendingMsg {
-            appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId)
+        if let cMsg = chatLib.sendingMsg {
+            appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId)
         }
     }
 
     func sendImage(url: String) {
-        lib.sendMessage(msg: url, type: .msgImg, consultId: consultId, withAutoReply: self.withAutoReply)
-        if let cMsg = lib.sendingMsg {
-            appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_Image)
+        chatLib.sendMessage(msg: url, type: .msgImg, consultId: consultId, withAutoReply: self.withAutoReply)
+        if let cMsg = chatLib.sendingMsg {
+            appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, cellType: .TYPE_Image)
         }
     }
     
     func sendVideoMessage(url: String, thumb: String, hls: String) {
-        lib.sendVideoMessage(url: url, thumbnailUri: thumb, hlsUri: hls, consultId: consultId, withAutoReply: self.withAutoReply)
-        if let cMsg = lib.sendingMsg {
-            appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_VIDEO)
+        chatLib.sendVideoMessage(url: url, thumbnailUri: thumb, hlsUri: hls, consultId: consultId, withAutoReply: self.withAutoReply)
+        if let cMsg = chatLib.sendingMsg {
+            appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, cellType: .TYPE_VIDEO)
         }
     }
     
-    //检查聊天SDK的连接状态
-   @objc func checkSDK(){
-       print("sdk status:\(isConnected) \(Date())")
-       if !isConnected{
-           initSDK(baseUrl: domain)
-       }
-       
+    // checkSDK方法已移除，全局ChatLib自动管理连接状态
+    // 上传进度更新逻辑保留
+    @objc func updateUploadProgressIfNeeded(){
        //上传视频的时候，在这里更新上传进度，对接开发人员可以有自己的办法，和聊天sdk无关。
        if (uploadProgress > 0 && (uploadProgress < 67 || uploadProgress > 71) && uploadProgress < 96){
            uploadProgress += 5
@@ -536,56 +530,61 @@ open class KeFuViewController: UIViewController, UploadListener{
        }
     }
 
-    //停止定时检查
-    func stopSDKMonitoring() {
+    //停止定时器
+    func stopLocalTimer() {
         //if myTimer != nil {
         myTimer?.invalidate() // 销毁timer
         myTimer = nil
-            print("KeFu计时器销毁")
+            print("KeFu页面计时器销毁")
         //}
     }
     
     open override func viewWillAppear(_ animated: Bool) {
-        if !isFirstLoad && !(myTimer?.isValid ?? false){
-            delayExecution(seconds: 2) {
-                print("页面恢复，检查SDK")
-                self.checkSDK()
-            }
-        }
+        currentChatConsultId = consultId
+        GlobalMessageManager.shared.clearUnReadCount(consultId: consultId)
+        
+        // 全局ChatLib自动管理连接，不需要局部检查
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
+        currentChatConsultId = 0
         //离开聊天页面，如果有错误日志，上报日志。
         NetworkUtil.doReportError()
+    }
+    
+    deinit {
+        // 移除通知监听
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - 聊天SDK管理
     
     /// 退出聊天（清理资源）
     func quitChat() {
-        stopSDKMonitoring()
+        stopLocalTimer()
         workerId = 0
         isConnected = false
-        lib.disConnect()
-        lib.delegate = nil
-        print("已退出聊天并清理资源")
+        // 不断开ChatLib连接，因为它是全局管理的
+        // chatLib.disConnect()  
+        // chatLib.delegate = nil
+        print("已退出聊天页面，ChatLib保持全局连接")
     }
     
-    deinit {
-        quitChat()
-        print("deinit")
-    }
+//    deinit {
+//        quitChat()
+//        print("deinit")
+//    }
     
     
-    // MARK: - 定时器管理
+    // MARK: - 定时器管理（仅用于上传进度）
         
-    /// 开启连接状态监控（防止循环引用）
-    @objc private func startSDKMonitoring() {
+    /// 开启上传进度监控
+    @objc private func startUploadProgressMonitoring() {
         guard myTimer == nil else { return }
         let timer = Timer.scheduledTimer(
             timeInterval: 5,
             target: self,
-            selector: #selector(self.checkSDK),
+            selector: #selector(self.updateUploadProgressIfNeeded),
             userInfo: nil,
             repeats: true
         )
@@ -606,9 +605,9 @@ open class KeFuViewController: UIViewController, UploadListener{
          }else if videoTypes.contains(ext){
              self.sendVideoMessage(url: paths.uri ?? "", thumb: paths.thumbnailUri, hls: paths.hlsUri ?? "")
          }else{
-             lib.sendMessage(msg: paths.uri ?? "", type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply, fileSize: Int32(size), fileName: filePath)
-             if let cMsg = lib.sendingMsg {
-                 appendDataSource(msg: cMsg, isLeft: false, payLoadId: lib.payloadId, cellType: .TYPE_File)
+             chatLib.sendMessage(msg: paths.uri ?? "", type: .msgFile, consultId: consultId, withAutoReply: self.withAutoReply, fileSize: Int32(size), fileName: filePath)
+             if let cMsg = chatLib.sendingMsg {
+                 appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, cellType: .TYPE_File)
              }
          }
          print("上传进度：100% \(Date())")

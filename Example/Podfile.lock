@@ -1,8 +1,8 @@
 PODS:
   - Alamofire (5.4.4)
-  - CocoaLumberjack (3.8.5):
-    - CocoaLumberjack/Core (= 3.8.5)
-  - CocoaLumberjack/Core (3.8.5)
+  - CocoaLumberjack (3.9.0):
+    - CocoaLumberjack/Core (= 3.9.0)
+  - CocoaLumberjack/Core (3.9.0)
   - HandyJSON (5.0.2)
   - IQKeyboardManagerSwift (6.5.16)
   - Kingfisher (6.3.1)
@@ -17,7 +17,7 @@ PODS:
   - SVProgressHUD (2.2.5)
   - SwiftDate (6.3.1)
   - SwiftProtobuf (1.27.1)
-  - TeneasyChatSDK_iOS (1.9.3):
+  - TeneasyChatSDK_iOS (2.0.0):
     - Alamofire
     - HandyJSON (~> 5.0.2)
     - Starscream (= 4.0.4)
@@ -41,7 +41,7 @@ PODS:
 DEPENDENCIES:
   - IQKeyboardManagerSwift (~> 6.5.9)
   - SnapKit (~> 5.0.1)
-  - TeneasyChatSDK_iOS (from `https://github.com/QiSDK/QiChatSDK_iOS.git`, tag `1.9.3`)
+  - TeneasyChatSDK_iOS (from `https://github.com/QiSDK/QiChatSDK_iOS.git`)
   - TeneasyChatSDKUI_iOS (from `../`)
   - XMMenuPopover
 
@@ -65,18 +65,17 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   TeneasyChatSDK_iOS:
     :git: https://github.com/QiSDK/QiChatSDK_iOS.git
-    :tag: 1.9.3
   TeneasyChatSDKUI_iOS:
     :path: "../"
 
 CHECKOUT OPTIONS:
   TeneasyChatSDK_iOS:
+    :commit: 25722f97c975289a8ef1b218983f6ab0a4e88fa2
     :git: https://github.com/QiSDK/QiChatSDK_iOS.git
-    :tag: 1.9.3
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
-  CocoaLumberjack: 6a459bc897d6d80bd1b8c78482ec7ad05dffc3f0
+  CocoaLumberjack: 5644158777912b7de7469fa881f8a3f259c2512a
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
   IQKeyboardManagerSwift: 12d89768845bb77b55cc092ecc2b1f9370f06b76
   Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
@@ -87,11 +86,11 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftProtobuf: b109bd17979d7993a84da14b1e1fdd8b0ded934a
-  TeneasyChatSDK_iOS: 8b4083f94036fc9e3184bb6f3c3f8512263c1d1c
+  TeneasyChatSDK_iOS: 6dff4e1c05056d99aebeec452dba6c1894d08e2e
   TeneasyChatSDKUI_iOS: 68380ede2f890fa803e74d1b7e7c174c00fa5f36
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
 
-PODFILE CHECKSUM: f31c21df76d29213c0d2e570e61a77383e01d987
+PODFILE CHECKSUM: 4aafcd9f60163d8dcbd59c4cd646ee40562176a4
 
 COCOAPODS: 1.16.2

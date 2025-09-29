@@ -19,7 +19,7 @@ public let PARAM_MAXSESSIONMINS = "MaxSessionMins"
 public let PARAM_USERLEVEL = "USERLEVEL"
 
 /// 聊天SDK实例
-private(set) var lib: ChatLib = ChatLib.shared
+private(set) var chatLib: ChatLib = ChatLib.shared
 
 //这几个是需要在设置里面配置
 //public var lines = ""
@@ -59,7 +59,7 @@ public var merchantId: Int = 230
 //public var userId: Int32 = 364312 //364310
 
 public var userLevel = 8
- 
+public var userType = 2
 
 
 /*Asai*/
@@ -84,9 +84,185 @@ var chatId = "0"
 //未发送出去的消息列表
 var unSentMessage: [Int64: [ChatModel]] = [999: []]
 
+var unReadList: [UnReadItem] = []
+
+public struct UnReadItem {
+    var consultId: Int64
+    var unReadCount: Int
+    
+    init(consultId: Int64, unReadCount: Int = 0) {
+        self.consultId = consultId
+        self.unReadCount = unReadCount
+    }
+}
+
 var reportRequest = ReportRequest()
 
 public let PARAM_XTOKEN = "HTTPTOKEN"
+
+public var globalMessageDelegate: GlobalMessageDelegate?
+var currentChatConsultId: Int64 = 0
+
+public protocol GlobalMessageDelegate: AnyObject {
+    func onUnReadCountChanged()
+}
+
+public class GlobalChatManager: teneasySDKDelegate {
+    static public let shared = GlobalChatManager()
+    
+    private init() {}
+    
+    private var isInitialized = false
+    private var connectionTimer: Timer?
+    
+    public func initializeGlobalChat() {
+        guard !isInitialized else { return }
+        
+        chatLib.delegate = self
+        isInitialized = true
+        print("GlobalChatManager: 全局ChatLib已初始化")
+        
+        startConnectionMonitoring()
+    }
+    
+   public func connectIfNeeded() {
+        guard isInitialized else { return }
+        
+        if chatLib.payloadId == 0 {
+            print("GlobalChatManager: 初始化SDK连接")
+            let wssUrl = "wss://" + domain + "/v1/gateway/h5?"
+            chatLib.myinit(
+                userId: userId,
+                cert: cert,
+                token: xToken.isEmpty ? cert : xToken,
+                baseUrl: wssUrl,
+                sign: "9zgd9YUc",
+                custom: getCustomParam(),
+                maxSessionMinutes: maxSessionMinus
+            )
+            chatLib.callWebsocket()
+        } else {
+            print("GlobalChatManager: 重新连接")
+            chatLib.reConnect()
+        }
+    }
+    
+    private func startConnectionMonitoring() {
+        connectionTimer?.invalidate()
+        connectionTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
+            self?.checkAndReconnect()
+        }
+    }
+    
+    private func checkAndReconnect() {
+        if !domain.isEmpty && chatLib.payloadId == 0 {
+            print("GlobalChatManager: 检测到连接断开，尝试重连")
+            connectIfNeeded()
+        }
+    }
+    
+    func stopGlobalChat() {
+        connectionTimer?.invalidate()
+        connectionTimer = nil
+        isInitialized = false
+        print("GlobalChatManager: 全局ChatLib已停止")
+    }
+    
+    // MARK: - teneasySDKDelegate
+    public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
+        print("GlobalChatManager收到消息: consultId=\(msg.consultID), current=\(currentChatConsultId)")
+        
+        if msg.consultID != currentChatConsultId {
+            GlobalMessageManager.shared.addUnReadMessage(consultId: msg.consultID)
+        }
+        
+        NotificationCenter.default.post(
+            name: NSNotification.Name("GlobalChatMessageReceived"),
+            object: nil,
+            userInfo: ["message": msg]
+        )
+    }
+    
+    public func msgDeleted(msg: TeneasyChatSDK_iOS.CommonMessage, payloadId: UInt64, errMsg: String?) {
+        NotificationCenter.default.post(
+            name: NSNotification.Name("GlobalChatMessageDeleted"),
+            object: nil,
+            userInfo: ["message": msg, "payloadId": payloadId]
+        )
+    }
+    
+    public func msgReceipt(msg: TeneasyChatSDK_iOS.CommonMessage, payloadId: UInt64, errMsg: String?) {
+        NotificationCenter.default.post(
+            name: NSNotification.Name("GlobalChatMessageReceipt"),
+            object: nil,
+            userInfo: ["message": msg, "payloadId": payloadId]
+        )
+    }
+    
+    public func workChanged(msg: Gateway_SCWorkerChanged) {
+        NotificationCenter.default.post(
+            name: NSNotification.Name("GlobalChatWorkerChanged"),
+            object: nil,
+            userInfo: ["workerChanged": msg]
+        )
+    }
+    
+    public func systemMsg(result: TeneasyChatSDK_iOS.Result) {
+        print("GlobalChatManager系统消息: \(result.Message) Code: \(result.Code)")
+        NotificationCenter.default.post(
+            name: NSNotification.Name("GlobalChatSystemMessage"),
+            object: nil,
+            userInfo: ["result": result]
+        )
+    }
+    
+    public func connected(c: Gateway_SCHi) {
+        print("GlobalChatManager连接成功")
+        xToken = c.token
+        UserDefaults.standard.set(c.token, forKey: PARAM_XTOKEN)
+        
+        NotificationCenter.default.post(
+            name: NSNotification.Name("GlobalChatConnected"),
+            object: nil,
+            userInfo: ["connection": c]
+        )
+    }
+}
+
+public class GlobalMessageManager {
+    static public let shared = GlobalMessageManager()
+    
+    private init() {}
+    
+    func addUnReadMessage(consultId: Int64) {
+        if consultId == currentChatConsultId {
+            return
+        }
+        
+        if let index = unReadList.firstIndex(where: { $0.consultId == consultId }) {
+            unReadList[index].unReadCount += 1
+        } else {
+            unReadList.append(UnReadItem(consultId: consultId, unReadCount: 1))
+        }
+        
+        globalMessageDelegate?.onUnReadCountChanged()
+    }
+    
+    func clearUnReadCount(consultId: Int64) {
+        if let index = unReadList.firstIndex(where: { $0.consultId == consultId }) {
+            unReadList[index].unReadCount = 0
+        }
+        globalMessageDelegate?.onUnReadCountChanged()
+    }
+    
+   public func getTotalUnReadCount() -> Int {
+        return unReadList.reduce(0) { $0 + $1.unReadCount }
+    }
+    
+    func getUnReadCount(consultId: Int64) -> Int {
+        return unReadList.first(where: { $0.consultId == consultId })?.unReadCount ?? 0
+    }
+}
 
 let serverTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"
 
@@ -110,8 +286,9 @@ func getCustomParam() -> String{
     let custom = Custom()
     custom.username = "李四"
     custom.platform = 1
-    custom.usertype = 2
+    custom.usertype = userType
     custom.userlevel = userLevel
+    print("userType = \(userType)")
     let c = custom.toJSONString()?.urlEncoded
     return c ?? ""
 }

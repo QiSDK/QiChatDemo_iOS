@@ -11,7 +11,7 @@ import UIKit
 typealias BWEntranceViewCallback = (Int) -> ()
 typealias BWEntranceViewCellClick = (Int32) -> ()
 
-class BWEntranceView: UIView {
+class BWEntranceView: UIView, GlobalMessageDelegate {
     var callBack: BWEntranceViewCallback?
     var cellClick: BWEntranceViewCellClick?
 
@@ -53,6 +53,7 @@ class BWEntranceView: UIView {
         super.init(frame: frame)
 
         self.setupUI()
+        globalMessageDelegate = self
         //self.getEntrance()
     }
 
@@ -143,7 +144,12 @@ extension BWEntranceView: UITableViewDelegate, UITableViewDataSource {
         let cell = BWQuestionCell.cell(tableView: tableView)
         let list = self.entranceModel?.consults ?? []
         cell.titleLab.text = list[indexPath.row].name
-        cell.dotView.isHidden = (list[indexPath.row].unread ?? 0) == 0
+        
+        let consultId = Int64(list[indexPath.row].consultId ?? 0)
+        let localUnReadCount = GlobalMessageManager.shared.getUnReadCount(consultId: consultId)
+        let serverUnReadCount = list[indexPath.row].unread ?? 0
+        
+        cell.dotView.isHidden = (localUnReadCount == 0) && (serverUnReadCount == 0)
         
         if let avatar = list[indexPath.row].Works?.first?.avatar{
             cell.displayThumbnail(path: avatar)
@@ -162,6 +168,13 @@ extension BWEntranceView: UITableViewDelegate, UITableViewDataSource {
             NetworkUtil.markRead(consultId: id) { success, data in
                 
             }
+        }
+    }
+    
+    // MARK: - GlobalMessageDelegate
+    func onUnReadCountChanged() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 }

@@ -3,7 +3,7 @@ import TeneasyChatSDKUI_iOS
 import TeneasyChatSDK_iOS
 
 //class ViewController: ConsultTypeViewController  {
-class ViewController: UIViewController, LineDetectDelegate  {
+class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegate  {
     lazy var supportBtn:UIButton = {
         let btn = UIButton(type: .roundedRect)
         btn.setTitle("联系客服", for: .normal)
@@ -16,6 +16,18 @@ class ViewController: UIViewController, LineDetectDelegate  {
         //btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(buttonClick), for: .touchUpInside)
         return btn
+    }()
+    
+    lazy var unReadCountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.backgroundColor = .red
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textAlignment = .center
+        label.layer.cornerRadius = 10
+        label.layer.masksToBounds = true
+        label.isHidden = true
+        return label
     }()
     
     lazy var curLineLB: UILabel = {
@@ -40,6 +52,13 @@ class ViewController: UIViewController, LineDetectDelegate  {
         supportBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
+        }
+        
+        self.view.addSubview(unReadCountLabel)
+        unReadCountLabel.snp.makeConstraints { make in
+            make.top.equalTo(supportBtn.snp.top).offset(-5)
+            make.left.equalTo(supportBtn.snp.right).offset(-5)
+            make.width.height.equalTo(20)
         }
          
          self.view.addSubview(curLineLB)
@@ -79,6 +98,12 @@ class ViewController: UIViewController, LineDetectDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         initSubViews()
+        
+        globalMessageDelegate = self
+        updateUnReadCount()
+        
+        // 设置应用生命周期监听
+        setupAppLifecycleObservers()
 
         if #available(iOS 13.0, *) {
             self.view.backgroundColor = UIColor.systemBackground
@@ -137,6 +162,10 @@ class ViewController: UIViewController, LineDetectDelegate  {
     public func useTheLine(line: String) {
         curLineLB.text = "当前线路：\(line)"
         domain = line;
+        
+        // 线路确定后，初始化全局ChatLib
+        GlobalChatManager.shared.initializeGlobalChat()
+        GlobalChatManager.shared.connectIfNeeded()
     }
     
     public func lineError(error: TeneasyChatSDK_iOS.Result) {
@@ -148,5 +177,57 @@ class ViewController: UIViewController, LineDetectDelegate  {
             //记得在这上报错误日志哦
         }
         debugPrint(error.Message)
+    }
+    
+    // MARK: - GlobalMessageDelegate
+    public func onUnReadCountChanged() {
+        DispatchQueue.main.async {
+            self.updateUnReadCount()
+        }
+    }
+    
+    private func updateUnReadCount() {
+        let totalCount = GlobalMessageManager.shared.getTotalUnReadCount()
+        
+        if totalCount > 0 {
+            unReadCountLabel.isHidden = false
+            unReadCountLabel.text = totalCount > 99 ? "99+" : "\(totalCount)"
+        } else {
+            unReadCountLabel.isHidden = true
+        }
+    }
+    
+    // MARK: - 应用生命周期管理
+    private func setupAppLifecycleObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func appDidEnterBackground() {
+        print("应用进入后台，ChatLib保持连接")
+        // 在后台保持连接，不断开
+    }
+    
+    @objc private func appWillEnterForeground() {
+        print("应用即将进入前台，检查ChatLib连接")
+        // 确保连接正常
+        if !domain.isEmpty {
+            GlobalChatManager.shared.connectIfNeeded()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

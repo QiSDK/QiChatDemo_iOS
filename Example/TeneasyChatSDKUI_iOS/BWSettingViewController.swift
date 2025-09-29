@@ -32,7 +32,15 @@ class BWSettingViewController: UIViewController {
     private let maxSessionMinsTextField = UITextView()
     /// 用户等级输入框
     private let userLevelTextField = UITextView()
+    /// 用户类型按钮（下拉菜单触发器）
+    private let userTypeButton = UIButton(type: .system)
+    /// 当前选中的用户类型
+    private var selectedUserType: Int = 1
 
+    /// 主滚动视图
+    private let scrollView = UIScrollView()
+    /// 内容容器视图
+    private let contentView = UIView()
     /// 确定按钮
     private let submitButton = UIButton(type: .system)
 
@@ -72,6 +80,40 @@ class BWSettingViewController: UIViewController {
         // 使视图（或其中的文本输入框）放弃第一响应者状态，从而关闭键盘
         view.endEditing(true)
     }
+    
+    /// 用户类型按钮点击事件
+    @objc private func userTypeButtonTapped() {
+        let alertController = UIAlertController(title: "选择用户类型", message: nil, preferredStyle: .actionSheet)
+        
+        let userTypes = [
+            (1, "官方会员"),
+            (2, "邀请好友"),
+            (3, "合营会员")
+        ]
+        
+        for (typeValue, typeName) in userTypes {
+            let action = UIAlertAction(title: typeName, style: .default) { [weak self] _ in
+                self?.selectedUserType = typeValue
+                self?.updateUserTypeButtonTitle()
+            }
+            
+            if typeValue == selectedUserType {
+                action.setValue(UIColor.systemBlue, forKey: "titleTextColor")
+            }
+            
+            alertController.addAction(action)
+        }
+        
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel))
+        
+        // 适配iPad
+        if let popover = alertController.popoverPresentationController {
+            popover.sourceView = userTypeButton
+            popover.sourceRect = userTypeButton.bounds
+        }
+        
+        present(alertController, animated: true)
+    }
 
     // MARK: - UI 设置
 
@@ -84,9 +126,22 @@ class BWSettingViewController: UIViewController {
             view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
         }
 
+        // 设置滚动视图
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+
         // 定义标签名称和对应的文本输入框
         let labels = ["线路地址(lines)", "认证证书(cert)", "商户ID(merchantId)", "用户ID(userId)",
-                     "用户名(userName)", "图片基础URL(imageBaseUrl)", "最大会话时长(maxSessionMins)", "用户等级(userLevel)"]
+                     "用户名(userName)", "图片基础URL(imageBaseUrl)", "最大会话时长(maxSessionMins)", "用户等级(userLevel)", "用户类型(userType)"]
         let textFields = [linesTextField, certTextField, merchantIdTextField, userIdTextField,
                          userNameTextField, imgBaseUrlTextField, maxSessionMinsTextField, userLevelTextField]
 
@@ -98,12 +153,7 @@ class BWSettingViewController: UIViewController {
             let label = UILabel()
             label.text = labelName
             label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-            view.addSubview(label)
-
-            // 配置文本输入框
-            let textField = textFields[index]
-            textField.font = UIFont.systemFont(ofSize: 14)
-            view.addSubview(textField)
+            contentView.addSubview(label)
 
             // 设置标签约束
             label.snp.makeConstraints { make in
@@ -116,20 +166,40 @@ class BWSettingViewController: UIViewController {
                 make.right.equalToSuperview().offset(-20)
             }
 
-            // 设置文本输入框样式和约束
-            textField.layer.borderWidth = 2.0
-            textField.layer.borderColor = UIColor.purple.cgColor
-            textField.layer.cornerRadius = 5.0
-            textField.clipsToBounds = true
+            if index < textFields.count {
+                // 配置文本输入框
+                let textField = textFields[index]
+                textField.font = UIFont.systemFont(ofSize: 14)
+                contentView.addSubview(textField)
 
-            textField.snp.makeConstraints { make in
-                make.top.equalTo(label.snp.bottom).offset(5)
-                make.left.equalTo(label)
-                make.right.equalTo(label)
-                make.height.equalTo(35)
+                // 设置文本输入框样式和约束
+                textField.layer.borderWidth = 2.0
+                textField.layer.borderColor = UIColor.purple.cgColor
+                textField.layer.cornerRadius = 5.0
+                textField.clipsToBounds = true
+
+                textField.snp.makeConstraints { make in
+                    make.top.equalTo(label.snp.bottom).offset(5)
+                    make.left.equalTo(label)
+                    make.right.equalTo(label)
+                    make.height.equalTo(35)
+                }
+
+                previousView = textField
+            } else {
+                // 用户类型下拉按钮
+                setupUserTypeButton()
+                contentView.addSubview(userTypeButton)
+                
+                userTypeButton.snp.makeConstraints { make in
+                    make.top.equalTo(label.snp.bottom).offset(5)
+                    make.left.equalTo(label)
+                    make.right.equalTo(label)
+                    make.height.equalTo(35)
+                }
+                
+                previousView = userTypeButton
             }
-
-            previousView = textField
         }
 
         // 设置确定按钮
@@ -138,18 +208,65 @@ class BWSettingViewController: UIViewController {
         submitButton.setTitleColor(UIColor.white, for: .normal)
         submitButton.layer.cornerRadius = 8.0
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
-        view.addSubview(submitButton)
+        contentView.addSubview(submitButton)
 
         // 设置确定按钮约束
         submitButton.snp.makeConstraints { make in
-            make.top.equalTo(userLevelTextField.snp.bottom).offset(20)
+            make.top.equalTo(previousView!.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(40)
+            make.bottom.equalToSuperview().offset(-20) // 确保内容视图有足够的高度
         }
 
         // 加载用户默认设置
         loadUserDefaults()
+    }
+    
+    /// 设置用户类型按钮
+    private func setupUserTypeButton() {
+        userTypeButton.layer.borderWidth = 2.0
+        userTypeButton.layer.borderColor = UIColor.purple.cgColor
+        userTypeButton.layer.cornerRadius = 5.0
+        userTypeButton.backgroundColor = UIColor.white
+        userTypeButton.contentHorizontalAlignment = .left
+        userTypeButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        userTypeButton.addTarget(self, action: #selector(userTypeButtonTapped), for: .touchUpInside)
+        
+        // 添加下拉箭头
+        let arrowLabel = UILabel()
+        arrowLabel.text = "▼"
+        arrowLabel.font = UIFont.systemFont(ofSize: 12)
+        arrowLabel.textColor = UIColor.gray
+        userTypeButton.addSubview(arrowLabel)
+        
+        arrowLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-10)
+        }
+        
+        updateUserTypeButtonTitle()
+    }
+    
+    /// 更新用户类型按钮标题
+    private func updateUserTypeButtonTitle() {
+        let userTypeName = getUserTypeName(for: selectedUserType)
+        userTypeButton.setTitle(userTypeName, for: .normal)
+        userTypeButton.setTitleColor(UIColor.black, for: .normal)
+    }
+    
+    /// 根据用户类型值获取用户类型名称
+    private func getUserTypeName(for type: Int) -> String {
+        switch type {
+        case 1:
+            return "官方会员"
+        case 2:
+            return "邀请好友"
+        case 3:
+            return "合营会员"
+        default:
+            return "官方会员"
+        }
     }
 
     /// 从UserDefaults加载用户设置
@@ -163,6 +280,7 @@ class BWSettingViewController: UIViewController {
         let a_userName = UserDefaults.standard.string(forKey: PARAM_USERNAME) ?? ""
         let a_maxSessionMins = UserDefaults.standard.integer(forKey: PARAM_MAXSESSIONMINS)
         let a_userLevel = UserDefaults.standard.integer(forKey: PARAM_USERLEVEL)
+        let a_userType = UserDefaults.standard.integer(forKey: "PARAM_USERTYPE")
 
         // 设置文本输入框的值，如果UserDefaults中没有值，则使用默认值
         linesTextField.text = a_lines.isEmpty ? lines : a_lines
@@ -173,6 +291,11 @@ class BWSettingViewController: UIViewController {
         imgBaseUrlTextField.text = a_imgUrl.isEmpty ? baseUrlImage : a_imgUrl
         maxSessionMinsTextField.text = "\(a_maxSessionMins > 0 ? a_maxSessionMins : maxSessionMinus)"
         userLevelTextField.text = "\(a_userLevel > 0 ? a_userLevel : userLevel)"
+        
+        // 设置用户类型，默认为1（官方会员）
+        selectedUserType = a_userType > 0 ? a_userType : 1
+        updateUserTypeButtonTitle()
+        userType = selectedUserType;
     }
 
     /// 确定按钮点击事件处理
@@ -207,6 +330,10 @@ class BWSettingViewController: UIViewController {
         UserDefaults.standard.set(userName, forKey: PARAM_USERNAME)
         UserDefaults.standard.set(maxSessionMinus, forKey: PARAM_MAXSESSIONMINS)
         UserDefaults.standard.set(userLevel, forKey: PARAM_USERLEVEL)
+        UserDefaults.standard.set(selectedUserType, forKey: "PARAM_USERTYPE")
+        
+        print("用户选择的selectedUserType\(selectedUserType)")
+        userType = selectedUserType;
 
         // 关闭设置页面
         dismiss(animated: true)

@@ -15,31 +15,94 @@ extension KeFuViewController: teneasySDKDelegate {
     /// 初始化聊天SDK
     /// - Parameter baseUrl: 服务器基础URL
     func initSDK(baseUrl: String) {
-        // 构建WebSocket连接URL
-        let wssUrl = "wss://" + baseUrl + "/v1/gateway/h5?"
+        // 使用全局ChatLib，确保连接
+        GlobalChatManager.shared.connectIfNeeded()
         
-        // SDK是否已初始化的判断
-        if lib.payloadId == 0 {
-            print("initSDK: 初始化SDK \(Date())")
-            // 首次初始化SDK
-            lib.myinit(
-                userId: userId,
-                cert: cert,
-                token: xToken,
-                baseUrl: wssUrl,
-                sign: "9zgd9YUc",
-                custom: getCustomParam(),
-                maxSessionMinutes: maxSessionMinus
-            )
-            
-            lib.callWebsocket()
-        } else {
-            print("initSDK: 重新连接")
-            // SDK已初始化，仅重新连接
-            lib.reConnect()
-        }
+        // 注册通知监听
+        setupNotificationObservers()
+    }
+    
+    /// 设置通知监听
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleGlobalMessage(_:)),
+            name: NSNotification.Name("GlobalChatMessageReceived"),
+            object: nil
+        )
         
-        lib.delegate = self
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleGlobalMessageDeleted(_:)),
+            name: NSNotification.Name("GlobalChatMessageDeleted"),
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleGlobalMessageReceipt(_:)),
+            name: NSNotification.Name("GlobalChatMessageReceipt"),
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleGlobalWorkerChanged(_:)),
+            name: NSNotification.Name("GlobalChatWorkerChanged"),
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleGlobalSystemMessage(_:)),
+            name: NSNotification.Name("GlobalChatSystemMessage"),
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleGlobalConnected(_:)),
+            name: NSNotification.Name("GlobalChatConnected"),
+            object: nil
+        )
+    }
+    
+    /// 移除通知监听
+    private func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - 通知处理方法
+    @objc private func handleGlobalMessage(_ notification: Notification) {
+        guard let msg = notification.userInfo?["message"] as? CommonMessage else { return }
+        receivedMsg(msg: msg)
+    }
+    
+    @objc private func handleGlobalMessageDeleted(_ notification: Notification) {
+        guard let msg = notification.userInfo?["message"] as? CommonMessage,
+              let payloadId = notification.userInfo?["payloadId"] as? UInt64 else { return }
+        msgDeleted(msg: msg, payloadId: payloadId, errMsg: nil)
+    }
+    
+    @objc private func handleGlobalMessageReceipt(_ notification: Notification) {
+        guard let msg = notification.userInfo?["message"] as? CommonMessage,
+              let payloadId = notification.userInfo?["payloadId"] as? UInt64 else { return }
+        msgReceipt(msg: msg, payloadId: payloadId, errMsg: nil)
+    }
+    
+    @objc private func handleGlobalWorkerChanged(_ notification: Notification) {
+        guard let workerChanged = notification.userInfo?["workerChanged"] as? Gateway_SCWorkerChanged else { return }
+        workChanged(msg: workerChanged)
+    }
+    
+    @objc private func handleGlobalSystemMessage(_ notification: Notification) {
+        guard let result = notification.userInfo?["result"] as? Result else { return }
+        systemMsg(result: result)
+    }
+    
+    @objc private func handleGlobalConnected(_ notification: Notification) {
+        guard let connection = notification.userInfo?["connection"] as? Gateway_SCHi else { return }
+        connected(c: connection)
     }
     
     // MARK: - 消息接收处理
@@ -47,7 +110,7 @@ extension KeFuViewController: teneasySDKDelegate {
     /// 处理收到的客服消息
     /// - Parameter msg: 消息对象
     public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
-        print("收到消息: \(msg)")
+        print("KeFuViewController收到消息: \(msg)")
         
         // 判断消息是否来自当前会话
         if msg.consultID != consultId {
@@ -502,7 +565,7 @@ extension KeFuViewController {
                     print("resend payloadId: \(item.payLoadId)")
                     Thread.sleep(forTimeInterval: 0.3)
                     if let cMsg = item.message {
-                       lib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
+                       chatLib.resendMsg(msg: cMsg, payloadId: item.payLoadId)
                     }
                     
                     //}
