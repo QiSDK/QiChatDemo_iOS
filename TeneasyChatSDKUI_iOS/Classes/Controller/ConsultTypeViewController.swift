@@ -67,6 +67,12 @@ open class ConsultTypeViewController: UIViewController {
         entranceView.getEntrance()
     }
     
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 每次回到页面时刷新数据，确保未读数是最新的
+        entranceView.getEntrance()
+    }
+    
     // MARK: - Private Methods (私有方法)
     /// 设置UI界面
     private func setupUI() {

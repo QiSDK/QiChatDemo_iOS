@@ -24,9 +24,20 @@ class BWQuestionCell: UITableViewCell {
     
     lazy var dotView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 6
+        view.layer.cornerRadius = 10
         view.backgroundColor = .red
         return view
+    }()
+    
+    lazy var unReadCountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.backgroundColor = .clear
+        label.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        return label
     }()
     
     lazy var iconView: UIImageView = {
@@ -53,6 +64,22 @@ class BWQuestionCell: UITableViewCell {
         self.iconView.kf.setImage(with: imgUrl)
     }
     
+    func updateUnReadCount(_ count: Int) {
+        if count > 0 {
+            dotView.isHidden = false
+            unReadCountLabel.text = count > 99 ? "99+" : "\(count)"
+            
+            // 动态调整dotView的圆角
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.dotView.layer.cornerRadius = self.dotView.frame.height / 2
+            }
+        } else {
+            dotView.isHidden = true
+            unReadCountLabel.text = ""
+        }
+    }
+    
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -66,6 +93,7 @@ class BWQuestionCell: UITableViewCell {
         //self.contentView.addSubview(self.imgArrowRight)
         self.contentView.addSubview(self.dotView)
         self.contentView.addSubview(self.iconView)
+        self.dotView.addSubview(self.unReadCountLabel)
         
         if #available(iOS 13.0, *) {
             self.titleLab.textColor = UIColor.label
@@ -89,10 +117,18 @@ class BWQuestionCell: UITableViewCell {
 //        }
 //        self.imgArrowRight.isHidden = true
         self.dotView.snp.makeConstraints { make in
-            make.left.equalTo(self.titleLab.snp.right)
+            make.left.equalTo(self.titleLab.snp.right).offset(8)
             make.top.equalToSuperview().offset(7)
-            make.width.height.equalTo(12)
+            make.height.equalTo(20)
+            make.width.greaterThanOrEqualTo(20)
         }
+        
+        self.unReadCountLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.left.greaterThanOrEqualToSuperview().offset(6)
+            make.right.lessThanOrEqualToSuperview().offset(-6)
+        }
+        
         self.dotView.isHidden = true
     }
     required init?(coder: NSCoder) {

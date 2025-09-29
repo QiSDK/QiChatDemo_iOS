@@ -330,14 +330,13 @@ extension KeFuViewController: teneasySDKDelegate {
         // 处理特殊错误码, 1002无效Token, 1010在别处登录了，1005超过会话时间
         if [1002, 1010, 1005].contains(result.Code) {
             WWProgressHUD.showInfoMsg(result.Message)
-            stopSDKMonitoring()
             
             // 处理会话超时
             //if result.Code == 1005 {
                 handleSessionTimeout()
             //}
         } else {
-            getUnSendMsg()
+            //getUnSendMsg()
         }
         
         // 上报错误日志（会话超时除外）
@@ -390,7 +389,7 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     /// 分配客服
-    private func assignWorker() {
+    func assignWorker() {
         NetworkUtil.assignWorker(consultId: Int32(consultId)) { [weak self] success, model in
             guard let self = self, success else {
                 WWProgressHUD.dismiss()

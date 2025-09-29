@@ -19,7 +19,7 @@ public let PARAM_MAXSESSIONMINS = "MaxSessionMins"
 public let PARAM_USERLEVEL = "USERLEVEL"
 
 /// 聊天SDK实例
-private(set) var chatLib: ChatLib = ChatLib.shared
+public var chatLib: ChatLib = ChatLib.shared
 
 //这几个是需要在设置里面配置
 //public var lines = ""
@@ -74,18 +74,28 @@ public var userType = 2
 
 //动态生成
 //public var CONSULT_ID: Int32 = 1
-var xToken = ""
+public var xToken = ""
 public var userName = "王五"
 public var maxSessionMinus = 19999999
 public var domain = ""  //domain
 //var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
-var workerId: Int32 = 2
-var chatId = "0"
+public var workerId: Int32 = 2
+public var chatId = "0"
 //未发送出去的消息列表
 var unSentMessage: [Int64: [ChatModel]] = [999: []]
 
-var unReadList: [UnReadItem] = []
+// 全局变量，移动到GlobalChatManager.swift
+public var unReadList: [UnReadItem] = []
+public var globalMessageDelegate: GlobalMessageDelegate?
+public var currentChatConsultId: Int64 = 0
 
+var reportRequest = ReportRequest()
+
+public let PARAM_XTOKEN = "HTTPTOKEN"
+
+// MARK: - 数据结构
+
+/// 未读消息项
 public struct UnReadItem {
     var consultId: Int64
     var unReadCount: Int
@@ -96,25 +106,25 @@ public struct UnReadItem {
     }
 }
 
-var reportRequest = ReportRequest()
+// MARK: - 协议定义
 
-public let PARAM_XTOKEN = "HTTPTOKEN"
-
-public var globalMessageDelegate: GlobalMessageDelegate?
-var currentChatConsultId: Int64 = 0
-
+/// 全局消息代理协议
 public protocol GlobalMessageDelegate: AnyObject {
     func onUnReadCountChanged()
 }
 
+// MARK: - 全局ChatLib管理器
+
+/// 全局ChatLib管理器，负责整个应用的聊天连接管理
 public class GlobalChatManager: teneasySDKDelegate {
-    static public let shared = GlobalChatManager()
+    public static let shared = GlobalChatManager()
     
     private init() {}
     
     private var isInitialized = false
     private var connectionTimer: Timer?
     
+    /// 初始化全局聊天管理器
     public func initializeGlobalChat() {
         guard !isInitialized else { return }
         
@@ -125,8 +135,15 @@ public class GlobalChatManager: teneasySDKDelegate {
         startConnectionMonitoring()
     }
     
-   public func connectIfNeeded() {
+    /// 根据需要建立连接
+    public func connectIfNeeded() {
         guard isInitialized else { return }
+        
+        // 确保全局变量已初始化
+        guard !domain.isEmpty else {
+            print("GlobalChatManager: domain为空，无法连接")
+            return
+        }
         
         if chatLib.payloadId == 0 {
             print("GlobalChatManager: 初始化SDK连接")
@@ -147,6 +164,7 @@ public class GlobalChatManager: teneasySDKDelegate {
         }
     }
     
+    /// 开始连接监控
     private func startConnectionMonitoring() {
         connectionTimer?.invalidate()
         connectionTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
@@ -154,6 +172,7 @@ public class GlobalChatManager: teneasySDKDelegate {
         }
     }
     
+    /// 检查并重连
     private func checkAndReconnect() {
         if !domain.isEmpty && chatLib.payloadId == 0 {
             print("GlobalChatManager: 检测到连接断开，尝试重连")
@@ -161,7 +180,8 @@ public class GlobalChatManager: teneasySDKDelegate {
         }
     }
     
-    func stopGlobalChat() {
+    /// 停止全局聊天管理器
+    public func stopGlobalChat() {
         connectionTimer?.invalidate()
         connectionTimer = nil
         isInitialized = false
@@ -169,6 +189,7 @@ public class GlobalChatManager: teneasySDKDelegate {
     }
     
     // MARK: - teneasySDKDelegate
+    
     public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
         print("GlobalChatManager收到消息: consultId=\(msg.consultID), current=\(currentChatConsultId)")
         
@@ -229,12 +250,16 @@ public class GlobalChatManager: teneasySDKDelegate {
     }
 }
 
+// MARK: - 全局消息管理器
+
+/// 全局消息管理器，负责未读消息的统计和管理
 public class GlobalMessageManager {
-    static public let shared = GlobalMessageManager()
+    public static let shared = GlobalMessageManager()
     
     private init() {}
     
-    func addUnReadMessage(consultId: Int64) {
+    /// 添加未读消息
+    public func addUnReadMessage(consultId: Int64) {
         if consultId == currentChatConsultId {
             return
         }
@@ -248,18 +273,21 @@ public class GlobalMessageManager {
         globalMessageDelegate?.onUnReadCountChanged()
     }
     
-    func clearUnReadCount(consultId: Int64) {
+    /// 清除指定会话的未读数
+    public func clearUnReadCount(consultId: Int64) {
         if let index = unReadList.firstIndex(where: { $0.consultId == consultId }) {
             unReadList[index].unReadCount = 0
         }
         globalMessageDelegate?.onUnReadCountChanged()
     }
     
-   public func getTotalUnReadCount() -> Int {
+    /// 获取总未读数
+    public func getTotalUnReadCount() -> Int {
         return unReadList.reduce(0) { $0 + $1.unReadCount }
     }
     
-    func getUnReadCount(consultId: Int64) -> Int {
+    /// 获取指定会话的未读数
+    public func getUnReadCount(consultId: Int64) -> Int {
         return unReadList.first(where: { $0.consultId == consultId })?.unReadCount ?? 0
     }
 }

@@ -180,6 +180,9 @@ open class KeFuViewController: UIViewController, UploadListener{
 
         // 使用全局ChatLib管理连接
         initSDK(baseUrl: domain)
+        if (chatLib.isConnected){
+            self.assignWorker()
+        }
         initView()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(node:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
@@ -201,6 +204,20 @@ open class KeFuViewController: UIViewController, UploadListener{
     @objc func goBack() {
         quitChat()
         navigationController?.popToRootViewController(animated: true)
+    }
+    
+    /// 标记消息为已读的通用方法
+    private func markMessagesAsRead() {
+        NetworkUtil.markRead(consultId: Int32(consultId)) { [weak self] success, data in
+            guard let self = self else { return }
+            if success {
+                print("消息已标记为已读")
+                // 清除本地未读数并通知UI更新
+                GlobalMessageManager.shared.clearUnReadCount(consultId: self.consultId)
+            } else {
+                print("标记已读失败")
+            }
+        }
     }
 
     func initView() {
@@ -548,6 +565,21 @@ open class KeFuViewController: UIViewController, UploadListener{
     
     open override func viewWillDisappear(_ animated: Bool) {
         currentChatConsultId = 0
+        
+        // 离开聊天页面时标记消息为已读
+//        NetworkUtil.markRead(consultId: Int32(consultId)) { [weak self] success, data in
+//            guard let self = self else { return }
+//            if success {
+//                print("离开聊天页面，消息已标记为已读")
+//                // 清除本地未读数并通知UI更新
+//                GlobalMessageManager.shared.clearUnReadCount(consultId: self.consultId)
+//            } else {
+//                print("标记已读失败")
+//            }
+//        }
+        
+        self.markMessagesAsRead()
+        
         //离开聊天页面，如果有错误日志，上报日志。
         NetworkUtil.doReportError()
     }
@@ -563,7 +595,8 @@ open class KeFuViewController: UIViewController, UploadListener{
     func quitChat() {
         stopLocalTimer()
         workerId = 0
-        isConnected = false
+        // 关闭前标记消息为已读
+        markMessagesAsRead()
         // 不断开ChatLib连接，因为它是全局管理的
         // chatLib.disConnect()  
         // chatLib.delegate = nil

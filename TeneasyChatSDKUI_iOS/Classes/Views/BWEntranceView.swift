@@ -53,6 +53,7 @@ class BWEntranceView: UIView, GlobalMessageDelegate {
         super.init(frame: frame)
 
         self.setupUI()
+        // 设置为全局消息代理，这样当未读数变化时会自动刷新
         globalMessageDelegate = self
         //self.getEntrance()
     }
@@ -149,7 +150,9 @@ extension BWEntranceView: UITableViewDelegate, UITableViewDataSource {
         let localUnReadCount = GlobalMessageManager.shared.getUnReadCount(consultId: consultId)
         let serverUnReadCount = list[indexPath.row].unread ?? 0
         
-        cell.dotView.isHidden = (localUnReadCount == 0) && (serverUnReadCount == 0)
+        // 使用本地未读数和服务器未读数的最大值
+        let totalUnReadCount = max(localUnReadCount, serverUnReadCount)
+        cell.updateUnReadCount(totalUnReadCount)
         
         if let avatar = list[indexPath.row].Works?.first?.avatar{
             cell.displayThumbnail(path: avatar)
