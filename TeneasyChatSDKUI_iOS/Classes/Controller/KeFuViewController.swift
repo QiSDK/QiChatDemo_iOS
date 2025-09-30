@@ -43,8 +43,6 @@ open class KeFuViewController: UIViewController, UploadListener{
     var questionViewHeight: Double = 0
     
     var currentQAIndexPath: IndexPath?
-   
-    //var myTimer: Timer?
     
     var withAutoReply: CommonWithAutoReply? = nil
     var downloadFile: String? = nil
@@ -541,7 +539,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     // 上传进度更新逻辑保留
     @objc func updateUploadProgressIfNeeded(){
        //上传视频的时候，在这里更新上传进度，对接开发人员可以有自己的办法，和聊天sdk无关。
-       if (uploadProgress > 0 && (uploadProgress < 67 || uploadProgress > 71) && uploadProgress < 96){
+       if (uploadProgress > 0 && (uploadProgress < 67 || uploadProgress >= 70) && uploadProgress < 96){
            uploadProgress += 5
            updateProgress(progress: uploadProgress)
        }
@@ -594,7 +592,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     /// 退出聊天（清理资源）
     func quitChat() {
         stopLocalTimer()
-        workerId = 0
+        //workerId = 0
         // 关闭前标记消息为已读
         markMessagesAsRead()
         // 不断开ChatLib连接，因为它是全局管理的
@@ -627,6 +625,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     //上传媒体文件
     func upload(imgData: Data, isVideo: Bool, filePath: String, size: Int32 = 0) {
         WWProgressHUD.showLoading("正在上传...")
+        startUploadProgressMonitoring()
         UploadUtil(listener: self, filePath: filePath, fileData: imgData, xToken: xToken, baseUrl: getbaseApiUrl()).upload()
     }
     
@@ -645,6 +644,7 @@ open class KeFuViewController: UIViewController, UploadListener{
          }
          print("上传进度：100% \(Date())")
          WWProgressHUD.dismiss()
+        stopLocalTimer()
     }
    
     public func updateProgress(progress: Int) {
@@ -655,6 +655,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     public func uploadFailed(msg: String) {
         WWProgressHUD.showFailure(msg)
         uploadProgress = 0
+        stopLocalTimer()
     }
 
     @objc func keyboardWillChangeFrame(node: Notification) {
