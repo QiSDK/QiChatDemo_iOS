@@ -13,6 +13,7 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
             // Fallback on earlier versions
         }
         
+        btn.contentEdgeInsets = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
         //btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(buttonClick), for: .touchUpInside)
         return btn
@@ -26,7 +27,7 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         label.textAlignment = .center
         label.layer.cornerRadius = 10
         label.layer.masksToBounds = true
-        label.isHidden = true
+        //label.isHidden = true
         return label
     }()
     
@@ -56,7 +57,7 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         
         self.view.addSubview(unReadCountLabel)
         unReadCountLabel.snp.makeConstraints { make in
-            make.top.equalTo(supportBtn.snp.top).offset(-5)
+            make.bottom.equalTo(supportBtn.snp.top).offset(-5)
             make.left.equalTo(supportBtn.snp.right).offset(-5)
             make.width.height.equalTo(20)
         }
@@ -162,7 +163,8 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
     public func useTheLine(line: String) {
         curLineLB.text = "当前线路：\(line)"
         domain = line;
-        
+        updateUnReadCount()
+        globalMessageDelegate = self
         // 线路确定后，初始化全局ChatLib
         GlobalChatManager.shared.initializeGlobalChat()
         GlobalChatManager.shared.connectIfNeeded()
@@ -195,6 +197,7 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         } else {
             unReadCountLabel.isHidden = true
         }
+        debugPrint("total unRead Count\(totalCount)")
     }
     
     // MARK: - 应用生命周期管理

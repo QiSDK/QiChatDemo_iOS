@@ -139,6 +139,11 @@ public class GlobalChatManager: teneasySDKDelegate {
     public func connectIfNeeded() {
         guard isInitialized else { return }
         
+        if chatLib.isConnected{
+            print("sdk状态：已连接")
+            return
+        }
+        
         // 确保全局变量已初始化
         guard !domain.isEmpty else {
             print("GlobalChatManager: domain为空，无法连接")
