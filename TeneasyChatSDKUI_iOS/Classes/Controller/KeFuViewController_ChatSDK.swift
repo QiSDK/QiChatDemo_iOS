@@ -330,11 +330,10 @@ extension KeFuViewController: teneasySDKDelegate {
         // 处理特殊错误码, 1002无效Token, 1010在别处登录了，1005超过会话时间
         if [1002, 1010, 1005].contains(result.Code) {
             WWProgressHUD.showInfoMsg(result.Message)
-            
             // 处理会话超时
-            //if result.Code == 1005 {
+            if result.Code == 1005 {
                 handleSessionTimeout()
-            //}
+            }
         } else {
             //getUnSendMsg()
         }
@@ -345,10 +344,12 @@ extension KeFuViewController: teneasySDKDelegate {
         }
     }
     
-    /// 处理会话超时
+    /// 处理会话超时，按实际需求，如需断开链接请调用chatLib.disConnect()
     private func handleSessionTimeout() {
+        //chatLib.disConnect()
         quitChat()
         dismiss(animated: true)
+        GlobalChatManager.shared.stopGlobalChat()
     }
     
     /// 上报错误日志
@@ -410,7 +411,7 @@ extension KeFuViewController: teneasySDKDelegate {
         }
         
         // 处理未发送消息
-        handleUnsentMessages()
+        //handleUnsentMessages()
         
         print("分配客服成功 \(Date()), Worker Id：\(model?.workerId ?? 0)")
         updateWorker(workerName: model?.nick ?? "", avatar: model?.avatar ?? "")
@@ -419,10 +420,10 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     /// 处理未发送的消息
-    private func handleUnsentMessages() {
-        getUnSendMsg()
-        _ = handleUnSendMsg()
-    }
+//    private func handleUnsentMessages() {
+//        getUnSendMsg()
+//        _ = handleUnSendMsg()
+//    }
 }
 
 // MARK: - 辅助方法
@@ -575,14 +576,14 @@ extension KeFuViewController {
         return true
     }
     
-    func getUnSendMsg(){
-        if (datasouceArray.count == 0){
-            return
-        }
-        
-        let filteredList =
-        datasouceArray.filter { $0.sendStatus != MessageSendState.发送成功 && $0.isLeft == false }
-        unSentMessage[consultId] = filteredList
-        print("未发出去的消息\(filteredList)")
-    }
+//    func getUnSendMsg(){
+//        if (datasouceArray.count == 0){
+//            return
+//        }
+//        
+//        let filteredList =
+//        datasouceArray.filter { $0.sendStatus != MessageSendState.发送成功 && $0.isLeft == false }
+//        unSentMessage[consultId] = filteredList
+//        print("未发出去的消息\(filteredList)")
+//    }
 }

@@ -76,7 +76,7 @@ public var userType = 2
 //public var CONSULT_ID: Int32 = 1
 public var xToken = ""
 public var userName = "王五"
-public var maxSessionMinus = 19999999
+public var maxSessionMinus = 19999
 public var domain = ""  //domain
 //var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
 public var workerId: Int32 = 2
@@ -190,6 +190,7 @@ public class GlobalChatManager: teneasySDKDelegate {
         connectionTimer?.invalidate()
         connectionTimer = nil
         isInitialized = false
+        chatLib.disConnect()
         print("GlobalChatManager: 全局ChatLib已停止")
     }
     

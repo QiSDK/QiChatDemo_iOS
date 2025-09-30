@@ -194,7 +194,6 @@ open class KeFuViewController: UIViewController, UploadListener{
     }
 
     @objc func closeClick() {
-        getUnSendMsg()
         quitChat()
         dismiss(animated: true)
     }
@@ -600,12 +599,6 @@ open class KeFuViewController: UIViewController, UploadListener{
         // chatLib.delegate = nil
         print("已退出聊天页面，ChatLib保持全局连接")
     }
-    
-//    deinit {
-//        quitChat()
-//        print("deinit")
-//    }
-    
     
     // MARK: - 定时器管理（仅用于上传进度）
         

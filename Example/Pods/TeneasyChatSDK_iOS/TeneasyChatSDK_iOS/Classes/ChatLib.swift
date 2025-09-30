@@ -27,7 +27,7 @@ open class ChatLib: NetworkManagerDelegate {
     public private(set) var text = "Teneasy Chat SDK 启动" // SDK启动状态文本
     private var baseUrl = "wss://csapi.xdev.stream/v1/gateway/h5?token=" // WebSocket连接基础URL
     var websocket: WebSocket? // WebSocket连接实例
-    public var isConnected = false // 连接状态标识
+    open private(set) var isConnected = false // 连接状态标识
     // weak var delegate: WebSocketDelegate?
     public weak var delegate: teneasySDKDelegate? // SDK回调代理
     open var payloadId: UInt64 = 0 // 消息载荷ID
@@ -246,6 +246,11 @@ open class ChatLib: NetworkManagerDelegate {
             guard let self = self else { return }
             self.sessionTime = 0
         }
+    }
+    
+    // 内部方法：更新连接状态
+    internal func updateConnectionState(_ connected: Bool) {
+        isConnected = connected
     }
     
     // 发送消息（此接口不支持发视频）
@@ -522,7 +527,7 @@ open class ChatLib: NetworkManagerDelegate {
                         self.isConnecting = true
                         shouldConnect = true
                     }
-                    self.isConnected = false
+                    self.updateConnectionState(false)
                 }
                 if shouldConnect {
                     self.enqueueWebsocketConnection()
@@ -589,7 +594,7 @@ open class ChatLib: NetworkManagerDelegate {
 
                 self.stateQueue.async { [weak self] in
                     guard let self = self else { return }
-                    self.isConnected = false
+                    self.updateConnectionState(false)
                     self.isConnecting = false
                     self.pendingPayloads.removeAll()
                     self.msgList.removeAll()
