@@ -141,7 +141,8 @@ extension KeFuViewController: teneasySDKDelegate {
     private func handleEditMessage(_ msg: CommonMessage) {
         // 查找需要更新的消息
         guard let index = datasouceArray.firstIndex(where: { $0.message?.msgID == msg.msgID }) else {
-            print("未找到匹配的消息ID")
+            //print("未找到匹配的消息ID")
+            handleNormalMessage(msg)
             return
         }
         
