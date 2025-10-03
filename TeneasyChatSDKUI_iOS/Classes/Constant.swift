@@ -178,7 +178,7 @@ public class GlobalChatManager: teneasySDKDelegate {
     /// 开始连接监控
     private func startConnectionMonitoring() {
         connectionTimer?.invalidate()
-        connectionTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { [weak self] _ in
+        connectionTimer = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: true) { [weak self] _ in
             // 检查并重连
             self?.connectIfNeeded()
         }
