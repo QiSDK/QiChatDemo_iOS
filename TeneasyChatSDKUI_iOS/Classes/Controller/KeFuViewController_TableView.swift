@@ -375,8 +375,12 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - scrollToBottom
     // scrollToBottom() -  滚动到底部
     func scrollToBottom() {
-        if datasouceArray.count > 1 {
-            self.tableView.scrollToRow(at: IndexPath(row: datasouceArray.count - 1, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
+        // 在主线程更新UI
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            if self.datasouceArray.count > 1 {
+                self.tableView.scrollToRow(at: IndexPath(row: self.datasouceArray.count - 1, section: 0), at: UITableView.ScrollPosition.bottom, animated: false)
+            }
         }
     }
 }

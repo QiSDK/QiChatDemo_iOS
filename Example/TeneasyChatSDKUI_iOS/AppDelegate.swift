@@ -9,6 +9,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import FirebaseCore
+import TeneasyChatSDKUI_iOS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,10 +33,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("应用进入后台，ChatLib保持连接")
+        // 在后台保持连接，不断开
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        print("应用即将进入前台，立即检查ChatLib连接状态")
+        
+        // 立即检查连接状态，避免漏消息
+        GlobalChatManager.shared.connectIfNeeded()
+
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

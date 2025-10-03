@@ -373,9 +373,9 @@ extension KeFuViewController: teneasySDKDelegate {
         updateConnectionState(with: c.token)
         
         // 显示连接状态
-        if !isFirstLoad {
-            WWProgressHUD.showLoading("连接中...")
-        }
+//        if !isFirstLoad {
+//            WWProgressHUD.showLoading("连接中...")
+//        }
         
         print("连接成功: token:\(xToken) 正在分配客服")
         
@@ -407,9 +407,9 @@ extension KeFuViewController: teneasySDKDelegate {
         workerId = model?.workerId ?? 2
         
         // 首次加载时获取历史记录
-        if isFirstLoad {
+        //if isFirstLoad {
             refreshChatHistory()
-        }
+        //}
         
         // 处理未发送消息
         //handleUnsentMessages()

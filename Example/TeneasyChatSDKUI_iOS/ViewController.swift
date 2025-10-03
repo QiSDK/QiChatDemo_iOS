@@ -102,9 +102,6 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         
         globalMessageDelegate = self
         updateUnReadCount()
-        
-        // 设置应用生命周期监听
-        setupAppLifecycleObservers()
 
         if #available(iOS 13.0, *) {
             self.view.backgroundColor = UIColor.systemBackground
@@ -163,6 +160,8 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
     public func useTheLine(line: String) {
         curLineLB.text = "当前线路：\(line)"
         domain = line;
+        UserDefaults.standard.set(line, forKey: PARAM_DOMAIN)
+        debugPrint("存储domain:\(domain)")
         updateUnReadCount()
         globalMessageDelegate = self
         // 线路确定后，初始化全局ChatLib
@@ -200,37 +199,4 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         debugPrint("total unRead Count\(totalCount)")
     }
     
-    // MARK: - 应用生命周期管理
-    private func setupAppLifecycleObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(appDidEnterBackground),
-            name: UIApplication.didEnterBackgroundNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(appWillEnterForeground),
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
-    }
-    
-    @objc private func appDidEnterBackground() {
-        print("应用进入后台，ChatLib保持连接")
-        // 在后台保持连接，不断开
-    }
-    
-    @objc private func appWillEnterForeground() {
-        print("应用即将进入前台，检查ChatLib连接")
-        // 确保连接正常
-        if !domain.isEmpty {
-            GlobalChatManager.shared.connectIfNeeded()
-        }
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
 }

@@ -67,9 +67,11 @@ public class GlobalChatManager: teneasySDKDelegate {
                 maxSessionMinutes: maxSessionMinus
             )
             chatLib.callWebsocket()
-        } else {
-            print("GlobalChatManager: 重新连接")
+        } else if !chatLib.isConnected {
+            print("GlobalChatManager: 连接断开，立即重连")
             chatLib.reConnect()
+        } else {
+            print("GlobalChatManager: 连接状态正常")
         }
     }
     
@@ -83,8 +85,8 @@ public class GlobalChatManager: teneasySDKDelegate {
     
     /// 检查并重连
     private func checkAndReconnect() {
-        if !domain.isEmpty && chatLib.payloadId == 0 {
-            print("GlobalChatManager: 检测到连接断开，尝试重连")
+        if !domain.isEmpty && (!chatLib.isConnected || chatLib.payloadId == 0) {
+            print("GlobalChatManager: 定时检测到连接异常，尝试重连")
             connectIfNeeded()
         }
     }

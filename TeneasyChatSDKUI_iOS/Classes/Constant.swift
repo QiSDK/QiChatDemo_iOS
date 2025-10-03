@@ -17,6 +17,7 @@ public let PARAM_ImageBaseURL = "IMAGEURL"
 public let PARAM_USERNAME = "userName"
 public let PARAM_MAXSESSIONMINS = "MaxSessionMins"
 public let PARAM_USERLEVEL = "USERLEVEL"
+public let PARAM_DOMAIN = "DOMAIN"
 
 /// 聊天SDK实例
 public var chatLib: ChatLib = ChatLib.shared
@@ -121,15 +122,15 @@ public class GlobalChatManager: teneasySDKDelegate {
     
     private init() {}
     
-    private var isInitialized = false
+    //private var isInitialized = false
     private var connectionTimer: Timer?
     
     /// 初始化全局聊天管理器
     public func initializeGlobalChat() {
-        guard !isInitialized else { return }
+        //guard !isInitialized else { return }
         
         chatLib.delegate = self
-        isInitialized = true
+        //isInitialized = true
         print("GlobalChatManager: 全局ChatLib已初始化")
         
         startConnectionMonitoring()
@@ -137,11 +138,16 @@ public class GlobalChatManager: teneasySDKDelegate {
     
     /// 根据需要建立连接
     public func connectIfNeeded() {
-        guard isInitialized else { return }
+        //guard isInitialized else { return }
         
         if chatLib.isConnected{
-            print("sdk状态：已连接")
+            print("sdk状态：已连接 \(Date())")
             return
+        }
+        
+        if domain.isEmpty{
+            domain = UserDefaults().string(forKey: PARAM_DOMAIN) ?? ""
+            print("从UserDefaults获取domain：\(domain)")
         }
         
         // 确保全局变量已初始化
@@ -172,24 +178,17 @@ public class GlobalChatManager: teneasySDKDelegate {
     /// 开始连接监控
     private func startConnectionMonitoring() {
         connectionTimer?.invalidate()
-        connectionTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
-            self?.checkAndReconnect()
+        connectionTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { [weak self] _ in
+            // 检查并重连
+            self?.connectIfNeeded()
         }
     }
-    
-    /// 检查并重连
-    private func checkAndReconnect() {
-        if !domain.isEmpty && chatLib.payloadId == 0 {
-            print("GlobalChatManager: 检测到连接断开，尝试重连")
-            connectIfNeeded()
-        }
-    }
-    
+
     /// 停止全局聊天管理器
     public func stopGlobalChat() {
         connectionTimer?.invalidate()
         connectionTimer = nil
-        isInitialized = false
+        //isInitialized = false
         chatLib.disConnect()
         print("GlobalChatManager: 全局ChatLib已停止")
     }

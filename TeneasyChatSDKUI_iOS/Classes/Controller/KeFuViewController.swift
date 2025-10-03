@@ -313,13 +313,8 @@ open class KeFuViewController: UIViewController, UploadListener{
                    }
                    
                    self.datasouceArray.append(model)
-                   
-                   // 在主线程更新UI
-                   DispatchQueue.main.async {
-                       self.tableView.reloadData()
-                       print("tableView.reloadData()")
-                       self.scrollToBottom()
-                   }
+                   self.scrollToBottom()
+                  
                }
     }
     
@@ -423,6 +418,8 @@ open class KeFuViewController: UIViewController, UploadListener{
             chatModel.cellType = .TYPE_QA
             datasouceArray.append(chatModel)
             isFirstLoad = false
+            
+          
             //systemMsgLabel.text = "您好，\(workerName)为您服务！"
         }else{
             //服务器会自动生成这个，所以不用
@@ -431,8 +428,6 @@ open class KeFuViewController: UIViewController, UploadListener{
             print("打Tip招呼")
              */
         }
-        
-        tableView.reloadData()
         scrollToBottom()
     }
     
@@ -488,17 +483,12 @@ open class KeFuViewController: UIViewController, UploadListener{
         print("baseUrlImage:" + baseUrlImage)
         let url = baseUrlImage + avatar
         print("avatar:" + url)
-        //self.headerImg.kf.setImage(with: URL(string: url))
         avatarPath = avatar
         
-        /*if isFirstLoad{
-            self.systemMsgLabel.text = ""
-        }else{*/
-            self.systemMsgLabel.text = "您好：\(workerName)为您服务！"
-        delayExecution(seconds: 5, completion: {
-            self.systemMsgLabel.text = ""
-        })
-        //}
+//        self.systemMsgLabel.text = "您好：\(workerName)为您服务！"
+//            delayExecution(seconds: 5, completion: {
+//            self.systemMsgLabel.text = ""
+//        })
     }
     
     func sendMsg(textMsg: String) {
