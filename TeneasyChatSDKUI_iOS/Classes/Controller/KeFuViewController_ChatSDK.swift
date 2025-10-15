@@ -122,6 +122,11 @@ extension KeFuViewController: teneasySDKDelegate {
             
         }
         
+        if (msg.msgSourceType == CommonMsgSourceType.mstEvaluate){
+            WWProgressHUD.showInfoMsg("收到邀请评估的消息")
+            return
+        }
+        
         if (msg.msgSourceType == CommonMsgSourceType.mstSystemAutoTransfer){
             print("这种消息是自动分配客服的消息，不会计入未读消息")
         }

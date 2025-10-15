@@ -322,8 +322,9 @@ func getCustomParam() -> String{
     custom.usertype = userType
     custom.userlevel = userLevel
     print("userType = \(userType)")
-    let c = custom.toJSONString()?.urlEncoded
-    return c ?? ""
+    //let c = custom.toJSONString()?.urlEncoded //从sdk 2.0.0开始，由sdk来做encode，所以注释掉了
+    return custom.toJSONString() ?? ""
+    //return c ?? ""
 }
 
 //#f4f4f4
