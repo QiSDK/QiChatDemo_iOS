@@ -330,12 +330,12 @@ open class KeFuViewController: UIViewController, UploadListener{
             for item in historyList {
                 
                 var isLeft = true
-                if (item.sender == item.chatId || item.msgSourceType == "MST_SYSTEM_WORKER"){
+                if (item.sender == item.chatId){
                     isLeft = false
                 }
-                
+                //|| item.msgSourceType == "MST_SYSTEM_WORKER"
                 if (item.msgSourceType == "MST_SYSTEM_CUSTOMER"){
-                    isLeft = true
+                    isLeft = false
                 }
                 
                 if item.msgOp == "MSG_OP_DELETE"{

@@ -201,7 +201,7 @@ extension KeFuViewController: teneasySDKDelegate {
         let cellType = determineCellType(for: msg)
         
         var left = true;
-        if (msg.msgSourceType == CommonMsgSourceType.mstSystemWorker){
+        if (msg.msgSourceType == CommonMsgSourceType.mstSystemCustomer){
             left = false;
         }
         appendDataSource(msg: msg, isLeft: left, cellType: cellType)

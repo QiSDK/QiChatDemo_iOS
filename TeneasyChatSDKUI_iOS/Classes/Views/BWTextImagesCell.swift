@@ -76,7 +76,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     }()
 
     lazy var thumbnailTV: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = CenteredCollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 5
@@ -249,7 +249,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCell", for: indexPath)
-        
+        cell.backgroundColor = UIColor.black
         // Remove all subviews to avoid reuse issues and random order
         cell.contentView.subviews.forEach { $0.removeFromSuperview() }
         
@@ -367,7 +367,7 @@ class RightBWTextImagesCell: BWTextImagesCell {
                 }
         
         self.thumbnailTV.snp.makeConstraints { make in
-            make.left.equalTo(self.contentBgView).offset(10)
+            make.left.equalTo(self.contentBgView)
             make.right.equalTo(self.contentBgView)
             make.height.equalTo(178)
             make.top.equalTo(self.titleLab.snp.bottom).offset(thumbnailTopOffset)
@@ -386,5 +386,34 @@ class RightBWTextImagesCell: BWTextImagesCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+// MARK: - Centered CollectionView Layout
+class CenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        guard let attributes = super.layoutAttributesForElements(in: rect),
+              let collectionView = collectionView else {
+            return super.layoutAttributesForElements(in: rect)
+        }
+
+        // Calculate total content width
+        var contentWidth: CGFloat = 0
+        for attribute in attributes {
+            contentWidth = max(contentWidth, attribute.frame.maxX)
+        }
+
+        // Calculate left inset to center content
+        let collectionViewWidth = collectionView.bounds.width
+        let leftInset = max(0, (collectionViewWidth - contentWidth) / 2)
+
+        // Offset all items
+        for attribute in attributes {
+            var frame = attribute.frame
+            frame.origin.x += leftInset
+            attribute.frame = frame
+        }
+
+        return attributes
     }
 }

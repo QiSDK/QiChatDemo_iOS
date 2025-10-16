@@ -319,7 +319,7 @@ class BWSettingViewController: UIViewController {
             present(alert, animated: true)
             return
         }
-
+        
         // 保存设置到UserDefaults
         UserDefaults.standard.set(lines, forKey: PARAM_LINES)
         UserDefaults.standard.set(cert, forKey: PARAM_CERT)
@@ -334,7 +334,7 @@ class BWSettingViewController: UIViewController {
         
         print("用户选择的selectedUserType\(selectedUserType)")
         userType = selectedUserType;
-
+        GlobalChatManager.shared.stopGlobalChat()
         // 关闭设置页面
         dismiss(animated: true)
     }
