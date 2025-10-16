@@ -226,7 +226,7 @@ class BWTextMediaCell: UITableViewCell, UICollectionViewDataSource, UICollection
             
             var text = msg.content.data
             
-            if (text.contains("\"color\"")){
+            if (model?.message?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || model?.message?.msgSourceType == CommonMsgSourceType.mstSystemWorker){
                 let result = TextBody.deserialize(from: text)
                 textBody = result
                 text = result?.content ?? ""

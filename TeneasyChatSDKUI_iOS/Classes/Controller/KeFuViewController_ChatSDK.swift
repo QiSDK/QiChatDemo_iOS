@@ -451,7 +451,7 @@ extension KeFuViewController {
     
     
     //产生一个本地文本消息
-    func composeALocalTxtMessage(textMsg: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0) -> CommonMessage {
+    func composeALocalTxtMessage(textMsg: String, timeInS: String? = nil, msgId: Int64 = 0, replyMsgId: Int64 = 0, msgSourceType: String = "") -> CommonMessage {
         // 第一层
         var content = CommonMessageContent()
         content.data = textMsg
@@ -465,6 +465,13 @@ extension KeFuViewController {
         msg.msgID = msgId
         msg.msgFmt = CommonMessageFormat.msgText
         msg.payload = .content(content)
+        if (msgSourceType == "MST_SYSTEM_WORKER"){
+            msg.msgSourceType = CommonMsgSourceType.mstSystemWorker
+        }
+        else if (msgSourceType == "MST_SYSTEM_CUSTOMER"){
+            msg.msgSourceType = CommonMsgSourceType.mstSystemCustomer
+        }
+
         msg.worker = 0
         if timeInS == nil{
             msg.msgTime = intervalToTimeStamp(timeInterval: Date().timeIntervalSince1970)

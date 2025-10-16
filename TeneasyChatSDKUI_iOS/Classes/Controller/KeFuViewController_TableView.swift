@@ -162,11 +162,14 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     self?.playImageFullScreen(url: imgUrl)
                 }
                 
-                cell.displayIconImg(path: self.avatarPath)
+                if let leftCell = cell as? LeftBWTextImagesCell {
+                    leftCell.displayIconImg(path: self.avatarPath)
+                }
                 return cell
             }
             //文字和一个图片、视频混合的消息
-            else if ((model.message?.content.data ?? "").contains("\"color\"")){
+            //else if ((model.message?.content.data ?? "").contains("\"color\"")){
+            else if (model.message?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || model.message?.msgSourceType == CommonMsgSourceType.mstSystemWorker){
                 //let cell: BWTextImagesCell = LeftBWTextImagesCell.cell(tableView: tableView)
                 let cell: BWTextImagesCell = model.isLeft ? LeftBWTextImagesCell.cell(tableView: tableView) : RightBWTextImagesCell.cell(tableView: tableView)
                 cell.model2 = model
@@ -199,27 +202,31 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 
-                cell.displayIconImg(path: self.avatarPath)
+                if let leftCell = cell as? LeftBWTextImagesCell {
+                    leftCell.displayIconImg(path: self.avatarPath)
+                }
                 return cell
             } //文字和一个图片、视频混合的消息
-            else if ((model.message?.content.data ?? "").contains("\"color\"")){
-                let cell: BWTextMediaCell = model.isLeft ? LeftBWTextMediaCell.cell(tableView: tableView) : RightBWTextMediaCell.cell(tableView: tableView)
-                cell.model = model
-                cell.longGestCallBack = { [weak self] gesure in
-                    if gesure.state == .began {
-                        self?.showMenu(gesure, model: model, indexPath: indexPath)
-                    }
-                }
-                
-                cell.playBlock = { [weak self] t in
-                   // self?.cellTaped(model: <#T##ChatModel#>)
-                    var dd = t;
-                    print(dd);
-                }
-                
-                cell.displayIconImg(path: self.avatarPath)
-                return cell
-            }else{
+//            else if ((model.message?.content.data ?? "").contains("\"color\"")){
+//                let cell: BWTextMediaCell = model.isLeft ? LeftBWTextMediaCell.cell(tableView: tableView) : RightBWTextMediaCell.cell(tableView: tableView)
+//                cell.model = model
+//                cell.longGestCallBack = { [weak self] gesure in
+//                    if gesure.state == .began {
+//                        self?.showMenu(gesure, model: model, indexPath: indexPath)
+//                    }
+//                }
+//                
+//                cell.playBlock = { [weak self] t in
+//                   // self?.cellTaped(model: <#T##ChatModel#>)
+//                    var dd = t;
+//                    print(dd);
+//                }
+//                if let leftCell = cell as? LeftBWTextMediaCell {
+//                    leftCell.displayIconImg(path: self.avatarPath)
+//                }
+//                return cell
+//            }
+            else{
                 
                 
                 // 创建默认聊天单元格（根据消息方向显示在左侧或右侧）
@@ -414,7 +421,7 @@ extension KeFuViewController {
             self.copyData(model: model, indexPath: indexPath)
         }
        
-        if (model?.message?.content.data ?? "").contains("\"color\""){
+        if (model?.message?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || model?.message?.msgSourceType == CommonMsgSourceType.mstSystemWorker){
             menu.menuItems = [item2]
         }
         else if model?.cellType == .TYPE_Image || model?.cellType == .TYPE_VIDEO || model?.cellType == .TYPE_File {
@@ -467,7 +474,7 @@ extension KeFuViewController {
             let cell = self.tableView.cellForRow(at: indexPath) as! BWImageCell as BWImageCell
             UIPasteboard.general.image = cell.thumbnail.image
         } else {
-            if (msgText.contains("\"color\"")){
+            if (model?.message?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || model?.message?.msgSourceType == CommonMsgSourceType.mstSystemWorker){
                 let result = TextBody.deserialize(from: msgText)
                 msgText = result?.content ?? ""
             }

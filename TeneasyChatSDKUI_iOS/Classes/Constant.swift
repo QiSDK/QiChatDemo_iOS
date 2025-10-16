@@ -47,7 +47,6 @@ public var cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYc
 //public var lines = "https://d2jt4g8mgfvbcl.cloudfront.net"
 //public var baseUrlImage = "https://d2uzsk40324g7l.cloudfront.net"
 public var userId: Int32 = 666665//1125324
-
 public var merchantId: Int = 230
 
 //阿福
@@ -150,6 +149,8 @@ public class GlobalChatManager: teneasySDKDelegate {
             print("从UserDefaults获取domain：\(domain)")
         }
         
+        xToken = UserDefaults().string(forKey: PARAM_XTOKEN) ?? ""
+        
         // 确保全局变量已初始化
         guard !domain.isEmpty else {
             print("GlobalChatManager: domain为空，无法连接")
@@ -162,7 +163,7 @@ public class GlobalChatManager: teneasySDKDelegate {
             chatLib.myinit(
                 userId: userId,
                 cert: cert,
-                token: xToken.isEmpty ? cert : xToken,
+                token: xToken.isEmpty ? "" : xToken,
                 baseUrl: wssUrl,
                 sign: "9zgd9YUc",
                 custom: getCustomParam(),
@@ -243,7 +244,7 @@ public class GlobalChatManager: teneasySDKDelegate {
     }
     
     public func connected(c: Gateway_SCHi) {
-        print("GlobalChatManager连接成功")
+        print("GlobalChatManager连接成功:\(c.token)")
         xToken = c.token
         UserDefaults.standard.set(c.token, forKey: PARAM_XTOKEN)
         

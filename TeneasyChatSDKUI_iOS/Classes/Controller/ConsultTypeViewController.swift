@@ -135,6 +135,7 @@ open class ConsultTypeViewController: UIViewController {
         
         // 处理单元格点击
         entranceView.cellClick = { [weak self] consultID in
+            print("consultId:\(consultID)")
             self?.handleConsultSelection(consultID: consultID)
         }
     }
