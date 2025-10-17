@@ -336,14 +336,8 @@ extension KeFuViewController: teneasySDKDelegate {
         // 处理特殊错误码, 1002无效Token, 1010在别处登录了，1005超过会话时间
         if [1002, 1010, 1005].contains(result.Code) {
             WWProgressHUD.showInfoMsg(result.Message)
-            // 处理会话超时
-            if result.Code == 1005 {
-                handleSessionTimeout()
-            }
-        } else {
-            //getUnSendMsg()
+            handleSession(code: result.Code)
         }
-        
         // 上报错误日志（会话超时除外）
         if result.Code != 1005 {
             reportErrorLog(result)
@@ -351,11 +345,12 @@ extension KeFuViewController: teneasySDKDelegate {
     }
     
     /// 处理会话超时，按实际需求，如需断开链接请调用chatLib.disConnect()
-    private func handleSessionTimeout() {
-        //chatLib.disConnect()
-        quitChat()
-        dismiss(animated: true)
-        GlobalChatManager.shared.stopGlobalChat()
+    private func handleSession(code: Int) {
+        if (code == 1005 || code == 1010){
+            quitChat()
+            dismiss(animated: true)
+            GlobalChatManager.shared.stopGlobalChat()
+        }
     }
     
     /// 上报错误日志

@@ -581,12 +581,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     /// 退出聊天（清理资源）
     func quitChat() {
         stopLocalTimer()
-        //workerId = 0
-        // 关闭前标记消息为已读
         markMessagesAsRead()
-        // 不断开ChatLib连接，因为它是全局管理的
-        // chatLib.disConnect()  
-        // chatLib.delegate = nil
         print("已退出聊天页面，ChatLib保持全局连接")
     }
     
