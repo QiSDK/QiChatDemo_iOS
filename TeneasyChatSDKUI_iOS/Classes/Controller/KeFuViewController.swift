@@ -241,7 +241,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         systemMsgLabel.snp.makeConstraints { make in
             make.width.equalTo(kScreenWidth)
             make.left.equalToSuperview()
-            make.height.equalTo(30)
+            make.height.equalTo(1)
             make.bottom.equalTo(self.toolBar.snp.top)
         }
         if #available(iOS 13.0, *) {
@@ -250,6 +250,7 @@ open class KeFuViewController: UIViewController, UploadListener{
             // Fallback on earlier versions
         }
         systemMsgLabel.text = ""
+        systemMsgLabel.isHidden = true
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
