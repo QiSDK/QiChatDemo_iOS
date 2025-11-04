@@ -121,12 +121,33 @@ extension String {
     func textWidth(fontSize: CGFloat, width: CGFloat) -> CGFloat {
         return self.boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: fontSize)], context: nil).size.width
     }
-    
+
     var urlEncoded: String? {
             let allowedCharacterSet = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "~-_."))
         return self.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
         }
 
+    /// 将HTML字符串转换为NSAttributedString
+    func htmlToAttributedString() -> NSAttributedString? {
+        guard let data = self.data(using: .utf8) else {
+            return nil
+        }
+
+        do {
+            let attributedString = try NSAttributedString(
+                data: data,
+                options: [
+                    .documentType: NSAttributedString.DocumentType.html,
+                    .characterEncoding: String.Encoding.utf8.rawValue
+                ],
+                documentAttributes: nil
+            )
+            return attributedString
+        } catch {
+            print("HTML转换失败: \(error)")
+            return nil
+        }
+    }
 }
 
 extension UIButton {

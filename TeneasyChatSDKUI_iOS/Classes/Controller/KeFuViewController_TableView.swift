@@ -78,6 +78,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 //                }
                 self?.questionViewHeight = height
                 self?.tableView.reloadData()
+                // 不能加到这，会导致每次点header，都会下拉到底部
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 //                    self?.scrollToBottom()
 //                }

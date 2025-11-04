@@ -13,15 +13,20 @@ typealias BWQuestionViewCellClickCallback = (QA) -> ()
 class BWQAView: UIView {
     var heightCallback: BWQuestionViewHeightCallback?
     var qaCellClick: BWQuestionViewCellClickCallback?
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+    lazy var titleLabel: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.boldSystemFont(ofSize: 14)
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
         if #available(iOS 13.0, *) {
-            label.textColor = UIColor.label
+            textView.textColor = UIColor.label
         } else {
             // Fallback on earlier versions
         }
-        return label
+        return textView
     }()
 
     lazy var tableView: UITableView = {
@@ -49,7 +54,6 @@ class BWQAView: UIView {
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
             make.right.equalToSuperview().offset(-5)
-            make.height.equalTo(25).priority(.low)
             make.top.equalToSuperview().offset(10)
         }
 
@@ -75,7 +79,19 @@ class BWQAView: UIView {
 
     func setup(model: QuestionModel) {
         sectionList = model.autoReplyItem?.qa ?? []
-        titleLabel.text = model.autoReplyItem?.title
+
+        // 支持HTML显示
+        if let htmlString = model.autoReplyItem?.title {
+            if let attributedString = htmlString.htmlToAttributedString() {
+                titleLabel.attributedText = attributedString
+            } else {
+                titleLabel.text = htmlString
+            }
+        }
+
+        // 计算titleLabel的实际高度
+        titleLabel.sizeToFit()
+
         updateTableViewHeight()
     }
 }
@@ -142,9 +158,11 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         } else {
             headerView.imgView.image = UIImage.svgInit("arrowdown")
         }
-        
+
         if sectionList[section].related == nil || sectionList[section].related!.isEmpty {
             headerView.imgView.isHidden = true
+        } else {
+            headerView.imgView.isHidden = false
         }
         //headerView.imgView.isHidden = true
         /*
@@ -206,8 +224,13 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
 
-            print("QA Cell Height:\(25 + sectionHeight + expandRowHeight)")
-            heightCallback!(25 + sectionHeight + expandRowHeight)
+            // 计算titleLabel的实际高度，使用父视图宽度减去左右边距
+            let availableWidth = self.frame.width - 12 - 5
+            let titleHeight = Double(titleLabel.sizeThatFits(CGSize(width: availableWidth, height: CGFloat.greatestFiniteMagnitude)).height)
+            let totalHeight = 10 + titleHeight + sectionHeight + expandRowHeight
+
+            print("QA Cell Height:\(totalHeight) (titleHeight: \(titleHeight), availableWidth: \(availableWidth))")
+            heightCallback!(totalHeight)
             isHidden = false
         }
         tableView.reloadData()
