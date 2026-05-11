@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git check-ignore *)",
+      "Bash(git checkout *)",
+      "Bash(pod install *)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)",
+      "Bash(gem list *)",
+      "Bash(git -C /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS ls-files Example/Pods/Pods.xcodeproj/project.pbxproj)",
+      "Bash(git -C /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS check-ignore Example/Pods/Pods.xcodeproj/project.pbxproj)",
+      "Bash(git -C /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS check-ignore Example/Podfile.lock)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
