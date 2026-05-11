@@ -32,6 +32,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             if let leftCell = cell as? BWFileLeftCell {
                 leftCell.displayIconImg(path: self.avatarPath)
             }
+            (cell as? ChatThemable)?.applyTheme(self.theme)
             return cell
             
         case .TYPE_VIDEO, .TYPE_Image:
@@ -64,6 +65,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 uri = model.message?.video.thumbnailUri
                 cell.displayVideoThumbnail(path: uri ?? "")
             }
+            (cell as? ChatThemable)?.applyTheme(self.theme)
             return cell
             
         case .TYPE_QA:
@@ -138,8 +140,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
 
             }
             cell.displayIconImg(path: self.avatarPath)
+            (cell as? ChatThemable)?.applyTheme(self.theme)
             return cell
-            
+
         default:
             //文字和一个图片、视频混合的消息
             if (model.cellType == .TYPE_TEXT_IMAGES){
@@ -166,6 +169,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 if let leftCell = cell as? LeftBWTextImagesCell {
                     leftCell.displayIconImg(path: self.avatarPath)
                 }
+                (cell as? ChatThemable)?.applyTheme(self.theme)
                 return cell
             }
             //文字和一个图片、视频混合的消息
@@ -206,6 +210,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                 if let leftCell = cell as? LeftBWTextImagesCell {
                     leftCell.displayIconImg(path: self.avatarPath)
                 }
+                (cell as? ChatThemable)?.applyTheme(self.theme)
                 return cell
             } //文字和一个图片、视频混合的消息
 //            else if ((model.message?.content.data ?? "").contains("\"color\"")){
@@ -254,6 +259,7 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                         }
                     }
                 }
+                (cell as? ChatThemable)?.applyTheme(self.theme)
                 return cell
             }
         }

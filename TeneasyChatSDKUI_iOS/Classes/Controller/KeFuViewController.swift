@@ -210,6 +210,8 @@ open class KeFuViewController: UIViewController, UploadListener{
         backgroundGradientLayer.endPoint   = theme.gradientDirection.endPoint
         view.layer.insertSublayer(backgroundGradientLayer, at: 0)
         view.tintColor = theme.tintColor
+
+        toolBar.applyTheme(theme)
     }
 
     open override func viewDidLayoutSubviews() {

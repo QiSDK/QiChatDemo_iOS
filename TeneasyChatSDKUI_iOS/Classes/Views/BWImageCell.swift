@@ -285,6 +285,14 @@ class BWImageLeftCell: BWImageCell {
     }
 }
 
+extension BWImageLeftCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        contentBgView.backgroundColor = theme.leftBubbleColor
+        arrowView.image = UIImage.svgInit("ic_left_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.leftBubbleColor
+    }
+}
+
 class BWImageRightCell: BWImageCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -318,8 +326,16 @@ class BWImageRightCell: BWImageCell {
             make.top.equalTo(self.contentBgView).offset(4)
         }
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+extension BWImageRightCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        contentBgView.backgroundColor = theme.rightBubbleColor
+        arrowView.image = UIImage.svgInit("ic_right_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.rightBubbleColor
     }
 }

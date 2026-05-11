@@ -11,7 +11,13 @@
       "Bash(git -C /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS check-ignore Example/Podfile.lock)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Read(//tmp/**)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)",
+      "Bash(awk NR>=620 && NR<=635 *)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme QL-Demo -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -quiet build)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -list)"
     ]
   }
 }

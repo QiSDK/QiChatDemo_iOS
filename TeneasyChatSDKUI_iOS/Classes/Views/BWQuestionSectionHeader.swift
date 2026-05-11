@@ -15,6 +15,12 @@ class BWQuestionSectionHeader: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 
+        // grouped 风格默认给 header 一层灰底背景,这里清掉,让 QA 气泡整块半透明
+        let clearBg = UIView()
+        clearBg.backgroundColor = .clear
+        backgroundView = clearBg
+        contentView.backgroundColor = .clear
+
         contentView.addSubview(imgView)
         imgView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-12).priority(.high)

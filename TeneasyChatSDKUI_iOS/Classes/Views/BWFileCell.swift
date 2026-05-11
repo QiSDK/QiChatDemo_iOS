@@ -215,6 +215,18 @@ class BWFileLeftCell: BWFileCell {
     }
 }
 
+// MARK: - Theming
+
+extension BWFileLeftCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        contentBgView.backgroundColor = theme.leftBubbleColor
+        fileNameLab.textColor = theme.leftBubbleTextColor
+        fileSizeLab.textColor = theme.leftBubbleTextColor.withAlphaComponent(0.6)
+        arrowView.image = UIImage.svgInit("ic_left_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.leftBubbleColor
+    }
+}
+
 class BWFileRightCell: BWFileCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -269,8 +281,18 @@ class BWFileRightCell: BWFileCell {
             make.top.equalTo(self.contentBgView).offset(4)
         }
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+extension BWFileRightCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        contentBgView.backgroundColor = theme.rightBubbleColor
+        fileNameLab.textColor = theme.rightBubbleTextColor
+        fileSizeLab.textColor = theme.rightBubbleTextColor.withAlphaComponent(0.85)
+        arrowView.image = UIImage.svgInit("ic_right_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.rightBubbleColor
     }
 }

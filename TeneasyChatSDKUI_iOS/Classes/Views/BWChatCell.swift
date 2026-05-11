@@ -39,10 +39,12 @@ class BWChatCell: UITableViewCell {
         let lab = BWLabel()
         lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = .white
-        
+
         lab.numberOfLines = 1000
         lab.layer.cornerRadius = 8
-        lab.layer.masksToBounds = true
+        // 不再裁剪 —— 允许阴影渲染到 layer 外;
+        // iOS 11+ 即便 masksToBounds=false,backgroundColor 仍会按 cornerRadius 圆角填充
+        lab.layer.masksToBounds = false
         //lab.numberOfLines = 0 // Allow unlimited lines
         lab.lineBreakMode = .byWordWrapping
         lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 15)
@@ -247,6 +249,14 @@ class BWChatCell: UITableViewCell {
             self.blackBackgroundView.removeFromSuperview()
         })
     }
+
+    /// 把阴影应用到指定 view 的 layer (调用前确保 view.layer.masksToBounds = false)
+    func applyBubbleShadow(_ shadow: ChatTheme.BubbleShadow, to view: UIView) {
+        view.layer.shadowColor = shadow.color.cgColor
+        view.layer.shadowOpacity = shadow.opacity
+        view.layer.shadowRadius = shadow.radius
+        view.layer.shadowOffset = shadow.offset
+    }
 }
 
 class BWChatLeftCell: BWChatCell {
@@ -424,8 +434,30 @@ class BWChatRightCell: BWChatCell {
             self.loadingView.isHidden = false
         }
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+// MARK: - Theming
+
+extension BWChatLeftCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        titleLab.backgroundColor = theme.leftBubbleColor
+        titleLab.textColor = theme.leftBubbleTextColor
+        arrowView.image = UIImage.svgInit("ic_left_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.leftBubbleColor
+        applyBubbleShadow(theme.bubbleShadow, to: titleLab)
+    }
+}
+
+extension BWChatRightCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        titleLab.backgroundColor = theme.rightBubbleColor
+        titleLab.textColor = theme.rightBubbleTextColor
+        arrowView.image = UIImage.svgInit("ic_right_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.rightBubbleColor
+        applyBubbleShadow(theme.bubbleShadow, to: titleLab)
     }
 }

@@ -65,14 +65,17 @@ class BWQAView: UIView {
             make.right.equalToSuperview()
         }
         tableView.reloadData()
-        if #available(iOS 13.0, *) {
-            tableView.backgroundColor = UIColor.systemBackground
-            self.backgroundColor = UIColor.systemBackground
-        } else {
-            // Fallback on earlier versions
-        }
+        // 默认背景:跟聊天页渐变融合,真正的填色由 applyTheme 覆盖
+        tableView.backgroundColor = .clear
+        self.backgroundColor = UIColor.white.withAlphaComponent(0.78)
 
         isHidden = true
+    }
+
+    func applyTheme(_ theme: ChatTheme) {
+        self.backgroundColor = theme.leftBubbleColor
+        self.tableView.backgroundColor = .clear
+        self.tableView.reloadData()
     }
 
     var sectionList: [QA] = []

@@ -271,6 +271,59 @@ class BWKeFuChatToolBarV2: UIView {
     }
 }
 
+// MARK: - Theming
+
+extension BWKeFuChatToolBarV2: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        // toolbar 整体:渐变末端色压一层半透明,跟聊天页底部颜色连续,
+        // 不再是一整块灰条
+        backgroundColor = theme.gradientEndColor.withAlphaComponent(0.85)
+        menuView.backgroundColor = theme.gradientEndColor.withAlphaComponent(0.85)
+        emojiView.backgroundColor = theme.gradientEndColor.withAlphaComponent(0.85)
+
+        // 输入框跟左气泡用同款半透明白,视觉上是"卡片同款"
+        textView.backgroundColor = theme.leftBubbleColor
+        placeTextField.backgroundColor = theme.leftBubbleColor
+        textView.textColor = theme.leftBubbleTextColor
+
+        // 发送按钮统一到主题 tintColor
+        sendBtn.backgroundColor = theme.tintColor
+
+        // 计数器用文字色压一层透明,温和不抢戏
+        textCountLabel.textColor = theme.leftBubbleTextColor.withAlphaComponent(0.5)
+
+        // 图标重新用主题色着色,从 systemGray 换成 tintColor 的 70% 分量,
+        // 跟发送按钮形成"同色不同分量"的呼应
+        let iconTint = theme.tintColor.withAlphaComponent(0.7)
+        retintIcon(button: photoBtn, name: "Img_box_light", color: iconTint)
+        retintIcon(button: cameraBtn, name: "camera_light", color: iconTint)
+        retintIcon(button: fileBtn, name: "file_icon", color: iconTint, useAssetCatalog: true)
+        retintIcon(button: emojiBtn, name: "emoj_light", color: iconTint, state: .normal)
+        retintIcon(button: emojiBtn, name: "ht_shuru", color: iconTint, state: .selected)
+    }
+
+    private func retintIcon(
+        button: WButton,
+        name: String,
+        color: UIColor,
+        state: UIControl.State = .normal,
+        useAssetCatalog: Bool = false
+    ) {
+        var image: UIImage?
+        if useAssetCatalog {
+            image = UIImage(named: name, in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
+        } else {
+            image = UIImage.svgInit(name)
+        }
+        guard let original = image else { return }
+        if #available(iOS 13.0, *) {
+            button.setImage(original.withTintColor(color, renderingMode: .alwaysOriginal), for: state)
+        } else {
+            button.setImage(original, for: state)
+        }
+    }
+}
+
 // MARK: - --------------公有方法
 
 extension BWKeFuChatToolBarV2 {

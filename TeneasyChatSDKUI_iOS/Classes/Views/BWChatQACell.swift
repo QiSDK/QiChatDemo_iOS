@@ -52,11 +52,9 @@ class BWChatQACell: UITableViewCell {
         if cell == nil {
             cell = Self(style: .default, reuseIdentifier: cellId)
         }
-        if #available(iOS 13.0, *) {
-            cell?.backgroundColor = UIColor.secondarySystemBackground
-        } else {
-            // Fallback on earlier versions
-        }
+        // 行底色保持透明,让聊天页渐变背景透出来,
+        // 真正的气泡填充在 questionView (BWQAView) 上,由 applyTheme 控制
+        cell?.backgroundColor = .clear
         return cell as! Self
     }
     
@@ -148,5 +146,15 @@ class BWChatQACell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+// MARK: - Theming
+
+extension BWChatQACell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        questionView.applyTheme(theme)
     }
 }

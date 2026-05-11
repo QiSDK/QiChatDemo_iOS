@@ -54,11 +54,8 @@ class BWAutoQuestionCell: UITableViewCell {
     override required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-//        if #available(iOS 13.0, *) {
-//            backgroundColor = UIColor.secondarySystemBackground
-//        } else {
-//            // Fallback on earlier versions
-//        }
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
                 
         self.contentView.addSubview(self.titleLab)
         //self.contentView.addSubview(self.imgArrowRight)

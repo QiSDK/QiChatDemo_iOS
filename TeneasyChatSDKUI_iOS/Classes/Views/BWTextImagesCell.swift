@@ -389,6 +389,26 @@ class RightBWTextImagesCell: BWTextImagesCell {
     }
 }
 
+// MARK: - Theming
+// 注意: titleLab.textColor 在 model 设置时由消息内容动态控制(系统消息/带 color 字段),
+// 这里只覆写气泡背景和箭头着色,不去碰文字颜色。
+
+extension LeftBWTextImagesCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        contentBgView.backgroundColor = theme.leftBubbleColor
+        arrowView.image = UIImage.svgInit("ic_left_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.leftBubbleColor
+    }
+}
+
+extension RightBWTextImagesCell: ChatThemable {
+    func applyTheme(_ theme: ChatTheme) {
+        contentBgView.backgroundColor = theme.rightBubbleColor
+        arrowView.image = UIImage.svgInit("ic_right_point")?.withRenderingMode(.alwaysTemplate)
+        arrowView.tintColor = theme.rightBubbleColor
+    }
+}
+
 // MARK: - Centered CollectionView Layout
 class CenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
