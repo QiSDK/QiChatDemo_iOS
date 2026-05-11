@@ -35,3 +35,6 @@ Carthage/Build
 #
 # Pods/
 /Example/Pods
+
+# Local design / planning docs
+docs/

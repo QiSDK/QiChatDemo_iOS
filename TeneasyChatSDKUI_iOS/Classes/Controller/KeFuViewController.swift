@@ -22,9 +22,26 @@ open class KeFuViewController: UIViewController, UploadListener{
     
     /// 消息数据源
     var datasouceArray: [ChatModel] = []
-    
+
     /// 咨询类型ID
-    var consultId: Int64 = 0
+    public var consultId: Int64 = 0
+
+    /// 主题配置
+    public var theme: ChatTheme = .default
+
+    /// 背景渐变层
+    private let backgroundGradientLayer = CAGradientLayer()
+
+    /// 推荐的公开初始化器
+    public init(consultId: Int64, theme: ChatTheme = .default) {
+        self.consultId = consultId
+        self.theme = theme
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     /// 聊天SDK实例
     //private(set) var lib: ChatLib = ChatLib.shared
@@ -69,11 +86,7 @@ open class KeFuViewController: UIViewController, UploadListener{
 
     lazy var headerView: UIView = {
         let v = UIView(frame: CGRect.zero)
-        if #available(iOS 13.0, *) {
-            v.backgroundColor = UIColor.tertiarySystemBackground
-        } else {
-            // Fallback on earlier versions
-        }
+        v.backgroundColor = .clear
         return v
     }()
 
@@ -120,9 +133,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         let btn = UIButton(frame: CGRect.zero)
         btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40)), for: UIControl.State.normal)
         if #available(iOS 13.0, *) {
-            btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))?.withTintColor(UIColor.systemGray), for: UIControl.State.normal)
-        } else {
-            // Fallback on earlier versions
+            btn.setImage(UIImage.svgInit("backicon", size: CGSize(width: 40, height: 40))?.withTintColor(theme.tintColor), for: UIControl.State.normal)
         }
         btn.addTarget(self, action: #selector(closeClick), for: UIControl.Event.touchUpInside)
         return btn
@@ -168,11 +179,8 @@ open class KeFuViewController: UIViewController, UploadListener{
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 13.0, *) {
-            tableView.backgroundColor = UIColor.secondarySystemBackground
-        } else {
-            // Fallback on earlier versions
-        }
+        applyTheme()
+        tableView.backgroundColor = .clear
 
         xToken = UserDefaults.standard.string(forKey: PARAM_XTOKEN) ?? ""
 
@@ -191,6 +199,22 @@ open class KeFuViewController: UIViewController, UploadListener{
         navigationItem.rightBarButtonItem = rightBarItem
         
         // 全局ChatLib已经在GlobalChatManager中管理，不需要局部监控
+    }
+
+    private func applyTheme() {
+        backgroundGradientLayer.colors = [
+            theme.gradientStartColor.cgColor,
+            theme.gradientEndColor.cgColor
+        ]
+        backgroundGradientLayer.startPoint = theme.gradientDirection.startPoint
+        backgroundGradientLayer.endPoint   = theme.gradientDirection.endPoint
+        view.layer.insertSublayer(backgroundGradientLayer, at: 0)
+        view.tintColor = theme.tintColor
+    }
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        backgroundGradientLayer.frame = view.bounds
     }
 
     @objc func closeClick() {
@@ -284,13 +308,8 @@ open class KeFuViewController: UIViewController, UploadListener{
         toolBar.textView.placeholder = "请输入想咨询的问题"
         headerTitle.text = "连接客服中..."
         
-        if #available(iOS 13.0, *) {
-            view.backgroundColor = UIColor.secondarySystemBackground
-            setStatusBar(backgroundColor: UIColor.tertiarySystemBackground)
-        } else {
-            // Fallback on earlier versions
-        }
-        
+        view.backgroundColor = .clear
+
         //addShadowToTableView()
     }
 
