@@ -85,7 +85,11 @@ public struct ChatTheme {
         self.gradientDirection = gradientDirection
         self.tintColor = tintColor
         self.leftBubbleColor = leftBubbleColor ?? UIColor.lightText.withAlphaComponent(0.88)
+        
+        self.leftBubbleColor = leftBubbleColor ?? UIColor.red.withAlphaComponent(0.88)
+        
         self.leftBubbleTextColor = leftBubbleTextColor ?? UIColor(white: 0.1, alpha: 1.0)
+        
         self.rightBubbleColor = rightBubbleColor ?? tintColor.withAlphaComponent(0.92)
         self.rightBubbleTextColor = rightBubbleTextColor ?? .white
         self.bubbleShadow = bubbleShadow
@@ -104,7 +108,7 @@ public struct ChatTheme {
     /// 随机获取一个精选主题
     public static func random() -> ChatTheme {
         presets.randomElement() ?? .default
-        //presets[7]
+        //presets[1]
     }
 
     /// 6 套精选主题
@@ -114,50 +118,56 @@ public struct ChatTheme {
             gradientStartColor: UIColor(red: 0.94, green: 0.97, blue: 1.0, alpha: 1.0),
             gradientEndColor:   UIColor(red: 0.78, green: 0.88, blue: 1.0, alpha: 1.0),
             tintColor: UIColor(red: 69/255, green: 137/255, blue: 246/255, alpha: 1.0),
-            leftBubbleColor: UIColor(red: 0.96, green: 0.97, blue: 1.0, alpha: 0.90)
+            leftBubbleColor: UIColor(red: 0.94, green: 0.97, blue: 1.0, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
         ),
         // 2. 薄暮紫 (优雅渐变紫)
         ChatTheme(
             gradientStartColor: UIColor(red: 0.96, green: 0.93, blue: 0.98, alpha: 1.0),
             gradientEndColor:   UIColor(red: 0.82, green: 0.72, blue: 0.92, alpha: 1.0),
             tintColor: UIColor(red: 128/255, green: 90/255, blue: 210/255, alpha: 1.0),
-            leftBubbleColor: UIColor(red: 0.97, green: 0.95, blue: 1.0, alpha: 0.88)
+            leftBubbleColor: UIColor(red: 0.96, green: 0.93, blue: 0.98, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.15, alpha: 1.0),
         ),
         // 3. 蜜桃粉 (温暖柔和)
         ChatTheme(
             gradientStartColor: UIColor(red: 1.0, green: 0.96, blue: 0.95, alpha: 1.0),
             gradientEndColor:   UIColor(red: 1.0, green: 0.85, blue: 0.82, alpha: 1.0),
             tintColor: UIColor(red: 235/255, green: 105/255, blue: 110/255, alpha: 1.0),
-            leftBubbleColor: UIColor(red: 1.0, green: 0.97, blue: 0.96, alpha: 0.90)
+            leftBubbleColor: UIColor(red: 1.0, green: 0.96, blue: 0.95, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
         ),
         // 4. 抹茶绿 (清新自然)
         ChatTheme(
             gradientStartColor: UIColor(red: 0.95, green: 0.98, blue: 0.93, alpha: 1.0),
             gradientEndColor:   UIColor(red: 0.82, green: 0.93, blue: 0.76, alpha: 1.0),
             tintColor: UIColor(red: 76/255, green: 175/255, blue: 80/255, alpha: 1.0),
-            leftBubbleColor: UIColor(red: 0.96, green: 0.98, blue: 0.94, alpha: 0.90)
+            leftBubbleColor: UIColor(red: 0.95, green: 0.98, blue: 0.93, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
         ),
         // 5. 日落橙 (活力暖色)
         ChatTheme(
             gradientStartColor: UIColor(red: 1.0, green: 0.97, blue: 0.92, alpha: 1.0),
             gradientEndColor:   UIColor(red: 1.0, green: 0.88, blue: 0.72, alpha: 1.0),
             tintColor: UIColor(red: 255/255, green: 152/255, blue: 0/255, alpha: 1.0),
-            leftBubbleColor: UIColor(red: 1.0, green: 0.98, blue: 0.94, alpha: 0.90)
+            leftBubbleColor: UIColor(red: 1.0, green: 0.97, blue: 0.92, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
         ),
         // 6. 星空靛 (深邃高级感)
         ChatTheme(
             gradientStartColor: UIColor(red: 0.88, green: 0.90, blue: 0.97, alpha: 1.0),
             gradientEndColor:   UIColor(red: 0.62, green: 0.68, blue: 0.88, alpha: 1.0),
             tintColor: UIColor(red: 63/255, green: 81/255, blue: 181/255, alpha: 1.0),
-            leftBubbleColor: UIColor(red: 0.91, green: 0.92, blue: 0.97, alpha: 0.88)
+            leftBubbleColor: UIColor(red: 0.88, green: 0.90, blue: 0.97, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
         ),
         // 7. 暗夜紫 (深色优雅,高端质感)
         ChatTheme(
             gradientStartColor: UIColor(red: 0.78, green: 0.15, blue: 0.42, alpha: 1.0),
             gradientEndColor:   UIColor(red: 0.12, green: 0.06, blue: 0.24, alpha: 1.0),
             tintColor: UIColor(red: 0.58, green: 0.42, blue: 0.95, alpha: 1.0),
-            leftBubbleColor: UIColor(white: 1.0, alpha: 0.90),
-            leftBubbleTextColor: UIColor(white: 0.12, alpha: 1.0),
+            leftBubbleColor: UIColor(red: 0.78, green: 0.15, blue: 0.42, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
             rightBubbleColor: UIColor(red: 0.50, green: 0.35, blue: 0.88, alpha: 0.92),
             rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.95)
         ),
@@ -169,6 +179,16 @@ public struct ChatTheme {
             leftBubbleColor: UIColor(white: 1.0, alpha: 0.92),
             leftBubbleTextColor: UIColor(white: 0.15, alpha: 1.0),
             rightBubbleColor: UIColor(red: 55/255, green: 120/255, blue: 244/255, alpha: 0.92),
+            rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.95)
+        ),
+        // 9. 幻夜紫 (深紫渐变,神秘高级)
+        ChatTheme(
+            gradientStartColor: UIColor(red: 165/255, green: 150/255, blue: 187/255, alpha: 1.0),
+            gradientEndColor:   UIColor(red: 31/255, green: 31/255, blue: 76/255, alpha: 1.0),
+            tintColor: UIColor(red: 155/255, green: 120/255, blue: 240/255, alpha: 1.0),
+            leftBubbleColor: UIColor(red: 165/255, green: 150/255, blue: 187/255, alpha: 0.3),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
+            rightBubbleColor: UIColor(red: 120/255, green: 85/255, blue: 210/255, alpha: 0.90),
             rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.95)
         )
     ]

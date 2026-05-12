@@ -205,6 +205,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         backgroundGradientLayer.endPoint   = theme.gradientDirection.endPoint
         view.layer.insertSublayer(backgroundGradientLayer, at: 0)
         view.tintColor = theme.tintColor
+        headerTitle.textColor = theme.leftBubbleTextColor
 
         toolBar.applyTheme(theme)
     }

@@ -21,7 +21,7 @@ class BWChatCell: UITableViewCell {
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
     var showOriginalBack: BWShowOriginalClickBlock?
-    var msgMaxWidth = 188.0
+    var msgMaxWidth = kScreenWidth * 0.7
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -41,13 +41,13 @@ class BWChatCell: UITableViewCell {
         lab.textColor = .white
 
         lab.numberOfLines = 1000
-        lab.layer.cornerRadius = 8
+        lab.layer.cornerRadius = 18
         // 不再裁剪 —— 允许阴影渲染到 layer 外;
-        // iOS 11+ 即便 masksToBounds=false,backgroundColor 仍会按 cornerRadius 圆角填充
         lab.layer.masksToBounds = false
         //lab.numberOfLines = 0 // Allow unlimited lines
         lab.lineBreakMode = .byWordWrapping
-        lab.textInsets = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 15)
+        lab.textInsets = UIEdgeInsets(top: 12, left: 14, bottom: 12, right: 14)
+        lab.backgroundColor = .clear // 必须设为透明，否则 view 的背景会盖住 layer 的圆角
 
         //lab.preferredMaxLayoutWidth = kScreenWidth - 120 - iconWidth - 12
         return lab
@@ -74,6 +74,7 @@ class BWChatCell: UITableViewCell {
 
     lazy var arrowView: UIImageView = {
         let img = UIImageView()
+        img.isHidden = true
         return img
     }()
     
@@ -262,8 +263,14 @@ class BWChatCell: UITableViewCell {
 class BWChatLeftCell: BWChatCell {
     required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.titleLab.backgroundColor = .white
+        self.titleLab.backgroundColor = .clear
+        self.titleLab.layer.backgroundColor = UIColor.white.cgColor
         self.titleLab.textColor = .black
+        self.titleLab.layer.cornerRadius = 18
+        if #available(iOS 11.0, *) {
+            self.titleLab.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        self.arrowView.isHidden = true
         self.iconView.image = UIImage.svgInit("icon_server_def2")
         self.iconView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(12)
@@ -331,7 +338,13 @@ class BWChatRightCell: BWChatCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.iconView.image = UIImage.svgInit("icon_server_def2")
-        self.titleLab.backgroundColor = blueColor
+        self.titleLab.backgroundColor = .clear
+        self.titleLab.layer.backgroundColor = blueColor.cgColor
+        self.titleLab.layer.cornerRadius = 18
+        if #available(iOS 11.0, *) {
+            self.titleLab.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        self.arrowView.isHidden = true
         //self.contentBgView.backgroundColor = UIColor.red
         
         self.iconView.snp.makeConstraints { make in
@@ -444,20 +457,28 @@ class BWChatRightCell: BWChatCell {
 
 extension BWChatLeftCell: ChatThemable {
     func applyTheme(_ theme: ChatTheme) {
-        titleLab.backgroundColor = theme.leftBubbleColor
+        titleLab.backgroundColor = .clear
+        titleLab.layer.backgroundColor = theme.leftBubbleColor.cgColor
         titleLab.textColor = theme.leftBubbleTextColor
-        arrowView.image = UIImage.svgInit("ic_left_point")?.withRenderingMode(.alwaysTemplate)
-        arrowView.tintColor = theme.leftBubbleColor
+        titleLab.layer.cornerRadius = 18
+        if #available(iOS 11.0, *) {
+            titleLab.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        arrowView.isHidden = true
         applyBubbleShadow(theme.bubbleShadow, to: titleLab)
     }
 }
 
 extension BWChatRightCell: ChatThemable {
     func applyTheme(_ theme: ChatTheme) {
-        titleLab.backgroundColor = theme.rightBubbleColor
+        titleLab.backgroundColor = .clear
+        titleLab.layer.backgroundColor = theme.rightBubbleColor.cgColor
         titleLab.textColor = theme.rightBubbleTextColor
-        arrowView.image = UIImage.svgInit("ic_right_point")?.withRenderingMode(.alwaysTemplate)
-        arrowView.tintColor = theme.rightBubbleColor
+        titleLab.layer.cornerRadius = 18
+        if #available(iOS 11.0, *) {
+            titleLab.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        arrowView.isHidden = true
         applyBubbleShadow(theme.bubbleShadow, to: titleLab)
     }
 }
