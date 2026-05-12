@@ -104,6 +104,7 @@ public struct ChatTheme {
     /// 随机获取一个精选主题
     public static func random() -> ChatTheme {
         presets.randomElement() ?? .default
+        //presets[7]
     }
 
     /// 6 套精选主题
@@ -149,6 +150,26 @@ public struct ChatTheme {
             gradientEndColor:   UIColor(red: 0.62, green: 0.68, blue: 0.88, alpha: 1.0),
             tintColor: UIColor(red: 63/255, green: 81/255, blue: 181/255, alpha: 1.0),
             leftBubbleColor: UIColor(red: 0.91, green: 0.92, blue: 0.97, alpha: 0.88)
+        ),
+        // 7. 暗夜紫 (深色优雅,高端质感)
+        ChatTheme(
+            gradientStartColor: UIColor(red: 0.78, green: 0.15, blue: 0.42, alpha: 1.0),
+            gradientEndColor:   UIColor(red: 0.12, green: 0.06, blue: 0.24, alpha: 1.0),
+            tintColor: UIColor(red: 0.58, green: 0.42, blue: 0.95, alpha: 1.0),
+            leftBubbleColor: UIColor(white: 1.0, alpha: 0.90),
+            leftBubbleTextColor: UIColor(white: 0.12, alpha: 1.0),
+            rightBubbleColor: UIColor(red: 0.50, green: 0.35, blue: 0.88, alpha: 0.92),
+            rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.95)
+        ),
+        // 8. 极简灰 (纯色背景,干净利落)
+        ChatTheme(
+            gradientStartColor: UIColor(red: 246/255, green: 247/255, blue: 250/255, alpha: 1.0),
+            gradientEndColor:   UIColor(red: 246/255, green: 247/255, blue: 250/255, alpha: 1.0),
+            tintColor: UIColor(red: 55/255, green: 120/255, blue: 244/255, alpha: 1.0),
+            leftBubbleColor: UIColor(white: 1.0, alpha: 0.92),
+            leftBubbleTextColor: UIColor(white: 0.15, alpha: 1.0),
+            rightBubbleColor: UIColor(red: 55/255, green: 120/255, blue: 244/255, alpha: 0.92),
+            rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.95)
         )
     ]
 }
