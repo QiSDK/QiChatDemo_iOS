@@ -67,11 +67,6 @@ open class KeFuViewController: UIViewController, UploadListener{
     /// 弱引用持有的定时器
     /// 一个定时器，每隔几秒检查连接状态，如果状态不是在连接状态，就重新连接
       private weak var myTimer: Timer?
-      
-      /// 消息处理队列
-      private lazy var messageQueue: DispatchQueue = {
-          return DispatchQueue(label: "com.teneasy.chat.messageQueue")
-      }()
 
     //当前选择的图片
     var chooseImg: UIImage?
@@ -316,28 +311,31 @@ open class KeFuViewController: UIViewController, UploadListener{
     }
 
     func appendDataSource(msg: CommonMessage, isLeft: Bool, payLoadId: UInt64 = 0, status: MessageSendState = .发送中, cellType: CellType = .TYPE_Text, replayQuote: ReplyMessageItem? = nil) {
-     
-        
-        // 使用消息队列确保线程安全
-               messageQueue.async { [weak self] in
-                   guard let self = self else { return }
-                   
-                   let model = ChatModel()
-                   model.isLeft = isLeft
-                   model.cellType = cellType
-                   model.message = msg
-                   model.payLoadId = payLoadId
-                   if !isLeft {
-                       model.sendStatus = status
-                   }
-                   if let replayQuote = replayQuote{
-                       model.replyItem = replayQuote
-                   }
-                   
-                   self.datasouceArray.append(model)
-                   self.scrollToBottom()
-                  
-               }
+
+        let work: () -> Void = { [weak self] in
+            guard let self = self else { return }
+
+            let model = ChatModel()
+            model.isLeft = isLeft
+            model.cellType = cellType
+            model.message = msg
+            model.payLoadId = payLoadId
+            if !isLeft {
+                model.sendStatus = status
+            }
+            if let replayQuote = replayQuote {
+                model.replyItem = replayQuote
+            }
+
+            self.datasouceArray.append(model)
+            self.scrollToBottom()
+        }
+
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async(execute: work)
+        }
     }
     
     func buildHistory(history: HistoryModel){

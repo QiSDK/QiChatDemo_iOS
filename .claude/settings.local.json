@@ -17,7 +17,8 @@
       "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)",
       "Bash(awk NR>=620 && NR<=635 *)",
       "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme QL-Demo -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -quiet build)",
-      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -list)"
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -list)",
+      "Bash(xcodebuild build *)"
     ]
   }
 }
