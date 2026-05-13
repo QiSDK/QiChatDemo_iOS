@@ -133,9 +133,9 @@ public struct ChatTheme {
         ChatTheme(
             gradientStartColor: UIColor(red: 1.0, green: 0.96, blue: 0.95, alpha: 1.0),
             gradientEndColor:   UIColor(red: 1.0, green: 0.85, blue: 0.82, alpha: 1.0),
-            tintColor: UIColor(red: 235/255, green: 105/255, blue: 110/255, alpha: 1.0),
+            gradientDirection: GradientDirection.bottomToTop, tintColor: UIColor(red: 235/255, green: 105/255, blue: 110/255, alpha: 1.0),
             leftBubbleColor: UIColor(red: 1.0, green: 0.96, blue: 0.95, alpha: 0.3),
-            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
+            leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0)
         ),
         // 4. 抹茶绿 (清新自然)
         ChatTheme(
@@ -149,6 +149,7 @@ public struct ChatTheme {
         ChatTheme(
             gradientStartColor: UIColor(red: 1.0, green: 0.97, blue: 0.92, alpha: 1.0),
             gradientEndColor:   UIColor(red: 1.0, green: 0.88, blue: 0.72, alpha: 1.0),
+            gradientDirection: GradientDirection.bottomToTop,
             tintColor: UIColor(red: 255/255, green: 152/255, blue: 0/255, alpha: 1.0),
             leftBubbleColor: UIColor(red: 1.0, green: 0.97, blue: 0.92, alpha: 0.3),
             leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
@@ -165,6 +166,7 @@ public struct ChatTheme {
         ChatTheme(
             gradientStartColor: UIColor(red: 0.78, green: 0.15, blue: 0.42, alpha: 1.0),
             gradientEndColor:   UIColor(red: 0.12, green: 0.06, blue: 0.24, alpha: 1.0),
+            gradientDirection: GradientDirection.bottomToTop,
             tintColor: UIColor(red: 0.58, green: 0.42, blue: 0.95, alpha: 1.0),
             leftBubbleColor: UIColor(red: 0.78, green: 0.15, blue: 0.42, alpha: 0.3),
             leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
@@ -185,6 +187,7 @@ public struct ChatTheme {
         ChatTheme(
             gradientStartColor: UIColor(red: 165/255, green: 150/255, blue: 187/255, alpha: 1.0),
             gradientEndColor:   UIColor(red: 31/255, green: 31/255, blue: 76/255, alpha: 1.0),
+            gradientDirection: GradientDirection.bottomToTop,
             tintColor: UIColor(red: 155/255, green: 120/255, blue: 240/255, alpha: 1.0),
             leftBubbleColor: UIColor(red: 165/255, green: 150/255, blue: 187/255, alpha: 0.3),
             leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
@@ -199,7 +202,7 @@ public protocol ChatThemable: AnyObject {
     func applyTheme(_ theme: ChatTheme)
 }
 
-extension ChatTheme.GradientDirection {
+public extension ChatTheme.GradientDirection {
     var startPoint: CGPoint {
         switch self {
         case .topToBottom:           return CGPoint(x: 0.5, y: 0.0)

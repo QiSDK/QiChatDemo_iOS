@@ -75,7 +75,7 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
          view.addSubview(self.settingBtn)
          self.settingBtn.snp.makeConstraints { make in
              make.top.equalTo(curLineLB.snp.bottom).offset(10)
-             make.right.equalToSuperview().offset(-20)
+             make.left.equalToSuperview().offset(20)
              make.bottom.equalToSuperview().offset(-50)
          }
     }
