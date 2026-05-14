@@ -4,7 +4,6 @@
 //   var welcome = try? JSONDecoder().decode(Welcome.self, from: jsonData)
 
 import Foundation
-import HandyJSON
 
 // MARK: - Main Data Model
 class ReportRequest: Encodable {
@@ -23,10 +22,9 @@ class ErrorItem: Encodable {
     required init(){}
 }
 
-class ErrorPayload: HandyJSON {
+class ErrorPayload: Codable {
     var header: String?
     var request: String?
     var resp: String?
     required init(){}
 }
-

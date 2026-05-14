@@ -18,7 +18,6 @@
 		DAE9496B017EDF1E482AD3ED /* Pods_QL_Demo_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D552A8E2A4E621C7A421D876 /* Pods_QL_Demo_Example.framework */; };
 		DC2CF37C2C41701E008382BB /* BWSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */; };
 		DC9750312C4E32CD00DEB7BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC9750302C4E32CD00DEB7BA /* GoogleService-Info.plist */; };
-		DC9750342C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DC9750332C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +61,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC9750342C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				DAE9496B017EDF1E482AD3ED /* Pods_QL_Demo_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,7 +190,9 @@
 			);
 			name = "QL-Demo_Example";
 			packageProductDependencies = (
-				DC9750332C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport */,
+				DC9750332C4E33B100DEB7BA /* FirebaseAnalytics */,
+				DC9750362C4E33B100DEB7BA /* FirebaseCore */,
+				DC9750382C4E33B100DEB7BA /* FirebaseCrashlytics */,
 			);
 			productName = TeneasyChatSDKUI_iOS;
 			productReference = 607FACD01AFB9204008FA782 /* QL-Demo_Example.app */;
@@ -293,7 +293,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-QL-Demo_Example/Pods-QL-Demo_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
@@ -312,7 +311,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
@@ -697,10 +695,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		DC9750332C4E33B100DEB7BA /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+		DC9750332C4E33B100DEB7BA /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DC9750322C4E33B100DEB7BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
+			productName = FirebaseAnalytics;
+		};
+		DC9750362C4E33B100DEB7BA /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC9750322C4E33B100DEB7BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		DC9750382C4E33B100DEB7BA /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC9750322C4E33B100DEB7BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import HandyJSON
 
-class EntranceModel: HandyJSON {
+class EntranceModel: Codable {
     var name: String?
     var nick: String?
     var avatar: String?
@@ -17,39 +16,28 @@ class EntranceModel: HandyJSON {
     var changeDefaultTime: String?
     var consults: [Consult]?
     var unread: Int?
-
-    required init(){}
 }
 
-class ReplyList: HandyJSON {
-
+class ReplyList: Codable {
     var replyList: [Message]?
-
-    required init(){}
 }
 
 // MARK: - Consult
-class Consult: HandyJSON {
+class Consult: Codable {
     var consultId: Int32?
     var name: String?
     var guide: String?
     var Works: [Work]?
     var unread: Int?
     var priority: Int?
-
-    required init(){}
-
 }
 
 // MARK: - Work
-class Work: HandyJSON {
+class Work: Codable {
     var nick: String?
     var avatar: String?
     var workerId: Int?
     var nimId: String?
     var connectState: String?
     var onlineState: String?
-
-    required init(){}
-
 }

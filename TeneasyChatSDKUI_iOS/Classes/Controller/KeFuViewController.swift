@@ -456,7 +456,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         let replyItem = ReplyMessageItem()
         if (oriMsg?.msgFmt == "MSG_TEXT"){
             var text = oriMsg?.content?.data ?? ""
-            let result = TextImages.deserialize(from: text)
+            let result = JSONCoding.decode(TextImages.self, from: text)
             text = result?.message ?? ""
             replyItem.content = text
         }
@@ -479,7 +479,7 @@ open class KeFuViewController: UIViewController, UploadListener{
        let replyItem = ReplyMessageItem()
        if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
            var text = oriMsg?.content.data ?? ""
-           let result = TextImages.deserialize(from: text)
+           let result = JSONCoding.decode(TextImages.self, from: text)
            text = result?.message ?? ""
            replyItem.content = text
        }

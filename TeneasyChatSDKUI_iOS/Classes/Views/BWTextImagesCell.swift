@@ -177,7 +177,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             var text = msg.content.data
-            let result = TextImages.deserialize(from: text)
+            let result = JSONCoding.decode(TextImages.self, from: text)
             self.imgs = result?.imgs
             text = result?.message ?? ""
             self.thumbnailTV.reloadData()
@@ -193,7 +193,7 @@ class BWTextImagesCell: UITableViewCell, UICollectionViewDataSource, UICollectio
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
             var text = msg.content.data
-            let result = TextBody.deserialize(from: text)
+            let result = JSONCoding.decode(TextBody.self, from: text)
             self.imgs = result?.image?.components(separatedBy: ";")
             if (result?.video != nil){
                 self.imgs = result?.video?.components(separatedBy: ";")

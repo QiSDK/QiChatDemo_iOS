@@ -482,7 +482,7 @@ extension KeFuViewController {
             UIPasteboard.general.image = cell.thumbnail.image
         } else {
             if (model?.message?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || model?.message?.msgSourceType == CommonMsgSourceType.mstSystemWorker){
-                let result = TextBody.deserialize(from: msgText)
+                let result = JSONCoding.decode(TextBody.self, from: msgText)
                 msgText = result?.content ?? ""
             }
             let pastboard = UIPasteboard.general

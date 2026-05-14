@@ -227,7 +227,7 @@ class BWTextMediaCell: UITableViewCell, UICollectionViewDataSource, UICollection
             var text = msg.content.data
             
             if (model?.message?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || model?.message?.msgSourceType == CommonMsgSourceType.mstSystemWorker){
-                let result = TextBody.deserialize(from: text)
+                let result = JSONCoding.decode(TextBody.self, from: text)
                 textBody = result
                 text = result?.content ?? ""
                 self.playBtn.isHidden = true

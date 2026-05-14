@@ -6,33 +6,28 @@
 //
 
 import Foundation
-import HandyJSON
 
 // MARK: - QuestionModel
 
-class QuestionModel: HandyJSON {
+class QuestionModel: Codable {
     var autoReplyItem: AutoReplyItem?
-
-    required init() {}
 }
 
 // MARK: - AutoReplyItem
 
-class AutoReplyItem: HandyJSON {
+class AutoReplyItem: Codable {
     var id: String?
     var name: String?
     var title: String?
     var qa: [QA]?
     var delaySec: Int?
-    var workerId: [Any?]?
-    var workerNames: [Any?]?
-
-    required init() {}
+    var workerId: [Int]?
+    var workerNames: [String]?
 }
 
 // MARK: - QA
 
-class QA: HandyJSON {
+class QA: Codable {
     var id: Int?
     var question: Question?
     var content: String?
@@ -41,32 +36,28 @@ class QA: HandyJSON {
     var myExpanded: Bool = false
     var clicked: Bool = false
 
-    required init() {}
+    private enum CodingKeys: String, CodingKey {
+        case id, question, content, answer, related
+    }
 }
 
 // MARK: - Question
 
-class Question: HandyJSON {
+class Question: Codable {
     var chatId: String?
     var msgId: String?
-    var msgTime: NSNull?
     var sender: String?
     var replyMsgId: String?
     var msgOp: String?
     var worker: Int?
-    var autoReplyFlag: NSNull?
     var msgFmt: String?
     var consultId: String?
     var content: Content?
     var image: imgUri?
-
-    required init() {}
 }
 
 // MARK: - Content
 
-class Content: HandyJSON {
+class Content: Codable {
     var data: String?
-
-    required init() {}
 }

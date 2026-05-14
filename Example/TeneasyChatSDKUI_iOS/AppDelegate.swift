@@ -8,7 +8,6 @@
 
 import UIKit
 import IQKeyboardManagerSwift
-import FirebaseCore
 import TeneasyChatSDKUI_iOS
 
 @UIApplicationMain
@@ -21,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
           // For Swift 4, use this instead
           // IQKeyboardManager.shared.enable = true
-        FirebaseApp.configure()
         return true
     }
 

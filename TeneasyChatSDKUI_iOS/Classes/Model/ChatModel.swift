@@ -8,7 +8,6 @@
 
 import Foundation
 import TeneasyChatSDK_iOS
-import HandyJSON
 
 enum MessageSendState: String { case 发送中="0", 发送成功="1", 发送失败="2", 未知="-1" }
 
@@ -29,7 +28,7 @@ class ChatModel {
     var cellType: CellType = .TYPE_Text
 }
 
-class Custom: HandyJSON {
+class Custom: Codable {
     var username: String?
     var platform: Int = 1
     var userlevel: Int = 10
@@ -37,7 +36,7 @@ class Custom: HandyJSON {
     required init(){}
 }
 
-class ReplyMessageItem: HandyJSON {
+class ReplyMessageItem: Codable {
     var id: String = ""
     var fileName: String? = ""
     var size: Int32 = 0

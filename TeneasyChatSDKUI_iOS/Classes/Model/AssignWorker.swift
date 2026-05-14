@@ -6,14 +6,12 @@
 //
 
 import Foundation
-import HandyJSON
 
-class AssignWorker: HandyJSON {
+class AssignWorker: Codable {
     var nick: String?
     var avatar: String?
     var workerId: Int32?
     var greeting: String?
     var State: String?
     var consultId: String?
-    required init(){}
 }

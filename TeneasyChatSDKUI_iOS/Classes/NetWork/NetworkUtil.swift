@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HandyJSON
 
 enum NetworkUtil {
     // 获取客服的姓名和头像
@@ -51,15 +50,13 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
                     print(response)
-                    let dic = try? response.mapJSON() as? [String: Any]
-                    // print(dic)
-                    let result = BaseRequestResult<HistoryModel>.deserialize(from: dic)
+                    let result = JSONCoding.decode(BaseRequestResult<HistoryModel>.self, from: response.data)
 
                 if result?.code == 0 {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: JSONCoding.encodeToString(result) ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -78,15 +75,13 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
                     print(response)
-                    let dic = try? response.mapJSON() as? [String: Any]
-                    // print(dic)
-                    let result = BaseRequestResult<EntranceModel>.deserialize(from: dic)
+                    let result = JSONCoding.decode(BaseRequestResult<EntranceModel>.self, from: response.data)
 
                     if result?.code == 0 {
                         done(true, result?.data)
                     } else {
                         done(false, nil)
-                        logError(request: "", header: "\(task.headers?["x-token"] ?? "")", resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                        logError(request: "", header: "\(task.headers?["x-token"] ?? "")", resp: JSONCoding.encodeToString(result) ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                         print(result?.msg ?? "")
                     }
                 case .failure(let error):
@@ -106,15 +101,13 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
 
-                let dic = try? response.mapJSON() as? [String: Any]
-
-                let result = BaseRequestResult<ReplyList>.deserialize(from: dic)
+                let result = JSONCoding.decode(BaseRequestResult<ReplyList>.self, from: response.data)
 
                 if result?.code == 0 {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: JSONCoding.encodeToString(result) ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -132,14 +125,12 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
                     print(response)
-                    let dic = try? response.mapJSON() as? [String: Any]
-                    // print(dic)
-                    let result = BaseRequestResult<AssignWorker>.deserialize(from: dic)
+                    let result = JSONCoding.decode(BaseRequestResult<AssignWorker>.self, from: response.data)
                 if result?.code == 0 {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: JSONCoding.encodeToString(result) ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -160,15 +151,13 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
                     print(response)
-                    let dic = try? response.mapJSON() as? [String: Any]
-//                     print("=====\(dic)")
-                    let result = BaseRequestResult<QuestionModel>.deserialize(from: dic)
+                    let result = JSONCoding.decode(BaseRequestResult<QuestionModel>.self, from: response.data)
 
                 if result?.code == 0 {
                     done(true, result?.data)
                 } else {
                     done(false, nil)
-                    logError(request: "", header: String(describing: task.headers), resp: result?.toJSONString() ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                    logError(request: "", header: String(describing: task.headers), resp: JSONCoding.encodeToString(result) ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
                 }
             case .failure(let error):
                 print(error)
@@ -186,9 +175,7 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
                     print(response)
-                    let dic = try? response.mapJSON() as? [String: Any]
-//                    print("=====\(dic)")
-                    let result = BaseRequestResult<QuestionModel>.deserialize(from: dic)
+                    let result = JSONCoding.decode(BaseRequestResult<QuestionModel>.self, from: response.data)
                     if result?.code == 0 {
                         done(true, result?.data)
                     } else {
@@ -202,7 +189,7 @@ enum NetworkUtil {
     }
     
     
-    static func reportError(reportRequest: ReportRequest, done: @escaping ((_ success: Bool, _ data: BaseRequestResult<Any>?) -> Void)) {
+    static func reportError(reportRequest: ReportRequest, done: @escaping ((_ success: Bool, _ data: BaseRequestResult<EmptyResponse>?) -> Void)) {
         let task = ChatApi.reportError(reportRequest: reportRequest)
         print("请求路径: \(task.baseURL)\(task.path)===\(task.method)")
         //task.headers?.description.addingPercentEscapes(using: <#T##String.Encoding#>)
@@ -212,15 +199,13 @@ enum NetworkUtil {
             switch result {
                 case .success(let response):
                     print(response)
-                    let dic = try? response.mapJSON() as? [String: Any]
-                print("=====\(String(describing: dic))")
-                    let result = BaseRequestResult<Any>.deserialize(from: dic)
-                
+                    let result = JSONCoding.decode(BaseRequestResult<EmptyResponse>.self, from: response.data)
+
                     if result?.code == 0 {
                         done(true, result)
                     } else {
                         done(false, nil)
-                        
+
                     }
                 case .failure(let error):
                     print(error)
@@ -246,7 +231,7 @@ enum NetworkUtil {
         errorPayload.request = request
         errorPayload.resp = resp
         errorPayload.header = header
-        errorItem.payload = errorPayload.toJSONString()
+        errorItem.payload = JSONCoding.encodeToString(errorPayload)
         
         //避免太多重复的日志，最新1条的日志，跟数组里面的最后一条做比较，如果不同，则添加
         if reportRequest.data.count > 0{
@@ -266,7 +251,7 @@ enum NetworkUtil {
             return
         }
         print("开始上报错误日志")
-        if let jsonString = convertToJSONString(from: reportRequest) {
+        if let jsonString = JSONCoding.encodeToString(reportRequest) {
             debugPrint(jsonString)
         }
        
@@ -280,16 +265,4 @@ enum NetworkUtil {
         }
     }
     
-    static func convertToJSONString<T: Encodable>(from model: T) -> String? {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted // 如果想要格式化输出，可以去掉这个选项
-        do {
-            let jsonData = try encoder.encode(model)
-            return String(data: jsonData, encoding: .utf8)
-        } catch {
-            print("Failed to encode model: \(error)")
-            return nil
-        }
-    }
-
 }

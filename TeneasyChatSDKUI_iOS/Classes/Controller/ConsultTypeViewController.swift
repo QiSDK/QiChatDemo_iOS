@@ -149,7 +149,7 @@ open class ConsultTypeViewController: UIViewController {
     
     /// 处理咨询类型选择
     private func handleConsultSelection(consultID: Int32) {
-        let viewController = KeFuViewController(consultId: Int64(consultID), theme: ChatTheme.random())
+        let viewController = KeFuViewController(consultId: Int64(consultID), theme: ChatTheme.presets[7])
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true)
     }

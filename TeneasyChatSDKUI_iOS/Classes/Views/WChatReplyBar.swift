@@ -86,7 +86,7 @@ class WChatReplyBar: WBaseView {
             contentLabel.text = "[视频]"
         }else{
             var text = msg?.content.data ?? ""
-            let result = TextImages.deserialize(from: text)
+            let result = JSONCoding.decode(TextImages.self, from: text)
             text = result?.message ?? ""
             contentLabel.text = text
         }

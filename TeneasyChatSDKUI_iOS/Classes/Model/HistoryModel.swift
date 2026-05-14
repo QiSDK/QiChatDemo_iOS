@@ -4,11 +4,10 @@
 //   let welcome7 = try Welcome7(json)
 
 import Foundation
-import HandyJSON
 import TeneasyChatSDK_iOS
 
 
-struct HistoryModel: HandyJSON {
+struct HistoryModel: Codable {
     var request: RequestData?
     var list: [Message]?
     var replyList: [Message]?
@@ -16,7 +15,7 @@ struct HistoryModel: HandyJSON {
     var nick: String?
 }
 
-struct RequestData: HandyJSON {
+struct RequestData: Codable {
     var chatId: String?
     var msgId: String?
     var count: Int?
@@ -26,7 +25,7 @@ struct RequestData: HandyJSON {
     var userId: Int?
 }
 
-struct Message: HandyJSON {
+struct Message: Codable {
     var chatId: String?
     var msgId: String?
     var msgTime: String?
@@ -45,15 +44,15 @@ struct Message: HandyJSON {
     var workerChanged: AssignWorker?
 }
 
-struct MessageContent: HandyJSON {
+struct MessageContent: Codable {
     var data: String?
 }
 
-struct imgUri: HandyJSON {
+struct imgUri: Codable {
     var uri: String?
 }
 
-struct myFile: HandyJSON {
+struct myFile: Codable {
     var uri: String?
     var fileName: String?
     var size: Int32?

@@ -6,17 +6,16 @@
 //
 
 import Foundation
-import HandyJSON
 
-class BaseRequestResult<T>: HandyJSON {
+class BaseRequestResult<T: Codable>: Codable {
     var code: Int?
     var msg: String?
     var data: T?
-    required init() {}
 }
 
-class WorkerModel: HandyJSON {
+struct EmptyResponse: Codable {}
+
+class WorkerModel: Codable {
     var workerName: String?
     var workerAvatar: String?
-    required init() {}
 }
