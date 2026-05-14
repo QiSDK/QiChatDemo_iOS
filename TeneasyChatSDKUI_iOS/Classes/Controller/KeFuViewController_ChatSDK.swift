@@ -123,7 +123,7 @@ extension KeFuViewController: teneasySDKDelegate {
         }
         
         if (msg.msgSourceType == CommonMsgSourceType.mstEvaluate){
-            WWProgressHUD.showInfoMsg("收到邀请评估的消息")
+            handleEvaluateTriggerMessage(msg)
             return
         }
         
@@ -142,6 +142,20 @@ extension KeFuViewController: teneasySDKDelegate {
         }
     }
     
+    /// 收到 MST_EVALUATE 消息: 内容命中 triggerMessages 且后端 status==0 时自动弹评价
+    private func handleEvaluateTriggerMessage(_ msg: CommonMessage) {
+        guard let config = evaluationConfig else { return }
+        let content = msg.content.data
+        guard config.triggerMessages.contains(content) else { return }
+
+        NetworkUtil.getEvaluationStatus(consultId: Int32(consultId)) { [weak self] success, data in
+            guard let self = self, success, data?.status == 0 else { return }
+            DispatchQueue.main.async {
+                self.showEvaluationDialog(scene: .triggered)
+            }
+        }
+    }
+
     /// 处理消息编辑
     private func handleEditMessage(_ msg: CommonMessage) {
         // 查找需要更新的消息

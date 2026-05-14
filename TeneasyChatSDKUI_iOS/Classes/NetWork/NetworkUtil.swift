@@ -246,6 +246,64 @@ enum NetworkUtil {
         }
     }
     
+    // MARK: - 客服满意度评价
+
+    /// 获取评价配置
+    static func getEvaluationConfig(done: @escaping ((_ success: Bool, _ data: EvaluationConfig?) -> Void)) {
+        let task = ChatApi.evaluationConfig
+        ChatProvider.request(task) { result in
+            switch result {
+            case .success(let response):
+                let parsed = JSONCoding.decode(BaseRequestResult<EvaluationConfig>.self, from: response.data)
+                if parsed?.code == 0 {
+                    done(true, parsed?.data)
+                } else {
+                    done(false, nil)
+                    logError(request: "", header: String(describing: task.headers), resp: JSONCoding.encodeToString(parsed) ?? "解析失败", code: response.statusCode, url: "\(task.baseURL)\(task.path)")
+                }
+            case .failure(let error):
+                logError(request: "", header: String(describing: task.headers), resp: String(describing: error), code: 101, url: "\(task.baseURL)\(task.path)")
+                done(false, nil)
+            }
+        }
+    }
+
+    /// 获取当前会话的评价状态: 0=未评价 1=已评价 2=已关闭 3=空会话
+    static func getEvaluationStatus(consultId: Int32, done: @escaping ((_ success: Bool, _ data: EvaluationStatus?) -> Void)) {
+        let task = ChatApi.evaluationStatus(consultId: consultId)
+        ChatProvider.request(task) { result in
+            switch result {
+            case .success(let response):
+                let parsed = JSONCoding.decode(BaseRequestResult<EvaluationStatus>.self, from: response.data)
+                if parsed?.code == 0 {
+                    done(true, parsed?.data)
+                } else {
+                    done(false, nil)
+                }
+            case .failure:
+                done(false, nil)
+            }
+        }
+    }
+
+    /// 提交评价或主动关闭评价 (close=1 表示用户拒绝评价)
+    static func addEvaluation(consultId: Int32, score: Int32, remark: String, close: Int32, done: @escaping ((_ success: Bool, _ errMsg: String?) -> Void)) {
+        let task = ChatApi.evaluationAdd(consultId: consultId, score: score, remark: remark, close: close)
+        ChatProvider.request(task) { result in
+            switch result {
+            case .success(let response):
+                let parsed = JSONCoding.decode(BaseRequestResult<EmptyResponse>.self, from: response.data)
+                if parsed?.code == 0 {
+                    done(true, nil)
+                } else {
+                    done(false, parsed?.msg)
+                }
+            case .failure(let error):
+                done(false, error.localizedDescription)
+            }
+        }
+    }
+
     static func doReportError(){
         if reportRequest.data.count == 0{
             return

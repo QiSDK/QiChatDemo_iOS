@@ -10,6 +10,9 @@ enum ChatApi {
     case assignWorker(consultId: Int32 = 0)
     case markRead(consultId: Int32 = 0)
     case reportError(reportRequest: ReportRequest)
+    case evaluationConfig
+    case evaluationStatus(consultId: Int32)
+    case evaluationAdd(consultId: Int32, score: Int32, remark: String, close: Int32)
 }
 
 /// 实现TargetType协议
@@ -36,6 +39,12 @@ extension ChatApi: TargetType {
             return "/v1/api/chat/mark-read"
         case .reportError:
             return "v1/api/error-report/upload"
+        case .evaluationConfig:
+            return "/v1/tenant/evaluation/config/info"
+        case .evaluationStatus:
+            return "/v1/tenant/evaluation/status/get"
+        case .evaluationAdd:
+            return "/v1/tenant/evaluation/add"
         }
 
     }
@@ -74,6 +83,17 @@ extension ChatApi: TargetType {
             return .requestJSONEncodable(reportRequest)
         case .queryEntrance:
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
+        case .evaluationConfig:
+            return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
+        case .evaluationStatus(let id):
+            return .requestParameters(parameters: ["consultId": id], encoding: JSONEncoding.default)
+        case .evaluationAdd(let id, let score, let remark, let close):
+            return .requestParameters(parameters: [
+                "consultId": id,
+                "score": score,
+                "remark": remark,
+                "close": close
+            ], encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

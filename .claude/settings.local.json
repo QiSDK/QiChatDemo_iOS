@@ -18,7 +18,18 @@
       "Bash(awk NR>=620 && NR<=635 *)",
       "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme QL-Demo -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -quiet build)",
       "Bash(xcodebuild -workspace QL-Demo.xcworkspace -list)",
-      "Bash(xcodebuild build *)"
+      "Bash(xcodebuild build *)",
+      "Skill(brainstorming)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme QL-Demo -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)",
+      "Bash(grep -n \"^      \\),$\\\\|^    \\);$\\\\|^  }$\\\\|customBottomWidget\\\\|^      Chat\\(\\\\|body: Chat\\\\|emptyState\" /Users/xuefeng/Desktop/teneasy/qichatsdk_demo_flutter/lib/vc/ChatPage.dart)",
+      "Bash(flutter analyze *)",
+      "Bash(flutter build *)",
+      "Bash(./gradlew :TeneasyChatSDKUI_Android:compileDebugKotlin)",
+      "Bash(/usr/libexec/java_home -V)",
+      "Bash(java -version)",
+      "Bash(JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home ./gradlew :TeneasyChatSDKUI_Android:compileDebugKotlin --no-daemon)",
+      "Bash(JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home ./gradlew :TeneasyChatSDKUI_Android:assembleDebug --no-daemon)"
     ]
   }
 }

@@ -155,6 +155,19 @@ open class KeFuViewController: UIViewController, UploadListener{
     
     var popMenu: SwiftPopMenu?
     
+    /// 评价配置 (拉取后才显示按钮)
+    var evaluationConfig: EvaluationConfig?
+
+    /// 当前评价弹窗 (弱引用，弹窗 removeFromSuperview 后自动置 nil)
+    weak var currentEvaluationDialog: EvaluationDialog?
+
+    /// 客服评价浮动按钮
+    lazy var evaluationButton: EvaluationFloatingButton = {
+        let btn = EvaluationFloatingButton(theme: theme)
+        btn.addTarget(self, action: #selector(onEvaluationButtonTap), for: .touchUpInside)
+        return btn
+    }()
+
     /// 消息回复框，回复时显示出来
     lazy var replyBar: WChatReplyBar = {
         let bar = WChatReplyBar()
@@ -192,8 +205,54 @@ open class KeFuViewController: UIViewController, UploadListener{
 
         let rightBarItem = UIBarButtonItem(title: "退出", style: .done, target: self, action: #selector(goBack))
         navigationItem.rightBarButtonItem = rightBarItem
-        
+
         // 全局ChatLib已经在GlobalChatManager中管理，不需要局部监控
+
+        fetchEvaluationConfig()
+    }
+
+    // MARK: - 客服满意度评价
+
+    private func fetchEvaluationConfig() {
+        NetworkUtil.getEvaluationConfig { [weak self] success, data in
+            guard let self = self,
+                  success,
+                  let config = data,
+                  config.evaluationEnabled else { return }
+            DispatchQueue.main.async {
+                self.evaluationConfig = config
+                self.installEvaluationButton()
+            }
+        }
+    }
+
+    private func installEvaluationButton() {
+        guard evaluationButton.superview == nil else { return }
+        view.addSubview(evaluationButton)
+        view.bringSubviewToFront(evaluationButton)
+        evaluationButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.bottom.equalTo(toolBar.snp.top).offset(-8)
+            make.height.equalTo(32)
+        }
+    }
+
+    @objc private func onEvaluationButtonTap() {
+        showEvaluationDialog(scene: .manual)
+    }
+
+    /// 显示评价弹窗 (供 SDK 回调触发时也调用)
+    func showEvaluationDialog(scene: EvaluationScene) {
+        guard let config = evaluationConfig,
+              currentEvaluationDialog == nil,
+              let window = view.window ?? UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
+        currentEvaluationDialog = EvaluationDialog.show(
+            in: window,
+            scene: scene,
+            config: config,
+            consultId: Int32(consultId),
+            theme: theme
+        )
     }
 
     private func applyTheme() {
@@ -587,9 +646,12 @@ open class KeFuViewController: UIViewController, UploadListener{
 //        }
         
         self.markMessagesAsRead()
-        
+
         //离开聊天页面，如果有错误日志，上报日志。
         NetworkUtil.doReportError()
+
+        // 关闭可能残留的评价弹窗，避免内存泄漏
+        currentEvaluationDialog?.dismiss()
     }
     
     deinit {
