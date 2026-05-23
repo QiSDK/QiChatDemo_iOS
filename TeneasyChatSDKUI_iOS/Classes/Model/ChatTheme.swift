@@ -85,9 +85,6 @@ public struct ChatTheme {
         self.gradientDirection = gradientDirection
         self.tintColor = tintColor
         self.leftBubbleColor = leftBubbleColor ?? UIColor.lightText.withAlphaComponent(0.88)
-        
-        self.leftBubbleColor = leftBubbleColor ?? UIColor.red.withAlphaComponent(0.88)
-        
         self.leftBubbleTextColor = leftBubbleTextColor ?? UIColor(white: 0.1, alpha: 1.0)
         
         self.rightBubbleColor = rightBubbleColor ?? tintColor.withAlphaComponent(0.92)
@@ -108,7 +105,6 @@ public struct ChatTheme {
     /// 随机获取一个精选主题
     public static func random() -> ChatTheme {
         presets.randomElement() ?? .default
-        //presets[1]
     }
 
     /// 6 套精选主题
@@ -194,6 +190,26 @@ public struct ChatTheme {
             leftBubbleTextColor: UIColor(white: 0.9, alpha: 1.0),
             rightBubbleColor: UIColor(red: 120/255, green: 85/255, blue: 210/255, alpha: 0.90),
             rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.95)
+        ),
+        // 10. 晨雾白 (极淡渐变,干净柔和)
+        ChatTheme(
+            gradientStartColor: UIColor(red: 252/255, green: 250/255, blue: 252/255, alpha: 1.0),
+            gradientEndColor:   UIColor(red: 220/255, green: 232/255, blue: 244/255, alpha: 1.0),
+            gradientDirection: .topLeftToBottomRight,
+            tintColor: UIColor(red: 120/255, green: 140/255, blue: 210/255, alpha: 1.0),
+            leftBubbleColor: UIColor(white: 1.0, alpha: 0.55),
+            leftBubbleTextColor: UIColor(white: 0.18, alpha: 1.0)
+        ),
+        // 11. 暗夜神殿 (深紫渐变,神秘氛围)
+        ChatTheme(
+            gradientStartColor: UIColor(red: 74/255,  green: 62/255,  blue: 112/255, alpha: 1.0),
+            gradientEndColor:   UIColor(red: 28/255,  green: 22/255,  blue: 62/255,  alpha: 1.0),
+            gradientDirection: .topToBottom,
+            tintColor: UIColor(red: 155/255, green: 120/255, blue: 240/255, alpha: 1.0),
+            leftBubbleColor: UIColor(red: 60/255, green: 50/255, blue: 95/255, alpha: 0.72),
+            leftBubbleTextColor: UIColor(white: 0.95, alpha: 1.0),
+            rightBubbleColor: UIColor(red: 130/255, green: 95/255, blue: 220/255, alpha: 0.92),
+            rightBubbleTextColor: UIColor(white: 1.0, alpha: 0.98)
         )
     ]
 }
