@@ -13,6 +13,7 @@ typealias BWQuestionViewCellClickCallback = (QA) -> ()
 class BWQAView: UIView {
     var heightCallback: BWQuestionViewHeightCallback?
     var qaCellClick: BWQuestionViewCellClickCallback?
+    private var theme: ChatTheme?
     lazy var titleLabel: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.boldSystemFont(ofSize: 14)
@@ -23,6 +24,11 @@ class BWQAView: UIView {
         textView.backgroundColor = .clear
         if #available(iOS 13.0, *) {
             textView.textColor = UIColor.label
+            // 链接颜色跟随系统深浅色（默认 link 在深色下不够亮）
+            textView.linkTextAttributes = [
+                .foregroundColor: UIColor.systemBlue,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
         } else {
             // Fallback on earlier versions
         }
@@ -73,9 +79,27 @@ class BWQAView: UIView {
     }
 
     func applyTheme(_ theme: ChatTheme) {
+        self.theme = theme
         self.backgroundColor = theme.leftBubbleColor
         self.tableView.backgroundColor = .clear
+        // 同步 titleLabel 文字颜色（attributedText 的非链接段也走主题）
+        applyThemeToTitleLabel()
         self.tableView.reloadData()
+    }
+
+    private func applyThemeToTitleLabel() {
+        let textColor = theme?.leftBubbleTextColor ?? UIColor.label
+        titleLabel.textColor = textColor
+        if let attributed = titleLabel.attributedText, attributed.length > 0 {
+            let mutable = NSMutableAttributedString(attributedString: attributed)
+            let fullRange = NSRange(location: 0, length: mutable.length)
+            mutable.enumerateAttribute(.link, in: fullRange, options: []) { value, range, _ in
+                if value == nil {
+                    mutable.addAttribute(.foregroundColor, value: textColor, range: range)
+                }
+            }
+            titleLabel.attributedText = mutable
+        }
     }
 
     var sectionList: [QA] = []
@@ -86,10 +110,22 @@ class BWQAView: UIView {
         // 支持HTML显示
         if let htmlString = model.autoReplyItem?.title {
             if let attributedString = htmlString.htmlToAttributedString() {
-                titleLabel.attributedText = attributedString
+                let mutable = NSMutableAttributedString(attributedString: attributedString)
+                let fullRange = NSRange(location: 0, length: mutable.length)
+                mutable.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 14), range: fullRange)
+                // 仅对非链接段落强制使用 label 颜色；链接颜色交给 linkTextAttributes
+                if #available(iOS 13.0, *) {
+                    mutable.enumerateAttribute(.link, in: fullRange, options: []) { value, range, _ in
+                        if value == nil {
+                            mutable.addAttribute(.foregroundColor, value: UIColor.label, range: range)
+                        }
+                    }
+                }
+                titleLabel.attributedText = mutable
             } else {
                 titleLabel.text = htmlString
             }
+            applyThemeToTitleLabel()
         }
 
         // 计算titleLabel的实际高度
@@ -113,11 +149,8 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         let model: QA? = sectionList[indexPath.section].related?[indexPath.row]
         //cell.titleLab.text = "\(indexPath.row + 1)、\(model?.question?.content?.data ?? "")"
         cell.titleLab.text = "\(model?.question?.content?.data ?? "")"
-        if #available(iOS 13.0, *) {
-            cell.titleLab.textColor = model?.clicked == true ? UIColor.tertiaryLabel : UIColor.label
-        } else {
-            // Fallback on earlier versions
-        }
+        let baseColor = theme?.leftBubbleTextColor ?? UIColor.label
+        cell.titleLab.textColor = model?.clicked == true ? baseColor.withAlphaComponent(0.5) : baseColor
         cell.titleLab.font = UIFont.systemFont(ofSize: 14)
         //cell.imgArrowRight.isHidden = true
         cell.iconView.isHidden = true
@@ -147,14 +180,10 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
         //headerView.titleLabel.text = sectionList[section].question?.content?.data ?? ""
         
         headerView.titleLabel.text = "\(section + 1)、\(sectionList[section].question?.content?.data ?? "")"
-        
+
         //headerView.titleLabel.text = "你和我打的的是谁的谁谁谁谁谁谁谁谁谁呃呃等待"
-        if #available(iOS 13.0, *) {
-            headerView.titleLabel.textColor = UIColor.label
-            //headerView.backgroundColor = UIColor.red
-        } else {
-            // Fallback on earlier versions
-        }
+        let headerBase = theme?.leftBubbleTextColor ?? UIColor.label
+        headerView.titleLabel.textColor = sectionList[section].clicked ? headerBase.withAlphaComponent(0.5) : headerBase
         headerView.titleLabel.font = UIFont.systemFont(ofSize: 14)
         if sectionList[section].myExpanded == true {
             headerView.imgView.image = UIImage.svgInit("arrowup")
@@ -201,8 +230,9 @@ extension BWQAView: UITableViewDelegate, UITableViewDataSource {
                 return
             }
             let headerView = sender.view as! BWQuestionSectionHeader
+            let disabledColor = (theme?.leftBubbleTextColor ?? UIColor.label).withAlphaComponent(0.5)
+            headerView.titleLabel.textColor = disabledColor
             if #available(iOS 13.0, *) {
-                headerView.titleLabel.textColor = UIColor.tertiaryLabel
                 headerView.enableMode = .disabled
             } else {
                 // Fallback on earlier versions
