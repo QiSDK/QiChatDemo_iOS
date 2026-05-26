@@ -28,7 +28,11 @@ enum JSONCoding {
     }
 
     static func decode<T: Decodable>(_ type: T.Type, from string: String?) -> T? {
-        guard let data = string?.data(using: .utf8) else { return nil }
+        guard let raw = string else { return nil }
+        // 调用方常用此方法判断纯文本是否是结构化 JSON；非 JSON 直接返回，避免无意义的报错日志。
+        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let first = trimmed.first, first == "{" || first == "[" else { return nil }
+        guard let data = trimmed.data(using: .utf8) else { return nil }
         return decode(type, from: data)
     }
 

@@ -18,6 +18,9 @@
 		DAE9496B017EDF1E482AD3ED /* Pods_QL_Demo_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D552A8E2A4E621C7A421D876 /* Pods_QL_Demo_Example.framework */; };
 		DC2CF37C2C41701E008382BB /* BWSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2CF37B2C41701D008382BB /* BWSettingViewController.swift */; };
 		DC9750312C4E32CD00DEB7BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC9750302C4E32CD00DEB7BA /* GoogleService-Info.plist */; };
+		DCFB495F2FC5740C00ACF6F4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DC9750332C4E33B100DEB7BA /* FirebaseAnalytics */; };
+		DCFB49602FC5740C00ACF6F4 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = DC9750362C4E33B100DEB7BA /* FirebaseCore */; };
+		DCFB49612FC5740C00ACF6F4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = DC9750382C4E33B100DEB7BA /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCFB49612FC5740C00ACF6F4 /* FirebaseCrashlytics in Frameworks */,
+				DCFB49602FC5740C00ACF6F4 /* FirebaseCore in Frameworks */,
+				DCFB495F2FC5740C00ACF6F4 /* FirebaseAnalytics in Frameworks */,
 				DAE9496B017EDF1E482AD3ED /* Pods_QL_Demo_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,7 +500,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -540,7 +546,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -559,7 +565,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 36SK8379UA;
 				INFOPLIST_FILE = TeneasyChatSDKUI_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -583,7 +589,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 36SK8379UA;
 				INFOPLIST_FILE = TeneasyChatSDKUI_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

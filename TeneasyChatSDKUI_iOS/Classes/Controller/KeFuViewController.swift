@@ -51,6 +51,9 @@ open class KeFuViewController: UIViewController, UploadListener{
     
     /// 首次加载标记
    var isFirstLoad: Bool = true
+
+    /// 首次进入后，等 QA cell 完成异步高度计算时再 scroll 到底一次
+   var needsInitialScrollToBottom: Bool = true
     
     /// 客服信息
    var workerName: String = ""
