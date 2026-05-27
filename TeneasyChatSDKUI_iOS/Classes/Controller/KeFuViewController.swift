@@ -602,8 +602,11 @@ open class KeFuViewController: UIViewController, UploadListener{
             WWProgressHUD.showInfoMsg("消息不能为空")
             return
         }
-        chatLib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: replyBar.msg?.msgID ?? 0, withAutoReply: self.withAutoReply)
-        
+        let originalReplyMsg = replyBar.msg
+        let replyQuote: ReplyMessageItem? = originalReplyMsg != nil ? getReplyItem(oriMsg: originalReplyMsg) : nil
+
+        chatLib.sendMessage(msg: textMsg, type: .msgText, consultId: consultId, replyMsgId: originalReplyMsg?.msgID ?? 0, withAutoReply: self.withAutoReply)
+
         if replyBar.superview != nil && replyBar.msg != nil{
             replyBar.snp.updateConstraints { make in
                 make.top.equalTo(self.toolBar.snp.top)
@@ -611,7 +614,7 @@ open class KeFuViewController: UIViewController, UploadListener{
             replyBar.msg = nil
         }
         if let cMsg = chatLib.sendingMsg {
-            appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId)
+            appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, replayQuote: replyQuote)
         }
     }
 
