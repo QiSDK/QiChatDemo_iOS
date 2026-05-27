@@ -318,6 +318,7 @@ extension KeFuViewController: teneasySDKDelegate {
         print("客服更换: \(msg.workerName) at \(Date())")
         workerId = msg.workerID
         isFirstLoad = true
+        needsInitialScrollToBottom = true
         
         // 获取新会话历史记录
         refreshChatHistory()

@@ -29,6 +29,10 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     self?.showMenu(gesure, model: model, indexPath: indexPath)
                 }
             }
+            cell.showOriginalBack = { [weak self] in
+                guard let replyItem = model.replyItem else { return }
+                self?.showOriginal(model: replyItem)
+            }
             if let leftCell = cell as? BWFileLeftCell {
                 leftCell.displayIconImg(path: self.avatarPath)
             }
@@ -73,17 +77,22 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = BWChatQACell.cell(tableView: tableView)
             cell.consultId = Int32(self.consultId)
             cell.heightBlock = { [weak self] (height: Double) in
-                //self?.questionViewHeight = height + 20
-                print("questionViewHeight:\(height + 20)")
-                //                if let indexPath = self?.currentQAIndexPath {
-                //                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
-                //                }
-                self?.questionViewHeight = height
-                self?.tableView.reloadData()
-                // 不能加到这，会导致每次点header，都会下拉到底部
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                    self?.scrollToBottom()
-//                }
+                guard let self = self else { return }
+                // 自动回复来自异步接口，回调时若用户仍在底部，则重新滚到底部；
+                // 若用户已经向上翻看历史，保持原位置不动。
+                // 首次进入时初始 scrollToBottom 用的是旧 questionViewHeight，
+                // 这里靠 needsInitialScrollToBottom 兜底补一次。
+                let contentBottom = self.tableView.contentSize.height + self.tableView.contentInset.bottom
+                let visibleBottom = self.tableView.contentOffset.y + self.tableView.bounds.height
+                let wasNearBottom = (contentBottom - visibleBottom) < 50
+
+                self.questionViewHeight = height
+                self.tableView.reloadData()
+
+                if self.needsInitialScrollToBottom || wasNearBottom {
+                    self.scrollToBottom()
+                    self.needsInitialScrollToBottom = false
+                }
             }
             self.currentQAIndexPath = indexPath
             cell.model = model
@@ -387,13 +396,31 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     // MARK: - scrollToBottom
-    // scrollToBottom() -  滚动到底部
+    // scrollToBottom() -  滚动到底部，保留与底部 contentInset.bottom（20px）的间距
     func scrollToBottom() {
         // 在主线程更新UI
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            if self.datasouceArray.count > 1 {
-                self.tableView.scrollToRow(at: IndexPath(row: self.datasouceArray.count - 1, section: 0), at: UITableView.ScrollPosition.bottom, animated: false)
+            guard !self.datasouceArray.isEmpty else { return }
+
+            // estimatedRowHeight 会让 contentSize.height 一开始是估算值，
+            // 单独 layoutIfNeeded 只布局可视 cell，非可视区仍是估算。
+            // 先 scrollToRow(.bottom) 强制 tableView 出队尾部 cell 计算真实高度，
+            // 再用真实 contentSize 精确定位，并保留 bottomInset 间距。
+            let lastIndex = IndexPath(row: self.datasouceArray.count - 1, section: 0)
+            self.tableView.scrollToRow(at: lastIndex, at: .bottom, animated: false)
+            self.tableView.layoutIfNeeded()
+
+            let contentH = self.tableView.contentSize.height
+            let frameH = self.tableView.bounds.height
+            let bottomInset = self.tableView.contentInset.bottom
+
+            if contentH + bottomInset > frameH {
+                let targetY = contentH + bottomInset - frameH
+                self.tableView.setContentOffset(CGPoint(x: 0, y: targetY), animated: false)
+            } else {
+                // 内容不足一屏，回到顶部
+                self.tableView.setContentOffset(CGPoint(x: 0, y: -self.tableView.contentInset.top), animated: false)
             }
         }
     }
