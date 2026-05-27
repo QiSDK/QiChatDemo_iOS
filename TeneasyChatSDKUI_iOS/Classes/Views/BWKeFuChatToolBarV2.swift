@@ -7,267 +7,261 @@
 
 import IQKeyboardManagerSwift
 import UIKit
+
 // 插入的图片附件的尺寸样式
 enum ImageAttachmentModeV2 {
-    case Default // 默认（不改变大小）
-    case FitTextLine // 使尺寸适应行高
-    case FitTextView // 使尺寸适应textView
+    case Default
+    case FitTextLine
+    case FitTextView
 }
 
 protocol BWKeFuChatToolBarV2Delegate: AnyObject {
-    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedVoice btn: UIButton)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedMenu btn: UIButton)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedPhoto btn: UIButton)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedCamera btn: UIButton)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, disSelectedFile btn: UIButton)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, didSendMsg btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedImageAction btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedVideoAction btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedDeviceInfoAction btn: UIButton)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedFileAction btn: UIButton)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedEmoji btn: UIButton)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, sendVoice gesture: UILongPressGestureRecognizer)
-    func toolBar(toolBar: BWKeFuChatToolBarV2, menuView: BWKeFuChatMenuView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion)
+    func toolBar(toolBar: BWKeFuChatToolBarV2, didToggleAttachPanel isShowing: Bool)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didBeginEditing textView: UITextView)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didChanged textView: UITextView)
     func toolBar(toolBar: BWKeFuChatToolBarV2, didEndEditing textView: UITextView)
     func toolBar(toolBar: BWKeFuChatToolBarV2, sendText context: String)
     func toolBar(toolBar: BWKeFuChatToolBarV2, changed text: String, range: NSRange) -> Bool
     func toolBar(toolBar: BWKeFuChatToolBarV2, delete text: String, range: NSRange) -> Bool
+    func toolBar(toolBar: BWKeFuChatToolBarV2, menuView: BWKeFuChatMenuView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion)
 }
 
 class BWKeFuChatToolBarV2: UIView {
     public weak var delegate: BWKeFuChatToolBarV2Delegate?
-    private var isShowMenuView = true
-    
-    private var inputMinHeight: CGFloat = 33
-    private var inputMaxHeight: CGFloat = 90
-    
-    // 保存的输入字符串，当多行文本时，切换语音/键盘按钮，会出现toolBar高度不适应的问题（contentSize）
+
+    private let inputMinHeight: CGFloat = 36
+    private let inputMaxHeight: CGFloat = 90
+    private let panelExpandedHeight: CGFloat = 108
+
+    /// 保存的输入字符串
     var savedText: NSAttributedString = .init(string: "")
-    
+
     /// 监听次数
     var editCount: Int16 = 0
-    
-    private lazy var photoBtn: WButton = {
-        let btn = WButton()
-        var image = UIImage.svgInit("Img_box_light")
-        if #available(iOS 13.0, *) {
-            image = image?.withTintColor(UIColor.systemGray)
-        } else {
-        }
-        btn.setImage(image, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        return btn
+
+    private(set) var isPanelShowing = false
+
+    // MARK: - 输入胶囊与右侧图标
+
+    /// 圆角胶囊背景
+    private lazy var inputPill: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.layer.cornerRadius = 20
+        v.layer.masksToBounds = true
+        return v
     }()
-    
-    private lazy var cameraBtn: WButton = {
-        let btn = WButton()
-        var image = UIImage.svgInit("camera_light")
-        if #available(iOS 13.0, *) {
-            image = image?.withTintColor(UIColor.systemGray)
-        } else {
-        }
-        btn.setImage(image, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        
-        return btn
+
+    /// 占位输入框（用于切到 emoji 面板时抢焦点）
+    lazy var placeTextField: UITextField = {
+        let text = UITextField()
+        text.delegate = self
+        text.isHidden = true
+        return text
+    }()
+
+    lazy var textView: IQTextView = {
+        let text = IQTextView()
+        text.placeholder = "说点什么吧"
+        text.backgroundColor = .clear
+        text.delegate = self
+        text.font = UIFont.systemFont(ofSize: 15)
+        text.textColor = .black
+        text.returnKeyType = .send
+        text.isSelectable = true
+        text.textContainerInset = .zero
+        text.textContainer.lineFragmentPadding = 0
+        return text
     }()
 
     private lazy var emojiBtn: WButton = {
         let btn = WButton()
         var image = UIImage.svgInit("emoj_light")
-        
-        if #available(iOS 13.0, *) {
-            image = image?.withTintColor(UIColor.systemGray)
-        } else {
-        }
-        btn.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
-        
         var selImage = UIImage.svgInit("ht_shuru")
         if #available(iOS 13.0, *) {
-            selImage = selImage?.withTintColor(UIColor.systemGray)
-        } else {
-        }
-        btn.setImage(selImage, for: .selected)
-
-        return btn
-    }()
-    
-    private lazy var fileBtn: WButton = {
-        let btn = WButton()
-        var image = UIImage.init(named: "file_icon", in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
-        if #available(iOS 13.0, *) {
-            image = image?.withTintColor(UIColor.systemGray)
-        } else {
+            image = image?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+            selImage = selImage?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         }
         btn.setImage(image, for: .normal)
-
+        btn.setImage(selImage, for: .selected)
         return btn
     }()
-    
-    lazy var textCountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "0/500"
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .gray
-        return label
-    }()
 
-    private lazy var sendBtn: WButton = {
+    private lazy var attachBtn: WButton = {
         let btn = WButton()
-        btn.setTitle("发送", for: UIControl.State.normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        btn.setTitleColor(.white, for: UIControl.State.normal)
-       
-        btn.backgroundColor = kHexColor(0x1989FA)
-   
-  
-        btn.layer.cornerRadius = 4
-        btn.layer.masksToBounds = true
+        btn.setImage(Self.paperclipImage(tint: .systemGray), for: .normal)
         return btn
     }()
 
-    lazy var placeTextField: UITextField = {
-        let text = UITextField()
-        text.delegate = self
-        return text
+    // MARK: - 展开面板
+
+    private lazy var panelContainer: UIView = {
+        let v = UIView()
+        v.clipsToBounds = true
+        v.backgroundColor = .clear
+        return v
     }()
-    
-    lazy var textView: IQTextView = {
-        let text = IQTextView()
-        text.layer.cornerRadius = 8
-        text.layer.masksToBounds = true
-        text.clipsToBounds = true
-        if #available(iOS 13.0, *) {
-            text.backgroundColor = UIColor.tertiarySystemBackground
-        } else {
-            // Fallback on earlier versions
-        }
-        text.delegate = self
-        text.font = UIFont.systemFont(ofSize: 14)
-        text.textColor = .black
-        text.returnKeyType = .send
-        text.isSelectable = true
-        return text
-    }()
-    
-    /// 菜单视图
+
+    private lazy var imageAction = _ToolBarPanelItem(title: "图片",
+                                                    image: UIImage.svgInit("Img_box_light"))
+    private lazy var videoAction = _ToolBarPanelItem(title: "视频",
+                                                    image: Self.videoIcon())
+    private lazy var deviceInfoAction = _ToolBarPanelItem(title: "设备信息",
+                                                          image: Self.deviceInfoIcon())
+    private lazy var fileAction = _ToolBarPanelItem(title: "文件",
+                                                   image: UIImage(named: "file_icon",
+                                                                 in: BundleUtil.getCurrentBundle(),
+                                                                 compatibleWith: nil))
+
+    /// 旧菜单视图（已不再展示，仅保留以兼容 emoji 表情数据源初始化路径）
     lazy var menuView: BWKeFuChatMenuView = {
         let menuView = BWKeFuChatMenuView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 240))
         menuView.delegate = self
         return menuView
     }()
-    
-    /// 表情视图
+
+    /// 表情视图（以 placeTextField 的 inputView 形式弹出，等同键盘）
     lazy var emojiView: BWKeFuChatEmojiView = {
         let emojiView = BWKeFuChatEmojiView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 285))
         emojiView.delegate = self
         if #available(iOS 13.0, *) {
             emojiView.backgroundColor = UIColor.tertiarySystemBackground
-        } else {
-            // Fallback on earlier versions
         }
         return emojiView
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         initSubViews()
         initBindModel()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func initSubViews() {
-        /// 占位输入框
         addSubview(placeTextField)
         placeTextField.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-            make.top.equalToSuperview().offset(10)
-            make.height.equalTo(32)
+            make.left.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.height.equalTo(1)
         }
 
-        /// 输入框
-        addSubview(textView)
-        textView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-            make.top.equalToSuperview().offset(10)
-            make.bottom.equalToSuperview().offset(-44)
-            make.height.equalTo(inputMinHeight)
+        addSubview(attachBtn)
+        attachBtn.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-12)
+            make.top.equalToSuperview().offset(8)
+            make.width.height.equalTo(36)
         }
-        
-        addSubview(photoBtn)
-        photoBtn.snp.makeConstraints { make in
-            make.left.equalTo(textView.snp.left)
-            make.top.equalTo(textView.snp.bottom).offset(8)
-            make.width.height.equalTo(26)
-        }
-        addSubview(cameraBtn)
-        cameraBtn.snp.makeConstraints { make in
-            make.left.equalTo(photoBtn.snp.right).offset(5)
-            make.centerY.equalTo(photoBtn.snp.centerY)
-            make.width.height.equalTo(photoBtn.snp.width)
-        }
+
         addSubview(emojiBtn)
         emojiBtn.snp.makeConstraints { make in
-            make.left.equalTo(cameraBtn.snp.right).offset(5)
-            make.centerY.equalTo(photoBtn.snp.centerY)
-            make.width.height.equalTo(photoBtn.snp.width)
+            make.right.equalTo(attachBtn.snp.left).offset(-2)
+            make.centerY.equalTo(attachBtn)
+            make.width.height.equalTo(36)
         }
-        
-        //文件选择按钮
-        addSubview(fileBtn)
-        fileBtn.snp.makeConstraints { make in
-            make.left.equalTo(emojiBtn.snp.right).offset(5)
-            make.centerY.equalTo(photoBtn.snp.centerY)
-            make.width.height.equalTo(photoBtn.snp.width)
+
+        addSubview(inputPill)
+        inputPill.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.right.equalTo(emojiBtn.snp.left).offset(-6)
+            make.top.equalToSuperview().offset(8)
+            make.height.greaterThanOrEqualTo(40)
         }
-        
-        addSubview(sendBtn)
-        sendBtn.snp.makeConstraints { make in
-            make.right.equalTo(textView.snp.right)
-            make.centerY.equalTo(photoBtn.snp.centerY)
-            make.width.equalTo(70)
-            make.height.equalTo(30)
+
+        inputPill.addSubview(textView)
+        textView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(14)
+            make.right.equalToSuperview().offset(-14)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+            make.height.equalTo(inputMinHeight - 16)
         }
-        addSubview(textCountLabel)
-        textCountLabel.snp.makeConstraints { make in
-            make.right.equalTo(sendBtn.snp.left).offset(-5)
-            make.centerY.equalTo(photoBtn.snp.centerY)
+
+        addSubview(panelContainer)
+        panelContainer.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(inputPill.snp.bottom).offset(6)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(0)
+        }
+
+        //let stack = UIStackView(arrangedSubviews: [imageAction, videoAction, deviceInfoAction, fileAction])
+        let stack = UIStackView(arrangedSubviews: [imageAction, videoAction, deviceInfoAction])
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.alignment = .top
+        stack.spacing = 4
+        panelContainer.addSubview(stack)
+        stack.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(8)
+            make.right.equalToSuperview().offset(-8)
+            make.top.equalToSuperview().offset(4)
         }
     }
-    
-    func initBindModel() {
+
+    private func initBindModel() {
         BEmotionHelper.shared.emotionArray = BEmotionHelper.getNewEmoji()
 
         if #available(iOS 13.0, *) {
             menuView.backgroundColor = UIColor.secondarySystemBackground
             backgroundColor = UIColor.secondarySystemBackground
-        } else {
-            // Fallback on earlier versions
         }
-        textView.backgroundColor = .white
-        placeTextField.backgroundColor = .white
+
         textView.addObserver(self, forKeyPath: "attributedText", options: .new, context: nil)
         textView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        
-        photoBtn.addTarget(self, action: #selector(photoBtnAction(sender:)), for: UIControl.Event.touchUpInside)
-        cameraBtn.addTarget(self, action: #selector(cameraBtnAction(sender:)), for: UIControl.Event.touchUpInside)
-        sendBtn.addTarget(self, action: #selector(sendBtnAction(sender:)), for: UIControl.Event.touchUpInside)
-        fileBtn.addTarget(self, action: #selector(fileBtnAction(sender:)), for: UIControl.Event.touchUpInside)
-        emojiBtn.addTarget(self, action: #selector(emojiBtnAction(sender:)), for: UIControl.Event.touchUpInside)
-                
-        /// 主动调一下懒加载，提前创建好两个视图
-        placeTextField.inputView = menuView
+
+        emojiBtn.addTarget(self, action: #selector(emojiBtnAction(sender:)), for: .touchUpInside)
+        attachBtn.addTarget(self, action: #selector(attachBtnAction(sender:)), for: .touchUpInside)
+
+        imageAction.addTarget(self, action: #selector(imageActionTapped), for: .touchUpInside)
+        videoAction.addTarget(self, action: #selector(videoActionTapped), for: .touchUpInside)
+        deviceInfoAction.addTarget(self, action: #selector(deviceInfoActionTapped), for: .touchUpInside)
+        fileAction.addTarget(self, action: #selector(fileActionTapped), for: .touchUpInside)
+
+        // 预热 inputView，避免首次切换抖动
         placeTextField.inputView = emojiView
     }
-    
+
     deinit {
         textView.removeObserver(self, forKeyPath: "attributedText", context: nil)
         textView.removeObserver(self, forKeyPath: "contentSize", context: nil)
+    }
+
+    // MARK: - 图标工厂
+
+    private static func paperclipImage(tint: UIColor) -> UIImage? {
+        if #available(iOS 13.0, *) {
+            let cfg = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular)
+            return UIImage(systemName: "paperclip", withConfiguration: cfg)?
+                .withTintColor(tint, renderingMode: .alwaysOriginal)
+        }
+        return nil
+    }
+
+    private static func videoIcon() -> UIImage? {
+        if #available(iOS 13.0, *) {
+            let cfg = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
+            return UIImage(systemName: "play.rectangle", withConfiguration: cfg)?
+                .withRenderingMode(.alwaysTemplate)
+        }
+        return nil
+    }
+
+    private static func deviceInfoIcon() -> UIImage? {
+        if #available(iOS 13.0, *) {
+            let cfg = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
+            return UIImage(systemName: "iphone", withConfiguration: cfg)?
+                .withRenderingMode(.alwaysTemplate)
+        }
+        return nil
     }
 }
 
@@ -275,40 +269,32 @@ class BWKeFuChatToolBarV2: UIView {
 
 extension BWKeFuChatToolBarV2: ChatThemable {
     func applyTheme(_ theme: ChatTheme) {
-        // toolbar 整体:渐变末端色压一层半透明,跟聊天页底部颜色连续,
-        // 不再是一整块灰条
         backgroundColor = theme.gradientEndColor.withAlphaComponent(0.85)
         menuView.backgroundColor = theme.gradientEndColor.withAlphaComponent(0.85)
         emojiView.backgroundColor = theme.gradientEndColor.withAlphaComponent(0.85)
 
-        // 输入框跟左气泡用同款半透明白,视觉上是"卡片同款"
-        textView.backgroundColor = theme.leftBubbleColor
-        placeTextField.backgroundColor = theme.leftBubbleColor
+        inputPill.backgroundColor = theme.leftBubbleColor
         textView.textColor = theme.leftBubbleTextColor
 
-        // 发送按钮统一到主题 tintColor
-        sendBtn.backgroundColor = theme.tintColor
-
-        // 计数器用文字色压一层透明,温和不抢戏
-        textCountLabel.textColor = theme.leftBubbleTextColor.withAlphaComponent(0.5)
-
-        // 图标重新用主题色着色,从 systemGray 换成 tintColor 的 70% 分量,
-        // 跟发送按钮形成"同色不同分量"的呼应
         let iconTint = theme.tintColor.withAlphaComponent(0.7)
-        retintIcon(button: photoBtn, name: "Img_box_light", color: iconTint)
-        retintIcon(button: cameraBtn, name: "camera_light", color: iconTint)
-        retintIcon(button: fileBtn, name: "file_icon", color: iconTint, useAssetCatalog: true)
+        let circleColor = theme.leftBubbleColor
+
         retintIcon(button: emojiBtn, name: "emoj_light", color: iconTint, state: .normal)
         retintIcon(button: emojiBtn, name: "ht_shuru", color: iconTint, state: .selected)
+        attachBtn.setImage(Self.paperclipImage(tint: theme.tintColor), for: .normal)
+
+        let panelIconColor = theme.leftBubbleTextColor.withAlphaComponent(0.85)
+        let panelLabelColor = theme.leftBubbleTextColor.withAlphaComponent(0.85)
+        for item in [imageAction, videoAction, deviceInfoAction, fileAction] {
+            item.applyStyle(iconColor: panelIconColor,
+                            labelColor: panelLabelColor,
+                            circleColor: circleColor)
+        }
     }
 
-    private func retintIcon(
-        button: WButton,
-        name: String,
-        color: UIColor,
-        state: UIControl.State = .normal,
-        useAssetCatalog: Bool = false
-    ) {
+    private func retintIcon(button: WButton, name: String, color: UIColor,
+                            state: UIControl.State = .normal,
+                            useAssetCatalog: Bool = false) {
         var image: UIImage?
         if useAssetCatalog {
             image = UIImage(named: name, in: BundleUtil.getCurrentBundle(), compatibleWith: nil)
@@ -324,100 +310,115 @@ extension BWKeFuChatToolBarV2: ChatThemable {
     }
 }
 
-// MARK: - --------------公有方法
+// MARK: - 公有方法
 
 extension BWKeFuChatToolBarV2 {
     /// 重设状态
     public func resetStatus() {
-        isShowMenuView = true
         emojiBtn.isSelected = false
         textView.text = ""
         textView.resignFirstResponder()
         placeTextField.resignFirstResponder()
-        updateMenuBtn()
+        setPanelShowing(false, animated: false)
     }
-    
+
     /// 全体禁言
     func banChat(isBan: Bool) {}
-    
-    /// 将语音模式切换到文本输入模式
+
+    /// 切到文本输入模式
     public func setTextInputModel() {}
 }
 
-// MARK: - --------------私有方法
+// MARK: - 私有方法
 
 extension BWKeFuChatToolBarV2 {
-    /// 菜单
-    @objc private func photoBtnAction(sender: UIButton) {
-        delegate?.toolBar(toolBar: self, didSelectedPhoto: sender)
+
+    private func setPanelShowing(_ showing: Bool, animated: Bool) {
+        guard isPanelShowing != showing else { return }
+        isPanelShowing = showing
+        panelContainer.snp.updateConstraints { make in
+            make.height.equalTo(showing ? panelExpandedHeight : 0)
+        }
+        delegate?.toolBar(toolBar: self, didToggleAttachPanel: showing)
+        if animated {
+            UIView.animate(withDuration: 0.22) {
+                self.superview?.layoutIfNeeded()
+            }
+        } else {
+            superview?.layoutIfNeeded()
+        }
     }
-    @objc private func cameraBtnAction(sender: UIButton) {
-        delegate?.toolBar(toolBar: self, didSelectedCamera: sender)
+
+    @objc private func attachBtnAction(sender: UIButton) {
+        if isPanelShowing {
+            setPanelShowing(false, animated: true)
+        } else {
+            // 收起键盘 / emoji，再展开面板
+            emojiBtn.isSelected = false
+            textView.resignFirstResponder()
+            placeTextField.resignFirstResponder()
+            setPanelShowing(true, animated: true)
+        }
     }
-    @objc private func sendBtnAction(sender: UIButton) {
-        delegate?.toolBar(toolBar: self, didSendMsg: sender)
-    }
-    @objc private func fileBtnAction(sender: UIButton) {
-        delegate?.toolBar(toolBar: self, disSelectedFile: sender)
-    }
-    
-    /// 表情
+
     @objc private func emojiBtnAction(sender: UIButton) {
+        // emoji 与展开面板互斥
+        if isPanelShowing { setPanelShowing(false, animated: true) }
+
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.placeTextField.inputView = self?.emojiView
                 self?.placeTextField.becomeFirstResponder()
                 self?.placeTextField.reloadInputViews()
-                self?.textView.isHidden = false
             }
         } else {
             UIView.animate(withDuration: 0.25) { [weak self] in
-                self?.textView.isHidden = false
                 self?.placeTextField.inputView = nil
                 self?.textView.becomeFirstResponder()
                 self?.textView.reloadInputViews()
             }
         }
-        
-        isShowMenuView = true
         delegate?.toolBar(toolBar: self, didSelectedEmoji: sender)
     }
-    
-    /// 录制语音
-    @objc private func sendVoiceGesture(sender: UILongPressGestureRecognizer) {
-        if sender.state == UIGestureRecognizer.State.began {
-            NSLog("开始")
-        } else if sender.state == UIGestureRecognizer.State.possible {
-            NSLog("possible")
-        } else if sender.state == UIGestureRecognizer.State.changed {
-        } else if sender.state == UIGestureRecognizer.State.ended {
-            NSLog("结束")
-        } else if sender.state == UIGestureRecognizer.State.cancelled {
-            NSLog("取消")
-        } else {
-            NSLog("失败")
-        }
-        
-        delegate?.toolBar(toolBar: self, sendVoice: sender)
+
+    @objc private func imageActionTapped(sender: UIControl) {
+        let proxy = proxyButton(from: sender)
+        delegate?.toolBar(toolBar: self, didSelectedImageAction: proxy)
     }
-    
-    @objc private func tapped(sender: UIButton) {}
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "attributedText" {
-            let attributedText = change?[.newKey] as! NSAttributedString
-            if attributedText.length > 0 {
-            } else {}
-        } else if keyPath == "contentSize" {
+
+    @objc private func videoActionTapped(sender: UIControl) {
+        let proxy = proxyButton(from: sender)
+        delegate?.toolBar(toolBar: self, didSelectedVideoAction: proxy)
+    }
+
+    @objc private func deviceInfoActionTapped(sender: UIControl) {
+        let proxy = proxyButton(from: sender)
+        delegate?.toolBar(toolBar: self, didSelectedDeviceInfoAction: proxy)
+    }
+
+    @objc private func fileActionTapped(sender: UIControl) {
+        let proxy = proxyButton(from: sender)
+        delegate?.toolBar(toolBar: self, didSelectedFileAction: proxy)
+    }
+
+    /// 面板 item 自定义控件不是 UIButton；外部 delegate 仍按 UIButton 签名，提供个占位。
+    private func proxyButton(from control: UIControl) -> UIButton {
+        let btn = UIButton(frame: control.bounds)
+        return btn
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?,
+                               change: [NSKeyValueChangeKey: Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize" {
             guard let contentSize = change?[.newKey] as? CGSize else { return }
             var height = contentSize.height
             if height > inputMaxHeight {
                 height = inputMaxHeight
-            } else if height < inputMinHeight {
-                height = inputMinHeight
+            } else if height < inputMinHeight - 16 {
+                height = inputMinHeight - 16
             }
-            
             textView.snp.updateConstraints { make in
                 make.height.equalTo(height)
             }
@@ -429,11 +430,10 @@ extension BWKeFuChatToolBarV2 {
 extension BWKeFuChatToolBarV2: UITextViewDelegate, UITextFieldDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         emojiBtn.isSelected = false
-        isShowMenuView = true
-        // textview变成第一响应后，不一定是“正在输入中”
+        if isPanelShowing { setPanelShowing(false, animated: true) }
         delegate?.toolBar(toolBar: self, didBeginEditing: textView)
     }
-    
+
     func textViewDidChange(_ textView: UITextView) {
         if textView.attributedText.length > 0 {
             emojiView.setDeleteButtonState(enable: true)
@@ -441,27 +441,18 @@ extension BWKeFuChatToolBarV2: UITextViewDelegate, UITextFieldDelegate {
             emojiView.setDeleteButtonState(enable: false)
         }
         savedText = textView.attributedText
-        updateMenuBtn()
-        
-        // 发送系统通知“正在输入中”
         delegate?.toolBar(toolBar: self, didChanged: textView)
     }
-    
-    func updateMenuBtn() {
-        textCountLabel.text = "\(textView.text.count)/500"
-        if textView.text.count > 0 || textView.attributedText.length > 0 {
-        } else {}
-    }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
-        // 更改状态“正在输入中”
         delegate?.toolBar(toolBar: self, didEndEditing: textView)
     }
-        
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
         let currentText = textView.text ?? ""
         let newTextLength = currentText.count + text.count - range.length
-        if (newTextLength >= 500) {
+        if newTextLength >= 500 {
             return false
         }
         if text == "\n" {
@@ -480,14 +471,17 @@ extension BWKeFuChatToolBarV2: UITextViewDelegate, UITextFieldDelegate {
 }
 
 extension BWKeFuChatToolBarV2: BWKeFuChatEmojiViewDelegate {
-    func emojiView(emojiView: BWKeFuChatEmojiView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion) {
+    func emojiView(emojiView: BWKeFuChatEmojiView, collectionView: UICollectionView,
+                   didSelectItemAt indexPath: IndexPath, model: BEmotion) {
         let faceManager = BEmotionHelper.shared
-        let emotionAttr = faceManager.obtainAttributedStringByImageKey(imageKey: model.displayName, font: textView.font ?? UIFont.systemFont(ofSize: 14), useCache: false)
+        let emotionAttr = faceManager.obtainAttributedStringByImageKey(
+            imageKey: model.displayName,
+            font: textView.font ?? UIFont.systemFont(ofSize: 14),
+            useCache: false)
         textView.insertEmotionAttributedString(emotionAttributedString: emotionAttr)
         textView.scrollRangeToVisible(NSRange(location: textView.text.count, length: 0))
-        updateMenuBtn()
     }
-    
+
     func emojiView(emojiView: BWKeFuChatEmojiView, didSelectDelete btn: WButton) {
         if textView.attributedText.length == 0 {
             return
@@ -500,12 +494,81 @@ extension BWKeFuChatToolBarV2: BWKeFuChatEmojiViewDelegate {
         } else {
             self.emojiView.setDeleteButtonState(enable: true)
         }
-        updateMenuBtn()
     }
 }
 
 extension BWKeFuChatToolBarV2: BWKeFuChatMenuViewDelegate {
-    func menuView(menuView: BWKeFuChatMenuView, collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, model: BEmotion) {
-        delegate?.toolBar(toolBar: self, menuView: menuView, collectionView: collectionView, didSelectItemAt: indexPath, model: model)
+    func menuView(menuView: BWKeFuChatMenuView, collectionView: UICollectionView,
+                  didSelectItemAt indexPath: IndexPath, model: BEmotion) {
+        delegate?.toolBar(toolBar: self, menuView: menuView,
+                          collectionView: collectionView,
+                          didSelectItemAt: indexPath, model: model)
+    }
+}
+
+// MARK: - 面板单个 item
+
+private final class _ToolBarPanelItem: UIControl {
+    private let circle = UIView()
+    private let iconView = UIImageView()
+    private let titleLabel = UILabel()
+
+    init(title: String, image: UIImage?) {
+        super.init(frame: .zero)
+        setupUI()
+        titleLabel.text = title
+        iconView.image = image
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) { fatalError() }
+
+    private func setupUI() {
+        circle.backgroundColor = .white
+        circle.layer.cornerRadius = 26
+        circle.layer.masksToBounds = true
+        circle.isUserInteractionEnabled = false
+        addSubview(circle)
+        circle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
+            make.width.height.equalTo(52)
+        }
+
+        iconView.contentMode = .scaleAspectFit
+        iconView.tintColor = UIColor(white: 0.2, alpha: 1.0)
+        iconView.isUserInteractionEnabled = false
+        circle.addSubview(iconView)
+        iconView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(28)
+        }
+
+        titleLabel.font = UIFont.systemFont(ofSize: 13)
+        titleLabel.textColor = UIColor(white: 0.2, alpha: 1.0)
+        titleLabel.textAlignment = .center
+        titleLabel.isUserInteractionEnabled = false
+        addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(circle.snp.bottom).offset(6)
+            make.centerX.equalToSuperview()
+            make.left.greaterThanOrEqualToSuperview()
+            make.right.lessThanOrEqualToSuperview()
+            make.bottom.lessThanOrEqualToSuperview()
+        }
+    }
+
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.12) {
+                self.circle.alpha = self.isHighlighted ? 0.7 : 1.0
+            }
+        }
+    }
+
+    func applyStyle(iconColor: UIColor, labelColor: UIColor, circleColor: UIColor) {
+        iconView.tintColor = iconColor
+        circle.backgroundColor = circleColor
+        titleLabel.textColor = labelColor
     }
 }

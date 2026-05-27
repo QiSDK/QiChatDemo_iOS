@@ -12,7 +12,15 @@
       "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme QL-Demo_Example -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)",
       "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)",
       "Bash(git *)",
-      "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)"
+      "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme QL-Demo -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -quiet build)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -quiet build)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -quiet build)",
+      "Bash(xcodebuild -workspace QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)",
+      "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme QL-Demo -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)",
+      "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)",
+      "Bash(xcodebuild -workspace /Users/xuefeng/Desktop/teneasy/QiChatDemo_iOS/Example/QL-Demo.xcworkspace -scheme TeneasyChatSDKUI_iOS-Example -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO)",
+      "Bash(xcodebuild -workspace TeneasyChatSDKUI_iOS.xcworkspace -scheme TeneasyChatSDKUI_iOS -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build)"
     ]
   }
 }

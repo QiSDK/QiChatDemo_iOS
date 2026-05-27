@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import IQKeyboardManagerSwift
 import Network
 import PhotosUI
 import TeneasyChatSDK_iOS
@@ -190,6 +191,13 @@ open class KeFuViewController: UIViewController, UploadListener{
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+
+        // 关闭 IQKeyboardManager 在键盘顶部自动加的 toolbar（避免出现重复的 placeholder 胶囊 + 对勾按钮）
+        let cls: UIViewController.Type = type(of: self)
+        if !IQKeyboardManager.shared.disabledToolbarClasses.contains(where: { $0 == cls }) {
+            IQKeyboardManager.shared.disabledToolbarClasses.append(cls)
+        }
+
         applyTheme()
         tableView.backgroundColor = .clear
 
@@ -518,15 +526,22 @@ open class KeFuViewController: UIViewController, UploadListener{
         let replyItem = ReplyMessageItem()
         if (oriMsg?.msgFmt == "MSG_TEXT"){
             var text = oriMsg?.content?.data ?? ""
-            let result = JSONCoding.decode(TextImages.self, from: text)
-            text = result?.message ?? ""
+            if text.contains("\"imgs\"") {
+                if let result = JSONCoding.decode(TextImages.self, from: text) {
+                    text = result.message
+                }
+            } else if oriMsg?.msgSourceType == "MST_SYSTEM_CUSTOMER" || oriMsg?.msgSourceType == "MST_SYSTEM_WORKER" {
+                if let result = JSONCoding.decode(TextBody.self, from: text) {
+                    text = result.content ?? text
+                }
+            }
             replyItem.content = text
         }
         else if (oriMsg?.msgFmt == "MSG_IMG"){
             replyItem.fileName = oriMsg?.image?.uri ?? ""
         }else if (oriMsg?.msgFmt == "MSG_VIDEO"){
             replyItem.fileName =  oriMsg?.video?.uri ?? ""
-            
+
             if (!(oriMsg?.video?.hlsUri ?? "").isEmpty){
                 replyItem.fileName =  oriMsg?.video?.hlsUri ?? ""
             }
@@ -536,20 +551,27 @@ open class KeFuViewController: UIViewController, UploadListener{
         }
         return replyItem
     }
-    
+
     func getReplyItem(oriMsg: CommonMessage?) -> ReplyMessageItem{
        let replyItem = ReplyMessageItem()
        if (oriMsg?.msgFmt == CommonMessageFormat.msgText){
            var text = oriMsg?.content.data ?? ""
-           let result = JSONCoding.decode(TextImages.self, from: text)
-           text = result?.message ?? ""
+           if text.contains("\"imgs\"") {
+               if let result = JSONCoding.decode(TextImages.self, from: text) {
+                   text = result.message
+               }
+           } else if oriMsg?.msgSourceType == CommonMsgSourceType.mstSystemCustomer || oriMsg?.msgSourceType == CommonMsgSourceType.mstSystemWorker {
+               if let result = JSONCoding.decode(TextBody.self, from: text) {
+                   text = result.content ?? text
+               }
+           }
            replyItem.content = text
        }
        else if (oriMsg?.msgFmt == CommonMessageFormat.msgImg){
            replyItem.fileName = oriMsg?.image.uri ?? ""
        }else if (oriMsg?.msgFmt == CommonMessageFormat.msgVideo){
            replyItem.fileName =  oriMsg?.video.uri ?? ""
-           
+
            if (!(oriMsg?.video.hlsUri ?? "").isEmpty){
                replyItem.fileName =  oriMsg?.video.hlsUri ?? ""
            }

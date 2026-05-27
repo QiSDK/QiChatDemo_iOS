@@ -8,13 +8,28 @@
 import AVFoundation
 import Kingfisher
 import UIKit
+import TeneasyChatSDK_iOS
 
 class BWImageCell: UITableViewCell {
     var playBlock: BWVideoCellClickBlock?
+    var showOriginalBack: BWShowOriginalClickBlock?
 
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
     var boarder = 3
+    var msgMaxWidth = kScreenWidth * 0.7
+
+    lazy var replyView: BWReplyView = {
+        let v = BWReplyViewLeft()
+        v.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showOriginalTapped))
+        v.addGestureRecognizer(tap)
+        return v
+    }()
+
+    @objc func showOriginalTapped() {
+        self.showOriginalBack?()
+    }
     lazy var contentBgView: UIView = {
         let img = UIImageView()
         return img
@@ -171,6 +186,7 @@ class BWImageCell: UITableViewCell {
 
         self.contentView.addSubview(self.contentBgView)
         self.contentView.addSubview(self.thumbnail)
+        self.contentView.addSubview(self.replyView)
         self.thumbnail.addSubview(self.playBtn)
 
         self.thumbnail.snp.makeConstraints { make in
@@ -209,13 +225,58 @@ class BWImageCell: UITableViewCell {
                 return
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
-           
+
             if !msg.video.uri.isEmpty  {
                 let videoUrl = URL(string: "\(baseUrlImage)\(msg.video.uri)")
                 //print(videoUrl?.absoluteString ?? "")
                 self.initVideo(videoUrl: videoUrl!)
             } else {}
+
+            updateReplyView()
         }
+    }
+
+    func updateReplyView() {
+        replyView.model = model
+        let content = model?.replyItem?.content ?? ""
+        let fileName = model?.replyItem?.fileName ?? ""
+        let hasReply = !content.isEmpty || !fileName.isEmpty
+        if hasReply {
+            replyView.isHidden = false
+            let size = computeReplyPillSize()
+            replyView.snp.updateConstraints { make in
+                make.top.equalTo(self.contentBgView.snp.bottom).offset(6)
+                make.height.equalTo(size.height)
+                make.width.equalTo(size.width)
+            }
+        } else {
+            replyView.isHidden = true
+            replyView.snp.updateConstraints { make in
+                make.top.equalTo(self.contentBgView.snp.bottom).offset(0)
+                make.height.equalTo(0)
+                make.width.equalTo(0)
+            }
+        }
+    }
+
+    func computeReplyPillSize() -> CGSize {
+        let fileName = model?.replyItem?.fileName ?? ""
+        let ext = (fileName.split(separator: ".").last ?? "").lowercased()
+        let isMedia = fileTypes.contains(ext) || imageTypes.contains(ext) || videoTypes.contains(ext)
+        let prefixText = "回复："
+        let nameText: String
+        if isMedia {
+            nameText = fileName.split(separator: "/").last.map(String.init) ?? fileName
+        } else {
+            nameText = model?.replyItem?.content ?? ""
+        }
+        let font = UIFont.systemFont(ofSize: BWReplyView.fontSize)
+        let prefixWidth = (prefixText as NSString).size(withAttributes: [.font: font]).width
+        let nameWidth = (nameText as NSString).size(withAttributes: [.font: font]).width
+        let iconWidth: CGFloat = isMedia ? BWReplyView.iconSize + BWReplyView.iconTrailingSpacing : 0
+        let totalContent = prefixWidth + iconWidth + nameWidth
+        let totalWidth = ceil(totalContent) + BWReplyView.horizontalPadding * 2
+        return CGSize(width: min(totalWidth, msgMaxWidth), height: BWReplyView.pillHeight)
     }
 
     
@@ -268,18 +329,25 @@ class BWImageLeftCell: BWImageCell {
             make.top.equalTo(self.timeLab.snp.bottom).offset(0)
             make.height.equalTo(178)
             make.width.equalTo(114)
+        }
+
+        self.replyView.snp.makeConstraints { make in
+            make.top.equalTo(self.contentBgView.snp.bottom).offset(0)
+            make.left.equalTo(self.contentBgView.snp.left)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
             make.bottom.equalToSuperview().priority(.low)
         }
-        
+
         arrowView.image = UIImage.svgInit("ic_left_point")
         self.arrowView.snp.makeConstraints { make in
             make.right.equalTo(self.contentBgView.snp.left).offset(1)
             make.top.equalTo(self.contentBgView).offset(4)
         }
-        
+
         self.contentBgView.backgroundColor = UIColor.white
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -314,12 +382,19 @@ class BWImageRightCell: BWImageCell {
             make.right.equalTo(self.timeLab.snp.right)
             make.width.equalTo(114)
             make.height.equalTo(178)
+        }
+
+        self.replyView.snp.makeConstraints { make in
+            make.top.equalTo(self.contentBgView.snp.bottom).offset(0)
+            make.right.equalTo(self.contentBgView.snp.right)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
             make.bottom.equalToSuperview().priority(.low)
         }
-        
+
         //self.contentBgView.image = UIImage.svgInit("right_chat_bg")
         self.contentBgView.backgroundColor = kHexColor(0x228AFE);
-        
+
         arrowView.image = UIImage.svgInit("ic_right_point")
         self.arrowView.snp.makeConstraints { make in
             make.left.equalTo(self.contentBgView.snp.right).offset(-1)

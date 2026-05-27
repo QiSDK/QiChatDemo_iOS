@@ -148,74 +148,80 @@ class BWChatCell: UITableViewCell {
     
     var model: ChatModel? {
         didSet {
-            
             guard let msg = model?.message else {
                 return
             }
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
-            
+
             let quote = self.model?.replyItem?.content ?? ""
-                        if quote.contains("[emoticon_") == true {
-                            let atttext = BEmotionHelper.shared.attributedStringByText(text: quote, font: self.replyView.fileNameLab.font)
-                            self.replyView.fileNameLab.attributedText = atttext
-                        }
-            
+            let fileName = self.model?.replyItem?.fileName ?? ""
+            let hasReply = !quote.isEmpty || !fileName.isEmpty
+
             self.initTitle(msg: msg)
-            replyView.model = model;
-            
-            if (quote.isEmpty && (self.model?.replyItem?.fileName ?? "").isEmpty) {
-                                  //self.replyView.isHidden = true
-                                  self.replyView.snp.updateConstraints { make in
-                                      make.top.equalTo(self.titleLab.snp.bottom).offset(0).priority(.low)
-                                      make.height.equalTo(0)
-                                  }
-                              } else {
-                                  self.replyView.isHidden = false
-                                  //不是文本消息
-                                  if quote.isEmpty{
-                                      self.replyView.snp.updateConstraints { make in
-                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5).priority(.low)
-                                          make.height.equalTo(56)
-                                          make.width.equalTo(200)
-                                      }
-                                  }else{
-                                      self.replyView.snp.updateConstraints { make in
-                                          make.top.equalTo(self.titleLab.snp.bottom).offset(5).priority(.low)
-                                          make.height.equalTo(56)
-                                          make.width.equalTo(155)
-                                      }
-                                  }
-                              }
-            
-            self.replyView.sizeToFit()
-            self.replyView.layoutIfNeeded()
-            self.replyView.setNeedsLayout()
+            replyView.model = model
+
+            if quote.contains("[emoticon_") == true {
+                let atttext = BEmotionHelper.shared.attributedStringByText(text: quote, font: self.replyView.fileNameLab.font)
+                self.replyView.fileNameLab.attributedText = atttext
+            }
+
+            if hasReply {
+                self.replyView.isHidden = false
+                let pillSize = computeReplyPillSize()
+                self.replyView.snp.updateConstraints { make in
+                    make.top.equalTo(self.titleLab.snp.bottom).offset(6).priority(.low)
+                    make.height.equalTo(pillSize.height)
+                    make.width.equalTo(pillSize.width)
+                }
+            } else {
+                self.replyView.isHidden = true
+                self.replyView.snp.updateConstraints { make in
+                    make.top.equalTo(self.titleLab.snp.bottom).offset(0).priority(.low)
+                    make.height.equalTo(0)
+                    make.width.equalTo(0)
+                }
+            }
         }
     }
-    
-    func updateBgConstraints() {
-        //let maxSize = CGSize(width: titleLab.preferredMaxLayoutWidth, height: CGFloat.greatestFiniteMagnitude)
-        let maxSize = CGSize(width: msgMaxWidth, height: CGFloat.greatestFiniteMagnitude)
-        //168
-        let size = self.titleLab.sizeThatFits(maxSize)
-      
-        let margin = 4.0
-        var quoteHeight = 80.0
-        if (replyView.fileNameLab.text ?? "").isEmpty {
-            quoteHeight = 20
-            self.contentBgView.snp.updateConstraints { make in
-                make.width.equalTo(size.width)
-                make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
-            }
-        }else{
-            let newWidth = size.width + 12
-            self.contentBgView.snp.updateConstraints { make in
-                make.width.equalTo(newWidth)
-                make.height.equalTo(size.height + quoteHeight + margin) // 8 is margin
-            }
+
+    /// Computes the pill size by measuring the inner labels + icon + paddings.
+    func computeReplyPillSize() -> CGSize {
+        let fileName = model?.replyItem?.fileName ?? ""
+        let ext = (fileName.split(separator: ".").last ?? "").lowercased()
+        let isMedia = fileTypes.contains(ext) || imageTypes.contains(ext) || videoTypes.contains(ext)
+
+        let prefixText = "回复："
+        let nameText: String
+        if isMedia {
+            nameText = fileName.split(separator: "/").last.map(String.init) ?? fileName
+        } else {
+            nameText = model?.replyItem?.content ?? ""
         }
-        //self.titleLab.backgroundColor = UIColor.green
-        //self.contentBgView.backgroundColor = UIColor.red
+        let font = UIFont.systemFont(ofSize: BWReplyView.fontSize)
+        let prefixWidth = (prefixText as NSString).size(withAttributes: [.font: font]).width
+        let nameWidth = (nameText as NSString).size(withAttributes: [.font: font]).width
+
+        let iconWidth: CGFloat = isMedia ? BWReplyView.iconSize + BWReplyView.iconTrailingSpacing : 0
+        let totalContent = prefixWidth + iconWidth + nameWidth
+        let totalWidth = ceil(totalContent) + BWReplyView.horizontalPadding * 2
+        let maxWidth = msgMaxWidth
+        return CGSize(width: min(totalWidth, maxWidth), height: BWReplyView.pillHeight)
+    }
+
+    func updateBgConstraints() {
+        let maxSize = CGSize(width: msgMaxWidth, height: CGFloat.greatestFiniteMagnitude)
+        let size = self.titleLab.sizeThatFits(maxSize)
+
+        let bubbleMargin: CGFloat = 4
+        let replyContent = (replyView.fileNameLab.text ?? "")
+        let hasReply = !replyContent.isEmpty
+        let pillGap: CGFloat = hasReply ? 6 : 0
+        let pillHeight: CGFloat = hasReply ? BWReplyView.pillHeight : 0
+
+        self.contentBgView.snp.updateConstraints { make in
+            make.width.equalTo(size.width)
+            make.height.equalTo(size.height + pillGap + pillHeight + bubbleMargin)
+        }
     }
     
     func displayIconImg(path: String) {
@@ -294,11 +300,10 @@ class BWChatLeftCell: BWChatCell {
         }
         
         self.replyView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom).offset(10).priority(.low)
-            //make.top.equalTo(self.titleLab.snp.bottom).offset(4)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(6).priority(.low)
             make.left.equalTo(self.arrowView.snp.right)
-            make.height.equalTo(56)
-            make.width.equalTo(200)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
             make.bottom.equalToSuperview()
         }
 
@@ -373,10 +378,10 @@ class BWChatRightCell: BWChatCell {
         }
         
         self.replyView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom).offset(10).priority(.low)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(6).priority(.low)
             make.right.equalTo(self.arrowView.snp.left)
-            make.height.equalTo(56)
-            make.width.equalTo(200)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
             make.bottom.equalToSuperview()
         }
                 
