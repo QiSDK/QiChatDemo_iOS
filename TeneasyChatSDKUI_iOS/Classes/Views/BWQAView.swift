@@ -121,9 +121,16 @@ class BWQAView: UIView {
                         }
                     }
                 }
+                // 自动识别 URL / 邮箱 / 电话号码并加上 .link 属性
+                BWLinkDetector.applyLinks(to: mutable, linkColor: UIColor.systemBlue)
                 titleLabel.attributedText = mutable
             } else {
-                titleLabel.text = htmlString
+                let mutable = NSMutableAttributedString(
+                    string: htmlString,
+                    attributes: [.font: UIFont.boldSystemFont(ofSize: 14)]
+                )
+                BWLinkDetector.applyLinks(to: mutable, linkColor: UIColor.systemBlue)
+                titleLabel.attributedText = mutable
             }
             applyThemeToTitleLabel()
         }

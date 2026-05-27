@@ -22,6 +22,13 @@ class BWChatCell: UITableViewCell {
     var longGestCallBack: BWChatCellLongGestCallBack?
     var showOriginalBack: BWShowOriginalClickBlock?
     var msgMaxWidth = kScreenWidth * 0.7
+
+    private var detectedLinks: [BWLinkDetector.Link] = []
+    private var linkTapGesture: UITapGestureRecognizer?
+
+    /// Color used for tappable URLs / emails / phone numbers inside the bubble.
+    /// Subclasses override to match their bubble background.
+    var linkColor: UIColor { .systemBlue }
     lazy var timeLab: UILabel = {
         let lab = UILabel()
         lab.font = UIFont.systemFont(ofSize: 13)
@@ -122,7 +129,12 @@ class BWChatCell: UITableViewCell {
         self.gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longGestureClick(tap:)))
         self.titleLab.isUserInteractionEnabled = true
         self.titleLab.addGestureRecognizer(self.gesture!)
-        
+
+        let linkTap = UITapGestureRecognizer(target: self, action: #selector(self.handleLinkTap(_:)))
+        linkTap.cancelsTouchesInView = false
+        self.titleLab.addGestureRecognizer(linkTap)
+        self.linkTapGesture = linkTap
+
         self.replyView.isUserInteractionEnabled = true
         let tapShowOriginalGesture = UITapGestureRecognizer(target: self, action: #selector(self.showOriginal))
         self.replyView.addGestureRecognizer(tapShowOriginalGesture)
@@ -232,13 +244,61 @@ class BWChatCell: UITableViewCell {
 
     func initTitle(msg: CommonMessage) {
         self.titleLab.isHidden = false
-        if msg.content.data.contains("[emoticon_") == true {
-            let atttext = BEmotionHelper.shared.attributedStringByText(text: msg.content.data, font: self.titleLab.font)
-            self.titleLab.attributedText = atttext
-            self.updateBgConstraints()
+        let text = msg.content.data
+        if text.contains("[emoticon_") == true {
+            let atttext = BEmotionHelper.shared.attributedStringByText(text: text, font: self.titleLab.font)
+            let mutable = NSMutableAttributedString(attributedString: atttext)
+            self.detectedLinks = BWLinkDetector.applyLinks(to: mutable, linkColor: self.linkColor)
+            self.titleLab.attributedText = mutable
         } else {
-            self.titleLab.text = msg.content.data
-            self.updateBgConstraints()
+            let baseTextColor = self.titleLab.textColor ?? .label
+            let (attributed, links) = BWLinkDetector.makeAttributedString(
+                from: text,
+                font: self.titleLab.font,
+                textColor: baseTextColor,
+                linkColor: self.linkColor
+            )
+            self.detectedLinks = links
+            self.titleLab.attributedText = attributed
+        }
+        self.updateBgConstraints()
+    }
+
+    @objc private func handleLinkTap(_ tap: UITapGestureRecognizer) {
+        guard !self.detectedLinks.isEmpty,
+              let attributed = self.titleLab.attributedText else { return }
+
+        let textStorage = NSTextStorage(attributedString: attributed)
+        let layoutManager = NSLayoutManager()
+        let insets = self.titleLab.textInsets
+        let containerSize = CGSize(
+            width: max(self.titleLab.bounds.width - insets.left * 2, 0),
+            height: max(self.titleLab.bounds.height - insets.bottom * 2, 0)
+        )
+        let textContainer = NSTextContainer(size: containerSize)
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        textContainer.lineFragmentPadding = 0
+        textContainer.lineBreakMode = self.titleLab.lineBreakMode
+        textContainer.maximumNumberOfLines = self.titleLab.numberOfLines
+
+        var location = tap.location(in: self.titleLab)
+        location.x -= insets.left
+        location.y -= insets.bottom
+
+        let charIndex = layoutManager.characterIndex(
+            for: location,
+            in: textContainer,
+            fractionOfDistanceBetweenInsertionPoints: nil
+        )
+
+        guard charIndex >= 0, charIndex < attributed.length else { return }
+
+        for link in self.detectedLinks where NSLocationInRange(charIndex, link.range) {
+            if UIApplication.shared.canOpenURL(link.url) {
+                UIApplication.shared.open(link.url, options: [:], completionHandler: nil)
+            }
+            return
         }
     }
     
@@ -333,6 +393,12 @@ typealias BWChatRightCellResendBlock = (String) -> ()
 
 class BWChatRightCell: BWChatCell {
     var resendBlock: BWChatRightCellResendBlock?
+
+    override var linkColor: UIColor {
+        // Right bubble has a colored background with white text;
+        // use a light cyan so the link stays readable.
+        UIColor(red: 0.85, green: 0.95, blue: 1.0, alpha: 1.0)
+    }
 
     lazy var loadingView: UIImageView = {
         let img = UIImageView(frame: CGRect.zero)
