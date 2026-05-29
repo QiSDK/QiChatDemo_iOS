@@ -361,20 +361,117 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - playVideoFullScreen
     // playVideoFullScreen(url: URL) -  全屏播放视频
     func playVideoFullScreen(url: URL) {
-        print(url.absoluteString)
-        let vc = KeFuVideoViewController()
-        vc.configure(with: url, workerName: workerName)
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false, completion: nil)
+        presentMediaPager(startUrl: url)
     }
-    
+
     // MARK: - playImageFullScreen
     // playImageFullScreen(url: URL) -  全屏显示图片
     func playImageFullScreen(url: URL) {
-        let vc = KeFuWebViewController()
-        vc.configure(with: url, workerName: workerName)
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false, completion: nil)
+        presentMediaPager(startUrl: url)
+    }
+
+    // MARK: - 媒体浏览器（横向翻页 + 下拉关闭）
+
+    /// 收集当前会话内的所有图片/视频，按时间正序排列。
+    /// 给 KeFuMediaPagerViewController 用作页面数据源。
+    func collectMediaItems() -> [KeFuMediaItem] {
+        var result: [KeFuMediaItem] = []
+        for model in datasouceArray {
+            guard let msg = model.message else { continue }
+
+            switch model.cellType {
+            case .TYPE_Image:
+                if let url = absoluteMediaUrl(from: msg.image.uri) {
+                    result.append(.init(url: url, isVideo: false))
+                }
+            case .TYPE_VIDEO:
+                let uri = !msg.video.hlsUri.isEmpty ? msg.video.hlsUri : msg.video.uri
+                if let url = absoluteMediaUrl(from: uri) {
+                    result.append(.init(url: url, isVideo: true))
+                }
+            case .TYPE_File:
+                let ext = (msg.file.fileName as NSString?)?.pathExtension.lowercased()
+                    ?? (msg.file.uri as NSString).pathExtension.lowercased()
+                if imageTypes.contains(ext), let url = absoluteMediaUrl(from: msg.file.uri) {
+                    result.append(.init(url: url, isVideo: false))
+                } else if videoTypes.contains(ext),
+                    let url = absoluteMediaUrl(from: msg.file.uri)
+                {
+                    result.append(.init(url: url, isVideo: true))
+                }
+            case .TYPE_TEXT_IMAGES:
+                let text = msg.content.data
+                if let ti = JSONCoding.decode(TextImages.self, from: text) {
+                    for path in ti.imgs {
+                        guard let url = absoluteMediaUrl(from: path) else { continue }
+                        let ext = (path as NSString).pathExtension.lowercased()
+                        result.append(
+                            .init(url: url, isVideo: videoTypes.contains(ext)))
+                    }
+                }
+            default:
+                // 系统下发的图文/视频消息（mstSystemCustomer / mstSystemWorker）
+                if msg.msgSourceType == CommonMsgSourceType.mstSystemCustomer
+                    || msg.msgSourceType == CommonMsgSourceType.mstSystemWorker
+                {
+                    let text = msg.content.data
+                    if let tb = JSONCoding.decode(TextBody.self, from: text) {
+                        // image / video 字段都可能是 ";" 分隔的多个路径
+                        for raw in splitMediaPaths(tb.image) {
+                            if let url = absoluteMediaUrl(from: raw) {
+                                result.append(.init(url: url, isVideo: false))
+                            }
+                        }
+                        for raw in splitMediaPaths(tb.video) {
+                            if let url = absoluteMediaUrl(from: raw) {
+                                result.append(.init(url: url, isVideo: true))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    private func splitMediaPaths(_ raw: String?) -> [String] {
+        guard let raw = raw?.trimmingCharacters(in: .whitespacesAndNewlines),
+            !raw.isEmpty
+        else { return [] }
+        return raw.components(separatedBy: ";")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+    }
+
+    private func absoluteMediaUrl(from raw: String) -> URL? {
+        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+        if trimmed.contains("http") {
+            return URL(string: trimmed)
+        }
+        var comps = URLComponents(string: baseUrlImage)
+        comps?.path = trimmed
+        return comps?.url
+    }
+
+    private func presentMediaPager(startUrl: URL) {
+        let items = collectMediaItems()
+        let target = startUrl.absoluteString
+        var startIndex = items.firstIndex(where: { $0.url.absoluteString == target }) ?? -1
+
+        let finalItems: [KeFuMediaItem]
+        if startIndex < 0 {
+            // 兜底：会话列表里找不到这张图（极端情况），就只展示这一张。
+            let isVideo =
+                videoTypes.contains((startUrl.pathExtension).lowercased())
+            finalItems = [.init(url: startUrl, isVideo: isVideo)]
+            startIndex = 0
+        } else {
+            finalItems = items
+        }
+
+        let vc = KeFuMediaPagerViewController(items: finalItems, initialIndex: startIndex)
+        present(vc, animated: true, completion: nil)
     }
     
     // MARK: - UITableViewDelegate
