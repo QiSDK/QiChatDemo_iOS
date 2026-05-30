@@ -150,12 +150,16 @@ class BWChatCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        self.replyView.reset()
+        self.replyView.snp.updateConstraints { make in
+            make.height.equalTo(0)
+            make.width.equalTo(0)
+        }
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
     }
     
     var model: ChatModel? {
@@ -166,13 +170,12 @@ class BWChatCell: UITableViewCell {
             self.timeLab.text = msg.msgTime.date.toString(format: "yyyy-MM-dd HH:mm:ss")
 
             let quote = self.model?.replyItem?.content ?? ""
-            let fileName = self.model?.replyItem?.fileName ?? ""
-            let hasReply = !quote.isEmpty || !fileName.isEmpty
+            let hasReply = BWReplyView.hasDisplayableReply(model)
 
             self.initTitle(msg: msg)
             replyView.model = model
 
-            if quote.contains("[emoticon_") == true {
+            if hasReply && !BWReplyView.isFileReply(model) && quote.contains("[emoticon_") == true {
                 let atttext = BEmotionHelper.shared.attributedStringByText(text: quote, font: self.replyView.fileNameLab.font)
                 self.replyView.fileNameLab.attributedText = atttext
             }
@@ -198,17 +201,9 @@ class BWChatCell: UITableViewCell {
 
     /// Computes the pill size by measuring the inner labels + icon + paddings.
     func computeReplyPillSize() -> CGSize {
-        let fileName = model?.replyItem?.fileName ?? ""
-        let ext = (fileName.split(separator: ".").last ?? "").lowercased()
-        let isMedia = fileTypes.contains(ext) || imageTypes.contains(ext) || videoTypes.contains(ext)
-
+        let isMedia = BWReplyView.isFileReply(model)
         let prefixText = "回复："
-        let nameText: String
-        if isMedia {
-            nameText = fileName.split(separator: "/").last.map(String.init) ?? fileName
-        } else {
-            nameText = model?.replyItem?.content ?? ""
-        }
+        let nameText = BWReplyView.replyDisplayText(model)
         let font = UIFont.systemFont(ofSize: BWReplyView.fontSize)
         let prefixWidth = (prefixText as NSString).size(withAttributes: [.font: font]).width
         let nameWidth = (nameText as NSString).size(withAttributes: [.font: font]).width

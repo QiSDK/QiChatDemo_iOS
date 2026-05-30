@@ -238,9 +238,7 @@ class BWImageCell: UITableViewCell {
 
     func updateReplyView() {
         replyView.model = model
-        let content = model?.replyItem?.content ?? ""
-        let fileName = model?.replyItem?.fileName ?? ""
-        let hasReply = !content.isEmpty || !fileName.isEmpty
+        let hasReply = BWReplyView.hasDisplayableReply(model)
         if hasReply {
             replyView.isHidden = false
             let size = computeReplyPillSize()
@@ -260,16 +258,9 @@ class BWImageCell: UITableViewCell {
     }
 
     func computeReplyPillSize() -> CGSize {
-        let fileName = model?.replyItem?.fileName ?? ""
-        let ext = (fileName.split(separator: ".").last ?? "").lowercased()
-        let isMedia = fileTypes.contains(ext) || imageTypes.contains(ext) || videoTypes.contains(ext)
+        let isMedia = BWReplyView.isFileReply(model)
         let prefixText = "回复："
-        let nameText: String
-        if isMedia {
-            nameText = fileName.split(separator: "/").last.map(String.init) ?? fileName
-        } else {
-            nameText = model?.replyItem?.content ?? ""
-        }
+        let nameText = BWReplyView.replyDisplayText(model)
         let font = UIFont.systemFont(ofSize: BWReplyView.fontSize)
         let prefixWidth = (prefixText as NSString).size(withAttributes: [.font: font]).width
         let nameWidth = (nameText as NSString).size(withAttributes: [.font: font]).width
@@ -290,8 +281,13 @@ class BWImageCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.replyView.reset()
+        self.replyView.snp.updateConstraints { make in
+            make.height.equalTo(0)
+            make.width.equalTo(0)
+        }
     }
-    
+
     func initVideo(videoUrl: URL) {
         self.playBtn.isHidden = false
 
