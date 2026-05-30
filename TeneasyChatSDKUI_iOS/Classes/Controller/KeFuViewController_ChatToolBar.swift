@@ -36,17 +36,9 @@ extension KeFuViewController: BWKeFuChatToolBarV2Delegate {
         presentImageSourceSheet()
     }
 
-    /// 视频：从相册选视频
+    /// 视频：弹 ActionSheet 选「拍照 / 相册」
     func toolBar(toolBar: BWKeFuChatToolBarV2, didSelectedVideoAction btn: UIButton) {
-        self.authorize { state in
-            switch state {
-            case .restricted, .denied:
-                self.presentNoauth(isPhoto: true)
-            default:
-                self.presentVideoPicker()
-            }
-        }
-        self.toolBar.resetStatus()
+        presentVideoSourceSheet()
     }
 
     /// 设备信息：push 设备信息页
@@ -157,17 +149,63 @@ extension KeFuViewController {
         self.toolBar.resetStatus()
     }
 
-    fileprivate func presentVideoPicker() {
-        let picker = self.imagePickerController
-        picker.delegate = self
-        picker.sourceType = .photoLibrary
-        if #available(iOS 14.0, *) {
-            picker.mediaTypes = [UTType.movie.identifier]
-        } else {
-            picker.mediaTypes = [kUTTypeMovie as String]
+    fileprivate func presentVideoSourceSheet() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "录像", style: .default) { [weak self] _ in
+            self?.pickVideoFromCamera()
+        })
+        sheet.addAction(UIAlertAction(title: "相册", style: .default) { [weak self] _ in
+            self?.pickVideoFromLibrary()
+        })
+        sheet.addAction(UIAlertAction(title: "取消", style: .cancel))
+        present(sheet, animated: true)
+    }
+
+    fileprivate func pickVideoFromLibrary() {
+        self.authorize { state in
+            switch state {
+            case .restricted, .denied:
+                self.presentNoauth(isPhoto: true)
+            default:
+                let picker = self.imagePickerController
+                picker.delegate = self
+                picker.sourceType = .photoLibrary
+                if #available(iOS 14.0, *) {
+                    picker.mediaTypes = [UTType.movie.identifier]
+                } else {
+                    picker.mediaTypes = [kUTTypeMovie as String]
+                }
+                picker.allowsEditing = false
+                picker.modalPresentationStyle = .fullScreen
+                self.present(picker, animated: true)
+            }
         }
-        picker.allowsEditing = false
-        picker.modalPresentationStyle = .fullScreen
-        self.present(picker, animated: true)
+        self.toolBar.resetStatus()
+    }
+
+    fileprivate func pickVideoFromCamera() {
+        self.authorizeCamaro { state in
+            DispatchQueue.main.async {
+                switch state {
+                case .restricted, .denied:
+                    self.presentNoauth(isPhoto: false)
+                default:
+                    let picker = self.imagePickerController
+                    picker.delegate = self
+                    picker.sourceType = .camera
+                    if #available(iOS 14.0, *) {
+                        picker.mediaTypes = [UTType.movie.identifier]
+                    } else {
+                        picker.mediaTypes = [kUTTypeMovie as String]
+                    }
+                    picker.cameraCaptureMode = .video
+                    picker.videoQuality = .typeHigh
+                    picker.allowsEditing = false
+                    picker.modalPresentationStyle = .fullScreen
+                    self.present(picker, animated: true)
+                }
+            }
+        }
+        self.toolBar.resetStatus()
     }
 }

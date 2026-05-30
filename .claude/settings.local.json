@@ -94,7 +94,8 @@
       "Read(//Users/xuefeng/Desktop/teneasy/JuHeKeFu/lib/**)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['name','source','source_files'] if k in d}, ensure_ascii=False, indent=2\\)\\)\")",
       "Bash(grep -n 'computeReplyPillSize\\\\|isMedia\\\\|nameText\\\\|iconWidth: CGFloat' TeneasyChatSDKUI_iOS/Classes/Views/__TRACKED_VAR__.swift)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d.get\\(k\\) for k in ['resource_bundles','resources','source_files']}, ensure_ascii=False, indent=2\\)\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d.get\\(k\\) for k in ['resource_bundles','resources','source_files']}, ensure_ascii=False, indent=2\\)\\)\")",
+      "Bash(python3 *)"
     ]
   }
 }
