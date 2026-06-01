@@ -589,7 +589,7 @@ extension KeFuViewController {
             switch result {
             case .success(let filePath):
                 print(filePath)
-                WWProgressHUD.showSuccessWith("下载成功")
+                WWProgressHUD.showSuccessWith("已保存到相册")
             case .failure(let error):
                 WWProgressHUD.showFailure("下载失败")
                 print(error)

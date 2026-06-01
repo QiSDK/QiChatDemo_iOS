@@ -162,6 +162,16 @@ open class KeFuViewController: UIViewController, UploadListener{
     /// 评价配置 (拉取后才显示按钮)
     var evaluationConfig: EvaluationConfig?
 
+    /// 后端返回的评价状态 (0=未评价, 1=已评价, 2=已关闭)
+    var evaluationStatus: Int?
+
+    /// 已评价或已关闭：按钮置灰且不可点（对应 Flutter 的 _evaluationDone）
+    var evaluationDone: Bool { evaluationStatus == 1 || evaluationStatus == 2 }
+
+    /// 本次会话内用户是否发过消息。只有发过消息才显示「客服评价」按钮，
+    /// 避免一进会话还没交流就弹出评价入口（对应 Flutter 的 _hasSentInSession）。
+    var hasSentInSession = false
+
     /// 当前评价弹窗 (弱引用，弹窗 removeFromSuperview 后自动置 nil)
     weak var currentEvaluationDialog: EvaluationDialog?
 
@@ -232,9 +242,28 @@ open class KeFuViewController: UIViewController, UploadListener{
                   config.evaluationEnabled else { return }
             DispatchQueue.main.async {
                 self.evaluationConfig = config
-                self.installEvaluationButton()
+                self.fetchEvaluationStatus()
+                self.updateEvaluationButtonVisibility()
             }
         }
+    }
+
+    /// 拉取评价状态，用于决定按钮是否置灰（已评价/已关闭）。
+    private func fetchEvaluationStatus() {
+        NetworkUtil.getEvaluationStatus(consultId: Int32(consultId)) { [weak self] success, data in
+            guard let self = self, success, let status = data?.status else { return }
+            DispatchQueue.main.async {
+                self.evaluationStatus = status
+                self.evaluationButton.isDone = self.evaluationDone
+            }
+        }
+    }
+
+    /// 根据配置 + 是否已发言，决定「客服评价」按钮的显示。
+    func updateEvaluationButtonVisibility() {
+        guard let config = evaluationConfig, config.evaluationEnabled, hasSentInSession else { return }
+        evaluationButton.isDone = evaluationDone
+        installEvaluationButton()
     }
 
     private func installEvaluationButton() {
@@ -249,12 +278,14 @@ open class KeFuViewController: UIViewController, UploadListener{
     }
 
     @objc private func onEvaluationButtonTap() {
+        guard !evaluationDone else { return }
         showEvaluationDialog(scene: .manual)
     }
 
     /// 显示评价弹窗 (供 SDK 回调触发时也调用)
     func showEvaluationDialog(scene: EvaluationScene) {
         guard let config = evaluationConfig,
+              !evaluationDone,
               currentEvaluationDialog == nil,
               let window = view.window ?? UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
         currentEvaluationDialog = EvaluationDialog.show(
@@ -262,7 +293,14 @@ open class KeFuViewController: UIViewController, UploadListener{
             scene: scene,
             config: config,
             consultId: Int32(consultId),
-            theme: theme
+            theme: theme,
+            onStatusChanged: { [weak self] newStatus in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.evaluationStatus = newStatus
+                    self.evaluationButton.isDone = self.evaluationDone
+                }
+            }
         )
     }
 
@@ -616,6 +654,7 @@ open class KeFuViewController: UIViewController, UploadListener{
         if let cMsg = chatLib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, replayQuote: replyQuote)
         }
+        markSentInSession()
     }
 
     func sendImage(url: String) {
@@ -623,13 +662,21 @@ open class KeFuViewController: UIViewController, UploadListener{
         if let cMsg = chatLib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, cellType: .TYPE_Image)
         }
+        markSentInSession()
     }
-    
+
     func sendVideoMessage(url: String, thumb: String, hls: String) {
         chatLib.sendVideoMessage(url: url, thumbnailUri: thumb, hlsUri: hls, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = chatLib.sendingMsg {
             appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, cellType: .TYPE_VIDEO)
         }
+        markSentInSession()
+    }
+
+    /// 标记本次会话用户已发言，并刷新「客服评价」按钮显示。
+    func markSentInSession() {
+        hasSentInSession = true
+        updateEvaluationButtonVisibility()
     }
     
     // checkSDK方法已移除，全局ChatLib自动管理连接状态
@@ -730,6 +777,7 @@ open class KeFuViewController: UIViewController, UploadListener{
              if let cMsg = chatLib.sendingMsg {
                  appendDataSource(msg: cMsg, isLeft: false, payLoadId: chatLib.payloadId, cellType: .TYPE_File)
              }
+             markSentInSession()
          }
          print("上传进度：100% \(Date())")
          WWProgressHUD.dismiss()

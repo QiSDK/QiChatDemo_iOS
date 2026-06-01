@@ -22,6 +22,9 @@ class EvaluationDialog: UIView {
     private let consultId: Int32
     private let theme: ChatTheme
 
+    /// 评价状态变化回调（1=已评价, 2=已关闭），用于更新悬浮按钮置灰状态
+    var onStatusChanged: ((Int) -> Void)?
+
     private var selectedScore: Int = 0
     private let remarkMaxLength: Int = 200
 
@@ -47,8 +50,10 @@ class EvaluationDialog: UIView {
                      scene: EvaluationScene,
                      config: EvaluationConfig,
                      consultId: Int32,
-                     theme: ChatTheme) -> EvaluationDialog {
+                     theme: ChatTheme,
+                     onStatusChanged: ((Int) -> Void)? = nil) -> EvaluationDialog {
         let dialog = EvaluationDialog(scene: scene, config: config, consultId: consultId, theme: theme)
+        dialog.onStatusChanged = onStatusChanged
         window.addSubview(dialog)
         dialog.snp.makeConstraints { $0.edges.equalToSuperview() }
         return dialog
@@ -203,6 +208,7 @@ class EvaluationDialog: UIView {
         if scene == .triggered {
             // 用户在自动弹出的评价框上点 X → 告知后端不再弹
             NetworkUtil.addEvaluation(consultId: consultId, score: 0, remark: "", close: 1) { _, _ in }
+            onStatusChanged?(2)
         }
         dismiss()
     }
@@ -221,6 +227,7 @@ class EvaluationDialog: UIView {
                 self.loadingIndicator.stopAnimating()
                 self.submitButton.setTitle("提交", for: .normal)
                 if success {
+                    self.onStatusChanged?(1)
                     self.dismiss()
                     if let scoreConfig = self.config.configs.first(where: { $0.score == self.selectedScore }),
                        scoreConfig.status == 1, !scoreConfig.feedback.isEmpty {
