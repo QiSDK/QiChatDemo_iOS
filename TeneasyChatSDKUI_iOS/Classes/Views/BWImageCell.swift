@@ -16,7 +16,7 @@ class BWImageCell: UITableViewCell {
 
     var gesture: UILongPressGestureRecognizer?
     var longGestCallBack: BWChatCellLongGestCallBack?
-    var boarder = 3
+    var boarder = 0
     var msgMaxWidth = kScreenWidth * 0.7
 
     lazy var replyView: BWReplyView = {

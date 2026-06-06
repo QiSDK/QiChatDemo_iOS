@@ -37,10 +37,29 @@ open class DeviceInfoViewController: UIViewController {
         title = "设备信息"
         view.backgroundColor = .white
 
+        setupBackButton()
         applyTheme()
         setupLayout()
         buildRows()
         startTicker()
+    }
+
+    private func setupBackButton() {
+        let backItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(goBack)
+        )
+        navigationItem.leftBarButtonItem = backItem
+    }
+
+    @objc private func goBack() {
+        if let nav = navigationController, nav.viewControllers.count > 1 {
+            nav.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
     }
 
     deinit {
