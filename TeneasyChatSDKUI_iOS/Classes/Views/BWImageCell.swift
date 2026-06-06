@@ -216,6 +216,9 @@ class BWImageCell: UITableViewCell {
 
         contentBgView.layer.cornerRadius = 5;
         contentBgView.layer.masksToBounds = true;
+        // 缩略图也裁剪成相同圆角，避免气泡背景色在四个圆角处露出形成“边框颜色”
+        thumbnail.layer.cornerRadius = 5;
+        thumbnail.layer.masksToBounds = true;
        // thumbnail.contentMode = .scaleToFill
     }
 
