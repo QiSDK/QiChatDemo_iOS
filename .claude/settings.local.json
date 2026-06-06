@@ -98,7 +98,8 @@
       "Bash(python3 *)",
       "Bash(gh auth *)",
       "Read(//Users/xuefeng/.config/**)",
-      "Read(//Users/xuefeng/.config/gh/**)"
+      "Read(//Users/xuefeng/.config/gh/**)",
+      "Bash(git log *)"
     ]
   }
 }
