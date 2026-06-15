@@ -468,6 +468,14 @@ open class KeFuViewController: UIViewController, UploadListener{
                 }
                 
                 if item.msgOp == "MSG_OP_DELETE"{
+                    // 历史里被撤回的消息显示为灰色提示条，并保留原 msgId，
+                    // 以便后续编辑消息能原地恢复（对齐 Android/Flutter _buildHistory）
+                    let tipModel = ChatModel()
+                    tipModel.isLeft = isLeft
+                    tipModel.sendStatus = .发送成功
+                    tipModel.cellType = .TYPE_Tip
+                    tipModel.message = composeALocalTxtMessage(textMsg: "对方撤回了一条消息", timeInS: item.msgTime, msgId: Int64(item.msgId ?? "0") ?? 0)
+                    datasouceArray.append(tipModel)
                     continue
                 }
                 

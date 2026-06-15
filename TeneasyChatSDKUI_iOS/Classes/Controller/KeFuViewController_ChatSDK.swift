@@ -167,6 +167,11 @@ extension KeFuViewController: teneasySDKDelegate {
         
         // 更新消息内容
         datasouceArray[index].message = msg
+        // 若该条之前是「对方撤回了一条消息」灰条，编辑后恢复为对方的普通文本气泡（对齐 Android/Flutter）
+        if datasouceArray[index].cellType == .TYPE_Tip {
+            datasouceArray[index].cellType = .TYPE_Text
+            datasouceArray[index].isLeft = true
+        }
         print("消息内容已更新")
         
         // 更新UI时保持滚动位置
@@ -257,7 +262,9 @@ extension KeFuViewController: teneasySDKDelegate {
         datasouceArray.removeAll { $0.message?.msgID == msg.msgID }
         
         // 显示撤回提示消息
-        let tipMsg = composeALocalTxtMessage(textMsg: "对方撤回了一条消息")
+        // 灰条必须保留原 msgID，否则对方「撤回→编辑→发送」时 handleEditMessage 匹配不到，
+        // 会走 handleNormalMessage 追加新消息并残留灰条（对齐 Android/Flutter：原地恢复）
+        let tipMsg = composeALocalTxtMessage(textMsg: "对方撤回了一条消息", msgId: msg.msgID)
         appendDataSource(msg: tipMsg, isLeft: false, cellType: .TYPE_Tip)
     }
     
