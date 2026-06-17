@@ -153,6 +153,18 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
 
         default:
+            // 关键词自动卡片（mstAutoCard）：渲染成可点选项卡片
+            if model.message?.msgSourceType == CommonMsgSourceType.mstAutoCard {
+                let cell = BWAutoCardCell.cell(tableView: tableView)
+                cell.model = model
+                cell.optionTapBlock = { [weak self] text in
+                    // 点击选项 → 当普通消息发送（走 sendMsg，不再触发关键词匹配）
+                    self?.sendMsg(textMsg: text)
+                }
+                cell.displayIconImg(path: self.avatarPath)
+                (cell as? ChatThemable)?.applyTheme(self.theme)
+                return cell
+            }
             //文字和一个图片、视频混合的消息
             if (model.cellType == .TYPE_TEXT_IMAGES){
                 let cell: BWTextImagesCell = LeftBWTextImagesCell.cell(tableView: tableView)

@@ -39,7 +39,7 @@ public var baseUrlImage = "https://images-3-test.qlbig05.xyz" //用于拼接图�
 
 
 //这几个是需要在设置里面配置
-public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
+public var lines = "https://csh5-3-test.qlbig05.xyz,https://xxx.qixin14.xxx"
 public var cert = "COYBEAUYASDyASiG2piD9zE.te46qua5ha2r-Caz03Vx2JXH5OLSRRV2GqdYcn9UslwibsxBSP98GhUKSGEI0Z84FRMkp16ZK8eS-y72QVE2AQ"
 //public var baseUrlImage = "https://imagesacc.hfxg.xyz" //用于拼接图片地址
 
@@ -53,7 +53,7 @@ public var merchantId: Int = 230
 //public var  cert = "CKoCEAUYASDzAijxtOqVnDI.xU1eyoac8wM8LLOVmH2IOP3RaT2F92FfzzfeQE5kWbnvGHf5HK7ZouJY5ITuATewkH2_H4vUiuFzaBULd2j6Dw"
 //public var cert = "COEBEAUYASDjASiewpj-8TE.-1R9Mw9xzDNrSxoQ5owopxciklACjBUe43NANibVuy-XPlhqnhAOEaZpxjvTyJ6n79P5bUBCGxO7PcEFQ9p9Cg"
 
-//public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
+//public var lines = "https://csh5-3-test.qlbig05.xyz,https://xxx.qixin14.xxx"
 //public var cert = "COgBEAUYASDzASitlJSF9zE.5uKWeVH-7G8FIgkaLIhvzCROkWr4D3pMU0-tqk58EAQcLftyD2KBMIdYetjTYQEyQwWLy7Lfkm8cs3aogaThAw"
 //public var merchantId = 232
 //public var userId: Int32 = 364312 //364310
@@ -63,7 +63,7 @@ public var userType = 2
 
 
 /*Asai*/
-//public var lines = "https://csapi.hfxg.xyz,https://xxx.qixin14.xxx"
+//public var lines = "https://csh5-3-test.qlbig05.xyz,https://xxx.qixin14.xxx"
 //public var cert = "COgBEAUYfyD6ASiusLSp-jE.zTbKuX1Uhra_SFIbyN9p_i_hcAWpU3F8YdD2GYV7ixPMLSO8vSC_Y7OR3_3-VoRQJODwG0rr2GfUUzp_GDQJBA"
 //public var merchantId: Int = 232
 //public var userId: Int32 = 849//1125324
@@ -90,6 +90,16 @@ public var globalMessageDelegate: GlobalMessageDelegate?
 public var currentChatConsultId: Int64 = 0
 
 var reportRequest = ReportRequest()
+
+/// 宿主通过 setAutoCardKeywords 传入的关键词卡片配置。
+/// 用户输入命中其中任一 keyword 时，自动发送 .mstAutoCard 卡片消息。
+public var serviceKeywords: [ServiceKeyword] = []
+
+/// 设置「关键词自动卡片」配置。宿主调用自己的接口拿到 service_keyword 数组后原样传入。
+/// 可在任意时机重复调用覆盖。
+public func setAutoCardKeywords(_ raw: [[String: Any]]) {
+    serviceKeywords = raw.map { ServiceKeyword(json: $0) }
+}
 
 public let PARAM_XTOKEN = "HTTPTOKEN"
 

@@ -665,6 +665,18 @@ open class KeFuViewController: UIViewController, UploadListener{
         markSentInSession()
     }
 
+    /// 用户手输消息命中关键词时，追加发送一条 .mstAutoCard 卡片消息。
+    /// 卡片体是命中条目的 JSON，本地以「客服侧（左）」展示。
+    /// 仅供用户手输入口调用（点击卡片选项不再触发，避免反复弹卡片）。
+    func maybeSendAutoCard(input: String) {
+        guard let hit = matchAutoCard(input: input, list: serviceKeywords),
+              let cardJson = hit.toJsonString() else { return }
+        chatLib.sendMessage(msg: cardJson, type: .msgText, consultId: consultId, msgSourceType: .mstAutoCard)
+        if let cMsg = chatLib.sendingMsg {
+            appendDataSource(msg: cMsg, isLeft: true, payLoadId: chatLib.payloadId, status: .发送成功)
+        }
+    }
+
     func sendImage(url: String) {
         chatLib.sendMessage(msg: url, type: .msgImg, consultId: consultId, withAutoReply: self.withAutoReply)
         if let cMsg = chatLib.sendingMsg {

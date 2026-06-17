@@ -68,6 +68,8 @@ extension KeFuViewController: BWKeFuChatToolBarV2Delegate {
     /// 键盘 send 键发送
     func toolBar(toolBar: BWKeFuChatToolBarV2, sendText context: String) {
         sendMsg(textMsg: context)
+        // 仅对用户手输的消息做关键词匹配，命中则追加发送一张自动卡片。
+        maybeSendAutoCard(input: context)
         self.toolBar.resetStatus()
     }
 

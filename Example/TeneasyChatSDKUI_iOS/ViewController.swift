@@ -140,12 +140,46 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         
         //从配置读取图片域名
         baseUrlImage = UserDefaults.standard.string(forKey: PARAM_ImageBaseURL) ?? baseUrlImage
-        
+
+        // 模拟宿主"调自己接口拿到 service_keyword 配置后喂进 SDK"
+        loadAutoCardKeywords()
+
         if cert.isEmpty || merchantId == 0 || userId == 0 || lines.isEmpty || baseUrlImage.isEmpty{
             curLineLB.text = "* 请在设置页面设置好参数 *"
             return
         }
-               
+
+    }
+
+    /// demo：从内置示例 JSON 读取 result[0].service_keyword 并设置到 UISDK。
+    /// 真实接入时这里换成宿主自己的 HTTP 请求结果。
+    func loadAutoCardKeywords() {
+        let sampleJson = """
+        {
+          "code": "1", "message": "ok",
+          "result": [
+            {
+              "type": "1", "questions": [],
+              "service_keyword": [
+                { "id": 7, "questionType": 1, "category": 4, "subject": "请选择补单类型", "content": ["充值补单","提现补单","转账补单"], "keywords": ["补单","漏单","未上分"], "weight": 100 },
+                { "id": 4, "questionType": 1, "category": 2, "subject": "请选择提现相关问题", "content": ["提现未到账","提现失败","提现审核中","提现限额"], "keywords": ["提现","取款","出款"], "weight": 100 },
+                { "id": 1, "questionType": 1, "category": 1, "subject": "请选择要咨询的充值类型", "content": ["充值未到账","充值失败","充值问题咨询"], "keywords": ["充值","冲值","上分"], "weight": 100 },
+                { "id": 5, "questionType": 2, "category": 2, "subject": "提现进度查询", "content": "提现一般在2小时内到账，节假日可能延迟", "jumpCategory": 1, "jumpUrl": "pages/Withdraw/Record", "keywords": ["提现未到账","提现没到","取款未到账"], "weight": 95 },
+                { "id": 6, "questionType": 2, "category": 2, "subject": "提现失败处理指南", "content": "常见原因：1.未绑定银行卡 2.银行卡信息错误 3.未满足流水要求", "jumpCategory": 1, "jumpUrl": "pages/User/BankCard", "keywords": ["提现失败","提现不成功","取款失败"], "weight": 90 }
+              ]
+            }
+          ]
+        }
+        """
+        guard let data = sampleJson.data(using: .utf8),
+              let obj = try? JSONSerialization.jsonObject(with: data),
+              let root = obj as? [String: Any],
+              let result = root["result"] as? [[String: Any]],
+              let first = result.first,
+              let list = first["service_keyword"] as? [[String: Any]] else {
+            return
+        }
+        setAutoCardKeywords(list)
     }
     
     //做线路检测
