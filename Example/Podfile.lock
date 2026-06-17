@@ -16,7 +16,7 @@ PODS:
   - SVProgressHUD (2.2.5)
   - SwiftDate (6.3.1)
   - SwiftProtobuf (1.27.1)
-  - TeneasyChatSDK_iOS (2.0.7):
+  - TeneasyChatSDK_iOS (2.1.1):
     - Alamofire
     - Starscream (= 4.0.4)
     - SwiftProtobuf (~> 1.27.0)
@@ -76,7 +76,7 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftProtobuf: b109bd17979d7993a84da14b1e1fdd8b0ded934a
-  TeneasyChatSDK_iOS: a4fba2d8bd1ad9b37a846edec2f10c3db663e1a9
+  TeneasyChatSDK_iOS: aa3fb1ead98543c5908372e666d7c85a210c2c03
   TeneasyChatSDKUI_iOS: 2bd03e8fac7be4b811c7fa3fe30613a59494fc67
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   XMMenuPopover: 5672063abba9abdc7c6c8293f30a43cdd2831f22
