@@ -488,6 +488,10 @@ extension KeFuViewController {
         else if (msgSourceType == "MST_SYSTEM_CUSTOMER"){
             msg.msgSourceType = CommonMsgSourceType.mstSystemCustomer
         }
+        // 关键词自动卡片：历史消息也要还原 msgSourceType，否则 cellForRowAt 判不出卡片、退化成纯文本
+        else if (msgSourceType == "MST_AUTO_CARD"){
+            msg.msgSourceType = CommonMsgSourceType.mstAutoCard
+        }
 
         msg.worker = 0
         if timeInS == nil{
