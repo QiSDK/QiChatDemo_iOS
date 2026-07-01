@@ -17,10 +17,13 @@ import Foundation
 import UIKit
 
 typealias BWAutoCardOptionTapCallBack = (String) -> ()
+typealias BWAutoCardJumpTapCallBack = (String, Int?) -> ()
 
 class BWAutoCardCell: UITableViewCell {
 
     var optionTapBlock: BWAutoCardOptionTapCallBack?
+    /// 点击带 jumpUrl 的卡片按钮时回调（jumpUrl, jumpCategory）。
+    var jumpTapBlock: BWAutoCardJumpTapCallBack?
     private var currentTheme: ChatTheme = .default
 
     lazy var iconView: UIImageView = {
@@ -62,7 +65,34 @@ class BWAutoCardCell: UITableViewCell {
         return lab
     }()
 
-    /// 竖向堆叠：subject + content + 选项按钮
+    /// 右侧配图（精准问题 rightImageUrl）。无图时不加入布局。
+    lazy var rightImageView: UIImageView = {
+        let img = UIImageView()
+        img.contentMode = .scaleAspectFill
+        img.layer.cornerRadius = 8
+        img.layer.masksToBounds = true
+        return img
+    }()
+
+    /// 竖向堆叠：标题 + 正文（作为 headerRow 的左列）
+    lazy var textVStack: UIStackView = {
+        let s = UIStackView()
+        s.axis = .vertical
+        s.alignment = .fill
+        s.spacing = 8
+        return s
+    }()
+
+    /// 横向堆叠：左列文字 + 右侧配图
+    lazy var headerRow: UIStackView = {
+        let s = UIStackView()
+        s.axis = .horizontal
+        s.alignment = .top
+        s.spacing = 10
+        return s
+    }()
+
+    /// 竖向堆叠：headerRow + 选项按钮
     lazy var stack: UIStackView = {
         let s = UIStackView()
         s.axis = .vertical
@@ -139,6 +169,8 @@ class BWAutoCardCell: UITableViewCell {
     private func rebuild(card: ServiceKeyword?, raw: String) {
         // 清空旧内容
         stack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        textVStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        headerRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
         guard let card = card else {
             // 兜底：当普通文本展示
@@ -149,26 +181,44 @@ class BWAutoCardCell: UITableViewCell {
 
         if let subject = card.subject, !subject.isEmpty {
             subjectLab.text = subject
-            stack.addArrangedSubview(subjectLab)
+            textVStack.addArrangedSubview(subjectLab)
         }
 
         if !card.contentText.isEmpty {
             contentLab.text = card.contentText
-            stack.addArrangedSubview(contentLab)
+            textVStack.addArrangedSubview(contentLab)
         }
+
+        // 标题 + 正文（+ 精准问题右侧配图）作为顶部一行
+        headerRow.addArrangedSubview(textVStack)
+        let imageUrl = (card.rightImageUrl ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if !imageUrl.isEmpty {
+            let full = imageUrl.hasPrefix("http") ? imageUrl : "\(baseUrlImage)\(imageUrl)"
+            rightImageView.kf.setImage(with: URL(string: full))
+            headerRow.addArrangedSubview(rightImageView)
+            rightImageView.snp.remakeConstraints { make in
+                make.width.height.equalTo(64)
+            }
+        }
+        stack.addArrangedSubview(headerRow)
 
         // questionType 1：每个选项一个按钮
         for opt in card.options {
             stack.addArrangedSubview(makeOptionButton(title: opt, sendText: opt))
         }
-        // questionType 2：无选项数组时给一个按钮（发送 subject）
+        // questionType 2：无选项数组时给一个按钮。
+        // hasJump（jumpCategory 非 0 且 jumpUrl 非空）→ 请求跳转；否则回退成发送 subject。
         if card.options.isEmpty, let subject = card.subject, !subject.isEmpty {
-            stack.addArrangedSubview(makeOptionButton(title: subject, sendText: subject))
+            if card.hasJump {
+                stack.addArrangedSubview(
+                    makeJumpButton(title: subject, jumpUrl: card.jumpUrl ?? "", jumpCategory: card.jumpCategory))
+            } else {
+                stack.addArrangedSubview(makeOptionButton(title: subject, sendText: subject))
+            }
         }
     }
 
-    private func makeOptionButton(title: String, sendText: String) -> UIButton {
-        let btn = UIButton(type: .system)
+    private func styleButton(_ btn: UIButton, title: String) {
         btn.setTitle(title, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         btn.setTitleColor(.white, for: .normal)
@@ -179,9 +229,24 @@ class BWAutoCardCell: UITableViewCell {
         btn.snp.makeConstraints { make in
             make.height.greaterThanOrEqualTo(44)
         }
-        // 用 accessibilityLabel 暂存发送文本，避免闭包捕获歧义
+    }
+
+    private func makeOptionButton(title: String, sendText: String) -> UIButton {
+        let btn = UIButton(type: .system)
+        styleButton(btn, title: title)
+        // 用 accessibilityValue 暂存发送文本，避免闭包捕获歧义
         btn.accessibilityValue = sendText
         btn.addTarget(self, action: #selector(onOptionTap(_:)), for: .touchUpInside)
+        return btn
+    }
+
+    private func makeJumpButton(title: String, jumpUrl: String, jumpCategory: Int?) -> UIButton {
+        let btn = UIButton(type: .system)
+        styleButton(btn, title: title)
+        // accessibilityValue 暂存 jumpUrl，tag 暂存 jumpCategory（-1 代表 nil）
+        btn.accessibilityValue = jumpUrl
+        btn.tag = jumpCategory ?? -1
+        btn.addTarget(self, action: #selector(onJumpTap(_:)), for: .touchUpInside)
         return btn
     }
 
@@ -190,6 +255,13 @@ class BWAutoCardCell: UITableViewCell {
         if !text.isEmpty {
             optionTapBlock?(text)
         }
+    }
+
+    @objc private func onJumpTap(_ sender: UIButton) {
+        let url = sender.accessibilityValue ?? ""
+        if url.isEmpty { return }
+        let category: Int? = sender.tag < 0 ? nil : sender.tag
+        jumpTapBlock?(url, category)
     }
 }
 

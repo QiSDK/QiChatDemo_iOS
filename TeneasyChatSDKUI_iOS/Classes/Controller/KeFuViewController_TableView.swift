@@ -161,6 +161,9 @@ extension KeFuViewController: UITableViewDelegate, UITableViewDataSource {
                     // 点击选项 → 当普通消息发送（走 sendMsg，不再触发关键词匹配）
                     self?.sendMsg(textMsg: text)
                 }
+                cell.jumpTapBlock = { [weak self] jumpUrl, jumpCategory in
+                    self?.handleCardJump(jumpUrl: jumpUrl, jumpCategory: jumpCategory)
+                }
                 cell.displayIconImg(path: self.avatarPath)
                 (cell as? ChatThemable)?.applyTheme(self.theme)
                 return cell
@@ -625,5 +628,35 @@ extension KeFuViewController {
             pastboard.string = msgText
         }
         WChatPasteToastView.show(inView: nil)
+    }
+
+    /// 处理带 jumpUrl 的卡片按钮点击。
+    ///
+    /// 宿主注册了处理器 → 交给宿主全权决定怎么打开（小程序 / 原生页 / H5）。
+    /// 未注册时 SDK 兜底：H5 → 系统浏览器打开；其余类型 → 内置模拟页。
+    func handleCardJump(jumpUrl: String, jumpCategory: Int?) {
+        if let handler = cardJumpHandler {
+            handler(jumpUrl, jumpCategory)
+            return
+        }
+        if jumpCategory == ServiceKeyword.jumpH5, let url = URL(string: jumpUrl) {
+            UIApplication.shared.open(url, options: [:]) { [weak self] ok in
+                // 打开失败兜底到模拟页，避免用户点击无反应。
+                if !ok { self?.pushMiniProgramMock(jumpUrl: jumpUrl, jumpCategory: jumpCategory) }
+            }
+            return
+        }
+        pushMiniProgramMock(jumpUrl: jumpUrl, jumpCategory: jumpCategory)
+    }
+
+    private func pushMiniProgramMock(jumpUrl: String, jumpCategory: Int?) {
+        let vc = MiniProgramMockViewController(jumpUrl: jumpUrl, jumpCategory: jumpCategory, theme: self.theme)
+        if let nav = navigationController {
+            nav.pushViewController(vc, animated: true)
+        } else {
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true)
+        }
     }
 }

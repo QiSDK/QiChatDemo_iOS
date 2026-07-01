@@ -16,6 +16,12 @@
 import Foundation
 
 public struct ServiceKeyword {
+    // jumpCategory 取值（见规范 mst_card_msg.md）：跳转分类。
+    public static let jumpNone = 0        // 无跳转
+    public static let jumpMiniProgram = 1 // 小程序
+    public static let jumpH5 = 2          // H5
+    public static let jumpNative = 3      // 原生页
+
     public let id: Int?
     public let questionType: Int?
     public let category: Int?
@@ -28,8 +34,12 @@ public struct ServiceKeyword {
     /// 原始 content 是否为数组，决定 toJsonString 还原成数组还是字符串。
     public let isContentArray: Bool
 
+    /// 右侧图片链接（仅精准问题可用）。空串 / nil 表示无图。
+    public let rightImageUrl: String?
+
     public let keywords: [String]
     public let weight: Int
+    /// 跳转分类，见 jumpNone / jumpMiniProgram / jumpH5 / jumpNative。
     public let jumpCategory: Int?
     public let jumpUrl: String?
 
@@ -53,10 +63,16 @@ public struct ServiceKeyword {
             self.isContentArray = false
         }
 
+        self.rightImageUrl = json["rightImageUrl"] as? String
         self.keywords = (json["keywords"] as? [Any])?.map { "\($0)" } ?? []
         self.weight = (json["weight"] as? NSNumber)?.intValue ?? 0
         self.jumpCategory = (json["jumpCategory"] as? NSNumber)?.intValue
         self.jumpUrl = json["jumpUrl"] as? String
+    }
+
+    /// 是否需要跳转：jumpCategory 非「无」且 jumpUrl 非空。
+    public var hasJump: Bool {
+        (jumpCategory ?? Self.jumpNone) != Self.jumpNone && !(jumpUrl ?? "").isEmpty
     }
 
     /// 原样还原条目 JSON（content 数组/字符串两种形态都保真）——即卡片消息的文本体。
@@ -70,6 +86,7 @@ public struct ServiceKeyword {
         if let questionType = questionType { dict["questionType"] = questionType }
         if let category = category { dict["category"] = category }
         if let subject = subject { dict["subject"] = subject }
+        if let rightImageUrl = rightImageUrl { dict["rightImageUrl"] = rightImageUrl }
         if let jumpCategory = jumpCategory { dict["jumpCategory"] = jumpCategory }
         if let jumpUrl = jumpUrl { dict["jumpUrl"] = jumpUrl }
 

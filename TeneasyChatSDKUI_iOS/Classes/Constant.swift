@@ -101,6 +101,24 @@ public func setAutoCardKeywords(_ raw: [[String: Any]]) {
     serviceKeywords = raw.map { ServiceKeyword(json: $0) }
 }
 
+/// 宿主处理「卡片跳转」的回调。
+///
+/// jumpUrl 为跳转链接，jumpCategory 为跳转类型：1=小程序（如 pages/Withdraw/Record）、
+/// 2=H5（完整网址）、3=原生页（见 ServiceKeyword.jumpMiniProgram 等常量）。宿主据此把
+/// 用户导航到自己的小程序容器 / WebView / 原生页。
+///
+/// 注意：一旦注册处理器，【所有类型】（含 H5）都交给宿主；未注册时 SDK 才会用
+/// 「H5 → 外部浏览器、其余 → 内置模拟页」兜底。
+public typealias CardJumpHandler = (_ jumpUrl: String, _ jumpCategory: Int?) -> Void
+
+/// 宿主通过 setCardJumpHandler 注册的卡片跳转处理器；nil 时 SDK 用内置模拟页兜底。
+public var cardJumpHandler: CardJumpHandler?
+
+/// 注册「卡片跳转」处理器。通常只需设置一次；传 nil 恢复 SDK 内置兜底。
+public func setCardJumpHandler(_ handler: CardJumpHandler?) {
+    cardJumpHandler = handler
+}
+
 public let PARAM_XTOKEN = "HTTPTOKEN"
 
 // MARK: - 数据结构
