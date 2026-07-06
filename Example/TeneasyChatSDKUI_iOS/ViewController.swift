@@ -103,6 +103,9 @@ class ViewController: UIViewController, LineDetectDelegate, GlobalMessageDelegat
         globalMessageDelegate = self
         updateUnReadCount()
 
+        // demo：显示网络日志悬浮按钮，点开可查看 SDK 的 HTTP 请求
+        NetworkLogPresenter.showFloatingButton()
+
         if #available(iOS 13.0, *) {
             self.view.backgroundColor = UIColor.systemBackground
         } else {

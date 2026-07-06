@@ -1,6 +1,7 @@
 import Moya
 // 生成请求封装类
-let ChatProvider = MoyaProvider<ChatApi>()
+// 注册 NetworkLogPlugin：捕获所有 HTTP 请求，供 NetworkLogPresenter.present() 查看
+let ChatProvider = MoyaProvider<ChatApi>(plugins: [NetworkLogPlugin()])
 
 enum ChatApi {
     case queryHistory(consultId: Int32 = 1, userId: Int32 = 0, chatId: Int32 = 0, count: Int32 = 50)
