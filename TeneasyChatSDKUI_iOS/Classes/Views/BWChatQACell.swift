@@ -58,19 +58,27 @@ class BWChatQACell: UITableViewCell {
         return cell as! Self
     }
     
+    /// 是否正在请求自动回复。didSet 在每次赋值 consultId 时都会触发，
+    /// 仅靠 `question == nil` 无法挡住「第一次请求还没返回时」的第二次 reload，
+    /// 用这个 in-flight 标志补上并发去重，避免进入聊天页时 query-auto-reply 被调两次。
+    private var isFetchingAutoReply = false
+
     var consultId: Int32? {
         didSet {
-            if consultId != nil && self.question == nil {
+            if consultId != nil && self.question == nil && !isFetchingAutoReply {
                 getAutoReplay(consultId: consultId!, workId: workerId)
             }
         }
     }
-    
+
     func getAutoReplay(consultId: Int32, workId: Int32) {
+        isFetchingAutoReply = true
         print(consultId)
         print("获取自动回复")
        //自动回复
         NetworkUtil.getAutoReplay(consultId: consultId, wId: workId) { success, model in
+            // 无论成功失败都先释放占位，避免后续永远拉不到自动回复
+            self.isFetchingAutoReply = false
             if success {
                 self.question = model
                 if model?.autoReplyItem == nil{
