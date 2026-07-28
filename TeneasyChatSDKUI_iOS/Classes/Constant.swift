@@ -80,7 +80,20 @@ public var maxSessionMinus = 19999
 public var domain = ""  //domain
 //var baseUrlApi = "https://" + domain  //用于请求数据，上传图片
 public var workerId: Int32 = 2
+/// 聊天ID。连接维度：一条 wss 连接对应一个 chatId，跨咨询类型共用，
+/// 由 SCHi.id 在连接成功时下发。"0" 表示未知。只存内存，不落盘。
 public var chatId = "0"
+
+/// chatId 的统一写入口，只存内存、不落盘：chatId 跟着 wss 连接走，
+/// 断线重连会重新下发，缓存到本地反而可能是过期值。
+/// 服务端在「还不知道是哪条会话」时会给 0/空，这类值不能覆盖已拿到的 chatId。
+public func updateChatId(_ newChatId: String?) {
+    let id = newChatId?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    if id.isEmpty || id == "0" || id == chatId {
+        return
+    }
+    chatId = id
+}
 //未发送出去的消息列表
 var unSentMessage: [Int64: [ChatModel]] = [999: []]
 
@@ -226,7 +239,11 @@ public class GlobalChatManager: teneasySDKDelegate {
     
     public func receivedMsg(msg: TeneasyChatSDK_iOS.CommonMessage) {
         print("GlobalChatManager收到消息: consultId=\(msg.consultID), current=\(currentChatConsultId)")
-        
+
+        // 兜底：正常情况 chatId 已由 connected() 的 SCHi.id 拿到，
+        // 万一 SCHi 没带上，这里从消息里补一个
+        updateChatId("\(msg.chatID)")
+
         if msg.consultID != currentChatConsultId {
             GlobalMessageManager.shared.addUnReadMessage(consultId: msg.consultID)
         }
@@ -272,7 +289,10 @@ public class GlobalChatManager: teneasySDKDelegate {
     }
     
     public func connected(c: Gateway_SCHi) {
-        print("GlobalChatManager连接成功:\(c.token)")
+        print("GlobalChatManager连接成功: chatId=\(c.id) token=\(c.token)")
+        // SCHi.id 就是 chatId（后端确认）。这是拉历史之前最早的赋值时机：
+        // connected → assignWorker → getHistory，比历史请求早一个 HTTP 往返
+        updateChatId("\(c.id)")
         xToken = c.token
         UserDefaults.standard.set(c.token, forKey: PARAM_XTOKEN)
         

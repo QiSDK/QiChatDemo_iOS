@@ -4,7 +4,7 @@ import Moya
 let ChatProvider = MoyaProvider<ChatApi>(plugins: [NetworkLogPlugin()])
 
 enum ChatApi {
-    case queryHistory(consultId: Int32 = 1, userId: Int32 = 0, chatId: Int32 = 0, count: Int32 = 50)
+    case queryHistory(consultId: Int32 = 1, userId: Int32 = 0, chatId: String = "0", count: Int32 = 50)
     case queryMessage(chatId: String, msgIds: [String])
     case queryAutoReplay(consultId: Int32 = 0, workerId: Int32 = 0)
     case queryEntrance

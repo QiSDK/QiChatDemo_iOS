@@ -450,7 +450,7 @@ open class KeFuViewController: UIViewController, UploadListener{
     func buildHistory(history: HistoryModel){
         //guard let historyList = history.list?.reversed() else { return } //获取自动回复后return
         datasouceArray.removeAll()
-        chatId = history.request?.chatId ?? "0"
+        updateChatId(history.request?.chatId)
         if let historyList = history.list?.reversed(){
             print("获取历史记录")
                 
